@@ -5,40 +5,52 @@
 #include "p2List.h"
 #include "p2Point.h"
 #include "j1Module.h"
+#include "p2Defs.h"
 
 // TODO 1: Create a struct for the map layer
-
-struct MapLayer {
-
-	const char* layerMapName = nullptr;
-	int width = 0;
-	int height = 0;
-	uint* tileGid = nullptr;
-	const char* dataEncoding = nullptr;
+// ----------------------------------------------------
+struct MapLayer
+{
 
 	~MapLayer()
 	{
-		if (tileGid != nullptr)
-		{
-			delete[] tileGid;
-			tileGid = nullptr;
-		}
+		RELEASE_ARRAY(data_gid);
 	}
-
-};
-
-// ----------------------------------------------------
+	p2SString		name;
+	int				width_in_tiles;
+	int				height_in_tiles;
+	uint*			data_gid;
 
 	// TODO 6: Short function to get the value of x,y
+inline uint GetID(int x, int y)
+{
+	return data_gid[x + (y * width_in_tiles)];
+}
+};
 
 
 
 // ----------------------------------------------------
 struct TileSet
 {
-	// TODO 7: Create a method that receives a tile id and returns it's Rectfind the Rect associated with a specific tile id
-	SDL_Rect GetTileRect(int id) const;
+	// TODO 7: Create a method that receives a tile id and returns it's Rect
+	SDL_Rect GetRectFromID(const int id)
+	{
+		SDL_Rect ret;
 
+		int new_id = id - firstgid;
+
+		int width_with_margin = tile_width + spacing;
+		int height_with_margin = tile_height + spacing;
+
+		ret.x = (new_id % num_tiles_width) * width_with_margin + margin;
+		ret.y = (new_id / num_tiles_width) * height_with_margin + margin;
+		ret.w = tile_width;
+		ret.h = tile_height;
+
+		return ret;
+
+	}
 	p2SString			name;
 	int					firstgid;
 	int					margin;
@@ -71,9 +83,8 @@ struct MapData
 	SDL_Color			background_color;
 	MapTypes			type;
 	p2List<TileSet*>	tilesets;
-	p2List<MapLayer*>	layers;
 	// TODO 2: Add a list/array of layers to the map!
-
+	p2List<MapLayer*>	layers;
 };
 
 // ----------------------------------------------------
@@ -99,7 +110,11 @@ public:
 	bool Load(const char* path);
 
 	// TODO 8: Create a method that translates x,y coordinates from map positions to world positions
-	iPoint MapToWorld(int x, int y) const;
+
+	iPoint MapToWorld(const iPoint&) const;
+	iPoint WorldToMap(const iPoint&) const;
+	iPoint MapToWorldIsometric(const iPoint& )const;
+	iPoint WorldToMapIsometric(const iPoint&)const;
 
 private:
 
@@ -107,7 +122,7 @@ private:
 	bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
 	// TODO 3: Create a method that loads a single laye
-	 bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
+	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 
 public:
 
