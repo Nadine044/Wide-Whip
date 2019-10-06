@@ -20,6 +20,7 @@ struct MapLayer
 	int				width_in_tiles;
 	int				height_in_tiles;
 	uint*			data_gid;
+	int				parallax;
 
 	// TODO 6: Short function to get the value of x,y
 inline uint GetID(int x, int y)
@@ -83,7 +84,6 @@ struct MapData
 	SDL_Color			background_color;
 	MapTypes			type;
 	p2List<TileSet*>	tilesets;
-	// TODO 2: Add a list/array of layers to the map!
 	p2List<MapLayer*>	layers;
 };
 

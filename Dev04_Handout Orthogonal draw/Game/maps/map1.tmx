@@ -6,7 +6,7 @@
  <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32" tilecount="143" columns="13">
   <image source="tileset.png" trans="0011ff" width="416" height="352"/>
  </tileset>
- <layer id="8" name="BGD" width="50" height="30">
+ <layer id="8" name="BGD" width="50" height="30" parallax="2">
   <data>
    <tile/>
    <tile/>
@@ -1510,7 +1510,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="2" name="Tile Layer 1" width="50" height="30">
+ <layer id="2" name="Tile Layer 1" width="50" height="30" parallax="1">
   <data>
    <tile gid="55"/>
    <tile gid="55"/>
