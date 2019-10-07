@@ -7,6 +7,9 @@
   <image source="tileset.png" trans="0011ff" width="416" height="352"/>
  </tileset>
  <layer id="8" name="BGD" width="50" height="30">
+  <properties>
+   <property name="parallax" type="float" value="2"/>
+  </properties>
   <data>
    <tile/>
    <tile/>
@@ -1511,6 +1514,9 @@
   </data>
  </layer>
  <layer id="2" name="Tile Layer 1" width="50" height="30">
+  <properties>
+   <property name="parallax" type="float" value="1"/>
+  </properties>
   <data>
    <tile gid="1351"/>
    <tile gid="1351"/>

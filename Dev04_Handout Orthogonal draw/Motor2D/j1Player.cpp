@@ -3,6 +3,7 @@
 #include "j1App.h"
 #include "j1Render.h"
 #include "j1Textures.h"
+#include "j1Input.h"
 #include "j1Map.h"
 #include "j1Player.h"
 #include <math.h>
@@ -15,11 +16,32 @@ j1Player::j1Player() : j1Module()
 j1Player::~j1Player()
 {}
 
+bool j1Player::Awake(pugi::xml_node& config)
+{
+	LOG("Loading Player Parser");
+	bool ret = true;
+
+	//MYTODO
+	folder.create(config.child("folder").child_value());
+	
+	return ret;
+}
+
+bool j1Player::Start()
+{
+	LOG("Loading Player textures");
+	bool ret = true;
+
+	text = App->tex->Load("player/player.png");
+	text2 = App->tex->Load("player/jump.png");
+	return ret;
+}
+
+
 bool j1Player::Load(const char* file)
 {
 	bool ret = true;
 	p2SString tmp("%s%s", folder.GetString(), file);
-
 
 	pugi::xml_parse_result result = player_file.load_file(tmp.GetString());
 
@@ -78,4 +100,46 @@ bool j1Player::LoadPlayer()
 
 	return ret;
 
+}
+
+bool j1Player::Draw()
+{
+	//Animation MYTODO
+	//----------------------
+
+	
+
+
+
+	SDL_Rect rect2 = { 0, 0, 32, 32 };
+
+	jump.PushBack({ 0, 0, 32, 32});
+	jump.PushBack({ 32, 0, 32, 32 });
+	jump.PushBack({ 64, 0, 32, 32 });
+	jump.PushBack({ 96, 0, 32, 32 });
+	jump.PushBack({ 128, 0, 32, 32 });
+	jump.PushBack({ 160, 0, 32, 32 });
+	jump.PushBack({ 192, 0, 32, 32 });
+	jump.PushBack({ 224, 0, 32, 32 });
+
+	jump.loop = true;
+	jump.speed = 0.1;
+	SDL_Rect zero;
+	zero.x = zero.y = zero.w = zero.h = 0;
+
+
+	App->render->Blit(text, 0, 0, &(jump.GetCurrentFrame()), 0.75f);
+
+	App->render->Blit(text2, 32, 0, &(jump.GetCurrentFrame()), 0.75f);
+
+
+	return true;
+}
+
+bool j1Player::CleanUp()
+{
+	//MYTODO
+	LOG("Player unloaded");
+
+	return true;
 }

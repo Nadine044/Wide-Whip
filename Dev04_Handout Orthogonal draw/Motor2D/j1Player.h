@@ -6,8 +6,9 @@
 #include "p2Point.h"
 #include "j1Module.h"
 #include "p2Defs.h"
-
-struct SDL_Texture;
+#include "Animation.h"
+#include "j1Textures.h"
+//struct SDL_Texture;
 
 enum PlayerState
 {
@@ -38,13 +39,18 @@ public:
 	virtual ~j1Player();
 
 	//Called before render is available
-	//bool Awake(pugi::xml_node& player);
+	bool Awake(pugi::xml_node& player);
+
+	//Load
+	bool Start();
 
 	// Called each loop iteration
-	//void Draw();
+	bool Draw();
+
+//	bool Update();
 
 	// Called before quitting
-	//bool CleanUp();
+	bool CleanUp();
 
 	//Load player file
 	bool Load(const char* path);
@@ -57,6 +63,13 @@ public:
 	//New player
 	PlayerData	data;
 
+	Animation*	currentAnimation = nullptr;
+
+	Animation	idle;
+	Animation	jump;
+
+
+
 private:
 
 	bool LoadPlayer();
@@ -67,6 +80,12 @@ private:
 	pugi::xml_document	player_file;
 	p2SString			folder;
 	bool				player_loaded;
+
+	SDL_Texture* text = nullptr;
+	SDL_Texture* text2 = nullptr;
+
+
+
 };
 
 
