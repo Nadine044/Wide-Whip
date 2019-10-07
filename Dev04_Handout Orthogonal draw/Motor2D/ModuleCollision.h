@@ -33,13 +33,27 @@ class ModuleCollision : public j1Module
 {
 public:
 
+	enum class DISTANCE_DIR : int
+	{
+		NONE = -1,
+		LEFT,
+		RIGHT,
+		UP,
+		DOWN,
+		MAX
+	};
+
 	ModuleCollision() {};
 
 	bool Start() override;
 
+	void ResetDistancesBool();
+
 	bool Update(float dt) override;
 
-	//bool PostUpdate() override;
+	void OverlapDS(Collider* c_dynamic, Collider* c_static);
+
+	bool PostUpdate() override;
 
 	bool CleanUp() override { return true; }
 
@@ -52,8 +66,6 @@ private:
 	p2List<Collider*> colliders_list;
 
 	p2List<Collider*> colliders_dynamic_list;
-
-	bool first_dynamic_in_list = false;
 
 	bool debug = true;
 
