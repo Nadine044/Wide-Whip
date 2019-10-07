@@ -394,8 +394,8 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 	for (pugi::xml_node object = node.child("object"); object; object = object.next_sibling("object"))
 	{
 		fPoint pos = fPoint(object.attribute("x").as_float(), object.attribute("y").as_float());
-		int w = object.attribute("width").as_int();
-		int h = object.attribute("height").as_int();
+		float w = object.attribute("width").as_float();
+		float h = object.attribute("height").as_float();
 
 		p2SString type = object.attribute("type").as_string();
 

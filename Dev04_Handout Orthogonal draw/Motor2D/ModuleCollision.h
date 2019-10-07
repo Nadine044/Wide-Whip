@@ -3,7 +3,7 @@
 
 #include "j1Module.h"
 
-#include <list>
+#include "p2List.h"
 #include "p2Point.h"
 #include "SDL/include/SDL_rect.h"
 
@@ -20,8 +20,9 @@ class Collider
 {
 private:
 	SDL_Rect	rect;
+	TAG			tag;
 public:
-	Collider() {};
+	Collider(fPoint, float, float, TAG);
 };
 
 
@@ -37,11 +38,11 @@ public:
 
 	bool CleanUp() override { return true; }
 
-	Collider* AddCollider(fPoint pos, float width, float height, TAG tag) { Collider* ret = new Collider(); return ret; };
+	Collider* AddCollider(fPoint pos, float width, float height, TAG tag);
 
 private:
 
-	std::list<Collider*> colliders_list;
+	p2List<Collider*> colliders_list;
 
 	bool debug = false;
 
