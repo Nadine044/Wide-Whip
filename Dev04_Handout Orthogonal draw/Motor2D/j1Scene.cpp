@@ -65,6 +65,8 @@ bool j1Scene::Update(float dt)
 
 	//App->render->Blit(img, 0, 0);
 	App->map->Draw();
+	//MYTODO
+	App->player->Draw();
 	//Draw player MYTODO
 	iPoint mouse_pos;
 	

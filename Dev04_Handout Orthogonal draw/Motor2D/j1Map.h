@@ -20,7 +20,7 @@ struct MapLayer
 	int				width_in_tiles;
 	int				height_in_tiles;
 	uint*			data_gid;
-	int				parallax;
+	float			parallax_vel;
 
 	// TODO 6: Short function to get the value of x,y
 inline uint GetID(int x, int y)
