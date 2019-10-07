@@ -18,11 +18,13 @@ enum class TAG : int
 
 class Collider
 {
-private:
+public:
 	SDL_Rect	rect;
 	TAG			tag;
 public:
 	Collider(fPoint, float, float, TAG);
+
+	bool CheckColision(const Collider*) const;
 };
 
 
@@ -32,19 +34,21 @@ public:
 
 	ModuleCollision() {};
 
-	bool Update(float dt) override { return true; }
+	bool Update(float dt) override;
 
-	bool PostUpdate() override { return true; }
+	//bool PostUpdate() override;
 
 	bool CleanUp() override { return true; }
 
 	Collider* AddCollider(fPoint pos, float width, float height, TAG tag);
 
+	Collider* player = nullptr;
+
 private:
 
 	p2List<Collider*> colliders_list;
 
-	bool debug = false;
+	bool debug = true;
 
 };
 #endif // __Module_Collision_H__

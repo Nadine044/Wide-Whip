@@ -44,7 +44,7 @@ void j1Map::Draw()
 				{
 					iPoint pos_in_world = MapToWorld(iPoint(x, y));
 					SDL_Rect section = tileset->data->GetRectFromID(layer->data->GetID(x, y));
-					App->render->Blit(tileset->data->texture, pos_in_world.x, pos_in_world.y, &section, layer->data->parallax);
+					App->render->Blit(tileset->data->texture, pos_in_world.x, pos_in_world.y, &section/*, layer->data->parallax*/);
 				}
 			}
 		}
@@ -400,7 +400,7 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 		p2SString type = object.attribute("type").as_string();
 
 		if (type == "PLAYER")
-			App->collisions->AddCollider(pos, w, h, TAG::PLAYER);
+			App->collisions->player = App->collisions->AddCollider(pos, w, h, TAG::PLAYER);
 
 		if (type == "WALL")
 			App->collisions->AddCollider(pos, w, h, TAG::WALL);
