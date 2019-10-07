@@ -109,7 +109,7 @@ public:
 	// Load new map
 	bool Load(const char* path);
 
-	// TODO 8: Create a method that translates x,y coordinates from map positions to world positions
+	// TODO 8: Create a method thattranslates x,y coordinates from map positions to world positions
 
 	iPoint MapToWorld(const iPoint&) const;
 	iPoint WorldToMap(const iPoint&) const;

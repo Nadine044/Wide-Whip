@@ -7,6 +7,7 @@
 #include "j1Render.h"
 #include "j1Window.h"
 #include "j1Map.h"
+#include "j1Player.h"
 #include "j1Scene.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -31,6 +32,7 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	App->map->Load("map1.tmx");
+	App->player->Load("player.xml");
 	return true;
 }
 
@@ -63,6 +65,7 @@ bool j1Scene::Update(float dt)
 
 	//App->render->Blit(img, 0, 0);
 	App->map->Draw();
+	//Draw player MYTODO
 	iPoint mouse_pos;
 	
 	App->input->GetMousePosition(mouse_pos.x, mouse_pos.y);
