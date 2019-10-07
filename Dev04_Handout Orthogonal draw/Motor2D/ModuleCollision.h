@@ -21,8 +21,9 @@ class Collider
 public:
 	SDL_Rect	rect;
 	TAG			tag;
+	bool		dynamic = false;
 public:
-	Collider(fPoint, float, float, TAG);
+	Collider(fPoint, float, float, TAG, bool);
 
 	bool CheckColision(const Collider*) const;
 };
@@ -34,19 +35,25 @@ public:
 
 	ModuleCollision() {};
 
+	bool Start() override;
+
 	bool Update(float dt) override;
 
 	//bool PostUpdate() override;
 
 	bool CleanUp() override { return true; }
 
-	Collider* AddCollider(fPoint pos, float width, float height, TAG tag);
+	Collider* AddCollider(fPoint pos, float width, float height, TAG tag, bool dymanic = false);
 
 	Collider* player = nullptr;
 
 private:
 
 	p2List<Collider*> colliders_list;
+
+	p2List<Collider*> colliders_dynamic_list;
+
+	bool first_dynamic_in_list = false;
 
 	bool debug = true;
 

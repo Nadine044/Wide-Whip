@@ -400,7 +400,7 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 		p2SString type = object.attribute("type").as_string();
 
 		if (type == "PLAYER")
-			App->collisions->player = App->collisions->AddCollider(pos, w, h, TAG::PLAYER);
+			App->collisions->player = App->collisions->AddCollider(pos, w, h, TAG::PLAYER, true);
 
 		if (type == "WALL")
 			App->collisions->AddCollider(pos, w, h, TAG::WALL);
