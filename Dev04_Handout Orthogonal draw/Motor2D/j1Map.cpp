@@ -5,6 +5,7 @@
 #include "j1Textures.h"
 #include "j1Map.h"
 #include <math.h>
+#include "ModuleCollision.h"
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
@@ -171,7 +172,7 @@ bool j1Map::Load(const char* file_name)
 		data.tilesets.add(set);
 	}
 
-	// TODO 4: Iterate all layers and load each of them
+
 // Load layer info ----------------------------------------------
 	pugi::xml_node layer;
 	for (layer = map_file.child("map").child("layer"); layer && ret; layer = layer.next_sibling("layer"))
@@ -184,6 +185,19 @@ bool j1Map::Load(const char* file_name)
 		}
 
 		data.layers.add(set);
+	}
+
+	pugi::xml_node object_group;
+	for (object_group = map_file.child("map").child("objectgroup"); object_group && ret; object_group = object_group.next_sibling("objectgroup"))
+	{
+		//MapLayer* set = new MapLayer();
+
+		if (ret == true)
+		{
+			ret = LoadObjectGroups(object_group);
+		}
+
+		//data.layers.add(set);
 	}
 
 
@@ -352,7 +366,6 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 	return ret;
 }
 
-// TODO 3: Create the definition for a function that loads a single layer
 bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 {
 	layer->name.create(node.attribute("name").as_string());
@@ -370,6 +383,27 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	{
 		layer->data_gid[i] = item.attribute("gid").as_uint();
 		++i;
+	}
+
+	return true;
+}
+
+bool j1Map::LoadObjectGroups(pugi::xml_node& node)
+{
+	
+	for (pugi::xml_node object = node.child("object"); object; object = object.next_sibling("object"))
+	{
+		fPoint pos = fPoint(object.attribute("x").as_float(), object.attribute("y").as_float());
+		float w = object.attribute("width").as_float();
+		float h = object.attribute("height").as_float();
+
+		p2SString type = object.attribute("type").as_string();
+
+		if (type == "PLAYER")
+			App->collisions->player = App->collisions->AddCollider(pos, w, h, TAG::PLAYER, true);
+
+		if (type == "WALL")
+			App->collisions->AddCollider(pos, w, h, TAG::WALL);
 	}
 
 	return true;
