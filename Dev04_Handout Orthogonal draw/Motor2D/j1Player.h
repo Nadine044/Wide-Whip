@@ -7,8 +7,8 @@
 #include "j1Module.h"
 #include "p2Defs.h"
 #include "Animation.h"
-
-struct SDL_Texture;
+#include "j1Textures.h"
+//struct SDL_Texture;
 
 enum PlayerState
 {
@@ -47,7 +47,7 @@ public:
 	// Called each loop iteration
 	bool Draw();
 
-	bool Update();
+//	bool Update();
 
 	// Called before quitting
 	bool CleanUp();
@@ -68,7 +68,6 @@ public:
 	Animation	idle;
 	Animation	jump;
 
-	SDL_Texture* text = nullptr;
 
 
 private:
@@ -81,6 +80,12 @@ private:
 	pugi::xml_document	player_file;
 	p2SString			folder;
 	bool				player_loaded;
+
+	SDL_Texture* text = nullptr;
+	SDL_Texture* text2 = nullptr;
+
+
+
 };
 
 

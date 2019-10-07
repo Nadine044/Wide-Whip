@@ -32,8 +32,8 @@ bool j1Player::Start()
 	LOG("Loading Player textures");
 	bool ret = true;
 
-	//text = App->tex->Load("player/player.png");
-
+	text = App->tex->Load("player/player.png");
+	text2 = App->tex->Load("player/jump.png");
 	return ret;
 }
 
@@ -106,12 +106,12 @@ bool j1Player::Draw()
 {
 	//Animation MYTODO
 	//----------------------
-	SDL_Texture* text2 = nullptr;
-	
-	text2 = App->tex->Load("player/jump.png");
-	text = App->tex->Load("player/player.png");
 
-	SDL_Rect rect2 = { 32, 32 };
+	
+
+
+
+	SDL_Rect rect2 = { 0, 0, 32, 32 };
 
 	jump.PushBack({ 0, 0, 32, 32});
 	jump.PushBack({ 32, 0, 32, 32 });
@@ -124,10 +124,13 @@ bool j1Player::Draw()
 
 	jump.loop = true;
 	jump.speed = 0.1;
+	SDL_Rect zero;
+	zero.x = zero.y = zero.w = zero.h = 0;
 
-	App->render->Blit(text, 0, 0, &(idle.GetCurrentFrame()), 0.75f);
 
-	//App->render->Blit(text2, 0, 0, &(jump.GetCurrentFrame()), 0.75f);
+	App->render->Blit(text, 0, 0, &(jump.GetCurrentFrame()), 0.75f);
+
+	App->render->Blit(text2, 32, 0, &(jump.GetCurrentFrame()), 0.75f);
 
 
 	return true;
