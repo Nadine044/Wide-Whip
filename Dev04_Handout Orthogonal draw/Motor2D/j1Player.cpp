@@ -6,6 +6,7 @@
 #include "j1Input.h"
 #include "j1Map.h"
 #include "j1Player.h"
+#include "ModuleCollision.h"
 #include <math.h>
 
 j1Player::j1Player() : j1Module()
@@ -31,12 +32,42 @@ bool j1Player::Start()
 {
 	LOG("Loading Player textures");
 	bool ret = true;
+	pos.x = col->rect.x;
+	pos.y = col->rect.y;
+	col->object = this;
 
+	App->player->Load("player.xml");
 	text = App->tex->Load("player/player.png");
 	text2 = App->tex->Load("player/jump.png");
 	return ret;
 }
 
+bool j1Player::Update(float dt)
+{
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT)
+		pos.y -= 1;
+
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)
+		pos.y += 1;
+
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		pos.x -= 1;
+
+	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT)
+		pos.x += 1;
+
+	col->UpdatePos(pos);
+
+	
+	return true;
+}
+
+bool j1Player::PostUpdate()
+{
+	//MYTODO
+	App->player->Draw();
+	return true;
+}
 
 bool j1Player::Load(const char* file)
 {
@@ -113,24 +144,24 @@ bool j1Player::Draw()
 
 	SDL_Rect rect2 = { 0, 0, 32, 32 };
 
-	jump.PushBack({ 0, 0, 32, 32});
+	/*jump.PushBack({ 0, 0, 32, 32});
 	jump.PushBack({ 32, 0, 32, 32 });
 	jump.PushBack({ 64, 0, 32, 32 });
 	jump.PushBack({ 96, 0, 32, 32 });
 	jump.PushBack({ 128, 0, 32, 32 });
 	jump.PushBack({ 160, 0, 32, 32 });
 	jump.PushBack({ 192, 0, 32, 32 });
-	jump.PushBack({ 224, 0, 32, 32 });
+	jump.PushBack({ 224, 0, 32, 32 });*/
 
-	jump.loop = true;
-	jump.speed = 0.1;
+	/*jump.loop = true;
+	jump.speed = 0.1;*/
 	SDL_Rect zero;
 	zero.x = zero.y = zero.w = zero.h = 0;
 
+	SDL_Rect r = SDL_Rect{ 0,0,32,32 };
+	App->render->Blit(text, pos.x, pos.y, /*&(jump.GetCurrentFrame())*/&r, 0.75f);
 
-	App->render->Blit(text, 0, 0, &(jump.GetCurrentFrame()), 0.75f);
-
-	App->render->Blit(text2, 32, 0, &(jump.GetCurrentFrame()), 0.75f);
+	App->render->Blit(text2, pos.x + 32, pos.y, &/*(jump.GetCurrentFrame())*/r, 0.75f);
 
 
 	return true;
