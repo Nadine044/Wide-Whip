@@ -101,8 +101,8 @@ private:
 
 	mutable bool		want_to_save;
 	bool				want_to_load;
-	p2SString			load_game;
-	mutable p2SString	save_game;
+
+	mutable p2SString	save_game_root;
 };
 
 extern j1App* App; // No student is asking me about that ... odd :-S

@@ -120,4 +120,15 @@
       <UniqueIdentifier>{7cb78d67-17cc-45eb-af97-e2106becce7b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\Game\XMLs\player.xml">
+      <Filter>Desenvolupament  ========</Filter>
+    </Xml>
+    <Xml Include="..\Game\XMLs\save_game.xml">
+      <Filter>Desenvolupament  ========</Filter>
+    </Xml>
+    <Xml Include="..\Game\XMLs\config.xml">
+      <Filter>Desenvolupament  ========</Filter>
+    </Xml>
+  </ItemGroup>
 </Project>
