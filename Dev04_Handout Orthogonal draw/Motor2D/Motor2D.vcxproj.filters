@@ -99,6 +99,9 @@
     <ClInclude Include="ModuleCollision.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Desenvolupament  ========</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Programacio 2 ===========">
@@ -119,16 +122,19 @@
     <Filter Include="Desenvolupament  ========\Tools\PuguiXML">
       <UniqueIdentifier>{7cb78d67-17cc-45eb-af97-e2106becce7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Desenvolupament  ========\XMLs">
+      <UniqueIdentifier>{6a85b5cc-27d7-45aa-8b4f-b30ce86d6bc8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="..\Game\XMLs\player.xml">
-      <Filter>Desenvolupament  ========</Filter>
-    </Xml>
     <Xml Include="..\Game\XMLs\save_game.xml">
-      <Filter>Desenvolupament  ========</Filter>
+      <Filter>Desenvolupament  ========\XMLs</Filter>
     </Xml>
     <Xml Include="..\Game\XMLs\config.xml">
-      <Filter>Desenvolupament  ========</Filter>
+      <Filter>Desenvolupament  ========\XMLs</Filter>
+    </Xml>
+    <Xml Include="..\Game\XMLs\player.xml">
+      <Filter>Desenvolupament  ========\XMLs</Filter>
     </Xml>
   </ItemGroup>
 </Project>

@@ -39,6 +39,20 @@ bool j1Player::Start()
 	App->player->Load("XMLs/player.xml");
 	text = App->tex->Load("player/player.png");
 	text2 = App->tex->Load("player/jump.png");
+
+	jump.PushBack({ 0, 0, 32, 32 });
+	jump.PushBack({ 32, 0, 32, 32 });
+	jump.PushBack({ 64, 0, 32, 32 });
+	jump.PushBack({ 96, 0, 32, 32 });
+	jump.PushBack({ 128, 0, 32, 32 });
+	jump.PushBack({ 160, 0, 32, 32 });
+	jump.PushBack({ 192, 0, 32, 32 });
+	jump.PushBack({ 224, 0, 32, 32 }); //don't work well
+
+	jump.loop = true;
+	jump.speed = 0.1;
+
+
 	return ret;
 }
 
@@ -144,22 +158,12 @@ bool j1Player::Draw()
 
 	SDL_Rect rect2 = { 0, 0, 32, 32 };
 
-	/*jump.PushBack({ 0, 0, 32, 32});
-	jump.PushBack({ 32, 0, 32, 32 });
-	jump.PushBack({ 64, 0, 32, 32 });
-	jump.PushBack({ 96, 0, 32, 32 });
-	jump.PushBack({ 128, 0, 32, 32 });
-	jump.PushBack({ 160, 0, 32, 32 });
-	jump.PushBack({ 192, 0, 32, 32 });
-	jump.PushBack({ 224, 0, 32, 32 });*/
-
-	/*jump.loop = true;
-	jump.speed = 0.1;*/
+	
 
 	SDL_Rect r = SDL_Rect{ 0,0,32,32 };
-	App->render->Blit(text, pos.x, pos.y, /*&(jump.GetCurrentFrame())*/&r);
+	App->render->Blit(text, pos.x, pos.y, &(jump.GetCurrentFrame()));
 
-	App->render->Blit(text2, pos.x + 32, pos.y, &/*(jump.GetCurrentFrame())*/r);
+	App->render->Blit(text2, pos.x + 32, pos.y, &(jump.GetCurrentFrame()));
 
 
 	return true;
