@@ -92,6 +92,11 @@ bool ModuleCollision::PostUpdate()
 	return true;
 }
 
+bool ModuleCollision::CleanUp()
+{
+	//TODO nad delete
+}
+
 void ModuleCollision::OverlapDS(Collider* c_dynamic, Collider* c_static)
 {
 	//border widths of the collision:

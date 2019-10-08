@@ -79,7 +79,7 @@ bool j1Player::Update(float dt)
 bool j1Player::PostUpdate()
 {
 	//MYTODO
-	App->player->Draw();
+	Draw();
 	return true;
 }
 

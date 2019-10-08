@@ -56,7 +56,7 @@ public:
 
 	bool PostUpdate() override;
 
-	bool CleanUp() override { return true; }
+	bool CleanUp() override;
 
 	Collider* AddCollider(iPoint pos, int width, int height, TAG tag, bool dymanic = false);
 
