@@ -24,13 +24,23 @@ void Collider::UpdatePos(const iPoint pos)
 	rect.x = pos.x;
 	rect.y = pos.y;
 }
+
+const bool Collider::IsToDelete() const
+{
+	return to_delete;
+}
+
+void Collider::Remove()
+{
+	to_delete = true;
+}
 //--------------------MODULE COLLISION---------------------------
 
 Collider* ModuleCollision::AddCollider(iPoint pos, int w, int h, TAG tag, bool dynamic)
 {
 	Collider * ret = new Collider(pos, w, h, tag, dynamic);
 	if(!dynamic)
-		colliders_list.add(ret);
+		colliders_static_list.add(ret);
 
 	else
 	{
@@ -42,16 +52,51 @@ Collider* ModuleCollision::AddCollider(iPoint pos, int w, int h, TAG tag, bool d
 
 bool ModuleCollision::Start()
 {
+	p2List_item<Collider*>* collider1 = nullptr;
 
-	//All static colliders are added. Add all dynamics from the scenes after the statics. order of the list: All statics - All Dynamic. if scene load a map outside from start scene this don't work!!! (TODO)
-	for (p2List_item<Collider*>* iter = colliders_dynamic_list.start; iter; iter = iter->next)
+	for(collider1 = colliders_dynamic_list.start; collider1; collider1 = collider1->next)
 	{
-		colliders_list.add(iter->data);
+		all_colliders_list.add(collider1->data);
 	}
 
-	colliders_dynamic_list.clear();
+	for (collider1 = colliders_static_list.start; collider1; collider1 = collider1->next)
+	{
+		all_colliders_list.add(collider1->data);
+	}
+	return true;
+}
+
+bool ModuleCollision::PreUpdate()
+{
+
+	//check if a collider to_remove is true, delete it.
+
+
+	//check for all.
+	DeleteCollidersToRemove();
+
 
 	return true;
+}
+
+void ModuleCollision::DeleteCollidersToRemove()
+{
+	// delete colliders to delete of the list. only for the preupdate and cleanUp.
+	if (all_colliders_list.count() != 0)
+	{
+		p2List_item<Collider*>* collider1 = nullptr;
+
+		for (collider1 = all_colliders_list.start; collider1; collider1 = collider1->next) //start from the end, where the dynamics are.
+		{
+			if (collider1->data->IsToDelete())
+			{
+				//collider1->data->dynamic ? colliders_dynamic_list.del(collider1) : colliders_static_list.del(collider1); // peta TODO
+				RELEASE(collider1->data);
+				all_colliders_list.del(collider1);
+				
+			}
+		}
+	}
 }
 
 
@@ -59,20 +104,29 @@ bool ModuleCollision::Update(float dt)
 {
 
 	//the input of the movement must be before this
-	p2List_item<Collider*>* collider1;
-	p2List_item<Collider*>* collider2;
 
 
-	for (collider1 = colliders_list.end; collider1->data->dynamic; collider1 = collider1->prev) //start from the end, where the dynamics are.
+	// this don't check dynamics with dynamics (statics with statics no sense).
+	if (colliders_dynamic_list.count() != 0)//TODO test
 	{
-		for (collider2 = collider1->prev; collider2; collider2 = collider2->prev)
+		p2List_item<Collider*>* collider1 = nullptr;
+		p2List_item<Collider*>* collider2 = nullptr;
+
+		for (collider1 = colliders_dynamic_list.start; collider1; collider1 = collider1->next)
 		{
-			if (collider1->data->CheckColision(collider2->data))
+			for (collider2 = colliders_static_list.start; collider2; collider2 = collider2->next)
 			{
-				OverlapDS(collider1->data, collider2->data);
+				if (collider1->data->CheckColision(collider2->data))
+				{
+					OverlapDS(collider1->data, collider2->data);
+				}
 			}
 		}
 	}
+
+
+	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
+			colliders_static_list.start->data->Remove();
 	
 	return true;
 }
@@ -84,10 +138,19 @@ bool ModuleCollision::PostUpdate()
 		p2List_item<Collider*>* collider1 = nullptr;
 		p2List_item<Collider*>* collider2 = nullptr;
 
-		for (collider1 = colliders_list.start; collider1; collider1 = collider1->next)
+		//Draw statics colliders
+		for (collider1 = colliders_static_list.start; collider1; collider1 = collider1->next)
 		{
 			App->render->DrawQuad(collider1->data->rect, 255, 0, 0, 100);
 		}
+
+		//Draw Dynamic colliders
+		for (collider1 = colliders_dynamic_list.start; collider1; collider1 = collider1->next)
+		{
+			App->render->DrawQuad(collider1->data->rect, 255, 0, 0, 100);
+		}
+
+		
 	}
 	return true;
 }
@@ -95,6 +158,23 @@ bool ModuleCollision::PostUpdate()
 bool ModuleCollision::CleanUp()
 {
 	//TODO nad delete
+	SetAllCollidersToDelete();
+	DeleteCollidersToRemove();
+
+	return true;
+}
+
+void ModuleCollision::SetAllCollidersToDelete()
+{
+	if (all_colliders_list.count() != 0)
+	{
+		p2List_item<Collider*>* collider1 = nullptr;
+
+		for (collider1 = all_colliders_list.start; collider1; collider1 = collider1->next) //start from the end, where the dynamics are.
+		{
+			collider1->data->Remove();
+		}
+	}
 }
 
 void ModuleCollision::OverlapDS(Collider* c_dynamic, Collider* c_static)

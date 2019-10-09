@@ -23,12 +23,20 @@ public:
 	TAG			tag;
 	bool		dynamic = false;
 	j1Player*	object; //will be replace by object when we have entity manager.
+
+private:
+	bool to_delete = false;
+
 public:
 	Collider(iPoint, int, int, TAG, bool);
 
 	bool CheckColision(const Collider*) const;
 
 	void UpdatePos(const iPoint pos);
+
+	const bool IsToDelete() const;
+
+	void Remove();
 };
 
 
@@ -50,9 +58,9 @@ public:
 
 	bool Start() override;
 
-	bool Update(float dt) override;
+	bool PreUpdate() override;
 
-	void OverlapDS(Collider* c_dynamic, Collider* c_static);
+	bool Update(float dt) override;
 
 	bool PostUpdate() override;
 
@@ -60,15 +68,25 @@ public:
 
 	Collider* AddCollider(iPoint pos, int width, int height, TAG tag, bool dymanic = false);
 
+	void OverlapDS(Collider* c_dynamic, Collider* c_static);
+
 	Collider* player = nullptr; //temporally to move a collider;
 
 private:
 
-	p2List<Collider*> colliders_list;
+	p2List<Collider*> colliders_static_list;
 
 	p2List<Collider*> colliders_dynamic_list;
 
+	p2List<Collider*> all_colliders_list;
+
 	bool debug = true;
+
+private:
+
+	void DeleteCollidersToRemove();// delete colliders to delete of the list. only for the preupdate and cleanUp.
+
+	void SetAllCollidersToDelete();
 
 };
 #endif // __Module_Collision_H__
