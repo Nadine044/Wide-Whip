@@ -78,7 +78,7 @@ private:
 
 	p2List<Collider*> colliders_dynamic_list;
 
-	p2List<Collider*> all_colliders_list;
+	//p2List<Collider*> all_colliders_list;
 
 	bool debug = true;
 
