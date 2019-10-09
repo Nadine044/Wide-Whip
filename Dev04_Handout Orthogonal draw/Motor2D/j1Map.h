@@ -17,8 +17,8 @@ struct MapLayer
 		RELEASE_ARRAY(data_gid);
 	}
 	p2SString		name;
-	int				width_in_tiles;
-	int				height_in_tiles;
+	uint				width_in_tiles;
+	uint				height_in_tiles;
 	uint*			data_gid;
 	float			parallax_vel;
 

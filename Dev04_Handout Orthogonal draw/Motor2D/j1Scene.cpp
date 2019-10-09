@@ -32,7 +32,7 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	App->map->Load("map1.tmx");
-	App->player->Load("player.xml");
+	
 	return true;
 }
 
@@ -63,10 +63,10 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x += 1;
 
+
 	//App->render->Blit(img, 0, 0);
 	App->map->Draw();
-	//MYTODO
-	App->player->Draw();
+
 	//Draw player MYTODO
 	iPoint mouse_pos;
 	

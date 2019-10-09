@@ -10,6 +10,8 @@
 #include "j1Textures.h"
 //struct SDL_Texture;
 
+class Collider;
+
 enum PlayerState
 {
 	AIR,
@@ -20,6 +22,8 @@ enum PlayerState
 struct PlayerData
 {
 	PlayerState		state;
+
+
 	float			position_x, position_y;
 	float			speed_x, speed_y;
 	float			acceleration;
@@ -42,15 +46,17 @@ public:
 	bool Awake(pugi::xml_node& player);
 
 	//Load
-	bool Start();
+	bool Start() override;
 
 	// Called each loop iteration
 	bool Draw();
 
-//	bool Update();
+	bool Update(float dt) override;
+
+	bool PostUpdate() override;
 
 	// Called before quitting
-	bool CleanUp();
+	bool CleanUp() override;
 
 	//Load player file
 	bool Load(const char* path);
@@ -63,11 +69,14 @@ public:
 	//New player
 	PlayerData	data;
 
-	Animation*	currentAnimation = nullptr;
+	//Animation*	currentAnimation = nullptr;
 
-	Animation	idle;
+	//Animation	idle;
 	Animation	jump;
 
+	iPoint pos;
+
+	Collider* col;
 
 
 private:

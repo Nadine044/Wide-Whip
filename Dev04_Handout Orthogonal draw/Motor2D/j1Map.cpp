@@ -6,6 +6,7 @@
 #include "j1Map.h"
 #include <math.h>
 #include "ModuleCollision.h"
+#include "j1Player.h"
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
@@ -31,8 +32,8 @@ void j1Map::Draw()
 {
 	if(map_loaded == false)
 		return;
-	p2List_item<TileSet*>* tileset;
-	p2List_item<MapLayer*>* layer;
+	p2List_item<TileSet*>* tileset = nullptr;
+	p2List_item<MapLayer*>* layer = nullptr;
 	// TODO 5: Prepare the loop to iterate all the tiles in a layer
 	for (tileset = data.tilesets.start; tileset; tileset = tileset->next)
 	{
@@ -369,8 +370,8 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 {
 	layer->name.create(node.attribute("name").as_string());
-	layer->width_in_tiles = node.attribute("width").as_int();
-	layer->height_in_tiles = node.attribute("height").as_int();
+	layer->width_in_tiles = node.attribute("width").as_uint();
+	layer->height_in_tiles = node.attribute("height").as_uint();
 	layer->parallax_vel = node.child("properties").child("property").attribute("value").as_float();
 
 	uint size = layer->width_in_tiles * layer->height_in_tiles;
@@ -393,14 +394,17 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 	
 	for (pugi::xml_node object = node.child("object"); object; object = object.next_sibling("object"))
 	{
-		fPoint pos = fPoint(object.attribute("x").as_float(), object.attribute("y").as_float());
+		iPoint pos = iPoint(object.attribute("x").as_float(), object.attribute("y").as_float());
 		float w = object.attribute("width").as_float();
 		float h = object.attribute("height").as_float();
 
 		p2SString type = object.attribute("type").as_string();
 
 		if (type == "PLAYER")
-			App->collisions->player = App->collisions->AddCollider(pos, w, h, TAG::PLAYER, true);
+		{
+			App->player->col = App->collisions->player = App->collisions->AddCollider(pos, w, h, TAG::PLAYER, true);
+
+		}
 
 		if (type == "WALL")
 			App->collisions->AddCollider(pos, w, h, TAG::WALL);
