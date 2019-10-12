@@ -1,12 +1,12 @@
 #include "j1App.h"
 #include "j1Render.h"
 #include "ModuleCollision.h"
-#include "j1Input.h" // temporally
+#include "j1Input.h" //temporally
 #include "j1Player.h" // wil be replace by object
 //#include "p2Log.h"
 //--------------------COLLIDER---------------------------
 
-Collider::Collider(iPoint pos, int w, int h, TAG tag, bool dynamic) : tag(tag), dynamic(dynamic)
+Collider::Collider(iPoint pos, int w, int h, TAG tag, Color color,  bool dynamic) : tag(tag), dynamic(dynamic), color(color)
 {
 	rect.x = pos.x;
 	rect.y = pos.y;
@@ -34,11 +34,16 @@ void Collider::Remove()
 {
 	to_delete = true;
 }
+
+Color Collider::GetColor() const
+{
+	return color;
+}
 //--------------------MODULE COLLISION---------------------------
 
-Collider* ModuleCollision::AddCollider(iPoint pos, int w, int h, TAG tag, bool dynamic)
+Collider* ModuleCollision::AddCollider(iPoint pos, int w, int h, TAG tag, Color color, bool dynamic)
 {
-	Collider * ret = new Collider(pos, w, h, tag, dynamic);
+	Collider * ret = new Collider(pos, w, h, tag, color, dynamic);
 	if(!dynamic)
 		colliders_static_list.add(ret);
 
@@ -91,6 +96,8 @@ bool ModuleCollision::PreUpdate()
 void ModuleCollision::DeleteCollidersToRemove()
 {
 	// delete colliders to delete of the list. only for the preupdate and cleanUp.
+
+	//Dynamic colliders
 	if (colliders_dynamic_list.count() != 0)
 	{
 		p2List_item<Collider*>* collider1 = nullptr;
@@ -105,6 +112,7 @@ void ModuleCollision::DeleteCollidersToRemove()
 		}
 	}
 
+	//Statics colliders
 	if (colliders_static_list.count() != 0)
 	{
 		p2List_item<Collider*>* collider1 = nullptr;
@@ -126,8 +134,8 @@ bool ModuleCollision::Update(float dt)
 
 	//the input of the movement must be before this
 
-	//first the OnTrigger for all. If the Overlap will be in the same for from the OnTrigger, the OnTrigger will only be activated in [TAG1][TAG2] and not in [TAG2][TAG1] because with the overlap it will not be in a collision at the second check.
-	// this don't check dynamics with dynamics (statics with statics no sense).
+	// check and do OnTrigger and Overlap:
+	// this don't check dynamics with dynamics (statics with statics no sense). Only dynamics with statics in this order.
 	if (colliders_dynamic_list.count() != 0)
 	{
 		p2List_item<Collider*>* collider1 = nullptr;
@@ -169,16 +177,16 @@ bool ModuleCollision::PostUpdate()
 		//Draw statics colliders
 		for (collider1 = colliders_static_list.start; collider1; collider1 = collider1->next)
 		{
-			App->render->DrawQuad(collider1->data->rect, 255, 0, 0, 100);
+			Color col_color = collider1->data->GetColor();
+			App->render->DrawQuad(collider1->data->rect, col_color.r, col_color.g, col_color.b, 100u);
 		}
 
 		//Draw Dynamic colliders
 		for (collider1 = colliders_dynamic_list.start; collider1; collider1 = collider1->next)
 		{
-			App->render->DrawQuad(collider1->data->rect, 255, 0, 0, 100);
+			Color col_color = collider1->data->GetColor();
+			App->render->DrawQuad(collider1->data->rect, col_color.r, col_color.g, col_color.b, 100u);
 		}
-
-		
 	}
 	return true;
 }

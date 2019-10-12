@@ -6,6 +6,8 @@
 #include "p2List.h"
 #include "p2Point.h"
 #include "SDL/include/SDL_rect.h"
+#include "Colors.h"
+
 
 enum class TAG : uint
 {
@@ -19,6 +21,7 @@ enum class TAG : uint
 
 class Collider
 {
+
 public:
 	SDL_Rect	rect;
 	TAG			tag;
@@ -28,8 +31,10 @@ public:
 private:
 	bool to_delete = false;
 
+	Color color;
+
 public:
-	Collider(iPoint, int, int, TAG, bool);
+	Collider(iPoint, int, int, TAG, Color, bool);
 
 	bool CheckColision(const Collider*) const;
 
@@ -38,6 +43,9 @@ public:
 	const bool IsToDelete() const;
 
 	void Remove();
+
+	Color GetColor() const;
+
 };
 
 
@@ -67,7 +75,7 @@ public:
 
 	bool CleanUp() override;
 
-	Collider* AddCollider(iPoint pos, int width, int height, TAG tag, bool dymanic = false);
+	Collider* AddCollider(iPoint pos, int width, int height, TAG tag, Color color, bool dymanic = false);
 
 	void OverlapDS(Collider* c_dynamic, Collider* c_static);
 
