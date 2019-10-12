@@ -52,6 +52,25 @@ Collider* ModuleCollision::AddCollider(iPoint pos, int w, int h, TAG tag, bool d
 
 bool ModuleCollision::Start()
 {
+	for(uint i = 0u; i < (uint)TAG::MAX; ++i)
+	{
+		for (uint j = 0u; j < (uint)TAG::MAX; ++j)
+		{
+			physics_matrix[i][j] = false;
+			trigger_matrix[i][j] = false;
+		}
+	}
+
+	//TRIGGER MATRIX to OnTrigger.
+		//The collider dynamic first in the matrxi. If the two colliders are dynamic, it's necessary to set the matrix true with the 2 cases: [dynamic1][dynamic2] = true and [dynamic2][dynamic1] = true. With dynamic vs static only on time with the dynamic first.
+	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::WALL] = true;
+
+	
+
+	//PHYSICS MATRIX to overlap.
+		// Functions OnTrigger will be called only in the first collider. If want to call the function OnTrigger in the two colliders, set the marix bool with the invers too([TAG1][TAG2] = true and [TAG2][TAG1] = true).
+	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::WALL] = true;
+
 	
 	return true;
 }
@@ -107,9 +126,9 @@ bool ModuleCollision::Update(float dt)
 
 	//the input of the movement must be before this
 
-
+	//first the OnTrigger for all. If the Overlap will be in the same for from the OnTrigger, the OnTrigger will only be activated in [TAG1][TAG2] and not in [TAG2][TAG1] because with the overlap it will not be in a collision at the second check.
 	// this don't check dynamics with dynamics (statics with statics no sense).
-	if (colliders_dynamic_list.count() != 0)//TODO test
+	if (colliders_dynamic_list.count() != 0)
 	{
 		p2List_item<Collider*>* collider1 = nullptr;
 		p2List_item<Collider*>* collider2 = nullptr;
@@ -120,7 +139,14 @@ bool ModuleCollision::Update(float dt)
 			{
 				if (collider1->data->CheckColision(collider2->data))
 				{
-					OverlapDS(collider1->data, collider2->data);
+					//don't do and don't check OnTrigger in the invers order because this is Dynamic vs Static but in Dynamics vs Dynamics  it's necessary check and do in the invers order too before the overlap.
+					//(it's not necessary do before the overlap because OnTrigger and overlap is doing when a collision is detected. if the collision is detected two times, to OnTrigger and to Overlap separated, it will be important the order. First all OnTrigger in two orders and then the overlap).
+
+					if (trigger_matrix[(uint)collider1->data->tag][(uint)collider2->data->tag])
+						collider1->data->object->OnTrigger(collider2->data);
+
+					if (physics_matrix[(uint)collider1->data->tag][(uint)collider2->data->tag])
+						OverlapDS(collider1->data, collider2->data);
 				}
 			}
 		}

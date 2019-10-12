@@ -61,6 +61,8 @@ public:
 	//Load player file
 	bool Load(const char* path);
 
+	void OnTrigger(Collider* col2); // this will be virtual in the class object parent when ObjectManager will be created.
+
 
 public:
 

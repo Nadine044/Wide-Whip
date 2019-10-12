@@ -7,11 +7,12 @@
 #include "p2Point.h"
 #include "SDL/include/SDL_rect.h"
 
-enum class TAG : int
+enum class TAG : uint
 {
 	NONE = 0,
 	WALL,
-	PLAYER
+	PLAYER,
+	MAX
 
 };
 
@@ -78,7 +79,9 @@ private:
 
 	p2List<Collider*> colliders_dynamic_list;
 
-	//p2List<Collider*> all_colliders_list;
+	bool trigger_matrix[(int)TAG::MAX][(int)TAG::MAX];
+
+	bool physics_matrix[(int)TAG::MAX][(int)TAG::MAX];
 
 	bool debug = true;
 

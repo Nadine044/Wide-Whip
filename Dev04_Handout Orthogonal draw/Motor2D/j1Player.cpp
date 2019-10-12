@@ -83,6 +83,13 @@ bool j1Player::PostUpdate()
 	return true;
 }
 
+void j1Player::OnTrigger(Collider* col2)
+{
+	//Acces to the other colldier whe na collision is checked.
+	//Do Something when a collisions is checked.
+	LOG("it's this a collision!");
+}
+
 bool j1Player::Load(const char* file)
 {
 	bool ret = true;
