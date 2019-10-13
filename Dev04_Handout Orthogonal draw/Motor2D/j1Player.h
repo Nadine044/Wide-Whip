@@ -61,6 +61,9 @@ public:
 	//Load player file
 	bool Load(const char* path);
 
+	//Player jump
+	bool Jump();
+
 
 public:
 
@@ -75,6 +78,10 @@ public:
 	Animation	jump;
 
 	iPoint pos;
+	float jumpSpeed = 10;
+	bool jump1 = false;
+
+	int count = 0;
 
 	Collider* col;
 

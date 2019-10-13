@@ -70,7 +70,18 @@ bool j1Player::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT)
 		pos.x += 1;
 
+	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN)
+	{
+		jump1 = true;
+		while (jump1 == true && jumpSpeed > 0)
+		{
+			Jump();
+		}
+	}
+		
+
 	col->UpdatePos(pos);
+	
 
 	
 	return true;
@@ -151,22 +162,29 @@ bool j1Player::Draw()
 {
 	//Animation MYTODO
 	//----------------------
-
-	
-
-
-
 	SDL_Rect rect2 = { 0, 0, 32, 32 };
-
-	
 
 	SDL_Rect r = SDL_Rect{ 0,0,32,32 };
 	App->render->Blit(text, pos.x, pos.y, &(jump.GetCurrentFrame()));
 
 	App->render->Blit(text2, pos.x + 32, pos.y, &(jump.GetCurrentFrame()));
 
-
 	return true;
+}
+
+bool j1Player::Jump()
+{
+	//jumpSpeed + 1;
+
+	if (jump1 == true)
+	{
+		pos.y = App->player->col->rect.y - jumpSpeed;
+		jumpSpeed = jumpSpeed - 1;
+		return jump1;
+	}
+
+	jump1 = false;
+	return jump1;
 }
 
 bool j1Player::CleanUp()
