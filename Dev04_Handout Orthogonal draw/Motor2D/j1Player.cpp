@@ -70,22 +70,15 @@ bool j1Player::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT)
 		pos.x += 1;
 
-	jumping = true;
-
 
 	// Jump-----------------
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		velocity = jump_force;
-		jumping = true;
 	}	
 
-	if (jumping)
-	{
-		velocity -= gravity;
-	}
 
-
+	velocity -= gravity;
 	pos.y += -velocity;
 
 	col->UpdatePos(pos);
@@ -107,7 +100,6 @@ void j1Player::OnTrigger(Collider* col2)
 	if (col->last_colision_direction == DISTANCE_DIR::UP)
 	{
 		velocity = 0.0f;
-		jumping = false;
 	}
 
 }
