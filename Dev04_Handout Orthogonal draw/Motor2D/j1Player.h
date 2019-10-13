@@ -63,7 +63,6 @@ public:
 
 	void OnTrigger(Collider* col2); // this will be virtual in the class object parent when ObjectManager will be created.
 
-
 public:
 
 	//Animations
@@ -94,6 +93,13 @@ private:
 
 	SDL_Texture* text = nullptr;
 	SDL_Texture* text2 = nullptr;
+
+	
+	uint jump_force = 1;
+	float velocity = 0.0f;
+	float gravity = 0.005f;
+
+	bool jumping = false;
 
 
 

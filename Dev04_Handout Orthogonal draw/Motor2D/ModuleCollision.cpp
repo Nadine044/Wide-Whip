@@ -19,6 +19,11 @@ bool Collider::CheckColision(const Collider* coll) const
 	return !(coll->rect.x >= (rect.x + rect.w) || (coll->rect.x + coll->rect.w) <= rect.x || coll->rect.y >= (rect.y + rect.h) || (coll->rect.y + coll->rect.h) <= rect.y);
 }
 
+bool Collider::CheckColisionBottom(const Collider* coll) const
+{
+	return ((coll->rect.y < (rect.y + rect.h)) && !(coll->rect.x >= (rect.x + rect.w)) && !((coll->rect.x + coll->rect.w) <= rect.x));
+}
+
 void Collider::UpdatePos(const iPoint pos)
 {
 	rect.x = pos.x;
@@ -134,6 +139,8 @@ bool ModuleCollision::Update(float dt)
 
 	//the input of the movement must be before this
 
+
+
 	// check and do OnTrigger and Overlap:
 	// this don't check dynamics with dynamics (statics with statics no sense). Only dynamics with statics in this order.
 	if (colliders_dynamic_list.count() != 0)
@@ -143,22 +150,29 @@ bool ModuleCollision::Update(float dt)
 
 		for (collider1 = colliders_dynamic_list.start; collider1; collider1 = collider1->next)
 		{
+			collider1->data->last_colision_direction = DISTANCE_DIR::NONE;
 			for (collider2 = colliders_static_list.start; collider2; collider2 = collider2->next)
 			{
 				if (collider1->data->CheckColision(collider2->data))
 				{
 					//don't do and don't check OnTrigger in the invers order because this is Dynamic vs Static but in Dynamics vs Dynamics  it's necessary check and do in the invers order too before the overlap.
 					//(it's not necessary do before the overlap because OnTrigger and overlap is doing when a collision is detected. if the collision is detected two times, to OnTrigger and to Overlap separated, it will be important the order. First all OnTrigger in two orders and then the overlap).
+					if (physics_matrix[(uint)collider1->data->tag][(uint)collider2->data->tag])
+						collider1->data->last_colision_direction = OverlapDS(collider1->data, collider2->data);
 
 					if (trigger_matrix[(uint)collider1->data->tag][(uint)collider2->data->tag])
 						collider1->data->object->OnTrigger(collider2->data);
 
-					if (physics_matrix[(uint)collider1->data->tag][(uint)collider2->data->tag])
-						OverlapDS(collider1->data, collider2->data);
+
 				}
 			}
 		}
 	}
+
+
+
+	
+
 
 
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
@@ -223,7 +237,7 @@ void ModuleCollision::SetAllCollidersToDelete()
 	}
 }
 
-void ModuleCollision::OverlapDS(Collider* c_dynamic, Collider* c_static)
+DISTANCE_DIR ModuleCollision::OverlapDS(Collider* c_dynamic, Collider* c_static)
 {
 	//border widths of the collision:
 	int distances[(int)DISTANCE_DIR::MAX];
@@ -259,4 +273,5 @@ void ModuleCollision::OverlapDS(Collider* c_dynamic, Collider* c_static)
 	}
 
 	c_dynamic->UpdatePos(c_dynamic->object->pos);
+	return (DISTANCE_DIR)overlap_dir;
 }

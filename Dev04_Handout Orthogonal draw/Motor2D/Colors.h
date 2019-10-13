@@ -19,11 +19,6 @@ struct Color
 		this->b = b;
 		this->a = a;
 	}
-
-	float* operator & ()
-	{
-		return (float*)this;
-	}
 };
 
 extern Color Red;

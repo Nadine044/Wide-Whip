@@ -19,6 +19,16 @@ enum class TAG : uint
 };
 
 
+enum class DISTANCE_DIR : int
+{
+	NONE = -1,
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN,
+	MAX
+};
+
 class Collider
 {
 
@@ -27,6 +37,8 @@ public:
 	TAG			tag;
 	bool		dynamic = false;
 	j1Player*	object; //will be replace by object when we have entity manager.
+
+	DISTANCE_DIR last_colision_direction = DISTANCE_DIR::NONE;
 
 private:
 	bool to_delete = false;
@@ -37,6 +49,8 @@ public:
 	Collider(iPoint, int, int, TAG, Color, bool);
 
 	bool CheckColision(const Collider*) const;
+
+	bool CheckColisionBottom(const Collider*) const;
 
 	void UpdatePos(const iPoint pos);
 
@@ -49,19 +63,12 @@ public:
 };
 
 
+
 class ModuleCollision : public j1Module
 {
 public:
 
-	enum class DISTANCE_DIR : int
-	{
-		NONE = -1,
-		LEFT,
-		RIGHT,
-		UP,
-		DOWN,
-		MAX
-	};
+
 
 	ModuleCollision() {};
 
@@ -77,7 +84,7 @@ public:
 
 	Collider* AddCollider(iPoint pos, int width, int height, TAG tag, Color color, bool dymanic = false);
 
-	void OverlapDS(Collider* c_dynamic, Collider* c_static);
+	DISTANCE_DIR OverlapDS(Collider* c_dynamic, Collider* c_static);
 
 	Collider* player = nullptr; //temporally to move a collider;
 
