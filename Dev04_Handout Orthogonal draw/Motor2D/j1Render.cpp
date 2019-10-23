@@ -3,6 +3,8 @@
 #include "j1App.h"
 #include "j1Window.h"
 #include "j1Render.h"
+#include "j1Player.h"
+#include "j1Map.h"
 
 #define VSYNC true
 
@@ -130,7 +132,7 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 
 	SDL_Rect rect;
 	rect.x = (int)(camera.x * speed) + x * scale;
-	rect.y = (int)(camera.y * speed) + y * scale;
+	rect.y = (int)(camera.y + 0) + y * scale;
 
 	if(section != NULL)
 	{

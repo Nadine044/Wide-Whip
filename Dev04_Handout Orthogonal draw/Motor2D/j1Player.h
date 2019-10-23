@@ -10,6 +10,10 @@
 #include "j1Textures.h"
 //struct SDL_Texture;
 
+#define CAMERA_OFFSET_X 300
+#define CAMERA_OFFSET_Y 360
+
+
 class Collider;
 
 enum PlayerState
@@ -48,6 +52,8 @@ public:
 	//Load
 	bool Start() override;
 
+	void UpdateCameraPos();
+
 	// Called each loop iteration
 	bool Draw();
 
@@ -61,6 +67,7 @@ public:
 	//Load player file
 	bool Load(const char* path);
 
+	void OnTrigger(Collider* col2); // this will be virtual in the class object parent when ObjectManager will be created.
 
 public:
 
@@ -78,6 +85,8 @@ public:
 
 	Collider* col;
 
+	SDL_Rect playerCamera {pos.x + 300, pos.y - 300, 600, 600};
+
 
 private:
 
@@ -92,6 +101,13 @@ private:
 
 	SDL_Texture* text = nullptr;
 	SDL_Texture* text2 = nullptr;
+
+	
+	uint jump_force = 7;
+	float velocity = 0.0f;
+	float gravity = 0.1f;
+
+	bool jumping = false;
 
 
 

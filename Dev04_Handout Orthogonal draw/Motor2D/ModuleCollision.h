@@ -6,53 +6,69 @@
 #include "p2List.h"
 #include "p2Point.h"
 #include "SDL/include/SDL_rect.h"
+#include "Colors.h"
 
-enum class TAG : int
+
+enum class TAG : uint
 {
 	NONE = 0,
 	WALL,
-	PLAYER
+	PLAYER,
+	MAX
 
 };
 
 
+enum class DISTANCE_DIR : int
+{
+	NONE = -1,
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN,
+	MAX
+};
+
 class Collider
 {
+
 public:
 	SDL_Rect	rect;
 	TAG			tag;
 	bool		dynamic = false;
 	j1Player*	object; //will be replace by object when we have entity manager.
 
+	DISTANCE_DIR last_colision_direction = DISTANCE_DIR::NONE;
+
 private:
 	bool to_delete = false;
 
+	Color color;
+
 public:
-	Collider(iPoint, int, int, TAG, bool);
+	Collider(iPoint, int, int, TAG, Color, bool);
 
 	bool CheckColision(const Collider*) const;
+
+	bool CheckColisionBottom(const Collider*) const;
 
 	void UpdatePos(const iPoint pos);
 
 	const bool IsToDelete() const;
 
 	void Remove();
+
+	Color GetColor() const;
+
 };
+
 
 
 class ModuleCollision : public j1Module
 {
 public:
 
-	enum class DISTANCE_DIR : int
-	{
-		NONE = -1,
-		LEFT,
-		RIGHT,
-		UP,
-		DOWN,
-		MAX
-	};
+
 
 	ModuleCollision() {};
 
@@ -66,9 +82,9 @@ public:
 
 	bool CleanUp() override;
 
-	Collider* AddCollider(iPoint pos, int width, int height, TAG tag, bool dymanic = false);
+	Collider* AddCollider(iPoint pos, int width, int height, TAG tag, Color color, bool dymanic = false);
 
-	void OverlapDS(Collider* c_dynamic, Collider* c_static);
+	DISTANCE_DIR OverlapDS(Collider* c_dynamic, Collider* c_static);
 
 	Collider* player = nullptr; //temporally to move a collider;
 
@@ -78,7 +94,9 @@ private:
 
 	p2List<Collider*> colliders_dynamic_list;
 
-	//p2List<Collider*> all_colliders_list;
+	bool trigger_matrix[(int)TAG::MAX][(int)TAG::MAX];
+
+	bool physics_matrix[(int)TAG::MAX][(int)TAG::MAX];
 
 	bool debug = true;
 

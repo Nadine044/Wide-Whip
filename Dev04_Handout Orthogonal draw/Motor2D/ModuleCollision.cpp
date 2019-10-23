@@ -1,12 +1,12 @@
 #include "j1App.h"
 #include "j1Render.h"
 #include "ModuleCollision.h"
-#include "j1Input.h" // temporally
+#include "j1Input.h" //temporally
 #include "j1Player.h" // wil be replace by object
 //#include "p2Log.h"
 //--------------------COLLIDER---------------------------
 
-Collider::Collider(iPoint pos, int w, int h, TAG tag, bool dynamic) : tag(tag), dynamic(dynamic)
+Collider::Collider(iPoint pos, int w, int h, TAG tag, Color color,  bool dynamic) : tag(tag), dynamic(dynamic), color(color)
 {
 	rect.x = pos.x;
 	rect.y = pos.y;
@@ -17,6 +17,11 @@ Collider::Collider(iPoint pos, int w, int h, TAG tag, bool dynamic) : tag(tag), 
 bool Collider::CheckColision(const Collider* coll) const
 {
 	return !(coll->rect.x >= (rect.x + rect.w) || (coll->rect.x + coll->rect.w) <= rect.x || coll->rect.y >= (rect.y + rect.h) || (coll->rect.y + coll->rect.h) <= rect.y);
+}
+
+bool Collider::CheckColisionBottom(const Collider* coll) const
+{
+	return ((coll->rect.y < (rect.y + rect.h)) && !(coll->rect.x >= (rect.x + rect.w)) && !((coll->rect.x + coll->rect.w) <= rect.x));
 }
 
 void Collider::UpdatePos(const iPoint pos)
@@ -34,11 +39,16 @@ void Collider::Remove()
 {
 	to_delete = true;
 }
+
+Color Collider::GetColor() const
+{
+	return color;
+}
 //--------------------MODULE COLLISION---------------------------
 
-Collider* ModuleCollision::AddCollider(iPoint pos, int w, int h, TAG tag, bool dynamic)
+Collider* ModuleCollision::AddCollider(iPoint pos, int w, int h, TAG tag, Color color, bool dynamic)
 {
-	Collider * ret = new Collider(pos, w, h, tag, dynamic);
+	Collider * ret = new Collider(pos, w, h, tag, color, dynamic);
 	if(!dynamic)
 		colliders_static_list.add(ret);
 
@@ -52,6 +62,25 @@ Collider* ModuleCollision::AddCollider(iPoint pos, int w, int h, TAG tag, bool d
 
 bool ModuleCollision::Start()
 {
+	for(uint i = 0u; i < (uint)TAG::MAX; ++i)
+	{
+		for (uint j = 0u; j < (uint)TAG::MAX; ++j)
+		{
+			physics_matrix[i][j] = false;
+			trigger_matrix[i][j] = false;
+		}
+	}
+
+	//TRIGGER MATRIX to OnTrigger.
+		//The collider dynamic first in the matrxi. If the two colliders are dynamic, it's necessary to set the matrix true with the 2 cases: [dynamic1][dynamic2] = true and [dynamic2][dynamic1] = true. With dynamic vs static only on time with the dynamic first.
+	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::WALL] = true;
+
+	
+
+	//PHYSICS MATRIX to overlap.
+		// Functions OnTrigger will be called only in the first collider. If want to call the function OnTrigger in the two colliders, set the marix bool with the invers too([TAG1][TAG2] = true and [TAG2][TAG1] = true).
+	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::WALL] = true;
+
 	
 	return true;
 }
@@ -72,6 +101,8 @@ bool ModuleCollision::PreUpdate()
 void ModuleCollision::DeleteCollidersToRemove()
 {
 	// delete colliders to delete of the list. only for the preupdate and cleanUp.
+
+	//Dynamic colliders
 	if (colliders_dynamic_list.count() != 0)
 	{
 		p2List_item<Collider*>* collider1 = nullptr;
@@ -86,6 +117,7 @@ void ModuleCollision::DeleteCollidersToRemove()
 		}
 	}
 
+	//Statics colliders
 	if (colliders_static_list.count() != 0)
 	{
 		p2List_item<Collider*>* collider1 = nullptr;
@@ -108,23 +140,39 @@ bool ModuleCollision::Update(float dt)
 	//the input of the movement must be before this
 
 
-	// this don't check dynamics with dynamics (statics with statics no sense).
-	if (colliders_dynamic_list.count() != 0)//TODO test
+
+	// check and do OnTrigger and Overlap:
+	// this don't check dynamics with dynamics (statics with statics no sense). Only dynamics with statics in this order.
+	if (colliders_dynamic_list.count() != 0)
 	{
 		p2List_item<Collider*>* collider1 = nullptr;
 		p2List_item<Collider*>* collider2 = nullptr;
 
 		for (collider1 = colliders_dynamic_list.start; collider1; collider1 = collider1->next)
 		{
+			collider1->data->last_colision_direction = DISTANCE_DIR::NONE;
 			for (collider2 = colliders_static_list.start; collider2; collider2 = collider2->next)
 			{
 				if (collider1->data->CheckColision(collider2->data))
 				{
-					OverlapDS(collider1->data, collider2->data);
+					//don't do and don't check OnTrigger in the invers order because this is Dynamic vs Static but in Dynamics vs Dynamics  it's necessary check and do in the invers order too before the overlap.
+					//(it's not necessary do before the overlap because OnTrigger and overlap is doing when a collision is detected. if the collision is detected two times, to OnTrigger and to Overlap separated, it will be important the order. First all OnTrigger in two orders and then the overlap).
+					if (physics_matrix[(uint)collider1->data->tag][(uint)collider2->data->tag])
+						collider1->data->last_colision_direction = OverlapDS(collider1->data, collider2->data);
+
+					if (trigger_matrix[(uint)collider1->data->tag][(uint)collider2->data->tag])
+						collider1->data->object->OnTrigger(collider2->data);
+
+
 				}
 			}
 		}
 	}
+
+
+
+	
+
 
 
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
@@ -143,16 +191,16 @@ bool ModuleCollision::PostUpdate()
 		//Draw statics colliders
 		for (collider1 = colliders_static_list.start; collider1; collider1 = collider1->next)
 		{
-			App->render->DrawQuad(collider1->data->rect, 255, 0, 0, 100);
+			Color col_color = collider1->data->GetColor();
+			App->render->DrawQuad(collider1->data->rect, col_color.r, col_color.g, col_color.b, 100u);
 		}
 
 		//Draw Dynamic colliders
 		for (collider1 = colliders_dynamic_list.start; collider1; collider1 = collider1->next)
 		{
-			App->render->DrawQuad(collider1->data->rect, 255, 0, 0, 100);
+			Color col_color = collider1->data->GetColor();
+			App->render->DrawQuad(collider1->data->rect, col_color.r, col_color.g, col_color.b, 100u);
 		}
-
-		
 	}
 	return true;
 }
@@ -189,7 +237,7 @@ void ModuleCollision::SetAllCollidersToDelete()
 	}
 }
 
-void ModuleCollision::OverlapDS(Collider* c_dynamic, Collider* c_static)
+DISTANCE_DIR ModuleCollision::OverlapDS(Collider* c_dynamic, Collider* c_static)
 {
 	//border widths of the collision:
 	int distances[(int)DISTANCE_DIR::MAX];
@@ -225,4 +273,5 @@ void ModuleCollision::OverlapDS(Collider* c_dynamic, Collider* c_static)
 	}
 
 	c_dynamic->UpdatePos(c_dynamic->object->pos);
+	return (DISTANCE_DIR)overlap_dir;
 }

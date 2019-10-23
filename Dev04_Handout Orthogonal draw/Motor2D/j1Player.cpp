@@ -32,9 +32,12 @@ bool j1Player::Start()
 {
 	LOG("Loading Player textures");
 	bool ret = true;
+
 	pos.x = col->rect.x;
 	pos.y = col->rect.y;
-	col->object = this;
+	col->object = this;	
+
+	UpdateCameraPos();
 
 	App->player->Load("XMLs/player.xml");
 	text = App->tex->Load("player/player.png");
@@ -56,22 +59,43 @@ bool j1Player::Start()
 	return ret;
 }
 
+void j1Player::UpdateCameraPos()
+{
+	App->render->camera.x = -pos.x + CAMERA_OFFSET_X;
+	App->render->camera.y = -pos.y + CAMERA_OFFSET_Y;
+}
+
 bool j1Player::Update(float dt)
 {
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT)
-		pos.y -= 1;
+		pos.y -= 2;
 
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)
-		pos.y += 1;
+		pos.y += 2;
 
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-		pos.x -= 1;
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+		pos.x -= 2;
+		App->render->camera.x += 1;
+	}
 
-	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT)
-		pos.x += 1;
+	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT) {
+		pos.x += 2;
+		App->render->camera.x -= 1;
+	}
+
+
+	// Jump-----------------
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+		velocity = jump_force;
+	}	
+
+
+	velocity -= gravity;
+	pos.y += -velocity;
 
 	col->UpdatePos(pos);
-
+	UpdateCameraPos();
 	
 	return true;
 }
@@ -82,6 +106,20 @@ bool j1Player::PostUpdate()
 	Draw();
 	return true;
 }
+
+void j1Player::OnTrigger(Collider* col2)
+{
+	//Acces to the other colldier when a collision is checked.
+	//Do Something when a collisions is checked.
+	LOG("it's this a collision!");
+	if (col->last_colision_direction == DISTANCE_DIR::UP)
+	{
+		velocity = 0.0f;
+	}
+
+}
+
+
 
 bool j1Player::Load(const char* file)
 {
@@ -152,13 +190,7 @@ bool j1Player::Draw()
 	//Animation MYTODO
 	//----------------------
 
-	
-
-
-
-	SDL_Rect rect2 = { 0, 0, 32, 32 };
-
-	
+	SDL_Rect rect2 = { 0, 0, 32, 32 };	
 
 	SDL_Rect r = SDL_Rect{ 0,0,32,32 };
 	App->render->Blit(text, pos.x, pos.y, &(jump.GetCurrentFrame()));
