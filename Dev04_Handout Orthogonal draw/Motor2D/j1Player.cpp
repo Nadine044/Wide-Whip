@@ -32,9 +32,12 @@ bool j1Player::Start()
 {
 	LOG("Loading Player textures");
 	bool ret = true;
+
 	pos.x = col->rect.x;
 	pos.y = col->rect.y;
-	col->object = this;
+	col->object = this;	
+
+	UpdateCameraPos();
 
 	App->player->Load("XMLs/player.xml");
 	text = App->tex->Load("player/player.png");
@@ -56,6 +59,12 @@ bool j1Player::Start()
 	return ret;
 }
 
+void j1Player::UpdateCameraPos()
+{
+	App->render->camera.x = -pos.x + CAMERA_OFFSET_X;
+	App->render->camera.y = -pos.y + CAMERA_OFFSET_Y;
+}
+
 bool j1Player::Update(float dt)
 {
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT)
@@ -64,11 +73,15 @@ bool j1Player::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)
 		pos.y += 1;
 
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 		pos.x -= 1;
+		App->render->camera.x += 1;
+	}
 
-	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT) {
 		pos.x += 1;
+		App->render->camera.x -= 1;
+	}
 
 
 	// Jump-----------------
@@ -82,6 +95,8 @@ bool j1Player::Update(float dt)
 	pos.y += -velocity;
 
 	col->UpdatePos(pos);
+	UpdateCameraPos();
+	
 	return true;
 }
 
@@ -175,13 +190,7 @@ bool j1Player::Draw()
 	//Animation MYTODO
 	//----------------------
 
-	
-
-
-
-	SDL_Rect rect2 = { 0, 0, 32, 32 };
-
-	
+	SDL_Rect rect2 = { 0, 0, 32, 32 };	
 
 	SDL_Rect r = SDL_Rect{ 0,0,32,32 };
 	App->render->Blit(text, pos.x, pos.y, &(jump.GetCurrentFrame()));

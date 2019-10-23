@@ -10,6 +10,10 @@
 #include "j1Textures.h"
 //struct SDL_Texture;
 
+#define CAMERA_OFFSET_X 300
+#define CAMERA_OFFSET_Y 360
+
+
 class Collider;
 
 enum PlayerState
@@ -48,6 +52,8 @@ public:
 	//Load
 	bool Start() override;
 
+	void UpdateCameraPos();
+
 	// Called each loop iteration
 	bool Draw();
 
@@ -78,6 +84,8 @@ public:
 	iPoint pos;
 
 	Collider* col;
+
+	SDL_Rect playerCamera {pos.x + 300, pos.y - 300, 600, 600};
 
 
 private:
