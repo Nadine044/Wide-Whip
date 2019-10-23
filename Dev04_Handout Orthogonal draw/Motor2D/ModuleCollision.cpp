@@ -273,5 +273,6 @@ DISTANCE_DIR ModuleCollision::OverlapDS(Collider* c_dynamic, Collider* c_static)
 	}
 
 	c_dynamic->UpdatePos(c_dynamic->object->pos);
+	player->object->UpdateCameraPos();
 	return (DISTANCE_DIR)overlap_dir;
 }
