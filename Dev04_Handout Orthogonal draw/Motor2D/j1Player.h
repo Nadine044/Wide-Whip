@@ -103,9 +103,9 @@ private:
 	SDL_Texture* text2 = nullptr;
 
 	
-	uint jump_force = 1;
+	uint jump_force = 7;
 	float velocity = 0.0f;
-	float gravity = 0.005f;
+	float gravity = 0.1f;
 
 	bool jumping = false;
 

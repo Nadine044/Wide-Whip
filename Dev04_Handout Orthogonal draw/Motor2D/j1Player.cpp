@@ -68,18 +68,18 @@ void j1Player::UpdateCameraPos()
 bool j1Player::Update(float dt)
 {
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT)
-		pos.y -= 1;
+		pos.y -= 2;
 
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)
-		pos.y += 1;
+		pos.y += 2;
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		pos.x -= 1;
+		pos.x -= 2;
 		App->render->camera.x += 1;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT) {
-		pos.x += 1;
+		pos.x += 2;
 		App->render->camera.x -= 1;
 	}
 
