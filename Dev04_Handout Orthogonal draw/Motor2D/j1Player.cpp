@@ -55,33 +55,55 @@ bool j1Player::Start()
 	jump.loop = true;
 	jump.speed = 0.1;
 
+	rect_limit_camera.x = App->render->camera.x + rect_limit_camera_border_x;
+	rect_limit_camera.y = App->render->camera.y + rect_limit_camera_border_y;
+	rect_limit_camera.w = 450;
+	rect_limit_camera.h = 500;
+
 	return ret;
 }
 
 void j1Player::UpdateCameraPos()
 {
-	if (pos.x > MAP_LEFT_OFFSET_X)
+	if (pos.x > MAP_LEFT_OFFSET_X)//final map offset
 	{
-		App->render->camera.x = -pos.x + MAP_LEFT_OFFSET_X;
+		if (pos.x < rect_limit_camera.x)
+		{
+			App->render->camera.x = -(pos.x - rect_limit_camera_border_x);
+		}
+		else if (pos.x + col->rect.w > rect_limit_camera.x + rect_limit_camera.w)
+		{
+			App->render->camera.x = -(pos.x + col->rect.w -rect_limit_camera.w - rect_limit_camera_border_x);
+		}
+		//App->render->camera.x = -pos.x + MAP_LEFT_OFFSET_X;
 
 	}
-	App->render->camera.y = -pos.y + CAMERA_OFFSET_Y;	
+
+	if (pos.y < rect_limit_camera.y)
+	{
+		App->render->camera.y = -(pos.y - rect_limit_camera_border_y);
+	}
+	else if (pos.y + col->rect.h > rect_limit_camera.y + rect_limit_camera.h)
+	{
+		App->render->camera.y = -(pos.y + col->rect.h - rect_limit_camera.h - rect_limit_camera_border_y);
+	}
+	//App->render->camera.y = -pos.y + CAMERA_OFFSET_Y;	
 }
 
 bool j1Player::Update(float dt)
 {
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT)
-		pos.y -= 2;
+		pos.y -= 3;
 
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)
-		pos.y += 2;
+		pos.y += 3;
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		pos.x -= 2;
+		pos.x -= 3;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT) {
-		pos.x += 2;
+		pos.x += 3;
 	}
 
 
@@ -98,6 +120,9 @@ bool j1Player::Update(float dt)
 	col->UpdatePos(pos);
 
 	UpdateCameraPos();
+
+	rect_limit_camera.x = -App->render->camera.x + rect_limit_camera_border_x;
+	rect_limit_camera.y = -App->render->camera.y + rect_limit_camera_border_y;
 	
 	return true;
 }
@@ -106,6 +131,7 @@ bool j1Player::PostUpdate()
 {
 	//MYTODO
 	Draw();
+	//App->render->DrawQuad(rect_limit_camera, 0, 0, 100, 100);
 	return true;
 }
 

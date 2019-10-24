@@ -103,7 +103,11 @@ private:
 	SDL_Texture* text = nullptr;
 	SDL_Texture* text2 = nullptr;
 
-	
+	SDL_Rect rect_limit_camera;
+	int rect_limit_camera_border_x = 100;
+	int rect_limit_camera_border_y = 150;
+
+
 	uint jump_force = 7;
 	float velocity = 0.0f;
 	float gravity = 0.1f;
