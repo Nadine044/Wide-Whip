@@ -55,14 +55,21 @@ bool j1Player::Start()
 	jump.loop = true;
 	jump.speed = 0.1;
 
-
 	return ret;
 }
 
 void j1Player::UpdateCameraPos()
 {
-	App->render->camera.x = -pos.x + CAMERA_OFFSET_X;
-	App->render->camera.y = -pos.y + CAMERA_OFFSET_Y;
+	if (pos.x < MAP_LEFT_OFFSET_X)
+	{
+		App->render->camera.x = 0;
+	}
+	else
+	{
+		App->render->camera.x = -pos.x + MAP_LEFT_OFFSET_X;
+		App->render->camera.y = -pos.y + CAMERA_OFFSET_Y;
+	}
+		
 }
 
 bool j1Player::Update(float dt)
@@ -75,12 +82,10 @@ bool j1Player::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 		pos.x -= 2;
-		App->render->camera.x += 1;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT) {
 		pos.x += 2;
-		App->render->camera.x -= 1;
 	}
 
 
@@ -95,6 +100,7 @@ bool j1Player::Update(float dt)
 	pos.y += -velocity;
 
 	col->UpdatePos(pos);
+
 	UpdateCameraPos();
 	
 	return true;

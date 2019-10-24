@@ -12,6 +12,7 @@
 
 #define CAMERA_OFFSET_X 300
 #define CAMERA_OFFSET_Y 360
+#define MAP_LEFT_OFFSET_X 200
 
 
 class Collider;
