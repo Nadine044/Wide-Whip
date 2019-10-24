@@ -406,9 +406,14 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 			App->player->col = App->collisions->player = App->collisions->AddCollider(pos, w, h, TAG::PLAYER, Green, true);
 		}
 
-		if (type == "WALL")
+		else if (type == "WALL")
 		{		
 			App->collisions->AddCollider(pos, w, h, TAG::WALL, Red);
+		}
+
+		else if (type == "PLATFORM")
+		{
+			Collider* ret = App->collisions->AddCollider(pos, w, h, TAG::PLATFORM, Yellow);
 		}
 	}
 

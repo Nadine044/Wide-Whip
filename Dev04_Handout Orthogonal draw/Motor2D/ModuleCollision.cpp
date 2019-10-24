@@ -74,13 +74,14 @@ bool ModuleCollision::Start()
 	//TRIGGER MATRIX to OnTrigger.
 		//The collider dynamic first in the matrxi. If the two colliders are dynamic, it's necessary to set the matrix true with the 2 cases: [dynamic1][dynamic2] = true and [dynamic2][dynamic1] = true. With dynamic vs static only on time with the dynamic first.
 	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::WALL] = true;
+	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::PLATFORM] = true;
 
 	
 
 	//PHYSICS MATRIX to overlap.
 		// Functions OnTrigger will be called only in the first collider. If want to call the function OnTrigger in the two colliders, set the marix bool with the invers too([TAG1][TAG2] = true and [TAG2][TAG1] = true).
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::WALL] = true;
-
+	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::PLATFORM] = true;
 	
 	return true;
 }
@@ -158,22 +159,30 @@ bool ModuleCollision::Update(float dt)
 					//don't do and don't check OnTrigger in the invers order because this is Dynamic vs Static but in Dynamics vs Dynamics  it's necessary check and do in the invers order too before the overlap.
 					//(it's not necessary do before the overlap because OnTrigger and overlap is doing when a collision is detected. if the collision is detected two times, to OnTrigger and to Overlap separated, it will be important the order. First all OnTrigger in two orders and then the overlap).
 					if (physics_matrix[(uint)collider1->data->tag][(uint)collider2->data->tag])
-						collider1->data->last_colision_direction = OverlapDS(collider1->data, collider2->data);
+					{
+						if (collider2->data->tag == TAG::PLATFORM)
+						{
+							collider1->data->last_colision_direction = OverlapPlatform(collider1->data, collider2->data);
+						}
+						else
+						{
+							collider1->data->last_colision_direction = OverlapDS(collider1->data, collider2->data);
+						}
+						collider2->data->first_time_collision = false;
+					}
 
 					if (trigger_matrix[(uint)collider1->data->tag][(uint)collider2->data->tag])
 						collider1->data->object->OnTrigger(collider2->data);
 
 
 				}
+				else
+				{
+					collider2->data->first_time_collision = true;
+				}
 			}
 		}
 	}
-
-
-
-	
-
-
 
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
 			colliders_static_list.start->data->Remove(); // only for testing
@@ -276,3 +285,61 @@ DISTANCE_DIR ModuleCollision::OverlapDS(Collider* c_dynamic, Collider* c_static)
 	player->object->UpdateCameraPos();
 	return (DISTANCE_DIR)overlap_dir;
 }
+
+DISTANCE_DIR ModuleCollision::OverlapPlatform(Collider* c_dynamic, Collider* c_static)
+{
+	int overlap_dir = 0;
+	if (c_static->first_time_collision)
+	{
+		//border widths of the collision:
+		int distances[(int)DISTANCE_DIR::MAX];
+		distances[(int)DISTANCE_DIR::LEFT] = c_dynamic->rect.x + c_dynamic->rect.w - c_static->rect.x;
+		distances[(int)DISTANCE_DIR::RIGHT] = c_static->rect.x + c_static->rect.w - c_dynamic->rect.x;
+		distances[(int)DISTANCE_DIR::UP] = c_dynamic->rect.y + c_dynamic->rect.h - c_static->rect.y;
+		distances[(int)DISTANCE_DIR::DOWN] = c_static->rect.y + c_static->rect.h - c_dynamic->rect.y;
+
+		
+
+
+		for (int i = 0; i < (int)DISTANCE_DIR::MAX; ++i)
+		{
+			if (distances[i] < distances[(int)overlap_dir])
+			{
+				overlap_dir = i;  //the final dir is the dir with minor distance
+			}
+		}
+		c_static->last_colision_direction = (DISTANCE_DIR)overlap_dir;
+	}
+	else
+	{
+		overlap_dir = (int)c_static->last_colision_direction;
+	}
+
+	if ((DISTANCE_DIR)overlap_dir == DISTANCE_DIR::UP && player->object->GetVelocity() <= 0.0f)
+	{
+		float l = player->object->GetVelocity();
+
+		switch ((DISTANCE_DIR)overlap_dir)
+		{
+		case DISTANCE_DIR::LEFT:
+			c_dynamic->object->pos.x = c_static->rect.x - c_dynamic->rect.w;
+			break;
+		case DISTANCE_DIR::RIGHT:
+			c_dynamic->object->pos.x = c_static->rect.x + c_static->rect.w;
+			break;
+		case DISTANCE_DIR::UP:
+			c_dynamic->object->pos.y = c_static->rect.y - c_dynamic->rect.h;
+			break;
+		case DISTANCE_DIR::DOWN:
+			c_dynamic->object->pos.y = c_static->rect.y + c_static->rect.h;
+			break;
+		}
+
+		c_dynamic->UpdatePos(c_dynamic->object->pos);
+		player->object->UpdateCameraPos();
+		
+	}
+	return (DISTANCE_DIR)overlap_dir;
+}
+
+

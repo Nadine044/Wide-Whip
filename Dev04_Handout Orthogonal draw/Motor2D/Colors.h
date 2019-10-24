@@ -24,6 +24,9 @@ struct Color
 extern Color Red;
 extern Color Green;
 extern Color Blue;
+extern Color Yellow;
+extern Color Black;
+extern Color White;
 
 
 #endif // !__COLORS_H__

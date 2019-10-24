@@ -12,6 +12,7 @@
 
 #define CAMERA_OFFSET_X 300
 #define CAMERA_OFFSET_Y 360
+#define MAP_LEFT_OFFSET_X 200
 
 
 class Collider;
@@ -69,6 +70,8 @@ public:
 
 	void OnTrigger(Collider* col2); // this will be virtual in the class object parent when ObjectManager will be created.
 
+	float GetVelocity() const;
+
 public:
 
 	//Animations
@@ -102,10 +105,14 @@ private:
 	SDL_Texture* text = nullptr;
 	SDL_Texture* text2 = nullptr;
 
-	
-	uint jump_force = 7;
+	SDL_Rect rect_limit_camera;
+	int rect_limit_camera_border_x = 100;
+	int rect_limit_camera_border_y = 150;
+
+
+	uint jump_force = 10;
 	float velocity = 0.0f;
-	float gravity = 0.1f;
+	float gravity = 0.3f;
 
 	bool jumping = false;
 
