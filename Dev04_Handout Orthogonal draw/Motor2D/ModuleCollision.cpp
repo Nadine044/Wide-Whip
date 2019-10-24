@@ -169,12 +169,6 @@ bool ModuleCollision::Update(float dt)
 		}
 	}
 
-
-
-	
-
-
-
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
 			colliders_static_list.start->data->Remove(); // only for testing
 	
@@ -273,5 +267,6 @@ DISTANCE_DIR ModuleCollision::OverlapDS(Collider* c_dynamic, Collider* c_static)
 	}
 
 	c_dynamic->UpdatePos(c_dynamic->object->pos);
+	player->object->UpdateCameraPos();
 	return (DISTANCE_DIR)overlap_dir;
 }

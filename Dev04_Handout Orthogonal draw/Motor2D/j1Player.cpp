@@ -60,16 +60,12 @@ bool j1Player::Start()
 
 void j1Player::UpdateCameraPos()
 {
-	if (pos.x < MAP_LEFT_OFFSET_X)
-	{
-		App->render->camera.x = 0;
-	}
-	else
+	if (pos.x > MAP_LEFT_OFFSET_X)
 	{
 		App->render->camera.x = -pos.x + MAP_LEFT_OFFSET_X;
-		App->render->camera.y = -pos.y + CAMERA_OFFSET_Y;
+
 	}
-		
+	App->render->camera.y = -pos.y + CAMERA_OFFSET_Y;	
 }
 
 bool j1Player::Update(float dt)
