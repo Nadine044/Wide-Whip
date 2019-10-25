@@ -13,6 +13,7 @@ enum class TAG : uint
 {
 	NONE = 0,
 	WALL,
+	PLATFORM,
 	PLAYER,
 	MAX
 
@@ -37,6 +38,7 @@ public:
 	TAG			tag;
 	bool		dynamic = false;
 	j1Player*	object; //will be replace by object when we have entity manager.
+	bool first_time_collision = false;
 
 	DISTANCE_DIR last_colision_direction = DISTANCE_DIR::NONE;
 
@@ -85,6 +87,7 @@ public:
 	Collider* AddCollider(iPoint pos, int width, int height, TAG tag, Color color, bool dymanic = false);
 
 	DISTANCE_DIR OverlapDS(Collider* c_dynamic, Collider* c_static);
+	DISTANCE_DIR OverlapPlatform(Collider* c_dynamic, Collider* c_static);
 
 	Collider* player = nullptr; //temporally to move a collider;
 

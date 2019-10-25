@@ -114,7 +114,7 @@ bool j1Player::Update(float dt)
 	}	
 
 
-	velocity -= gravity;
+ 	velocity -= gravity;
 	pos.y += -velocity;
 
 	col->UpdatePos(pos);
@@ -140,7 +140,7 @@ void j1Player::OnTrigger(Collider* col2)
 	//Acces to the other colldier when a collision is checked.
 	//Do Something when a collisions is checked.
 	LOG("it's this a collision!");
-	if (col->last_colision_direction == DISTANCE_DIR::UP)
+	if (col->last_colision_direction == DISTANCE_DIR::UP && velocity <= 0.0f)
 	{
 		velocity = 0.0f;
 	}
@@ -221,7 +221,7 @@ bool j1Player::Draw()
 	SDL_Rect rect2 = { 0, 0, 32, 32 };	
 
 	SDL_Rect r = SDL_Rect{ 0,0,32,32 };
-	App->render->Blit(text, pos.x, pos.y, &(jump.GetCurrentFrame()));
+	App->render->Blit(text, pos.x, pos.y, &(jump.GetCurrentFrame()), 1.0f, true);
 
 	App->render->Blit(text2, pos.x + 32, pos.y, &(jump.GetCurrentFrame()));
 
@@ -235,4 +235,9 @@ bool j1Player::CleanUp()
 	LOG("Player unloaded");
 
 	return true;
+}
+
+float j1Player::GetVelocity() const
+{
+	return velocity;
 }
