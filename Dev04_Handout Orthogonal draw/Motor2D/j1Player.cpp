@@ -92,18 +92,22 @@ void j1Player::UpdateCameraPos()
 
 bool j1Player::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) {
 		pos.y -= 3;
+	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) {
 		pos.y += 3;
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 		pos.x -= 3;
+		flip = SDL_FLIP_HORIZONTAL;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT) {
 		pos.x += 3;
+		flip = SDL_FLIP_NONE;
 	}
 
 
@@ -221,10 +225,9 @@ bool j1Player::Draw()
 	SDL_Rect rect2 = { 0, 0, 32, 32 };	
 
 	SDL_Rect r = SDL_Rect{ 0,0,32,32 };
-	App->render->Blit(text, pos.x, pos.y, &(jump.GetCurrentFrame()), 1.0f, true);
+	App->render->Blit(text, pos.x, pos.y, &(jump.GetCurrentFrame()), 1.0f, flip);
 
-	App->render->Blit(text2, pos.x + 32, pos.y, &(jump.GetCurrentFrame()));
-
+	App->render->Blit(text2, pos.x + 32, pos.y, &(jump.GetCurrentFrame()), 1.0f, flip);
 
 	return true;
 }

@@ -88,7 +88,7 @@ public:
 
 	Collider* col;
 
-	SDL_Rect playerCamera {pos.x + 300, pos.y - 300, 600, 600};
+	SDL_RendererFlip flip = SDL_FLIP_NONE;
 
 
 private:
