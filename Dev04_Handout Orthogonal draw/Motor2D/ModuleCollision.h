@@ -48,7 +48,7 @@ private:
 	Color color;
 
 public:
-	Collider(iPoint, int, int, TAG, Color, bool);
+	Collider(iPoint, int, int, TAG, Color, j1Player*, bool);
 
 	bool CheckColision(const Collider*) const;
 
@@ -84,7 +84,7 @@ public:
 
 	bool CleanUp() override;
 
-	Collider* AddCollider(iPoint pos, int width, int height, TAG tag, Color color, bool dymanic = false);
+	Collider* AddCollider(iPoint pos, int width, int height, TAG tag, Color color, j1Player* parent = nullptr, bool dymanic = false);
 
 	DISTANCE_DIR OverlapDS(Collider* c_dynamic, Collider* c_static);
 	DISTANCE_DIR OverlapPlatform(Collider* c_dynamic, Collider* c_static);

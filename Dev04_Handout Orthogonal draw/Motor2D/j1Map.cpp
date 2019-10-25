@@ -135,6 +135,11 @@ bool j1Map::CleanUp()
 	return true;
 }
 
+TileSet::~TileSet()
+{
+	App->tex->UnLoad(texture);
+}
+
 // Load new map
 bool j1Map::Load(const char* file_name)
 {
@@ -192,14 +197,12 @@ bool j1Map::Load(const char* file_name)
 	pugi::xml_node object_group;
 	for (object_group = map_file.child("map").child("objectgroup"); object_group && ret; object_group = object_group.next_sibling("objectgroup"))
 	{
-		//MapLayer* set = new MapLayer();
 
 		if (ret == true)
 		{
 			ret = LoadObjectGroups(object_group);
 		}
 
-		//data.layers.add(set);
 	}
 
 
@@ -403,7 +406,7 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 
 		if (type == "PLAYER")
 		{
-			App->player->col = App->collisions->player = App->collisions->AddCollider(pos, w, h, TAG::PLAYER, Green, true);
+			App->player->col = App->collisions->player = App->collisions->AddCollider(pos, w, h, TAG::PLAYER, Green, App->player, true);
 		}
 
 		else if (type == "WALL")

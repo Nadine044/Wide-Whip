@@ -35,6 +35,7 @@ inline uint GetID(int x, int y)
 struct TileSet
 {
 	// TODO 7: Create a method that receives a tile id and returns it's Rect
+	~TileSet();
 	SDL_Rect GetRectFromID(const int id)
 	{
 		SDL_Rect ret;
