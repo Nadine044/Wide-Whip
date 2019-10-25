@@ -117,6 +117,8 @@ public:
 	iPoint MapToWorldIsometric(const iPoint& )const;
 	iPoint WorldToMapIsometric(const iPoint&)const;
 
+	p2SString GetMapNameLoaded() const;
+
 private:
 
 	bool LoadMap();
@@ -134,6 +136,8 @@ private:
 	pugi::xml_document	map_file;
 	p2SString			folder;
 	bool				map_loaded;
+
+	p2SString			map_name_loaded;
 };
 
 #endif // __j1MAP_H__

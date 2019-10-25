@@ -154,6 +154,8 @@ bool j1Map::Load(const char* file_name)
 		ret = false;
 	}
 
+	map_name_loaded = file_name;
+
 	// Load general info ----------------------------------------------
 	if(ret == true)
 	{
@@ -421,4 +423,9 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 	}
 
 	return true;
+}
+
+p2SString j1Map::GetMapNameLoaded() const
+{
+	return map_name_loaded;
 }

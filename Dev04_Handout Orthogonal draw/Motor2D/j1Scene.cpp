@@ -10,6 +10,7 @@
 #include "j1Player.h"
 #include "j1Scene.h"
 #include "ModuleCollision.h"
+#include "ModuleFadeToBlack.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -68,20 +69,37 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
-		App->map->CleanUp();
-		App->collisions->CleanUp();
-		App->player->CleanUp();
-		App->map->Load("map1.tmx");
-		App->player->Start();
+		App->fade_to_black->FadeToBlack(2.f);	
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	//if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	//{
+	//	App->map->CleanUp();
+	//	App->collisions->CleanUp();
+	//	App->player->CleanUp();
+	//	App->map->Load("mapping.tmx");
+	//	App->player->Start();
+	//}
+
+	if (App->fade_to_black->to_load)
 	{
+		
 		App->map->CleanUp();
 		App->collisions->CleanUp();
 		App->player->CleanUp();
-		App->map->Load("mapping.tmx");
+
+		if (App->map->GetMapNameLoaded() == "mapping.tmx")
+		{
+			App->map->Load("map1.tmx");
+		}
+		else
+		{
+			App->map->Load("mapping.tmx");
+		}
+	
 		App->player->Start();
+
+		App->fade_to_black->to_load = false;
 	}
 
 
