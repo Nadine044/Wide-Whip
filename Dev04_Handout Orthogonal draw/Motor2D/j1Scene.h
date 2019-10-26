@@ -34,13 +34,22 @@ public:
 	// Called before quitting
 	bool CleanUp()override;
 
+	bool Save(pugi::xml_node&) const  override;
+
+	bool Load(pugi::xml_node&) override;
+
 	// Functions to change across levels
 	void StartThisLevel();
+
+	bool IsLevel1Loaded() const;
+
+	bool IsLevel2Loaded() const;
 
 	void ChangeBetweenLevel();
 
 	void ChangeLevelTo(const p2SString level);
 
+	p2SString GetMapNameLoaded() const;
 
 private:
 	void CheckLevelChange();
@@ -55,6 +64,8 @@ private:
 
 	p2SString level1;
 	p2SString level2;
+
+	p2SString			map_name_loaded;
 
 	float time_in_fade;
 

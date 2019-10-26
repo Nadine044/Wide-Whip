@@ -120,11 +120,12 @@ void j1Scene::CheckLevelChange()
 
 void j1Scene::StartThisLevel()
 {
-	if (App->map->GetMapNameLoaded() == level2)
+	if (IsLevel2Loaded())
 	{
 		ChangeLevelTo(level2);
 	}
-	else
+
+	else if(IsLevel1Loaded())
 	{
 		ChangeLevelTo(level1);
 	}
@@ -132,7 +133,7 @@ void j1Scene::StartThisLevel()
 
 void j1Scene::ChangeBetweenLevel()
 {
-	if (App->map->GetMapNameLoaded() == level2)
+	if (IsLevel2Loaded())
 	{
 		ChangeLevelTo(level1);
 	}
@@ -151,7 +152,18 @@ void j1Scene::ChangeLevelTo(const p2SString level)
 
 	//Load
 	App->map->Load(level.GetString());
+	map_name_loaded = level;
 	App->player->Start();
+}
+
+bool j1Scene::IsLevel1Loaded() const
+{
+	return GetMapNameLoaded() == level1;
+}
+
+bool j1Scene::IsLevel2Loaded() const
+{
+	return GetMapNameLoaded() == level2;
 }
 
 // Called each loop iteration
@@ -170,5 +182,22 @@ bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
 
+	return true;
+}
+
+p2SString j1Scene::GetMapNameLoaded() const
+{
+	return map_name_loaded;
+}
+
+bool j1Scene::Save(pugi::xml_node& save_file) const
+{
+	save_file.append_child("");
+
+	return true;
+}
+
+bool j1Scene::Load(pugi::xml_node& save_file)
+{
 	return true;
 }

@@ -6,8 +6,8 @@
 	<audio />
 	<map />
 	<scene />
-	<:anonymous />
-	<:anonymous />
+	<anonymous />
+	<anonymous />
 	<FadeToBlack />
 	<renderer>
 		<camera x="-894" y="-23" />
