@@ -44,7 +44,9 @@ public:
 	//Load
 	bool Start() override;
 
-	bool Update(float dt) override;	
+	bool Update(float dt) override;
+	void JumpHorizontal();
+
 
 	bool PostUpdate() override;
 

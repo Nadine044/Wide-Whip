@@ -142,6 +142,8 @@ bool j1Player::Update(float dt)
 
 		Gravity();
 
+		JumpHorizontal();
+
 		UpdateCameraPos();
 
 	
@@ -224,6 +226,16 @@ bool j1Player::Update(float dt)
 
 
 
+	
+
+
+	CheckDebugKeys();
+	col->UpdatePos(pos);
+	return true;
+}
+
+void j1Player::JumpHorizontal()
+{
 	if (velocity_jump_clinged < 0 && !jump_h_right)
 	{
 		pos.x += velocity_jump_clinged;
@@ -234,11 +246,6 @@ bool j1Player::Update(float dt)
 		pos.x += velocity_jump_clinged;
 		velocity_jump_clinged -= resistance_jump_clinged;
 	}
-
-
-	CheckDebugKeys();
-	col->UpdatePos(pos);
-	return true;
 }
 
 void j1Player::CheckDebugKeys()
