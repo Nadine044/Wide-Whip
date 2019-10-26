@@ -59,6 +59,8 @@ public:
 
 	bool Update(float dt) override;
 
+	void VerticalMovement();
+
 	void Gravity();
 
 	void Jump();

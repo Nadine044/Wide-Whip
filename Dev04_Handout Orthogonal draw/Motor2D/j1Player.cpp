@@ -112,6 +112,8 @@ bool j1Player::Update(float dt)
 			col->Enable();
 		}
 	}
+
+
 	switch (state)
 	{
 	case PLAYER_STATE::LIVE:
@@ -152,13 +154,8 @@ bool j1Player::Update(float dt)
 
 		Movement();
 
-		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) {
-			pos.y -= 3;
-		}
+		VerticalMovement();
 
-		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) {
-			pos.y += 3;
-		}
 		UpdateCameraPos();
 
 		break;
@@ -171,6 +168,17 @@ bool j1Player::Update(float dt)
 
 	col->UpdatePos(pos);
 	return true;
+}
+
+void j1Player::VerticalMovement()
+{
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) {
+		pos.y -= 3;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) {
+		pos.y += 3;
+	}
 }
 
 void j1Player::Gravity()
