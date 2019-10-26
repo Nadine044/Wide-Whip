@@ -101,6 +101,7 @@ public:
 	// Called before render is available
 	bool Awake(pugi::xml_node& conf);
 
+	bool PostUpdate() override;
 	// Called each loop iteration
 	void Draw();
 

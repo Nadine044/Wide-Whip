@@ -35,7 +35,7 @@ void j1Map::Draw()
 		return;
 	p2List_item<TileSet*>* tileset = nullptr;
 	p2List_item<MapLayer*>* layer = nullptr;
-	// TODO 5: Prepare the loop to iterate all the tiles in a layer
+
 	for (tileset = data.tilesets.start; tileset; tileset = tileset->next)
 	{
 		for (p2List_item<MapLayer*>* layer = data.layers.start; layer; layer = layer->next)
@@ -51,12 +51,13 @@ void j1Map::Draw()
 			}
 		}
 	}
-	
+}
 
-	//App->render->Blit(data.tilesets.start->data->texture, data.layers.start->data->data_gid[0])
+bool j1Map::PostUpdate()
+{
+	Draw();
 
-	// TODO 9: Complete the draw function
-
+	return true;
 }
 
 iPoint j1Map::MapToWorld(const iPoint& p) const

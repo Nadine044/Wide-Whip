@@ -66,14 +66,17 @@ bool j1Scene::Update(float dt)
 		App->render->camera.x += 1;
 
 
+	//Vars to config: level1 name, level2 name, time to fade black in levels.	TODO!
+
+
+
 
 	CheckLevelChange();
 
-	
 
 
-	//App->render->Blit(img, 0, 0);
-	App->map->Draw(); // to map update
+
+
 
 	////Draw player MYTODO
 	//iPoint mouse_pos;
@@ -97,28 +100,30 @@ bool j1Scene::Update(float dt)
 
 void j1Scene::CheckLevelChange()
 {
-	
 	// Check inputs to change the level
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	if (!App->fade_to_black->IsFading())
 	{
-		App->fade_to_black->FadeToBlack(change_to_level_1, 2.f);
-	}
+		
+		if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		{
+			App->fade_to_black->FadeToBlack(change_to_level_1, 2.f);
+		}
 
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
-	{
-		App->fade_to_black->FadeToBlack(change_to_level_2, 2.f);
-	}
+		if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+		{
+			App->fade_to_black->FadeToBlack(change_to_level_2, 2.f);
+		}
 
-	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
-	{
-		App->fade_to_black->FadeToBlack(start_this_level, 2.f);
-	}
+		if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
+		{
+			App->fade_to_black->FadeToBlack(start_this_level, 2.f);
+		}
 
-	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
-	{
-		App->fade_to_black->FadeToBlack(change_between_levels, 2.f);
+		if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
+		{
+			App->fade_to_black->FadeToBlack(change_between_levels, 2.f);
+		}
 	}
-
 
 	// Change level if is set to change.
 	if (change_to_level_1)

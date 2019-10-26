@@ -35,7 +35,7 @@ bool ModuleFadeToBlack::Update(float dt)
 		return true;
 
 	Uint32 now = SDL_GetTicks() - start_time;
-	float normalized = MIN(1.0f, (float)now / (float)total_time);
+	normalized = MIN(1.0f, (float)now / (float)total_time);
 
 	switch(current_step)
 	{
@@ -69,6 +69,15 @@ bool ModuleFadeToBlack::Update(float dt)
 
 		} break;
 	}
+
+	return true;
+}
+
+bool ModuleFadeToBlack::PostUpdate()
+{
+	if (current_step == fade_step::none)
+		return true;
+
 
 	// Finally render the black square with alpha on the screen
 	SDL_SetRenderDrawColor(App->render->renderer, 0, 0, 0, (Uint8)(normalized * 255.0f));
