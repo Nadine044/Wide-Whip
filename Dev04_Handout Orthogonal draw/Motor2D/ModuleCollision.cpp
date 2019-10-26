@@ -222,7 +222,10 @@ bool ModuleCollision::PostUpdate()
 		//Draw statics colliders
 		for (collider1 = colliders_static_list.start; collider1; collider1 = collider1->next)
 		{
-			
+			Color col_color;
+			collider1->data->IsEnabled() ? (col_color = collider1->data->GetColor()) : (col_color = Grey);
+
+			App->render->DrawQuad(collider1->data->rect, col_color.r, col_color.g, col_color.b, 100u);
 			
 		}
 

@@ -98,7 +98,20 @@ void j1Player::UpdateCameraPos()
 
 bool j1Player::Update(float dt)
 {
-	
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	{
+		if (state == PLAYER_STATE::LIVE)
+		{
+			state = PLAYER_STATE::GOD;
+			velocity = 0.f;
+			col->Disable();
+		}
+		else if(state == PLAYER_STATE::GOD)
+		{
+			state = PLAYER_STATE::LIVE;
+			col->Enable();
+		}
+	}
 	switch (state)
 	{
 	case PLAYER_STATE::LIVE:
@@ -136,6 +149,18 @@ bool j1Player::Update(float dt)
 
 		break;
 	case PLAYER_STATE::GOD:
+
+		Movement();
+
+		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) {
+			pos.y -= 3;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) {
+			pos.y += 3;
+		}
+		UpdateCameraPos();
+
 		break;
 	case PLAYER_STATE::UNKNOWN:
 		LOG("This state is Unknown! check the current state and change it");
