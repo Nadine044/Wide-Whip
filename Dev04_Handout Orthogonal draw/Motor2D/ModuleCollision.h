@@ -46,7 +46,7 @@ public:
 
 private:
 	bool to_delete = false;
-	bool enable = true;
+	bool enable = false;
 
 	Color color;
 

@@ -22,18 +22,21 @@ j1Scene::~j1Scene()
 {}
 
 // Called before render is available
-bool j1Scene::Awake()
+bool j1Scene::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene");
 	bool ret = true;
+	pugi::xml_node levels = config.child("levels");
 
+	level1 = levels.child_value("level1");
+	level2 = levels.child_value("level2");
 	return ret;
 }
 
 // Called before the first frame
 bool j1Scene::Start()
 {
-	App->map->Load("mapping.tmx");
+	App->map->Load(level2.GetString());
 	
 	return true;
 }
@@ -47,24 +50,11 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->LoadGame();
 
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->SaveGame();
-
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		App->render->camera.y -= 1;
-
-	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		App->render->camera.y += 1;
-
-	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		App->render->camera.x -= 1;
-
-	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->render->camera.x += 1;
-
 
 	//Vars to config: level1 name, level2 name, time to fade black in levels.	TODO!
 
@@ -106,34 +96,34 @@ void j1Scene::CheckLevelChange()
 		
 		if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		{
-			App->fade_to_black->FadeToBlack(change_to_level_1, 2.f);
+			App->fade_to_black->FadeToBlack(change_to_level_1, time_in_fade);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		{
-			App->fade_to_black->FadeToBlack(change_to_level_2, 2.f);
+			App->fade_to_black->FadeToBlack(change_to_level_2, time_in_fade);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 		{
-			App->fade_to_black->FadeToBlack(start_this_level, 2.f);
+			App->fade_to_black->FadeToBlack(start_this_level, time_in_fade);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
 		{
-			App->fade_to_black->FadeToBlack(change_between_levels, 2.f);
+			App->fade_to_black->FadeToBlack(change_between_levels, time_in_fade);
 		}
 	}
 
 	// Change level if is set to change.
 	if (change_to_level_1)
 	{
-		ChangeLevelTo("map1.tmx");
+		ChangeLevelTo(level1);
 	}
 
 	if (change_to_level_2)
 	{
-		ChangeLevelTo("mapping.tmx");
+		ChangeLevelTo(level2);
 	}
 
 	if (start_this_level)
@@ -149,25 +139,25 @@ void j1Scene::CheckLevelChange()
 
 void j1Scene::StartThisLevel()
 {
-	if (App->map->GetMapNameLoaded() == "mapping.tmx")
+	if (App->map->GetMapNameLoaded() == level2)
 	{
-		ChangeLevelTo("mapping.tmx");
+		ChangeLevelTo(level2);
 	}
 	else
 	{
-		ChangeLevelTo("map1.tmx");
+		ChangeLevelTo(level1);
 	}
 }
 
 void j1Scene::ChangeBetweenLevel()
 {
-	if (App->map->GetMapNameLoaded() == "mapping.tmx")
+	if (App->map->GetMapNameLoaded() == level2)
 	{
-		ChangeLevelTo("map1.tmx");
+		ChangeLevelTo(level1);
 	}
 	else
 	{
-		ChangeLevelTo("mapping.tmx");
+		ChangeLevelTo(level2);
 	}
 }
 

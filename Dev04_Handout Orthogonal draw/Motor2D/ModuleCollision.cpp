@@ -12,6 +12,7 @@ Collider::Collider(iPoint pos, int w, int h, TAG tag, Color color, j1Player* par
 	rect.y = pos.y;
 	rect.w = w;
 	rect.h = h;
+	enable = true;
 }
 
 bool Collider::CheckColision(const Collider* coll) const

@@ -185,11 +185,11 @@ bool j1Player::Update(float dt)
 
 void j1Player::VerticalMovement()
 {
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) {
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
 		pos.y -= 3;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) {
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 		pos.y += 3;
 	}
 }
@@ -212,12 +212,12 @@ void j1Player::Jump()
 
 void j1Player::Movement()
 {
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 		pos.x -= 3;
 		flip = SDL_FLIP_HORIZONTAL;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT) {
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 		pos.x += 3;
 		flip = SDL_FLIP_NONE;
 	}

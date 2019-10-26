@@ -15,22 +15,22 @@ public:
 	virtual ~j1Scene();
 
 	// Called before render is available
-	bool Awake();
+	bool Awake(pugi::xml_node& config) override;
 
 	// Called before the first frame
-	bool Start();
+	bool Start()override;
 
 	// Called before all Updates
-	bool PreUpdate();
+	bool PreUpdate()override;
 
 	// Called each loop iteration
-	bool Update(float dt);
+	bool Update(float dt)override;
 
 	// Called before all Updates
-	bool PostUpdate();
+	bool PostUpdate()override;
 
 	// Called before quitting
-	bool CleanUp();
+	bool CleanUp()override;
 
 	// Functions to change across levels
 	void StartThisLevel();
@@ -50,6 +50,12 @@ private:
 	bool change_to_level_2			= false;
 	bool start_this_level			= false;
 	bool change_between_levels		= false;
+
+	p2SString level1;
+	p2SString level2;
+
+	float time_in_fade;
+
 };
 
 #endif // __j1SCENE_H__
