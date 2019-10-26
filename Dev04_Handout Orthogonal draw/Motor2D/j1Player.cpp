@@ -310,7 +310,7 @@ bool j1Player::CleanUp()
 	return true;
 }
 
-bool j1Player::Save(pugi::xml_node& save_file) /*const*/
+bool j1Player::Save(pugi::xml_node& save_file) const
 {
 	pugi::xml_node pos_node = save_file.append_child("position");
 	pos_node.append_attribute("x") = pos.x;

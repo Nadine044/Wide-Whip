@@ -13,7 +13,7 @@ public:
 	bool Start() override;
 	bool Update(float dt) override;
 	bool PostUpdate() override;
-	bool Save(pugi::xml_node&) /*const*/  override;
+	bool Save(pugi::xml_node&) const  override;
 	bool Load(pugi::xml_node&) override;
 	bool FadeToBlack(bool& active, float time = 1.0f);
 	bool IsFading() const;

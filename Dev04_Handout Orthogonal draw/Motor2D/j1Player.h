@@ -49,7 +49,7 @@ public:
 	// Called before quitting
 	bool CleanUp() override;
 
-	bool Save(pugi::xml_node&) /*const*/  override;
+	bool Save(pugi::xml_node&) const  override;
 
 	bool Load(pugi::xml_node&) override;
 

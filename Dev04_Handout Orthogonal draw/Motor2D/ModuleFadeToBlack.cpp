@@ -88,7 +88,7 @@ bool ModuleFadeToBlack::PostUpdate()
 	return true;
 }
 
-bool ModuleFadeToBlack::Save(pugi::xml_node &save_file) 
+bool ModuleFadeToBlack::Save(pugi::xml_node &save_file) const
 {
 	save_file.append_child("total_time").append_attribute("value") = total_time;
 	save_file.append_child("now").append_attribute("value") = now;
