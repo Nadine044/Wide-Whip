@@ -68,13 +68,13 @@ public:
 
 	//New player
 
-	Animation*	currentAnimation = nullptr;
+	Animation*		currentAnimation = nullptr;
 
-	Animation	jump;
-	Animation	idle;
+	Animation		jump;
+	Animation		idle;
 
-	iPoint pos;
-	Collider* col;
+	iPoint			pos;
+	Collider*		col;
 
 	
 	
@@ -106,14 +106,15 @@ private:
 	SDL_Rect			rect_limit_camera;
 	int					rect_limit_camera_border_x		= 0;
 	int					rect_limit_camera_border_y		= 0;
+	int					map_left_offset					= 0;
 
 	uint				jump_force						= 0u;
 	float				velocity						= 0.0f;
 	float				gravity							= 0.f;
 
-	int dash_force = 15;
-	float velocity_dash = 0.0f;
-	float resistance_dash = 0.5f;
+	int					dash_force						= 0;
+	float				velocity_dash					= 0.0f;
+	float				resistance_dash					= 0.0f;
 
 	int					speed							= 0;
 

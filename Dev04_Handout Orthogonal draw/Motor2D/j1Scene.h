@@ -66,17 +66,17 @@ private:
 private:
 
 
-	bool change_to_level_1			= false;
-	bool change_to_level_2			= false;
-	bool start_this_level			= false;
-	bool change_between_levels		= false;
+	bool				change_to_level_1		= false;
+	bool				change_to_level_2		= false;
+	bool				change_between_levels	= false;
+	bool				start_this_level		= false;
 
-	p2SString level1;
-	p2SString level2;
+	p2SString			level1;
+	p2SString			level2;
 
 	p2SString			map_name_loaded;
 
-	float time_in_fade;
+	float				time_in_fade;
 
 };
 

@@ -25,23 +25,28 @@ bool j1Player::Awake(pugi::xml_node& config)
 	LOG("Loading Player Parser");
 	bool ret = true;
 
-	pugi::xml_node time_in_fade_node = config.child("time_fade");	
-	time_to_do_fade_to_black = (Uint32)(time_in_fade_node.attribute("time_to_do_fade_to_black").as_float() * 1000.0f);
-	time_to_jump = (Uint32)(time_in_fade_node.attribute("time_to_jump").as_float() * 1000.0f);
-	time_in_fade = time_in_fade_node.attribute("time_in_fade").as_float();
+	pugi::xml_node time_in_fade_node	= config.child("time_fade");	
+	time_to_do_fade_to_black			= (Uint32)(time_in_fade_node.attribute("time_to_do_fade_to_black").as_float() * 1000.0f);
+	time_to_jump						= (Uint32)(time_in_fade_node.attribute("time_to_jump").as_float() * 1000.0f);
+	time_in_fade						= time_in_fade_node.attribute("time_in_fade").as_float();
 
-	pugi::xml_node rect_limit = config.child("rect_limit_camera_border");
-	rect_limit_camera_border_x = rect_limit.attribute("x").as_int();
-	rect_limit_camera_border_y = rect_limit.attribute("y").as_int();
-	rect_limit_camera.w = rect_limit.attribute("w").as_float();
-	rect_limit_camera.h = rect_limit.attribute("h").as_float();
+	pugi::xml_node rect_limit			= config.child("rect_limit_camera_border");
+	rect_limit_camera_border_x			= rect_limit.attribute("x").as_int();
+	rect_limit_camera_border_y			= rect_limit.attribute("y").as_int();
+	rect_limit_camera.w					= rect_limit.attribute("w").as_float();
+	rect_limit_camera.h					= rect_limit.attribute("h").as_float();
+	
+	map_left_offset						= config.child("map_left_offset_x").attribute("value").as_int();
 
-	jump_force = config.child("jump_force").attribute("value").as_uint();
-	gravity = config.child("gravity").attribute("value").as_float();
+	jump_force							= config.child("jump_force").attribute("value").as_uint();
+	gravity								= config.child("gravity").attribute("value").as_float();
 
-	speed = config.child("speed").attribute("value").as_int();
+	dash_force							= config.child("dash_force").attribute("value").as_int();
+	resistance_dash						= config.child("resistance_dash").attribute("value").as_float();
 
-	text_path = config.child_value("texture");
+	speed								= config.child("speed").attribute("value").as_int();
+
+	text_path							= config.child_value("texture");
 
 
 	idle.PushBack({ 0, 67, 47, 61 });
@@ -95,7 +100,7 @@ bool j1Player::Start()
 
 void j1Player::UpdateCameraPos()
 {
-	if (pos.x > MAP_LEFT_OFFSET_X)//final map offset
+	if (pos.x > map_left_offset)//final map offset
 	{
 		if (pos.x < rect_limit_camera.x)
 		{

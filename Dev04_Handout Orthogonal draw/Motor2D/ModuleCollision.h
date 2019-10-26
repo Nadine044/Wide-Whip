@@ -35,20 +35,21 @@ class Collider
 {
 
 public:
-	SDL_Rect	rect;
-	TAG			tag;
-	bool		dynamic = false;
-	j1Player*	object; //will be replace by object when we have entity manager.
-	bool first_time_collision = false;
+	SDL_Rect		rect;
+	TAG				tag;
+	bool			dynamic = false;
+	j1Player*		object; //will be replace by object when we have entity manager.
+	bool			first_time_collision = false;
 	
 
-	DISTANCE_DIR last_colision_direction = DISTANCE_DIR::NONE;
+	DISTANCE_DIR	last_colision_direction = DISTANCE_DIR::NONE;
 
 private:
-	bool to_delete = false;
-	bool enable = false;
 
-	Color color;
+	bool			to_delete = false;
+	bool			enable = false;
+
+	Color			color;
 
 public:
 	Collider(iPoint, int, int, TAG, Color, j1Player*, bool);
@@ -108,17 +109,14 @@ public:
 
 private:
 
-	p2List<Collider*> colliders_static_list;
+	p2List<Collider*>	colliders_static_list;
+	p2List<Collider*>	colliders_dynamic_list;
 
-	p2List<Collider*> colliders_dynamic_list;
+	bool				trigger_matrix[(int)TAG::MAX][(int)TAG::MAX];
+	bool				physics_matrix[(int)TAG::MAX][(int)TAG::MAX];
 
-	bool trigger_matrix[(int)TAG::MAX][(int)TAG::MAX];
-
-	bool physics_matrix[(int)TAG::MAX][(int)TAG::MAX];
-
-	bool debug = false;
-
-	Uint8				alpha_debug = 0u;
+	bool				debug			= false;
+	Uint8				alpha_debug		= 0u;
 
 private:
 
