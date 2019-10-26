@@ -26,19 +26,22 @@ public:
 	// Called each loop iteration
 	bool Update(float dt);
 
-	void CheckLevelChange();
+	// Called before all Updates
+	bool PostUpdate();
 
+	// Called before quitting
+	bool CleanUp();
+
+	// Functions to change across levels
 	void StartThisLevel();
 
 	void ChangeBetweenLevel();
 
 	void ChangeLevelTo(const p2SString level);
 
-	// Called before all Updates
-	bool PostUpdate();
 
-	// Called before quitting
-	bool CleanUp();
+private:
+	void CheckLevelChange();
 
 private:
 

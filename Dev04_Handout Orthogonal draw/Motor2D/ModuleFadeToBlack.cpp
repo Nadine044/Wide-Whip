@@ -91,7 +91,7 @@ bool ModuleFadeToBlack::FadeToBlack(bool &active, float time)
 {
 	bool ret = false;
 
-	if(current_step == fade_step::none)
+	if(current_step == fade_step::none || current_step == fade_step::fade_from_black)
 	{
 		current_step = fade_step::fade_to_black;
 		start_time = SDL_GetTicks();

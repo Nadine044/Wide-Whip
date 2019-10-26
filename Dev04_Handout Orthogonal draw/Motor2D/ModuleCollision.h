@@ -14,6 +14,7 @@ enum class TAG : uint
 	NONE = 0,
 	WALL,
 	PLATFORM,
+	WATER,
 	PLAYER,
 	MAX
 

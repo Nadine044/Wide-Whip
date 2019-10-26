@@ -8,6 +8,8 @@
 #include "j1Player.h"
 #include "ModuleCollision.h"
 #include <math.h>
+#include "ModuleFadeToBlack.h"
+#include "j1Scene.h"
 
 j1Player::j1Player() : j1Module()
 {
@@ -37,6 +39,8 @@ bool j1Player::Awake(pugi::xml_node& config)
 	jump.loop = true;
 	jump.speed = 0.1;
 
+	Utime_to_do_fade_to_black = (Uint32)(time_to_do_fade_to_black * 0.5f * 1000.0f);
+	Utime_to_jump = (Uint32)(time_to_jump * 0.5f * 1000.0f);
 	return ret;
 }
 
@@ -48,18 +52,19 @@ bool j1Player::Start()
 	pos.x = col->rect.x;
 	pos.y = col->rect.y;	
 
-	UpdateCameraPos();
-
-	App->player->Load("XMLs/player.xml");
+	//App->player->Load("XMLs/player.xml");
 	text = App->tex->Load("player/player.png");
 	text2 = App->tex->Load("player/jump.png");
 
+	flip = SDL_FLIP_NONE;
 
 
-	rect_limit_camera.x = App->render->camera.x + rect_limit_camera_border_x;
-	rect_limit_camera.y = App->render->camera.y + rect_limit_camera_border_y;
+	rect_limit_camera.x = -App->render->camera.x + rect_limit_camera_border_x;
+	rect_limit_camera.y = -App->render->camera.y + rect_limit_camera_border_y;
 	rect_limit_camera.w = 450;
 	rect_limit_camera.h = 500;
+
+	UpdateCameraPos();
 
 	return ret;
 }
@@ -76,8 +81,6 @@ void j1Player::UpdateCameraPos()
 		{
 			App->render->camera.x = -(pos.x + col->rect.w -rect_limit_camera.w - rect_limit_camera_border_x);
 		}
-		//App->render->camera.x = -pos.x + MAP_LEFT_OFFSET_X;
-
 	}
 
 	if (pos.y < rect_limit_camera.y)
@@ -88,19 +91,80 @@ void j1Player::UpdateCameraPos()
 	{
 		App->render->camera.y = -(pos.y + col->rect.h - rect_limit_camera.h - rect_limit_camera_border_y);
 	}
-	//App->render->camera.y = -pos.y + CAMERA_OFFSET_Y;	
+	
+	rect_limit_camera.x = -App->render->camera.x + rect_limit_camera_border_x;
+	rect_limit_camera.y = -App->render->camera.y + rect_limit_camera_border_y;
 }
 
 bool j1Player::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) {
-		pos.y -= 3;
+	
+	switch (state)
+	{
+	case PLAYER_STATE::LIVE:
+
+		Movement();
+
+		Jump();
+
+		Gravity();
+
+		UpdateCameraPos();
+
+		break;
+	case PLAYER_STATE::DEAD:
+		if (SDL_GetTicks() - start_time >= Utime_to_jump && !dead_jumping)
+		{
+			velocity = jump_force;
+			dead_jumping = true;
+			start_time = SDL_GetTicks();
+		}
+
+		if (dead_jumping)
+		{
+			Gravity();
+			if (SDL_GetTicks() - start_time >= Utime_to_do_fade_to_black)
+			{
+				App->fade_to_black->FadeToBlack(revive, 2.f);
+			}
+		}
+
+		if (revive)
+		{
+			Revive();
+		}
+
+		break;
+	case PLAYER_STATE::GOD:
+		break;
+	case PLAYER_STATE::UNKNOWN:
+		LOG("This state is Unknown! check the current state and change it");
+		break;
+	default:
+		break;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) {
-		pos.y += 3;
-	}
+	col->UpdatePos(pos);
+	return true;
+}
 
+void j1Player::Gravity()
+{
+	velocity -= gravity;
+	pos.y += -velocity;
+}
+
+void j1Player::Jump()
+{
+	// Jump-----------------
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+		velocity = jump_force;
+	}
+}
+
+void j1Player::Movement()
+{
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 		pos.x -= 3;
 		flip = SDL_FLIP_HORIZONTAL;
@@ -110,39 +174,28 @@ bool j1Player::Update(float dt)
 		pos.x += 3;
 		flip = SDL_FLIP_NONE;
 	}
+}
 
-
-	// Jump-----------------
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-	{
-		velocity = jump_force;
-	}	
-
-
- 	velocity -= gravity;
-	pos.y += -velocity;
-
-	col->UpdatePos(pos);
-
-	UpdateCameraPos();
-
-	rect_limit_camera.x = -App->render->camera.x + rect_limit_camera_border_x;
-	rect_limit_camera.y = -App->render->camera.y + rect_limit_camera_border_y;
-	
-	return true;
+void j1Player::Revive()
+{
+	state = PLAYER_STATE::LIVE;
+	App->scene->StartThisLevel();
 }
 
 bool j1Player::PostUpdate()
 {
 	//MYTODO
 	Draw();
-	//App->render->DrawQuad(rect_limit_camera, 0, 0, 100, 100);
+	App->render->DrawQuad(rect_limit_camera, 0, 0, 100, 100);
 	return true;
 }
 
 void j1Player::OnTrigger(Collider* col2)
 {
-	col->Disable();
+	if (col2->tag == TAG::WATER)
+	{
+		Death();
+	}
 	//Acces to the other colldier when a collision is checked.
 	//Do Something when a collisions is checked.
 	LOG("it's this a collision!");
@@ -151,6 +204,14 @@ void j1Player::OnTrigger(Collider* col2)
 		velocity = 0.0f;
 	}
 
+}
+
+void j1Player::Death()
+{
+	col->Disable();
+	state = PLAYER_STATE::DEAD;	
+	start_time = SDL_GetTicks();
+	dead_jumping = false;
 }
 
 
@@ -201,19 +262,6 @@ bool j1Player::LoadPlayer()
 	}
 
 	p2SString player_state(player.child("state").attribute("state").as_string());
-
-	if (player_state == "AIR")
-	{
-		data.state = AIR;
-	}
-	else if (player_state == "LAND")
-	{
-		data.state = LAND;
-	}
-	else
-	{
-		data.state = UNKNOWN;
-	}
 
 	return ret;
 
