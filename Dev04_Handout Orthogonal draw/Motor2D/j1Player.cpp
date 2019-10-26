@@ -13,6 +13,7 @@
 
 j1Player::j1Player() : j1Module()
 {
+	name.create("player");
 }
 
 //Destructor
@@ -24,23 +25,46 @@ bool j1Player::Awake(pugi::xml_node& config)
 	LOG("Loading Player Parser");
 	bool ret = true;
 
-	//MYTODO
-	folder.create(config.child("folder").child_value());
+	pugi::xml_node time_in_fade_node = config.child("time_fade");	
+	time_to_do_fade_to_black = (Uint32)(time_in_fade_node.attribute("time_to_do_fade_to_black").as_float() * 1000.0f);
+	time_to_jump = (Uint32)(time_in_fade_node.attribute("time_to_jump").as_float() * 1000.0f);
+	time_in_fade = time_in_fade_node.attribute("time_in_fade").as_float();
 
-	jump.PushBack({ 0, 0, 32, 32 });
-	jump.PushBack({ 32, 0, 32, 32 });
-	jump.PushBack({ 64, 0, 32, 32 });
-	jump.PushBack({ 96, 0, 32, 32 });
-	jump.PushBack({ 128, 0, 32, 32 });
-	jump.PushBack({ 160, 0, 32, 32 });
-	jump.PushBack({ 192, 0, 32, 32 });
-	jump.PushBack({ 224, 0, 32, 32 }); //don't work well
+	pugi::xml_node rect_limit = config.child("rect_limit_camera_border");
+	rect_limit_camera_border_x = rect_limit.attribute("x").as_int();
+	rect_limit_camera_border_y = rect_limit.attribute("y").as_int();
+	rect_limit_camera.w = rect_limit.attribute("w").as_float();
+	rect_limit_camera.h = rect_limit.attribute("h").as_float();
 
-	jump.loop = true;
+	jump_force = config.child("jump_force").attribute("value").as_uint();
+	gravity = config.child("gravity").attribute("value").as_float();
+
+	speed = config.child("speed").attribute("value").as_int();
+
+	text_path = config.child_value("texture");
+
+
+	idle.PushBack({ 0, 67, 47, 61 });
+	idle.PushBack({ 72, 67, 47, 61 });
+	idle.PushBack({ 144, 67, 48, 61 });
+	idle.PushBack({ 216, 67, 50, 61 });
+
+	idle.loop = true;
+	idle.speed = 0.2;
+
+	//jump.PushBack({ 0, 0, 47, 67 });
+	//jump.PushBack({ 70, 0, 51, 67 });
+	//jump.PushBack({ 141, 0, 54, 67 });
+	jump.PushBack({ 215, 0, 47, 67 });
+	jump.PushBack({ 287, 0, 47, 67 });
+	jump.PushBack({ 357, 0, 51, 67 });
+	//jump.PushBack({ 430, 0, 52, 67 });
+	//jump.PushBack({ 502, 0, 47, 67 });
+
+	jump.loop = false;
 	jump.speed = 0.1;
 
-	Utime_to_do_fade_to_black = (Uint32)(time_to_do_fade_to_black * 0.5f * 1000.0f);
-	Utime_to_jump = (Uint32)(time_to_jump * 0.5f * 1000.0f);
+
 	return ret;
 }
 
@@ -53,16 +77,16 @@ bool j1Player::Start()
 	pos.y = col->rect.y;	
 
 	//App->player->Load("XMLs/player.xml");
-	text = App->tex->Load("player/player.png");
-	text2 = App->tex->Load("player/jump.png");
+	text = App->tex->Load(text_path.GetString());
 
 	flip = SDL_FLIP_NONE;
 
+	currentAnimation = &idle;
+	start_time = 0u;
 
 	rect_limit_camera.x = -App->render->camera.x + rect_limit_camera_border_x;
 	rect_limit_camera.y = -App->render->camera.y + rect_limit_camera_border_y;
-	rect_limit_camera.w = 450;
-	rect_limit_camera.h = 400;
+
 
 	UpdateCameraPos();
 
@@ -98,21 +122,6 @@ void j1Player::UpdateCameraPos()
 
 bool j1Player::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
-	{
-		if (state == PLAYER_STATE::LIVE)
-		{
-			state = PLAYER_STATE::GOD;
-			velocity = 0.f;
-			col->Disable();
-		}
-		else if(state == PLAYER_STATE::GOD)
-		{
-			state = PLAYER_STATE::LIVE;
-			col->Enable();
-		}
-	}
-
 
 	switch (state)
 	{
@@ -126,9 +135,11 @@ bool j1Player::Update(float dt)
 
 		UpdateCameraPos();
 
+		
+
 		break;
 	case PLAYER_STATE::DEAD:
-		if (SDL_GetTicks() - start_time >= Utime_to_jump && !dead_jumping)
+		if (SDL_GetTicks() - start_time >= time_to_jump && !dead_jumping)
 		{
 			velocity = jump_force;
 			dead_jumping = true;
@@ -138,9 +149,9 @@ bool j1Player::Update(float dt)
 		if (dead_jumping)
 		{
 			Gravity();
-			if (SDL_GetTicks() - start_time >= Utime_to_do_fade_to_black)
+			if (SDL_GetTicks() - start_time >= time_to_do_fade_to_black)
 			{
-				App->fade_to_black->FadeToBlack(revive, 2.f);
+				App->fade_to_black->FadeToBlack(revive, time_in_fade);
 			}
 		}
 
@@ -165,19 +176,40 @@ bool j1Player::Update(float dt)
 	default:
 		break;
 	}
-
+	CheckDebugKeys();
 	col->UpdatePos(pos);
 	return true;
 }
 
-void j1Player::VerticalMovement()
+void j1Player::CheckDebugKeys()
 {
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) {
-		pos.y -= 3;
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	{
+		if (state == PLAYER_STATE::LIVE)
+		{
+			state = PLAYER_STATE::GOD;
+			velocity = 0.f;
+			col->Disable();
+		}
+		else if (state == PLAYER_STATE::GOD)
+		{
+			state = PLAYER_STATE::LIVE;
+			col->Enable();
+		}
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) {
-		pos.y += 3;
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		draw_debug = !draw_debug;
+}
+
+void j1Player::VerticalMovement()
+{
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+		pos.y -= speed;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
+		pos.y += speed;
 	}
 }
 
@@ -192,19 +224,20 @@ void j1Player::Jump()
 	// Jump-----------------
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
+		currentAnimation = &jump;
 		velocity = jump_force;
 	}
 }
 
 void j1Player::Movement()
 {
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		pos.x -= 3;
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+		pos.x -= speed;
 		flip = SDL_FLIP_HORIZONTAL;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT) {
-		pos.x += 3;
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+		pos.x += speed;
 		flip = SDL_FLIP_NONE;
 	}
 }
@@ -219,7 +252,10 @@ bool j1Player::PostUpdate()
 {
 	//MYTODO
 	Draw();
-	App->render->DrawQuad(rect_limit_camera, 0, 0, 100, 100);
+	if (draw_debug)
+	{
+		App->render->DrawQuad(rect_limit_camera, White.r, White.g, White.b, App->collisions->GetAlphaDebug());
+	}
 	return true;
 }
 
@@ -235,6 +271,8 @@ void j1Player::OnTrigger(Collider* col2)
 	if (col->last_colision_direction == DISTANCE_DIR::UP && velocity <= 0.0f)
 	{
 		velocity = 0.0f;
+		jump.Reset();
+		currentAnimation = &idle;
 	}
 
 }
@@ -247,80 +285,25 @@ void j1Player::Death()
 	dead_jumping = false;
 }
 
-
-
-bool j1Player::Load(const char* file)
-{
-	bool ret = true;
-	p2SString tmp("%s%s", folder.GetString(), file);
-
-	pugi::xml_parse_result result = player_file.load_file(tmp.GetString());
-
-	if (result == NULL)
-	{
-		LOG("Could not load player xml file %s. pugi error: %s", file, result.description());
-		ret = false;
-	}
-
-	//Load general info ---------------------------------
-	if (ret == true)
-	{
-		ret = LoadPlayer();
-	}
-
-	player_loaded = ret;
-
-	return ret;
-}
-
-bool j1Player::LoadPlayer()
-{
-	bool ret = true;
-	pugi::xml_node player = player_file.child("player");
-
-	if (player == NULL)
-	{
-		LOG("Error parsing player xml file: Cannot find 'player' tag.");
-		ret = false;
-	}
-	else
-	{
-		data.position_x = player.child("position").attribute("x").as_float();
-		data.position_y = player.child("position").attribute("y").as_float();
-		data.speed_x = player.child("speed").attribute("x").as_float();
-		data.speed_y = player.child("speed").attribute("y").as_float();
-		data.acceleration = player.child("acceleration").attribute("a").as_float();
-		data.image = player.child("spritesheet").attribute("source").as_string();
-		//Load animation info MYTODO
-	}
-
-	p2SString player_state(player.child("state").attribute("state").as_string());
-
-	return ret;
-
-}
-
 bool j1Player::Draw()
 {
 	//Animation MYTODO
-	//----------------------
+	//----------------------	
+	
+		//currentAnimation = &idle;
+	App->render->Blit(text, pos.x, pos.y, &(currentAnimation->GetCurrentFrame()), 1.0f, flip);
+	
 
-	SDL_Rect rect2 = { 0, 0, 32, 32 };	
-
-	SDL_Rect r = SDL_Rect{ 0,0,32,32 };
-	App->render->Blit(text, pos.x, pos.y, &(jump.GetCurrentFrame()), 1.0f, flip);
-
-	App->render->Blit(text2, pos.x + 32, pos.y, &(jump.GetCurrentFrame()), 1.0f, flip);
+	//App->render->Blit(text2, pos.x, pos.y, &(jump.GetCurrentFrame()), 1.0f, flip);
+	//App->render->Blit(text, pos.x, pos.y, &(idle.GetCurrentFrame()), 1.0f, flip);
 
 	return true;
 }
 
 bool j1Player::CleanUp()
 {
-	//MYTODO
 	LOG("Player unloaded");
 	App->tex->UnLoad(text);
-	App->tex->UnLoad(text2);
 	return true;
 }
 
@@ -328,3 +311,4 @@ float j1Player::GetVelocity() const
 {
 	return velocity;
 }
+

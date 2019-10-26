@@ -118,7 +118,6 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\XMLs\config.xml" />
-    <Xml Include="..\Game\XMLs\player.xml" />
     <Xml Include="..\Game\XMLs\save_game.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

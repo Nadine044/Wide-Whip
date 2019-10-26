@@ -25,16 +25,6 @@ enum class PLAYER_STATE
 	UNKNOWN
 };
 
-struct PlayerData
-{
-
-	float			position_x, position_y;
-	float			speed_x, speed_y;
-	float			acceleration;
-	const char*		image;
-	//animations attributes load MYTODO
-
-};
 
 
 class j1Player : public j1Module
@@ -59,6 +49,8 @@ public:
 
 	bool Update(float dt) override;
 
+	void CheckDebugKeys();
+
 	void VerticalMovement();
 
 	void Gravity();
@@ -74,9 +66,6 @@ public:
 	// Called before quitting
 	bool CleanUp() override;
 
-	//Load player file
-	bool Load(const char* path);
-
 	void OnTrigger(Collider* col2); // this will be virtual in the class object parent when ObjectManager will be created.
 
 	float GetVelocity() const;
@@ -86,58 +75,51 @@ public:
 	//Animations
 
 	//New player
-	PlayerData	data;
 
-	//Animation*	currentAnimation = nullptr;
+	Animation*	currentAnimation = nullptr;
 
-	//Animation	idle;
 	Animation	jump;
+	Animation	idle;
 
 	iPoint pos;
-
 	Collider* col;
 
-	SDL_RendererFlip flip = SDL_FLIP_NONE;
+	
 
 
 private:
-
-	bool LoadPlayer();
 
 	void Death();
 
 private:
 
-	pugi::xml_document	player_file;
-	p2SString			folder;
-	bool				player_loaded;
+	SDL_Texture*		text							= nullptr;
+	p2SString			text_path;
 
-	SDL_Texture* text = nullptr;
-	SDL_Texture* text2 = nullptr;
+	SDL_Rect			rect_limit_camera;
+	int					rect_limit_camera_border_x		= 0;
+	int					rect_limit_camera_border_y		= 0;
 
-	SDL_Rect rect_limit_camera;
-	int rect_limit_camera_border_x = 100;
-	int rect_limit_camera_border_y = 150;
+	uint				jump_force						= 0u;
+	float				velocity						= 0.0f;
+	float				gravity							= 0.f;
 
+	int					speed							= 0;
 
-	uint jump_force = 10;
-	float velocity = 0.0f;
-	float gravity = 0.3f;
+	bool				revive							= false;
+	bool				dead_jumping					= false;
 
-	bool jumping = false;
-
-	bool revive = false;
+	bool				draw_debug						= false;
 
 	PLAYER_STATE		state;
 
-	Uint32 start_time = 0u;
-	float time_to_jump = 1.f;
-	float time_to_do_fade_to_black = 2.f;
+	Uint32				start_time						= 0u;
+	Uint32				time_to_jump					= 0u;
+	Uint32				time_to_do_fade_to_black		= 0u;
+	float				time_in_fade					= 0.0f;
 
-	Uint32 Utime_to_jump = 1.f;
-	Uint32 Utime_to_do_fade_to_black = 2.f;
+	SDL_RendererFlip	flip							= SDL_FLIP_NONE;
 
-	bool dead_jumping = false;
 
 };
 
