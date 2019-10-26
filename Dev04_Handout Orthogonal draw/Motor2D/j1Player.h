@@ -21,6 +21,7 @@ enum class PLAYER_STATE
 {
 	LIVE = 0,
 	DASHING,
+	CLINGING,
 	DEAD,
 	GOD,
 	UNKNOWN
@@ -116,6 +117,13 @@ private:
 	float				velocity_dash					= 0.0f;
 	float				resistance_dash					= 0.0f;
 
+	float				jump_clinged_force_left			= 0;
+	float				jump_clinged_force_right		= 0;
+	float				velocity_jump_clinged			= 0.0f;
+	float				resistance_jump_clinged			= 0.0f;
+
+	bool				jump_h_right = false;
+
 	int					speed							= 0;
 
 	
@@ -126,6 +134,7 @@ private:
 
 	bool				jumped							= false;
 	bool				dashed							= false;
+	bool				clinging						= false;
 
 	PLAYER_STATE		state;
 
