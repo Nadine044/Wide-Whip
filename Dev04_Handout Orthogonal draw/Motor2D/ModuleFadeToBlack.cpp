@@ -45,25 +45,28 @@ bool ModuleFadeToBlack::Update(float dt)
 			{
 				//total_time += total_time;
 				start_time = SDL_GetTicks();
-				current_step = fade_step::fade_from_black;
-				to_load = true;
+				current_step = fade_step::changing_mode;
+				*to_active = true;
 			}
 		} break;
 
+		case fade_step::changing_mode:
+		{
+			*to_active = false;
+			current_step = fade_step::fade_from_black;
+		}
 		case fade_step::fade_from_black:
 		{
-			if (!to_load)
-			{
-				normalized = 1.0f - normalized;
 
-				if (now >= total_time)
-					current_step = fade_step::none;
-			}
-			else
+
+			normalized = 1.0f - normalized;
+
+			if (now >= total_time)
 			{
-				start_time = SDL_GetTicks();
-				normalized = 1.f;
+				current_step = fade_step::none;
+				to_active = nullptr;
 			}
+
 		} break;
 	}
 
@@ -75,7 +78,7 @@ bool ModuleFadeToBlack::Update(float dt)
 }
 
 // Fade to black. At mid point deactivate one module, then activate the other
-bool ModuleFadeToBlack::FadeToBlack(float time)
+bool ModuleFadeToBlack::FadeToBlack(bool &active, float time)
 {
 	bool ret = false;
 
@@ -84,7 +87,7 @@ bool ModuleFadeToBlack::FadeToBlack(float time)
 		current_step = fade_step::fade_to_black;
 		start_time = SDL_GetTicks();
 		total_time = (Uint32)(time * 0.5f * 1000.0f);
-		to_load = false;
+		to_active = &active;
 		ret = true;
 	}
 

@@ -67,63 +67,113 @@ bool j1Scene::Update(float dt)
 
 
 
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-	{
-		App->fade_to_black->FadeToBlack(2.f);	
-	}
+	CheckLevelChange();
 
-	//if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
-	//{
-	//	App->map->CleanUp();
-	//	App->collisions->CleanUp();
-	//	App->player->CleanUp();
-	//	App->map->Load("mapping.tmx");
-	//	App->player->Start();
-	//}
-
-	if (App->fade_to_black->to_load)
-	{
-		
-		App->map->CleanUp();
-		App->collisions->CleanUp();
-		App->player->CleanUp();
-
-		if (App->map->GetMapNameLoaded() == "mapping.tmx")
-		{
-			App->map->Load("map1.tmx");
-		}
-		else
-		{
-			App->map->Load("mapping.tmx");
-		}
 	
-		App->player->Start();
-
-		App->fade_to_black->to_load = false;
-	}
 
 
 	//App->render->Blit(img, 0, 0);
-	App->map->Draw();
+	App->map->Draw(); // to map update
 
-	//Draw player MYTODO
-	iPoint mouse_pos;
-	
-	App->input->GetMousePosition(mouse_pos.x, mouse_pos.y);
+	////Draw player MYTODO
+	//iPoint mouse_pos;
+	//
+	//App->input->GetMousePosition(mouse_pos.x, mouse_pos.y);
 
-	mouse_pos.x -= App->render->camera.x;
-	mouse_pos.y -= App->render->camera.y;
-	iPoint tile_on_mouse = App->map->WorldToMap(mouse_pos);
+	//mouse_pos.x -= App->render->camera.x;
+	//mouse_pos.y -= App->render->camera.y;
+	//iPoint tile_on_mouse = App->map->WorldToMap(mouse_pos);
 
-	p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d Tile:(%d,%d)",
-					App->map->data.width, App->map->data.height,
-					App->map->data.tile_width, App->map->data.tile_height,
-					App->map->data.tilesets.count(),
-					tile_on_mouse.x,
-					tile_on_mouse.y);
+	//p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d Tile:(%d,%d)",
+	//				App->map->data.width, App->map->data.height,
+	//				App->map->data.tile_width, App->map->data.tile_height,
+	//				App->map->data.tilesets.count(),
+	//				tile_on_mouse.x,
+	//				tile_on_mouse.y);
 
-	App->win->SetTitle(title.GetString());
+	//App->win->SetTitle(title.GetString());
 	return true;
+}
+
+void j1Scene::CheckLevelChange()
+{
+	
+	// Check inputs to change the level
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	{
+		App->fade_to_black->FadeToBlack(change_to_level_1, 2.f);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	{
+		App->fade_to_black->FadeToBlack(change_to_level_2, 2.f);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
+	{
+		App->fade_to_black->FadeToBlack(start_this_level, 2.f);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
+	{
+		App->fade_to_black->FadeToBlack(change_between_levels, 2.f);
+	}
+
+
+	// Change level if is set to change.
+	if (change_to_level_1)
+	{
+		ChangeLevelTo("map1.tmx");
+	}
+
+	if (change_to_level_2)
+	{
+		ChangeLevelTo("mapping.tmx");
+	}
+
+	if (start_this_level)
+	{
+		StartThisLevel();
+	}
+
+	if (change_between_levels)
+	{
+		ChangeBetweenLevel();
+	}
+}
+
+void j1Scene::StartThisLevel()
+{
+	if (App->map->GetMapNameLoaded() == "mapping.tmx")
+	{
+		ChangeLevelTo("mapping.tmx");
+	}
+	else
+	{
+		ChangeLevelTo("map1.tmx");
+	}
+}
+
+void j1Scene::ChangeBetweenLevel()
+{
+	if (App->map->GetMapNameLoaded() == "mapping.tmx")
+	{
+		ChangeLevelTo("map1.tmx");
+	}
+	else
+	{
+		ChangeLevelTo("mapping.tmx");
+	}
+}
+
+void j1Scene::ChangeLevelTo(const p2SString level)
+{
+	App->map->CleanUp();
+	App->collisions->CleanUp();
+	App->player->CleanUp();
+
+	App->map->Load(level.GetString());
+	App->player->Start();
 }
 
 // Called each loop iteration
