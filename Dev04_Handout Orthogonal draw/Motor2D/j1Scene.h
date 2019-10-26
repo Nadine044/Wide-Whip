@@ -34,7 +34,7 @@ public:
 	// Called before quitting
 	bool CleanUp()override;
 
-	bool Save(pugi::xml_node&) const  override;
+	bool Save(pugi::xml_node&) /*const*/  override;
 
 	bool Load(pugi::xml_node&) override;
 
@@ -50,6 +50,15 @@ public:
 	void ChangeLevelTo(const p2SString level);
 
 	p2SString GetMapNameLoaded() const;
+
+	
+	bool* GetChangeToLevel1BoolAdress() { return &change_to_level_1; }
+
+	bool* GetChangeToLevel2BoolAdress() { return &change_to_level_2; }
+
+	bool* GetStartThisLevelBoolAdress() { return &start_this_level; }
+
+	bool* GetChangeBetweenLevelsBoolAdress() { return &change_between_levels; }
 
 private:
 	void CheckLevelChange();

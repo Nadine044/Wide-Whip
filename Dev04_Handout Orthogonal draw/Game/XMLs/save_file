@@ -5,11 +5,24 @@
 	<textures />
 	<audio />
 	<map />
-	<scene />
-	<anonymous />
-	<anonymous />
-	<FadeToBlack />
+	<scene>
+		<level_loaded value="map1.tmx" />
+	</scene>
+	<player>
+		<position x="390" y="669" />
+		<velocity value="0" />
+		<state value="0" />
+		<flip value="0" />
+		<collider enabled="true" />
+	</player>
+	<collision />
+	<FadeToBlack>
+		<total_time value="1000" />
+		<now value="767" />
+		<current_step value="1" />
+		<test value="change_to_level_2" />
+	</FadeToBlack>
 	<renderer>
-		<camera x="-894" y="-23" />
+		<camera x="0" y="-190" />
 	</renderer>
 </game_state>

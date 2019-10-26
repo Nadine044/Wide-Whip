@@ -246,6 +246,7 @@ void j1Player::Revive()
 {
 	state = PLAYER_STATE::LIVE;
 	App->scene->StartThisLevel();
+	velocity = 0.0f;
 }
 
 bool j1Player::PostUpdate()
@@ -285,7 +286,7 @@ void j1Player::Death()
 	dead_jumping = false;
 }
 
-bool j1Player::Draw()
+bool j1Player::Draw() const
 {
 	//Animation MYTODO
 	//----------------------	
@@ -304,6 +305,38 @@ bool j1Player::CleanUp()
 {
 	LOG("Player unloaded");
 	App->tex->UnLoad(text);
+	return true;
+}
+
+bool j1Player::Save(pugi::xml_node& save_file) /*const*/
+{
+	pugi::xml_node pos_node = save_file.append_child("position");
+	pos_node.append_attribute("x") = pos.x;
+	pos_node.append_attribute("y") = pos.y;
+
+	save_file.append_child("velocity").append_attribute("value") = GetVelocity();
+	save_file.append_child("state").append_attribute("value") = (int)state;
+
+	save_file.append_child("flip").append_attribute("value") = flip;
+
+	save_file.append_child("collider").append_attribute("enabled") = col->IsEnabled();
+
+	return true;
+}
+
+bool j1Player::Load(pugi::xml_node& save_file)
+{
+	pos.x = save_file.child("position").attribute("x").as_int();
+	pos.y = save_file.child("position").attribute("y").as_int();
+
+	velocity = save_file.child("velocity").attribute("value").as_float();
+	state = PLAYER_STATE(save_file.child("state").attribute("value").as_int());
+
+	flip = (SDL_RendererFlip)save_file.child("flip").attribute("value").as_int();
+
+	save_file.child("collider").attribute("enabled").as_bool() ? col->Enable() : col->Disable();
+
+
 	return true;
 }
 

@@ -39,6 +39,7 @@ bool j1Scene::Awake(pugi::xml_node& config)
 bool j1Scene::Start()
 {
 	App->map->Load(level2.GetString());
+	map_name_loaded = level2;
 	
 	return true;
 }
@@ -190,14 +191,21 @@ p2SString j1Scene::GetMapNameLoaded() const
 	return map_name_loaded;
 }
 
-bool j1Scene::Save(pugi::xml_node& save_file) const
+bool j1Scene::Save(pugi::xml_node& save_file) /*const*/
 {
-	save_file.append_child("");
+	save_file.append_child("level_loaded").append_attribute("value") = GetMapNameLoaded().GetString();
+
 
 	return true;
 }
 
 bool j1Scene::Load(pugi::xml_node& save_file)
 {
+	p2SString level_saved = save_file.child("level_loaded").attribute("value").as_string();
+
+	if (level_saved != GetMapNameLoaded())
+	{
+		ChangeLevelTo(level_saved);
+	}
 	return true;
 }
