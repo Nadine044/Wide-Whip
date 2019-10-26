@@ -3022,7 +3022,7 @@
  </layer>
  <objectgroup id="9" name="Colliders">
   <object id="25" type="WALL" x="0" y="896" width="288" height="32"/>
-  <object id="26" type="PLAYER" x="0" y="736" width="160" height="128"/>
+  <object id="26" type="PLAYER" x="242" y="591" width="160" height="128"/>
   <object id="29" type="WALL" x="256" y="736" width="32" height="160"/>
   <object id="31" type="WALL" x="256" y="736" width="256" height="32"/>
   <object id="33" type="WALL" x="512" y="768" width="224" height="32"/>

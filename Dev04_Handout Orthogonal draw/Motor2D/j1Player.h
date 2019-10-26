@@ -17,17 +17,16 @@
 
 class Collider;
 
-enum PlayerState
+enum class PLAYER_STATE
 {
-	AIR,
-	LAND,
+	LIVE,
+	DEAD,
+	GOD,
 	UNKNOWN
 };
 
 struct PlayerData
 {
-	PlayerState		state;
-
 
 	float			position_x, position_y;
 	float			speed_x, speed_y;
@@ -59,6 +58,16 @@ public:
 	bool Draw();
 
 	bool Update(float dt) override;
+
+	void VerticalMovement();
+
+	void Gravity();
+
+	void Jump();
+
+	void Movement();
+
+	void Revive();
 
 	bool PostUpdate() override;
 
@@ -95,6 +104,7 @@ private:
 
 	bool LoadPlayer();
 
+	void Death();
 
 private:
 
@@ -112,11 +122,22 @@ private:
 
 	uint jump_force = 10;
 	float velocity = 0.0f;
-	float gravity = 0;//= 0.3f;
+	float gravity = 0.3f;
 
 	bool jumping = false;
 
+	bool revive = false;
 
+	PLAYER_STATE		state;
+
+	Uint32 start_time = 0u;
+	float time_to_jump = 1.f;
+	float time_to_do_fade_to_black = 2.f;
+
+	Uint32 Utime_to_jump = 1.f;
+	Uint32 Utime_to_do_fade_to_black = 2.f;
+
+	bool dead_jumping = false;
 
 };
 

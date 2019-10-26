@@ -51,6 +51,7 @@ void j1Map::Draw()
 			}
 		}
 	}
+	//TODO CULLING
 }
 
 bool j1Map::PostUpdate()
@@ -420,6 +421,11 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 		else if (type == "PLATFORM")
 		{
 			Collider* ret = App->collisions->AddCollider(pos, w, h, TAG::PLATFORM, Yellow);
+		}
+
+		else if (type == "WATER")
+		{
+			Collider* ret = App->collisions->AddCollider(pos, w, h, TAG::WATER, Blue);
 		}
 	}
 
