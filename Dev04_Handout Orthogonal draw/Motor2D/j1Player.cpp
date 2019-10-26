@@ -62,7 +62,7 @@ bool j1Player::Start()
 	rect_limit_camera.x = -App->render->camera.x + rect_limit_camera_border_x;
 	rect_limit_camera.y = -App->render->camera.y + rect_limit_camera_border_y;
 	rect_limit_camera.w = 450;
-	rect_limit_camera.h = 500;
+	rect_limit_camera.h = 400;
 
 	UpdateCameraPos();
 

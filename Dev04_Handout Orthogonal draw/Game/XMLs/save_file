@@ -8,7 +8,8 @@
 	<scene />
 	<:anonymous />
 	<:anonymous />
+	<FadeToBlack />
 	<renderer>
-		<camera x="0" y="-249" />
+		<camera x="-894" y="-23" />
 	</renderer>
 </game_state>
