@@ -20,6 +20,7 @@ class Collider;
 enum class PLAYER_STATE
 {
 	LIVE = 0,
+	DASHING,
 	DEAD,
 	GOD,
 	UNKNOWN
@@ -84,7 +85,7 @@ private:
 
 	void Gravity();
 
-	void Jump();
+	void ToAction();
 
 	void Movement();
 
@@ -110,6 +111,10 @@ private:
 	float				velocity						= 0.0f;
 	float				gravity							= 0.f;
 
+	int dash_force = 15;
+	float velocity_dash = 0.0f;
+	float resistance_dash = 0.5f;
+
 	int					speed							= 0;
 
 	
@@ -119,6 +124,7 @@ private:
 	bool				draw_debug						= false;
 
 	bool				jumped							= false;
+	bool				dashed							= false;
 
 	PLAYER_STATE		state;
 

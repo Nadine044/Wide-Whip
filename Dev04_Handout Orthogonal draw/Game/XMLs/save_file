@@ -9,21 +9,21 @@
 		<level_loaded value="mapping.tmx" />
 	</scene>
 	<player>
-		<position x="549" y="1702" />
-		<velocity value="-33" />
+		<position x="856" y="146" />
+		<velocity value="-6" />
 		<state value="1" />
 		<flip value="0" />
-		<collider enabled="false" />
-		<jumped value="true" />
+		<collider enabled="true" />
+		<jumped value="false" />
+		<dashed value="true" />
 	</player>
 	<collision />
 	<FadeToBlack>
-		<total_time value="1000" />
-		<now value="416" />
-		<current_step value="1" />
-		<test value="revive" />
+		<total_time value="0" />
+		<now value="0" />
+		<current_step value="0" />
 	</FadeToBlack>
 	<renderer>
-		<camera x="-49" y="-230" />
+		<camera x="-533" y="40" />
 	</renderer>
 </game_state>
