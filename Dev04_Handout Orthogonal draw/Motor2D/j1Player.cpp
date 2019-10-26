@@ -127,15 +127,37 @@ bool j1Player::Update(float dt)
 	{
 	case PLAYER_STATE::LIVE:
 
-		Movement();
+		ToAction();
 
-		Jump();
+		Movement();
 
 		Gravity();
 
 		UpdateCameraPos();
 
+	
+
+		break;
+	case PLAYER_STATE::DASHING:
+		pos.x += velocity_dash;
+		 
 		
+		 if (flip == SDL_RendererFlip::SDL_FLIP_NONE)
+		 {
+			 velocity_dash -= resistance_dash;
+			 if (velocity_dash <= 0.0f)
+			 {
+				 state = PLAYER_STATE::LIVE;
+			 }
+		 }
+		 else
+		 {
+			 velocity_dash += resistance_dash;
+			 if (velocity_dash >= 0.0f)
+			 {
+				 state = PLAYER_STATE::LIVE;
+			 }
+		 }
 
 		break;
 	case PLAYER_STATE::DEAD:
@@ -219,7 +241,7 @@ void j1Player::Gravity()
 	pos.y += -velocity;
 }
 
-void j1Player::Jump()
+void j1Player::ToAction()
 {
 	// Jump-----------------
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !jumped)
@@ -227,6 +249,15 @@ void j1Player::Jump()
 		currentAnimation = &jump;
 		velocity = jump_force;
 		jumped = true;
+	}
+
+	// Dash----------------
+	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN && !dashed)
+	{
+		velocity = 0.0f;
+		flip == SDL_RendererFlip::SDL_FLIP_NONE ? velocity_dash = dash_force : velocity_dash = -dash_force;
+		state = PLAYER_STATE::DASHING;
+		dashed = true;
 	}
 }
 
@@ -276,6 +307,7 @@ void j1Player::OnTrigger(Collider* col2)
 		jump.Reset();
 		currentAnimation = &idle;
 		jumped = false;
+		dashed = false;
 	}
 
 }
@@ -310,7 +342,7 @@ bool j1Player::CleanUp()
 	return true;
 }
 
-bool j1Player::Save(pugi::xml_node& save_file) /*const*/
+bool j1Player::Save(pugi::xml_node& save_file) const
 {
 	pugi::xml_node pos_node = save_file.append_child("position");
 	pos_node.append_attribute("x") = pos.x;
@@ -324,6 +356,7 @@ bool j1Player::Save(pugi::xml_node& save_file) /*const*/
 	save_file.append_child("collider").append_attribute("enabled") = col->IsEnabled();
 
 	save_file.append_child("jumped").append_attribute("value") = jumped;
+	save_file.append_child("dashed").append_attribute("value") = dashed;
 
 	return true;
 }
@@ -341,6 +374,7 @@ bool j1Player::Load(pugi::xml_node& save_file)
 	save_file.child("collider").attribute("enabled").as_bool() ? col->Enable() : col->Disable();
 
 	jumped = save_file.child("jumped").attribute("value").as_bool();
+	dashed = save_file.child("dashed").attribute("value").as_bool();
 
 	return true;
 }

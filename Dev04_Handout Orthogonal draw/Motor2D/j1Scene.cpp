@@ -191,7 +191,7 @@ p2SString j1Scene::GetMapNameLoaded() const
 	return map_name_loaded;
 }
 
-bool j1Scene::Save(pugi::xml_node& save_file) /*const*/
+bool j1Scene::Save(pugi::xml_node& save_file) const
 {
 	save_file.append_child("level_loaded").append_attribute("value") = GetMapNameLoaded().GetString();
 
