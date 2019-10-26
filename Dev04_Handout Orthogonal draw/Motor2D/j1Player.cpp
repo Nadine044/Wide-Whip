@@ -346,7 +346,6 @@ bool j1Player::Draw()
 
 bool j1Player::CleanUp()
 {
-	//MYTODO
 	LOG("Player unloaded");
 	App->tex->UnLoad(text);
 	return true;

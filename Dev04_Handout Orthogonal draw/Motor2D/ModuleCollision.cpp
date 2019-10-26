@@ -256,7 +256,6 @@ bool ModuleCollision::PostUpdate()
 
 bool ModuleCollision::CleanUp()
 {
-	//TODO nad delete
 	SetAllCollidersToDelete();
 	DeleteCollidersToRemove();
 
