@@ -27,6 +27,7 @@
   <collision>
     <alpha_debug value ="100"/>
   </collision>
+  
   <player>
    <!--  <state state="UNKNOWN"/>                 -->
    <!--  <position x="0" y="0"/>                  -->

@@ -26,6 +26,8 @@ public:
 	// Called each loop iteration
 	bool Update(float dt)override;
 
+	void CheckSaveLoad();
+
 	// Called before all Updates
 	bool PostUpdate()override;
 

@@ -51,17 +51,22 @@ bool j1Scene::PreUpdate()
 
 // Called each loop iteration
 bool j1Scene::Update(float dt)
-{
-	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
-		App->LoadGame();
-
-	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
-		App->SaveGame();
-	   	  
+{   	  
 
 	CheckLevelChange();
 
+	CheckSaveLoad();
+
 	return true;
+}
+
+void j1Scene::CheckSaveLoad()
+{
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+		App->LoadGame();
+
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+		App->SaveGame();
 }
 
 void j1Scene::CheckLevelChange()
