@@ -112,7 +112,7 @@ private:
 
 	uint jump_force = 10;
 	float velocity = 0.0f;
-	float gravity = 0;//= 0.3f;
+	float gravity = 0.3f;
 
 	bool jumping = false;
 

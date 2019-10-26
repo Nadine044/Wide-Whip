@@ -44,6 +44,21 @@ Color Collider::GetColor() const
 {
 	return color;
 }
+
+bool Collider::IsEnabled() const
+{
+	return enable;
+}
+
+void Collider::Enable()
+{
+	enable = true;
+}
+
+void Collider::Disable()
+{
+	enable = false;
+}
 //--------------------MODULE COLLISION---------------------------
 
 Collider* ModuleCollision::AddCollider(iPoint pos, int w, int h, TAG tag, Color color, j1Player* parent, bool dynamic)
@@ -152,33 +167,40 @@ bool ModuleCollision::Update(float dt)
 		for (collider1 = colliders_dynamic_list.start; collider1; collider1 = collider1->next)
 		{
 			collider1->data->last_colision_direction = DISTANCE_DIR::NONE;
-			for (collider2 = colliders_static_list.start; collider2; collider2 = collider2->next)
+			if (collider1->data->IsEnabled())
 			{
-				if (collider1->data->CheckColision(collider2->data))
+				for (collider2 = colliders_static_list.start; collider2; collider2 = collider2->next)
 				{
-					//don't do and don't check OnTrigger in the invers order because this is Dynamic vs Static but in Dynamics vs Dynamics  it's necessary check and do in the invers order too before the overlap.
-					//(it's not necessary do before the overlap because OnTrigger and overlap is doing when a collision is detected. if the collision is detected two times, to OnTrigger and to Overlap separated, it will be important the order. First all OnTrigger in two orders and then the overlap).
-					if (physics_matrix[(uint)collider1->data->tag][(uint)collider2->data->tag])
+					if (collider2->data->IsEnabled())
 					{
-						if (collider2->data->tag == TAG::PLATFORM)
+						if (collider1->data->CheckColision(collider2->data))
 						{
-							collider1->data->last_colision_direction = OverlapPlatform(collider1->data, collider2->data);
+
+							//don't do and don't check OnTrigger in the invers order because this is Dynamic vs Static but in Dynamics vs Dynamics  it's necessary check and do in the invers order too before the overlap.
+							//(it's not necessary do before the overlap because OnTrigger and overlap is doing when a collision is detected. if the collision is detected two times, to OnTrigger and to Overlap separated, it will be important the order. First all OnTrigger in two orders and then the overlap).
+							if (physics_matrix[(uint)collider1->data->tag][(uint)collider2->data->tag])
+							{
+								if (collider2->data->tag == TAG::PLATFORM)
+								{
+									collider1->data->last_colision_direction = OverlapPlatform(collider1->data, collider2->data);
+								}
+								else
+								{
+									collider1->data->last_colision_direction = OverlapDS(collider1->data, collider2->data);
+								}
+								collider2->data->first_time_collision = false;
+							}
+
+							if (trigger_matrix[(uint)collider1->data->tag][(uint)collider2->data->tag])
+								collider1->data->object->OnTrigger(collider2->data);
+
+
 						}
 						else
 						{
-							collider1->data->last_colision_direction = OverlapDS(collider1->data, collider2->data);
+							collider2->data->first_time_collision = true;
 						}
-						collider2->data->first_time_collision = false;
 					}
-
-					if (trigger_matrix[(uint)collider1->data->tag][(uint)collider2->data->tag])
-						collider1->data->object->OnTrigger(collider2->data);
-
-
-				}
-				else
-				{
-					collider2->data->first_time_collision = true;
 				}
 			}
 		}
@@ -195,20 +217,25 @@ bool ModuleCollision::PostUpdate()
 	if (debug)
 	{
 		p2List_item<Collider*>* collider1 = nullptr;
-		p2List_item<Collider*>* collider2 = nullptr;
 
 		//Draw statics colliders
 		for (collider1 = colliders_static_list.start; collider1; collider1 = collider1->next)
 		{
-			Color col_color = collider1->data->GetColor();
-			App->render->DrawQuad(collider1->data->rect, col_color.r, col_color.g, col_color.b, 100u);
+			if (collider1->data->IsEnabled())
+			{
+				Color col_color = collider1->data->GetColor();
+				App->render->DrawQuad(collider1->data->rect, col_color.r, col_color.g, col_color.b, 100u);
+			}
 		}
 
 		//Draw Dynamic colliders
 		for (collider1 = colliders_dynamic_list.start; collider1; collider1 = collider1->next)
 		{
-			Color col_color = collider1->data->GetColor();
-			App->render->DrawQuad(collider1->data->rect, col_color.r, col_color.g, col_color.b, 100u);
+			if (collider1->data->IsEnabled())
+			{
+				Color col_color = collider1->data->GetColor();
+				App->render->DrawQuad(collider1->data->rect, col_color.r, col_color.g, col_color.b, 100u);
+			}
 		}
 	}
 	return true;

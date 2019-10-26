@@ -39,11 +39,13 @@ public:
 	bool		dynamic = false;
 	j1Player*	object; //will be replace by object when we have entity manager.
 	bool first_time_collision = false;
+	
 
 	DISTANCE_DIR last_colision_direction = DISTANCE_DIR::NONE;
 
 private:
 	bool to_delete = false;
+	bool enable = true;
 
 	Color color;
 
@@ -61,6 +63,12 @@ public:
 	void Remove();
 
 	Color GetColor() const;
+
+	bool IsEnabled() const;
+
+	void Disable();
+
+	void Enable();
 
 };
 

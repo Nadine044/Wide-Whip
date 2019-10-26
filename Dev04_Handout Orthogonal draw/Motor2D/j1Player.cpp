@@ -142,6 +142,7 @@ bool j1Player::PostUpdate()
 
 void j1Player::OnTrigger(Collider* col2)
 {
+	col->Disable();
 	//Acces to the other colldier when a collision is checked.
 	//Do Something when a collisions is checked.
 	LOG("it's this a collision!");
