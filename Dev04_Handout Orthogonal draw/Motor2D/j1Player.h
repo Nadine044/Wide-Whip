@@ -19,7 +19,7 @@ class Collider;
 
 enum class PLAYER_STATE
 {
-	LIVE,
+	LIVE = 0,
 	DEAD,
 	GOD,
 	UNKNOWN
@@ -42,33 +42,24 @@ public:
 	//Load
 	bool Start() override;
 
-	void UpdateCameraPos();
-
-	// Called each loop iteration
-	bool Draw();
-
-	bool Update(float dt) override;
-
-	void CheckDebugKeys();
-
-	void VerticalMovement();
-
-	void Gravity();
-
-	void Jump();
-
-	void Movement();
-
-	void Revive();
+	bool Update(float dt) override;	
 
 	bool PostUpdate() override;
 
 	// Called before quitting
 	bool CleanUp() override;
 
+	bool Save(pugi::xml_node&) /*const*/  override;
+
+	bool Load(pugi::xml_node&) override;
+
 	void OnTrigger(Collider* col2); // this will be virtual in the class object parent when ObjectManager will be created.
 
 	float GetVelocity() const;
+
+	void UpdateCameraPos();
+
+	bool* GetReviveBoolAdress() { return &revive; }
 
 public:
 
@@ -85,11 +76,26 @@ public:
 	Collider* col;
 
 	
-
+	
 
 private:
 
+	void CheckDebugKeys();
+
+	void Gravity();
+
+	void Jump();
+
+	void Movement();
+
+	void VerticalMovement();
+
+	void Revive();
+
 	void Death();
+
+
+	bool Draw() const;
 
 private:
 
@@ -106,10 +112,13 @@ private:
 
 	int					speed							= 0;
 
-	bool				revive							= false;
+	
 	bool				dead_jumping					= false;
+	bool				revive							= false;
 
 	bool				draw_debug						= false;
+
+	bool				jumped							= false;
 
 	PLAYER_STATE		state;
 
