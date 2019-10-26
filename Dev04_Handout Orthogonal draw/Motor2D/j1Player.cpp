@@ -122,21 +122,6 @@ void j1Player::UpdateCameraPos()
 
 bool j1Player::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
-	{
-		if (state == PLAYER_STATE::LIVE)
-		{
-			state = PLAYER_STATE::GOD;
-			velocity = 0.f;
-			col->Disable();
-		}
-		else if(state == PLAYER_STATE::GOD)
-		{
-			state = PLAYER_STATE::LIVE;
-			col->Enable();
-		}
-	}
-
 
 	switch (state)
 	{
@@ -191,9 +176,30 @@ bool j1Player::Update(float dt)
 	default:
 		break;
 	}
-
+	CheckDebugKeys();
 	col->UpdatePos(pos);
 	return true;
+}
+
+void j1Player::CheckDebugKeys()
+{
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	{
+		if (state == PLAYER_STATE::LIVE)
+		{
+			state = PLAYER_STATE::GOD;
+			velocity = 0.f;
+			col->Disable();
+		}
+		else if (state == PLAYER_STATE::GOD)
+		{
+			state = PLAYER_STATE::LIVE;
+			col->Enable();
+		}
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		draw_debug = !draw_debug;
 }
 
 void j1Player::VerticalMovement()
@@ -246,7 +252,10 @@ bool j1Player::PostUpdate()
 {
 	//MYTODO
 	Draw();
-	App->render->DrawQuad(rect_limit_camera, White.r, White.g, White.b, App->collisions->GetAlphaDebug());
+	if (draw_debug)
+	{
+		App->render->DrawQuad(rect_limit_camera, White.r, White.g, White.b, App->collisions->GetAlphaDebug());
+	}
 	return true;
 }
 
@@ -274,59 +283,6 @@ void j1Player::Death()
 	state = PLAYER_STATE::DEAD;	
 	start_time = SDL_GetTicks();
 	dead_jumping = false;
-}
-
-
-
-bool j1Player::Load(const char* file)
-{
-	/*bool ret = true;
-	p2SString tmp("%s%s", folder.GetString(), file);
-
-	pugi::xml_parse_result result = player_file.load_file(tmp.GetString());
-
-	if (result == NULL)
-	{
-		LOG("Could not load player xml file %s. pugi error: %s", file, result.description());
-		ret = false;
-	}
-
-	//Load general info ---------------------------------
-	if (ret == true)
-	{
-		ret = LoadPlayer();
-	}
-
-	player_loaded = ret;
-	*/
-	return true;
-}
-
-bool j1Player::LoadPlayer()
-{
-	bool ret = true;
-	//pugi::xml_node player = player_file.child("player");
-
-	//if (player == NULL)
-	//{
-	//	LOG("Error parsing player xml file: Cannot find 'player' tag.");
-	//	ret = false;
-	//}
-	//else
-	//{
-	//	/*data.position_x = player.child("position").attribute("x").as_float();
-	//	data.position_y = player.child("position").attribute("y").as_float();
-	//	data.speed_x = player.child("speed").attribute("x").as_float();
-	//	data.speed_y = player.child("speed").attribute("y").as_float();
-	//	data.acceleration = player.child("acceleration").attribute("a").as_float();
-	//	data.image = player.child("spritesheet").attribute("source").as_string();*/
-	//	//Load animation info MYTODO
-	//}
-
-	//p2SString player_state(player.child("state").attribute("state").as_string());
-
-	return ret;
-
 }
 
 bool j1Player::Draw()

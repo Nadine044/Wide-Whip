@@ -49,6 +49,8 @@ public:
 
 	bool Update(float dt) override;
 
+	void CheckDebugKeys();
+
 	void VerticalMovement();
 
 	void Gravity();
@@ -63,9 +65,6 @@ public:
 
 	// Called before quitting
 	bool CleanUp() override;
-
-	//Load player file
-	bool Load(const char* path);
 
 	void OnTrigger(Collider* col2); // this will be virtual in the class object parent when ObjectManager will be created.
 
@@ -90,8 +89,6 @@ public:
 
 private:
 
-	bool LoadPlayer();
-
 	void Death();
 
 private:
@@ -111,6 +108,8 @@ private:
 
 	bool				revive							= false;
 	bool				dead_jumping					= false;
+
+	bool				draw_debug						= false;
 
 	PLAYER_STATE		state;
 

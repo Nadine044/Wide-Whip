@@ -116,7 +116,7 @@ private:
 
 	bool physics_matrix[(int)TAG::MAX][(int)TAG::MAX];
 
-	bool debug = true;
+	bool debug = false;
 
 	Uint8				alpha_debug = 0u;
 

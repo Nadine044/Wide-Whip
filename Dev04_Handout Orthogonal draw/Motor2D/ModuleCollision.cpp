@@ -220,8 +220,9 @@ bool ModuleCollision::Update(float dt)
 		}
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
-			colliders_static_list.start->data->Remove(); // only for testing
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		debug = !debug;
+	
 	
 	return true;
 }
