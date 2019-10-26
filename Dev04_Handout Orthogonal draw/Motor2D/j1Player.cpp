@@ -27,16 +27,24 @@ bool j1Player::Awake(pugi::xml_node& config)
 	//MYTODO
 	folder.create(config.child("folder").child_value());
 
-	jump.PushBack({ 0, 0, 32, 32 });
-	jump.PushBack({ 32, 0, 32, 32 });
-	jump.PushBack({ 64, 0, 32, 32 });
-	jump.PushBack({ 96, 0, 32, 32 });
-	jump.PushBack({ 128, 0, 32, 32 });
-	jump.PushBack({ 160, 0, 32, 32 });
-	jump.PushBack({ 192, 0, 32, 32 });
-	jump.PushBack({ 224, 0, 32, 32 }); //don't work well
+	idle.PushBack({ 0, 67, 47, 61 });
+	idle.PushBack({ 72, 67, 47, 61 });
+	idle.PushBack({ 144, 67, 48, 61 });
+	idle.PushBack({ 216, 67, 50, 61 });
 
-	jump.loop = true;
+	idle.loop = true;
+	idle.speed = 0.2;
+
+	//jump.PushBack({ 0, 0, 47, 67 });
+	//jump.PushBack({ 70, 0, 51, 67 });
+	//jump.PushBack({ 141, 0, 54, 67 });
+	jump.PushBack({ 215, 0, 47, 67 });
+	jump.PushBack({ 287, 0, 47, 67 });
+	jump.PushBack({ 357, 0, 51, 67 });
+	//jump.PushBack({ 430, 0, 52, 67 });
+	//jump.PushBack({ 502, 0, 47, 67 });
+
+	jump.loop = false;
 	jump.speed = 0.1;
 
 	Utime_to_do_fade_to_black = (Uint32)(time_to_do_fade_to_black * 0.5f * 1000.0f);
@@ -52,12 +60,15 @@ bool j1Player::Start()
 	pos.x = col->rect.x;
 	pos.y = col->rect.y;	
 
+	col->rect.w = 50;
+	col->rect.h = 67;
+
 	//App->player->Load("XMLs/player.xml");
 	text = App->tex->Load("player/player.png");
-	text2 = App->tex->Load("player/jump.png");
 
 	flip = SDL_FLIP_NONE;
 
+	currentAnimation = &idle;
 
 	rect_limit_camera.x = -App->render->camera.x + rect_limit_camera_border_x;
 	rect_limit_camera.y = -App->render->camera.y + rect_limit_camera_border_y;
@@ -126,6 +137,8 @@ bool j1Player::Update(float dt)
 
 		UpdateCameraPos();
 
+		
+
 		break;
 	case PLAYER_STATE::DEAD:
 		if (SDL_GetTicks() - start_time >= Utime_to_jump && !dead_jumping)
@@ -192,6 +205,7 @@ void j1Player::Jump()
 	// Jump-----------------
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
+		currentAnimation = &jump;
 		velocity = jump_force;
 	}
 }
@@ -235,6 +249,8 @@ void j1Player::OnTrigger(Collider* col2)
 	if (col->last_colision_direction == DISTANCE_DIR::UP && velocity <= 0.0f)
 	{
 		velocity = 0.0f;
+		jump.Reset();
+		currentAnimation = &idle;
 	}
 
 }
@@ -303,14 +319,14 @@ bool j1Player::LoadPlayer()
 bool j1Player::Draw()
 {
 	//Animation MYTODO
-	//----------------------
+	//----------------------	
+	
+		//currentAnimation = &idle;
+	App->render->Blit(text, pos.x, pos.y, &(currentAnimation->GetCurrentFrame()), 1.0f, flip);
+	
 
-	SDL_Rect rect2 = { 0, 0, 32, 32 };	
-
-	SDL_Rect r = SDL_Rect{ 0,0,32,32 };
-	App->render->Blit(text, pos.x, pos.y, &(jump.GetCurrentFrame()), 1.0f, flip);
-
-	App->render->Blit(text2, pos.x + 32, pos.y, &(jump.GetCurrentFrame()), 1.0f, flip);
+	//App->render->Blit(text2, pos.x, pos.y, &(jump.GetCurrentFrame()), 1.0f, flip);
+	//App->render->Blit(text, pos.x, pos.y, &(idle.GetCurrentFrame()), 1.0f, flip);
 
 	return true;
 }
@@ -320,7 +336,6 @@ bool j1Player::CleanUp()
 	//MYTODO
 	LOG("Player unloaded");
 	App->tex->UnLoad(text);
-	App->tex->UnLoad(text2);
 	return true;
 }
 

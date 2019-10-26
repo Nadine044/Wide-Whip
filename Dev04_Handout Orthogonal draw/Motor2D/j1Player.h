@@ -88,10 +88,10 @@ public:
 	//New player
 	PlayerData	data;
 
-	//Animation*	currentAnimation = nullptr;
+	Animation*	currentAnimation = nullptr;
 
-	//Animation	idle;
 	Animation	jump;
+	Animation	idle;
 
 	iPoint pos;
 
@@ -122,7 +122,7 @@ private:
 
 	uint jump_force = 10;
 	float velocity = 0.0f;
-	float gravity = 0.3f;
+	float gravity = 0.5f;
 
 	bool jumping = false;
 
