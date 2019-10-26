@@ -173,10 +173,12 @@ void j1Scene::ChangeBetweenLevel()
 
 void j1Scene::ChangeLevelTo(const p2SString level)
 {
+	//Unload
 	App->map->CleanUp();
 	App->collisions->CleanUp();
 	App->player->CleanUp();
 
+	//Load
 	App->map->Load(level.GetString());
 	App->player->Start();
 }
