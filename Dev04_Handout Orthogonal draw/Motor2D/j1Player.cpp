@@ -169,6 +169,8 @@ bool j1Player::Update(float dt)
 				 state = PLAYER_STATE::LIVE;
 			 }
 		 }
+		 UpdateCameraPos();
+
 
 		break;
 	case PLAYER_STATE::CLINGING:
