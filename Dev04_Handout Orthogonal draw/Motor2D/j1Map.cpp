@@ -35,7 +35,7 @@ void j1Map::Draw()
 		return;
 	p2List_item<TileSet*>* tileset = nullptr;
 	p2List_item<MapLayer*>* layer = nullptr;
-	// TODO 5: Prepare the loop to iterate all the tiles in a layer
+
 	for (tileset = data.tilesets.start; tileset; tileset = tileset->next)
 	{
 		for (p2List_item<MapLayer*>* layer = data.layers.start; layer; layer = layer->next)
@@ -51,12 +51,13 @@ void j1Map::Draw()
 			}
 		}
 	}
-	
+}
 
-	//App->render->Blit(data.tilesets.start->data->texture, data.layers.start->data->data_gid[0])
+bool j1Map::PostUpdate()
+{
+	Draw();
 
-	// TODO 9: Complete the draw function
-
+	return true;
 }
 
 iPoint j1Map::MapToWorld(const iPoint& p) const
@@ -135,6 +136,11 @@ bool j1Map::CleanUp()
 	return true;
 }
 
+TileSet::~TileSet()
+{
+	App->tex->UnLoad(texture);
+}
+
 // Load new map
 bool j1Map::Load(const char* file_name)
 {
@@ -148,6 +154,8 @@ bool j1Map::Load(const char* file_name)
 		LOG("Could not load map xml file %s. pugi error: %s", file_name, result.description());
 		ret = false;
 	}
+
+	map_name_loaded = file_name;
 
 	// Load general info ----------------------------------------------
 	if(ret == true)
@@ -192,14 +200,12 @@ bool j1Map::Load(const char* file_name)
 	pugi::xml_node object_group;
 	for (object_group = map_file.child("map").child("objectgroup"); object_group && ret; object_group = object_group.next_sibling("objectgroup"))
 	{
-		//MapLayer* set = new MapLayer();
 
 		if (ret == true)
 		{
 			ret = LoadObjectGroups(object_group);
 		}
 
-		//data.layers.add(set);
 	}
 
 
@@ -403,7 +409,7 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 
 		if (type == "PLAYER")
 		{
-			App->player->col = App->collisions->player = App->collisions->AddCollider(pos, w, h, TAG::PLAYER, Green, true);
+			App->player->col = App->collisions->player = App->collisions->AddCollider(pos, w, h, TAG::PLAYER, Green, App->player, true);
 		}
 
 		else if (type == "WALL")
@@ -418,4 +424,9 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 	}
 
 	return true;
+}
+
+p2SString j1Map::GetMapNameLoaded() const
+{
+	return map_name_loaded;
 }

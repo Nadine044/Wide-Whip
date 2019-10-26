@@ -24,24 +24,6 @@ bool j1Player::Awake(pugi::xml_node& config)
 
 	//MYTODO
 	folder.create(config.child("folder").child_value());
-	
-	return ret;
-}
-
-bool j1Player::Start()
-{
-	LOG("Loading Player textures");
-	bool ret = true;
-
-	pos.x = col->rect.x;
-	pos.y = col->rect.y;
-	col->object = this;	
-
-	UpdateCameraPos();
-
-	App->player->Load("XMLs/player.xml");
-	text = App->tex->Load("player/player.png");
-	text2 = App->tex->Load("player/jump.png");
 
 	jump.PushBack({ 0, 0, 32, 32 });
 	jump.PushBack({ 32, 0, 32, 32 });
@@ -54,6 +36,25 @@ bool j1Player::Start()
 
 	jump.loop = true;
 	jump.speed = 0.1;
+
+	return ret;
+}
+
+bool j1Player::Start()
+{
+	LOG("Loading Player textures");
+	bool ret = true;
+
+	pos.x = col->rect.x;
+	pos.y = col->rect.y;	
+
+	UpdateCameraPos();
+
+	App->player->Load("XMLs/player.xml");
+	text = App->tex->Load("player/player.png");
+	text2 = App->tex->Load("player/jump.png");
+
+
 
 	rect_limit_camera.x = App->render->camera.x + rect_limit_camera_border_x;
 	rect_limit_camera.y = App->render->camera.y + rect_limit_camera_border_y;
@@ -236,7 +237,8 @@ bool j1Player::CleanUp()
 {
 	//MYTODO
 	LOG("Player unloaded");
-
+	App->tex->UnLoad(text);
+	App->tex->UnLoad(text2);
 	return true;
 }
 

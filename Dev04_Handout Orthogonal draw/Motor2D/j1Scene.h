@@ -26,6 +26,14 @@ public:
 	// Called each loop iteration
 	bool Update(float dt);
 
+	void CheckLevelChange();
+
+	void StartThisLevel();
+
+	void ChangeBetweenLevel();
+
+	void ChangeLevelTo(const p2SString level);
+
 	// Called before all Updates
 	bool PostUpdate();
 
@@ -33,6 +41,12 @@ public:
 	bool CleanUp();
 
 private:
+
+
+	bool change_to_level_1			= false;
+	bool change_to_level_2			= false;
+	bool start_this_level			= false;
+	bool change_between_levels		= false;
 };
 
 #endif // __j1SCENE_H__

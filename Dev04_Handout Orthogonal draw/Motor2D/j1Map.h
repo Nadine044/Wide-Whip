@@ -35,6 +35,7 @@ inline uint GetID(int x, int y)
 struct TileSet
 {
 	// TODO 7: Create a method that receives a tile id and returns it's Rect
+	~TileSet();
 	SDL_Rect GetRectFromID(const int id)
 	{
 		SDL_Rect ret;
@@ -100,6 +101,7 @@ public:
 	// Called before render is available
 	bool Awake(pugi::xml_node& conf);
 
+	bool PostUpdate() override;
 	// Called each loop iteration
 	void Draw();
 
@@ -115,6 +117,8 @@ public:
 	iPoint WorldToMap(const iPoint&) const;
 	iPoint MapToWorldIsometric(const iPoint& )const;
 	iPoint WorldToMapIsometric(const iPoint&)const;
+
+	p2SString GetMapNameLoaded() const;
 
 private:
 
@@ -133,6 +137,8 @@ private:
 	pugi::xml_document	map_file;
 	p2SString			folder;
 	bool				map_loaded;
+
+	p2SString			map_name_loaded;
 };
 
 #endif // __j1MAP_H__

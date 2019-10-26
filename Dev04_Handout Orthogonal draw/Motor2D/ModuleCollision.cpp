@@ -6,7 +6,7 @@
 //#include "p2Log.h"
 //--------------------COLLIDER---------------------------
 
-Collider::Collider(iPoint pos, int w, int h, TAG tag, Color color,  bool dynamic) : tag(tag), dynamic(dynamic), color(color)
+Collider::Collider(iPoint pos, int w, int h, TAG tag, Color color, j1Player* parent, bool dynamic) : tag(tag), dynamic(dynamic), color(color), object(parent)
 {
 	rect.x = pos.x;
 	rect.y = pos.y;
@@ -46,9 +46,9 @@ Color Collider::GetColor() const
 }
 //--------------------MODULE COLLISION---------------------------
 
-Collider* ModuleCollision::AddCollider(iPoint pos, int w, int h, TAG tag, Color color, bool dynamic)
+Collider* ModuleCollision::AddCollider(iPoint pos, int w, int h, TAG tag, Color color, j1Player* parent, bool dynamic)
 {
-	Collider * ret = new Collider(pos, w, h, tag, color, dynamic);
+	Collider * ret = new Collider(pos, w, h, tag, color, parent, dynamic);
 	if(!dynamic)
 		colliders_static_list.add(ret);
 
