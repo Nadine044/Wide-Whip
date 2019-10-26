@@ -222,10 +222,11 @@ void j1Player::Gravity()
 void j1Player::Jump()
 {
 	// Jump-----------------
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !jumped)
 	{
 		currentAnimation = &jump;
 		velocity = jump_force;
+		jumped = true;
 	}
 }
 
@@ -274,6 +275,7 @@ void j1Player::OnTrigger(Collider* col2)
 		velocity = 0.0f;
 		jump.Reset();
 		currentAnimation = &idle;
+		jumped = false;
 	}
 
 }
@@ -321,6 +323,8 @@ bool j1Player::Save(pugi::xml_node& save_file) /*const*/
 
 	save_file.append_child("collider").append_attribute("enabled") = col->IsEnabled();
 
+	save_file.append_child("jumped").append_attribute("value") = jumped;
+
 	return true;
 }
 
@@ -336,6 +340,7 @@ bool j1Player::Load(pugi::xml_node& save_file)
 
 	save_file.child("collider").attribute("enabled").as_bool() ? col->Enable() : col->Disable();
 
+	jumped = save_file.child("jumped").attribute("value").as_bool();
 
 	return true;
 }

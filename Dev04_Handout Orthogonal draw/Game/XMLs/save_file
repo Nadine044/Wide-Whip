@@ -6,23 +6,24 @@
 	<audio />
 	<map />
 	<scene>
-		<level_loaded value="map1.tmx" />
+		<level_loaded value="mapping.tmx" />
 	</scene>
 	<player>
-		<position x="390" y="669" />
-		<velocity value="0" />
-		<state value="0" />
+		<position x="549" y="1702" />
+		<velocity value="-33" />
+		<state value="1" />
 		<flip value="0" />
-		<collider enabled="true" />
+		<collider enabled="false" />
+		<jumped value="true" />
 	</player>
 	<collision />
 	<FadeToBlack>
 		<total_time value="1000" />
-		<now value="767" />
+		<now value="416" />
 		<current_step value="1" />
-		<test value="change_to_level_2" />
+		<test value="revive" />
 	</FadeToBlack>
 	<renderer>
-		<camera x="0" y="-190" />
+		<camera x="-49" y="-230" />
 	</renderer>
 </game_state>

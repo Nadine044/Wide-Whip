@@ -118,6 +118,8 @@ private:
 
 	bool				draw_debug						= false;
 
+	bool				jumped							= false;
+
 	PLAYER_STATE		state;
 
 	Uint32				start_time						= 0u;
