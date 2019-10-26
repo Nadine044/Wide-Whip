@@ -62,6 +62,18 @@ void Collider::Disable()
 }
 //--------------------MODULE COLLISION---------------------------
 
+ModuleCollision::ModuleCollision()
+{
+	name.create("collision");
+}
+
+bool ModuleCollision::Awake(pugi::xml_node& config)
+{
+	alpha_debug = (Uint8)(config.child("alpha_debug").attribute("value").as_uint());
+
+	return true;
+}
+
 Collider* ModuleCollision::AddCollider(iPoint pos, int w, int h, TAG tag, Color color, j1Player* parent, bool dynamic)
 {
 	Collider * ret = new Collider(pos, w, h, tag, color, parent, dynamic);
@@ -226,7 +238,7 @@ bool ModuleCollision::PostUpdate()
 			Color col_color;
 			collider1->data->IsEnabled() ? (col_color = collider1->data->GetColor()) : (col_color = Grey);
 
-			App->render->DrawQuad(collider1->data->rect, col_color.r, col_color.g, col_color.b, 100u);
+			App->render->DrawQuad(collider1->data->rect, col_color.r, col_color.g, col_color.b, alpha_debug);
 			
 		}
 
@@ -236,7 +248,7 @@ bool ModuleCollision::PostUpdate()
 			Color col_color;
 			collider1->data->IsEnabled() ? (col_color = collider1->data->GetColor()) : (col_color = Grey);
 
-			App->render->DrawQuad(collider1->data->rect, col_color.r, col_color.g, col_color.b, 100u);
+			App->render->DrawQuad(collider1->data->rect, col_color.r, col_color.g, col_color.b, alpha_debug);
 		}
 	}
 	return true;
@@ -370,4 +382,7 @@ DISTANCE_DIR ModuleCollision::OverlapPlatform(Collider* c_dynamic, Collider* c_s
 	return (DISTANCE_DIR)overlap_dir;
 }
 
-
+Uint8 ModuleCollision::GetAlphaDebug() const
+{
+	return alpha_debug;
+}

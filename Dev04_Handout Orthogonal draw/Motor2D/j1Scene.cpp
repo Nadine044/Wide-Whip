@@ -30,6 +30,8 @@ bool j1Scene::Awake(pugi::xml_node& config)
 
 	level1 = levels.child_value("level1");
 	level2 = levels.child_value("level2");
+
+	time_in_fade = config.child("time_in_fade").attribute("value").as_float();
 	return ret;
 }
 
@@ -55,36 +57,10 @@ bool j1Scene::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->SaveGame();
-
-	//Vars to config: level1 name, level2 name, time to fade black in levels.	TODO!
-
-
-
+	   	  
 
 	CheckLevelChange();
 
-
-
-
-
-
-	////Draw player MYTODO
-	//iPoint mouse_pos;
-	//
-	//App->input->GetMousePosition(mouse_pos.x, mouse_pos.y);
-
-	//mouse_pos.x -= App->render->camera.x;
-	//mouse_pos.y -= App->render->camera.y;
-	//iPoint tile_on_mouse = App->map->WorldToMap(mouse_pos);
-
-	//p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d Tile:(%d,%d)",
-	//				App->map->data.width, App->map->data.height,
-	//				App->map->data.tile_width, App->map->data.tile_height,
-	//				App->map->data.tilesets.count(),
-	//				tile_on_mouse.x,
-	//				tile_on_mouse.y);
-
-	//App->win->SetTitle(title.GetString());
 	return true;
 }
 

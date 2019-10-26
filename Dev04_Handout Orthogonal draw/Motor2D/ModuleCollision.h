@@ -81,7 +81,9 @@ public:
 
 
 
-	ModuleCollision() {};
+	ModuleCollision();
+
+	bool Awake(pugi::xml_node&) override;
 
 	bool Start() override;
 
@@ -98,6 +100,10 @@ public:
 	DISTANCE_DIR OverlapDS(Collider* c_dynamic, Collider* c_static);
 	DISTANCE_DIR OverlapPlatform(Collider* c_dynamic, Collider* c_static);
 
+	Uint8 GetAlphaDebug() const;
+
+public:
+
 	Collider* player = nullptr; //temporally to move a collider;
 
 private:
@@ -111,6 +117,8 @@ private:
 	bool physics_matrix[(int)TAG::MAX][(int)TAG::MAX];
 
 	bool debug = true;
+
+	Uint8				alpha_debug = 0u;
 
 private:
 
