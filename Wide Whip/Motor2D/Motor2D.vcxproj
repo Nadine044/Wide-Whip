@@ -117,7 +117,9 @@
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="..\Game\XMLs\config.xml" />
+    <Xml Include="..\Game\XMLs\config.xml">
+      <SubType>Designer</SubType>
+    </Xml>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Game\XMLs\save_file" />

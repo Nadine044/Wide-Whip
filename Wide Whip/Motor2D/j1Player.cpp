@@ -202,7 +202,7 @@ bool j1Player::Update(float dt)
 
 		if ((App->input->GetKey(SDL_SCANCODE_D) != KEY_REPEAT && !jump_h_right) || (App->input->GetKey(SDL_SCANCODE_A) != KEY_REPEAT && jump_h_right))
 		{
-			jumped = true;
+			//jumped = true;
 			clinging = false;
 			state = PLAYER_STATE::LIVE;
 		}
