@@ -138,6 +138,17 @@ bool j1Map::CleanUp()
 	}
 	data.layers.clear();
 
+	// Remove all backgrounds
+	p2List_item<ImageLayers*>* item3;
+	item3 = data.image_layers.start;
+
+	while (item3 != NULL)
+	{
+		RELEASE(item3->data);
+		item3 = item3->next;
+	}
+	data.image_layers.clear();
+
 	// Clean up the pugui tree
 	map_file.reset();
 
