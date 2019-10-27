@@ -111,8 +111,8 @@
 
   <scene>
     <levels>
-      <level1>Level1.tmx</level1>
-      <level2>mapping.tmx</level2>
+      <level1>Level2.tmx</level1>
+      <level2>Level1.tmx</level2>
     </levels>
     <time_in_fade value="2.f"/>
   </scene>

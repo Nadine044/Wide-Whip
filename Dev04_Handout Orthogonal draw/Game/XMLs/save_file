@@ -6,7 +6,7 @@
 	<audio />
 	<map />
 	<scene>
-		<level_loaded value="mapping.tmx" />
+		<level_loaded value="Level2.tmx" />
 	</scene>
 	<player>
 		<position x="1036" y="710" />
