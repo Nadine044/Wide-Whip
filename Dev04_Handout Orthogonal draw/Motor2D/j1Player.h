@@ -80,6 +80,7 @@ public:
 	Animation		death;
 	Animation		dash;
 	Animation		climb;
+	Animation		fall;
 
 
 	iPoint			pos;

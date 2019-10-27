@@ -69,7 +69,7 @@ bool j1Player::Awake(pugi::xml_node& config)
 	idle.PushBack({ 141, 0, 47, 65 });
 
 	idle.loop = true;
-	idle.speed = 0.2;
+	idle.speed = 0.2f;
 
 	//jump.PushBack({ 0, 67, 47, 65 });
 	//jump.PushBack({ 47, 67, 47, 65 });
@@ -82,7 +82,7 @@ bool j1Player::Awake(pugi::xml_node& config)
 	//jump.PushBack({ 502, 67, 47, 65 });
 
 	jump.loop = false;
-	jump.speed = 0.1;
+	jump.speed = 0.1f;
 
 
 	walk.PushBack({ 0, 130, 47, 65});
@@ -93,7 +93,7 @@ bool j1Player::Awake(pugi::xml_node& config)
 	walk.PushBack({ 235, 130, 47, 65 });
 
 	walk.loop = true;
-	walk.speed = 0.2;
+	walk.speed = 0.2f;
 
 	death.PushBack({ 0, 195, 47, 65 });
 	death.PushBack({ 47, 195, 47, 65 });
@@ -111,10 +111,16 @@ bool j1Player::Awake(pugi::xml_node& config)
 	dash.PushBack({ 235, 260, 47, 65 });
 
 	dash.loop = true;
-	dash.speed = 0.8;
+	dash.speed = 0.8f;
 
 	climb.PushBack({ 0, 325, 47, 65 });
 
+	fall.PushBack({ 188, 67, 47, 65 });
+	fall.PushBack({ 235, 67, 47, 65 });
+	fall.PushBack({ 282, 67, 47, 65 });
+
+	fall.loop = false;
+	fall.speed = 0.2f;
 	climb.loop = false;
 
 
@@ -180,6 +186,11 @@ bool j1Player::Update(float dt)
 	{
 	case PLAYER_STATE::LIVE:
 
+		if (velocity < -gravity && currentAnimation != &jump)
+		{
+			currentAnimation = &fall;
+		}
+
 		ToAction();
 
 		Movement();
@@ -190,7 +201,7 @@ bool j1Player::Update(float dt)
 
 		UpdateCameraPos();
 
-	
+		
 
 		break;
 	case PLAYER_STATE::DASHING:
@@ -375,7 +386,7 @@ void j1Player::Movement()
 {
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 
-		if (currentAnimation != &jump)
+		if (currentAnimation != &jump && currentAnimation != &fall)
 			currentAnimation = &walk;
 
 		pos.x -= speed;
@@ -384,7 +395,7 @@ void j1Player::Movement()
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 
-		if (currentAnimation != &jump)
+		if (currentAnimation != &jump && currentAnimation != &fall)
 			currentAnimation = &walk;
 
 		pos.x += speed;
@@ -424,6 +435,7 @@ void j1Player::OnTrigger(Collider* col2)
 	{
 		velocity = 0.0f;
 		jump.Reset();
+		fall.Reset();
 		if (currentAnimation == &walk)
 		{
 			if (App->input->GetKey(SDL_SCANCODE_A) != KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_D) != KEY_REPEAT)
