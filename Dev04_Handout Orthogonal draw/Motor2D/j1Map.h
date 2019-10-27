@@ -41,6 +41,7 @@ struct ImageLayers
 	float				parallax_image;
 	int					background_new_pos1 = 0;
 	int					background_new_pos2 = 0;
+	bool				on_first = true;
 	~ImageLayers() 
 	{
 		App->tex->UnLoad(texture);
