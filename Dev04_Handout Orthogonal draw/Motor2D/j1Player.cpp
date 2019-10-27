@@ -11,6 +11,7 @@
 #include "ModuleFadeToBlack.h"
 #include "j1Scene.h"
 
+
 j1Player::j1Player() : j1Module()
 {
 	name.create("player");
@@ -71,6 +72,15 @@ bool j1Player::Awake(pugi::xml_node& config)
 	dash.LoadAnimation(animations_node.child("dash"));
 	climb.LoadAnimation(animations_node.child("climb"));
 	fall.LoadAnimation(animations_node.child("fall"));
+
+	jump_fx.path = "audio/fx/jump.wav";
+	jump_fx.id = App->audio->LoadFx(jump_fx.path.GetString());
+	dash_fx.path = "audio/fx/dash.wav";
+	dash_fx.id = App->audio->LoadFx(dash_fx.path.GetString());
+	death_init_fx.path = "audio/fx/start_death.wav";
+	death_init_fx.id = App->audio->LoadFx(death_init_fx.path.GetString());
+	death_finish_fx.path = "audio/fx/finish_death.wav";
+	death_finish_fx.id = App->audio->LoadFx(death_finish_fx.path.GetString());
 
 	return ret;
 }
@@ -206,6 +216,7 @@ bool j1Player::Update(float dt)
 			velocity = jump_force;
 			dead_jumping = true;
 			start_time = SDL_GetTicks();
+			App->audio->PlayFx(death_finish_fx.id);
 		}
 
 		if (dead_jumping)
@@ -305,6 +316,7 @@ void j1Player::ToAction()
 	// Jump-----------------
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !jumped)
 	{
+		App->audio->PlayFx(jump_fx.id);
 		jump.Reset();
 		if (!clinging)
 		{
@@ -327,6 +339,7 @@ void j1Player::ToAction()
 	// Dash----------------
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN && !dashed)
 	{
+		App->audio->PlayFx(dash_fx.id);
 		velocity = 0.0f;
 		flip == SDL_RendererFlip::SDL_FLIP_NONE ? velocity_dash = dash_force : velocity_dash = -dash_force;
 		state = PLAYER_STATE::DASHING;
@@ -435,6 +448,7 @@ void j1Player::OnTrigger(Collider* col2)
 void j1Player::Death()
 {
 	col->Disable();
+	App->audio->PlayFx(death_init_fx.id);
 	state = PLAYER_STATE::DEAD;	
 	start_time = SDL_GetTicks();
 	dead_jumping = false;

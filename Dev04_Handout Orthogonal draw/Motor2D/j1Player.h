@@ -8,6 +8,7 @@
 #include "p2Defs.h"
 #include "Animation.h"
 #include "j1Textures.h"
+#include "j1Audio.h"
 //struct SDL_Texture;
 
 #define CAMERA_OFFSET_X 300
@@ -86,7 +87,11 @@ public:
 	iPoint			pos;
 	Collider*		col;
 
-
+	FX jump_fx;
+	FX dash_fx;
+	FX death_init_fx;
+	FX death_finish_fx;
+	FX dashtest;
 
 	
 

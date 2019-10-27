@@ -10,6 +10,12 @@
 struct _Mix_Music;
 struct Mix_Chunk;
 
+struct FX
+{
+	p2SString path;
+	uint id;
+};
+
 class j1Audio : public j1Module
 {
 public:
