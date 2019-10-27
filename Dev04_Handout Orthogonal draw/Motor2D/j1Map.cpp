@@ -40,7 +40,21 @@ void j1Map::Draw()
 	for (image_layers = data.image_layers.start; image_layers; image_layers = image_layers->next)
 	{
 		SDL_Rect section = { 0, 0, image_layers->data->image_width, image_layers->data->image_height };
-		App->render->Blit(image_layers->data->texture, 0, 0, &section, image_layers->data->parallax_image);
+		App->render->Blit(image_layers->data->texture, image_layers->data->background_new_pos1, 0, &section, image_layers->data->parallax_image);
+
+		if (-App->render->camera.x > ((image_layers->data->background_new_pos1 - App->render->camera.x * (1 - image_layers->data->parallax_image))) + image_layers->data->image_width)
+		{
+			image_layers->data->background_new_pos1 += image_layers->data->image_width * 2;
+		}
+	
+
+		SDL_Rect section2 = { 0, 0, image_layers->data->image_width, image_layers->data->image_height };
+		App->render->Blit(image_layers->data->texture, image_layers->data->background_new_pos2 + image_layers->data->image_width, 0, &section2, image_layers->data->parallax_image);
+
+		if (-App->render->camera.x >((image_layers->data->background_new_pos2 - App->render->camera.x * (1 - image_layers->data->parallax_image))) + image_layers->data->image_width *2)
+		{
+			image_layers->data->background_new_pos2 += image_layers->data->image_width * 2;
+		}
 	}
 
 	for (tileset = data.tilesets.start; tileset; tileset = tileset->next)
@@ -485,7 +499,7 @@ bool j1Map::LoadImageLayers(pugi::xml_node& node, ImageLayers* object)
 	}
 
 	object->parallax_image = node.child("properties").child("property").attribute("value").as_float();
-
+	
 
 	
 	return true;

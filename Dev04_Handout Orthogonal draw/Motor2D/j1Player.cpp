@@ -72,69 +72,6 @@ bool j1Player::Awake(pugi::xml_node& config)
 	climb.LoadAnimation(animations_node.child("climb"));
 	fall.LoadAnimation(animations_node.child("fall"));
 
-
-	//idle.PushBack({ 0, 0, 47, 65 });
-	//idle.PushBack({ 47, 0, 47, 65 });
-	//idle.PushBack({ 94, 0, 47, 65 });
-	//idle.PushBack({ 141, 0, 47, 65 });
-
-	//idle.loop = true;
-	//idle.speed = 0.2f;
-
-	////jump.PushBack({ 0, 67, 47, 65 });
-	////jump.PushBack({ 47, 67, 47, 65 });
-	////jump.PushBack({ 97, 67, 47, 65 });
-	//jump.PushBack({ 141, 67, 47, 65 });
-	//jump.PushBack({ 188, 67, 47, 65 });
-	//jump.PushBack({ 235, 67, 47, 65 });
-	//jump.PushBack({ 282, 67, 47, 65 });
-	////jump.PushBack({ 229, 67, 47, 65 });
-	////jump.PushBack({ 502, 67, 47, 65 });
-
-	//jump.loop = false;
-	//jump.speed = 0.1f;
-
-
-	//walk.PushBack({ 0, 130, 47, 65});
-	//walk.PushBack({ 47, 130, 47, 65 });
-	//walk.PushBack({ 94, 130, 47, 65 });
-	//walk.PushBack({ 141, 130, 47, 65 });
-	//walk.PushBack({ 188, 130, 47, 65 });
-	//walk.PushBack({ 235, 130, 47, 65 });
-
-	//walk.loop = true;
-	//walk.speed = 0.2f;
-
-	//death.PushBack({ 0, 195, 47, 65 });
-	//death.PushBack({ 47, 195, 47, 65 });
-	//death.PushBack({ 94, 195, 47, 65 });
-	//death.PushBack({ 141, 195, 47, 65 });
-
-	//death.loop = true;
-	//death.speed = 0.5f;
-
-	//dash.PushBack({ 0, 260, 47, 65 });
-	//dash.PushBack({ 47, 260, 47, 65 });
-	//dash.PushBack({ 94, 260, 47, 65 });
-	//dash.PushBack({ 141, 260, 47, 65 });
-	//dash.PushBack({ 188, 260, 47, 65 });
-	//dash.PushBack({ 235, 260, 47, 65 });
-
-	//dash.loop = true;
-	//dash.speed = 0.8f;
-
-	//climb.PushBack({ 0, 325, 47, 65 });
-	//climb.loop = false;
-
-	//fall.PushBack({ 188, 67, 47, 65 });
-	//fall.PushBack({ 235, 67, 47, 65 });
-	//fall.PushBack({ 282, 67, 47, 65 });
-
-	//fall.loop = false;
-	//fall.speed = 0.2f;
-
-
-
 	return ret;
 }
 
@@ -175,19 +112,23 @@ void j1Player::UpdateCameraPos()
 		{
 			App->render->camera.x = -(pos.x + col->rect.w -rect_limit_camera.w - rect_limit_camera_border_x);
 		}
+		rect_limit_camera.x = -App->render->camera.x + rect_limit_camera_border_x;
 	}
+	if (pos.y < 675)
+	{
 
-	if (pos.y < rect_limit_camera.y)
-	{
-		App->render->camera.y = -(pos.y - rect_limit_camera_border_y);
-	}
-	else if (pos.y + col->rect.h > rect_limit_camera.y + rect_limit_camera.h)
-	{
-		App->render->camera.y = -(pos.y + col->rect.h - rect_limit_camera.h - rect_limit_camera_border_y);
+		if (pos.y < rect_limit_camera.y)
+		{
+			App->render->camera.y = -(pos.y - rect_limit_camera_border_y);
+		}
+		else if (pos.y + col->rect.h > rect_limit_camera.y + rect_limit_camera.h)
+		{
+			App->render->camera.y = -(pos.y + col->rect.h - rect_limit_camera.h - rect_limit_camera_border_y);
+		}
+		rect_limit_camera.y = -App->render->camera.y + rect_limit_camera_border_y;
 	}
 	
-	rect_limit_camera.x = -App->render->camera.x + rect_limit_camera_border_x;
-	rect_limit_camera.y = -App->render->camera.y + rect_limit_camera_border_y;
+
 }
 
 bool j1Player::Update(float dt)

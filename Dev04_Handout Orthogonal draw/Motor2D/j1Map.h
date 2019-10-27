@@ -39,7 +39,8 @@ struct ImageLayers
 	int					image_width;
 	int					image_height;
 	float				parallax_image;
-
+	int					background_new_pos1 = 0;
+	int					background_new_pos2 = 0;
 	~ImageLayers() 
 	{
 		App->tex->UnLoad(texture);
@@ -155,6 +156,8 @@ private:
 	pugi::xml_document	map_file;
 	p2SString			folder;
 	bool				map_loaded;
+
+
 
 	
 };
