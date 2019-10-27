@@ -13,6 +13,16 @@ Jorge Gemas: https://github.com/https://github.com/jorgegh2
 
 Github repository: https://github.com/Nadine044/Wide-Whip
 
+## Instructions to execute:
+
+- Download the release: https://github.com/Nadine044/Wide-Whip/releases.
+
+- Unzip the file.
+
+- Execute Wide Whip.exe.
+
+- Play!
+
 ## Controls
 ### General controls:
 
