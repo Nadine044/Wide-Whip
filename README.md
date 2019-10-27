@@ -50,8 +50,14 @@ Jorge Gemas: https://github.com/jorgegh2
 
 Nadine Gutiérrez: https://github.com/Nadine044
 
-
 Github repository: https://github.com/Nadine044/Wide-Whip
+
+Art work:
+
+https://itch.io
+https://opengameart.org
+https://freesound.org
+https://patrickdearteaga.com
 
 ## Who made what:
 
