@@ -112,7 +112,7 @@
       <level2>Level2.tmx</level2>
     </levels>
     <time_in_fade value="2.f"/>
-    <music>audio/music/music_sadpiano.ogg</music>
+    <music>audio/music/Resilience.ogg</music>
   </scene>
 
 </config>
