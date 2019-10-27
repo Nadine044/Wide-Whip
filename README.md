@@ -46,7 +46,7 @@ We programmed the game from scratch in C++ and we used free artwork.
 
 ## Links
 
-Jorge Gemas: https://github.com/https://github.com/jorgegh2
+Jorge Gemas: https://github.com/jorgegh2
 
 Nadine Gutiérrez: https://github.com/Nadine044
 
