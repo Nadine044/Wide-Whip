@@ -20,7 +20,7 @@
  </tileset>
  <layer id="11" name="4Forest" width="50" height="30">
   <properties>
-   <property name="parallax" type="float" value="0"/>
+   <property name="parallax" type="float" value="1"/>
   </properties>
   <data>
    <tile/>

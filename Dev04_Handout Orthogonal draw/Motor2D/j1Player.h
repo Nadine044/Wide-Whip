@@ -79,7 +79,7 @@ public:
 	iPoint			pos;
 	Collider*		col;
 
-	
+	SDL_Rect			rect_limit_camera;
 	
 
 private:
@@ -106,7 +106,7 @@ private:
 	SDL_Texture*		text							= nullptr;
 	p2SString			text_path;
 
-	SDL_Rect			rect_limit_camera;
+
 	int					rect_limit_camera_border_x		= 0;
 	int					rect_limit_camera_border_y		= 0;
 	int					map_left_offset					= 0;
