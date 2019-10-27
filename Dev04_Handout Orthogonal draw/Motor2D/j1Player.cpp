@@ -113,7 +113,7 @@ bool j1Player::Awake(pugi::xml_node& config)
 	dash.loop = true;
 	dash.speed = 0.8;
 
-	climb.PushBack({ 0, 260, 47, 65 });
+	climb.PushBack({ 0, 325, 47, 65 });
 
 	climb.loop = false;
 
@@ -275,6 +275,11 @@ bool j1Player::Update(float dt)
 	default:
 		break;
 	}
+	if (currentAnimation == &climb)
+		flip == SDL_RendererFlip::SDL_FLIP_NONE ? offset_animation_x = offset_value : offset_animation_x = -offset_value;
+	else
+		offset_animation_x += 0;
+
 	CheckDebugKeys();
 	col->UpdatePos(pos);
 	return true;
@@ -430,7 +435,7 @@ void j1Player::OnTrigger(Collider* col2)
 		jumped = false;
 		dashed = false;
 	}
-	if (col->last_colision_direction == DISTANCE_DIR::LEFT && col2->tag == TAG::WALL)
+	else if (col->last_colision_direction == DISTANCE_DIR::LEFT && col2->tag == TAG::WALL && currentAnimation != &walk)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
@@ -442,7 +447,7 @@ void j1Player::OnTrigger(Collider* col2)
 			currentAnimation = &climb;
 		}
 	}
-	if (col->last_colision_direction == DISTANCE_DIR::RIGHT && col2->tag == TAG::WALL)
+	else if (col->last_colision_direction == DISTANCE_DIR::RIGHT && col2->tag == TAG::WALL && currentAnimation != &walk)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
@@ -474,7 +479,7 @@ bool j1Player::Draw() const
 	
 	
 		//currentAnimation = &idle;
-	App->render->Blit(text, pos.x, pos.y, &(currentAnimation->GetCurrentFrame()), 1.0f, flip);
+	App->render->Blit(text, pos.x + offset_animation_x, pos.y, &(currentAnimation->GetCurrentFrame()), 1.0f, flip);
 	
 
 	//App->render->Blit(text2, pos.x, pos.y, &(jump.GetCurrentFrame()), 1.0f, flip);
