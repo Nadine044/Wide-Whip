@@ -104,6 +104,7 @@ bool ModuleCollision::Start()
 	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::WALL] = true;
 	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::PLATFORM] = true;
 	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::WATER] = true;
+	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::CHANGE_LEVEL] = true;
 
 	
 
@@ -111,6 +112,7 @@ bool ModuleCollision::Start()
 		// Functions OnTrigger will be called only in the first collider. If want to call the function OnTrigger in the two colliders, set the marix bool with the invers too([TAG1][TAG2] = true and [TAG2][TAG1] = true).
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::WALL] = true;
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::PLATFORM] = true;
+	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::CHANGE_LEVEL] = true;
 	
 	return true;
 }

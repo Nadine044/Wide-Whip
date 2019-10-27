@@ -53,8 +53,6 @@ void j1Map::Draw()
 			image_layers->data->background_new_pos1 -= image_layers->data->image_width * 2;
 			image_layers->data->on_first = false;
 		}
-		
-		//if (IsOnCamera(SDL_Rect{}))
 
 		SDL_Rect section2 = { 0, 0, image_layers->data->image_width, image_layers->data->image_height };
 		App->render->Blit(image_layers->data->texture, image_layers->data->background_new_pos2 - image_layers->data->image_width, 0, &section2, image_layers->data->parallax_image);
@@ -481,6 +479,11 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 		else if (type == "WATER")
 		{
 			Collider* ret = App->collisions->AddCollider(pos, w, h, TAG::WATER, Blue);
+		}
+
+		else if (type == "CHANGE_LEVEL")
+		{
+			Collider* ret = App->collisions->AddCollider(pos, w, h, TAG::CHANGE_LEVEL, Pink);
 		}
 	}
 

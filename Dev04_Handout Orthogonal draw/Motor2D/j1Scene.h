@@ -38,6 +38,8 @@ public:
 
 	bool Load(pugi::xml_node&) override;
 
+
+
 	// Functions to change across levels
 	void StartThisLevel();
 
@@ -51,7 +53,16 @@ public:
 
 	p2SString GetMapNameLoaded() const;
 
-	
+	void ChangeToLevel1Fade();
+
+	void ChangeToLevel2Fade();
+
+	void StartThisLevelFade();
+
+	void ChangeBetweenLevelFade();
+
+
+
 	bool* GetChangeToLevel1BoolAdress() { return &change_to_level_1; }
 
 	bool* GetChangeToLevel2BoolAdress() { return &change_to_level_2; }
@@ -62,6 +73,8 @@ public:
 
 private:
 	void CheckLevelChange();
+
+
 
 private:
 

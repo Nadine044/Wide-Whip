@@ -424,6 +424,10 @@ void j1Player::OnTrigger(Collider* col2)
 		}
 	}
 
+	if (col2->tag == TAG::CHANGE_LEVEL)
+	{
+		App->scene->ChangeBetweenLevelFade();
+	}
 
 
 }
