@@ -64,9 +64,9 @@ https://patrickdearteaga.com
 
 ## Who made what:
 
-- Jorge Gemas: three mainly mechanics (jump, dash and bouncing on walls), Collisions, Save and Load and the system to change (load/unload) levels. Audio of the game.
+- Jorge Gemas: three mainly mechanics (jump, dash and bouncing on walls), Collisions, Save and Load and the system to change (load/unload) levels. Audio of the game. Actual parallax effect.
 
-- Nadine Gutiérrez: All related with the art of the game, textures, animations, and the desing of the levels and make sure the game is fun. Camera movement implementations, parallax effect.
+- Nadine Gutiérrez: All related with the art of the game, textures, animations, and the desing of the levels and make sure the game is fun. Camera movement implementations, old parallax effect.
 
 ## MIT License
 
