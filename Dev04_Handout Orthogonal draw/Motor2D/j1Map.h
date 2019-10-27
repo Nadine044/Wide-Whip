@@ -115,6 +115,7 @@ public:
 	iPoint MapToWorldIsometric(const iPoint& )const;
 	iPoint WorldToMapIsometric(const iPoint&)const;
 
+	bool IsOnCamera(SDL_Rect) const;
 
 
 private:

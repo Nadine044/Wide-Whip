@@ -46,12 +46,12 @@ void j1Map::Draw()
 				{
 					iPoint pos_in_world = MapToWorld(iPoint(x, y));
 					SDL_Rect section = tileset->data->GetRectFromID(layer->data->GetID(x, y));
-					App->render->Blit(tileset->data->texture, pos_in_world.x, pos_in_world.y, &section, layer->data->parallax_vel);
+					if (IsOnCamera(SDL_Rect{ int(pos_in_world.x + -App->render->camera.x * (1 - layer->data->parallax_vel)), pos_in_world.y, data.tile_width, data.tile_height})) //Culling
+						App->render->Blit(tileset->data->texture, pos_in_world.x, pos_in_world.y, &section, layer->data->parallax_vel);
 				}
 			}
 		}
 	}
-	//TODO CULLING
 }
 
 bool j1Map::PostUpdate()
@@ -426,4 +426,14 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 	}
 
 	return true;
+}
+
+bool j1Map::IsOnCamera(SDL_Rect rect) const
+{
+	SDL_Rect r;// = App->player->rect_limit_camera;
+	r.x = -App->render->camera.x;
+	r.y = -App->render->camera.y;
+	r.w = App->render->camera.w;
+	r.h = App->render->camera.h;
+	return !(r.x >= (rect.x + rect.w) || (r.x + r.w) <= rect.x || r.y >= (rect.y + rect.h) || (r.y + r.h) <= rect.y);
 }

@@ -50,6 +50,8 @@
     <dash_force value="15"/>
     <resistance_dash value="0.5f"/>
     <map_left_offset_x value="200"/>
+    <jump_clinged_force value="7"/>
+    <resistance_jump_clinged value="0.25f"/>
 
   </player>
 

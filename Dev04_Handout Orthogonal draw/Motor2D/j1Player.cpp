@@ -44,6 +44,10 @@ bool j1Player::Awake(pugi::xml_node& config)
 	dash_force							= config.child("dash_force").attribute("value").as_int();
 	resistance_dash						= config.child("resistance_dash").attribute("value").as_float();
 
+	jump_clinged_force_left				= config.child("jump_clinged_force").attribute("value").as_int() * 1.1f;
+	jump_clinged_force_right			= config.child("jump_clinged_force").attribute("value").as_int() * 1.f;
+	resistance_jump_clinged				= config.child("resistance_jump_clinged").attribute("value").as_float();
+
 	speed								= config.child("speed").attribute("value").as_int();
 
 	text_path							= config.child_value("texture");
@@ -138,6 +142,8 @@ bool j1Player::Update(float dt)
 
 		Gravity();
 
+		JumpHorizontal();
+
 		UpdateCameraPos();
 
 	
@@ -163,6 +169,22 @@ bool j1Player::Update(float dt)
 				 state = PLAYER_STATE::LIVE;
 			 }
 		 }
+		 UpdateCameraPos();
+
+
+		break;
+	case PLAYER_STATE::CLINGING:
+
+		if ((App->input->GetKey(SDL_SCANCODE_D) != KEY_REPEAT && !jump_h_right) || (App->input->GetKey(SDL_SCANCODE_A) != KEY_REPEAT && jump_h_right))
+		{
+			jumped = true;
+			clinging = false;
+			state = PLAYER_STATE::LIVE;
+		}
+
+
+		ToAction();
+
 
 		break;
 	case PLAYER_STATE::DEAD:
@@ -203,9 +225,29 @@ bool j1Player::Update(float dt)
 	default:
 		break;
 	}
+
+
+
+	
+
+
 	CheckDebugKeys();
 	col->UpdatePos(pos);
 	return true;
+}
+
+void j1Player::JumpHorizontal()
+{
+	if (velocity_jump_clinged < 0 && !jump_h_right)
+	{
+		pos.x += velocity_jump_clinged;
+		velocity_jump_clinged += resistance_jump_clinged;
+	}
+	else if (velocity_jump_clinged > 0 && jump_h_right)
+	{
+		pos.x += velocity_jump_clinged;
+		velocity_jump_clinged -= resistance_jump_clinged;
+	}
 }
 
 void j1Player::CheckDebugKeys()
@@ -251,9 +293,22 @@ void j1Player::ToAction()
 	// Jump-----------------
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !jumped)
 	{
-		currentAnimation = &jump;
-		velocity = jump_force;
-		jumped = true;
+		jump.Reset();
+		if (!clinging)
+		{
+			currentAnimation = &jump;
+			velocity = jump_force;
+			jumped = true;
+		}
+		else
+		{
+			state = PLAYER_STATE::LIVE;
+			clinging = false;
+			currentAnimation = &jump;
+			velocity = jump_force *0.75f; //jump less
+			jumped = true;
+			jump_h_right ? velocity_jump_clinged = jump_clinged_force_left : velocity_jump_clinged = -jump_clinged_force_right;
+		}
 	}
 
 	// Dash----------------
@@ -276,6 +331,7 @@ void j1Player::Movement()
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 		pos.x += speed;
 		flip = SDL_FLIP_NONE;
+		
 	}
 }
 
@@ -314,6 +370,30 @@ void j1Player::OnTrigger(Collider* col2)
 		jumped = false;
 		dashed = false;
 	}
+	if (col->last_colision_direction == DISTANCE_DIR::LEFT && col2->tag == TAG::WALL)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		{
+			jumped = false;
+			clinging = true;
+			velocity = 0.0f;
+			state = PLAYER_STATE::CLINGING;
+			jump_h_right = false;
+		}
+	}
+	if (col->last_colision_direction == DISTANCE_DIR::RIGHT && col2->tag == TAG::WALL)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		{
+			jumped = false;
+			clinging = true;
+			velocity = 0.0f;
+			state = PLAYER_STATE::CLINGING;
+			jump_h_right = true;
+		}
+	}
+
+
 
 }
 
