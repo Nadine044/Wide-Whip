@@ -506,6 +506,9 @@ bool j1Player::Save(pugi::xml_node& save_file) const
 	save_file.append_child("jumped").append_attribute("value") = jumped;
 	save_file.append_child("dashed").append_attribute("value") = dashed;
 
+	save_file.append_child("velocity_dash").append_attribute("value") = velocity_dash;
+	save_file.append_child("velocity_jump_clinged").append_attribute("value") = velocity_jump_clinged;
+
 	return true;
 }
 
@@ -523,6 +526,9 @@ bool j1Player::Load(pugi::xml_node& save_file)
 
 	jumped = save_file.child("jumped").attribute("value").as_bool();
 	dashed = save_file.child("dashed").attribute("value").as_bool();
+
+	velocity_dash = save_file.child("velocity_dash").attribute("value").as_float();
+	velocity_jump_clinged = save_file.child("velocity_jump_clinged").attribute("value").as_float();
 
 	return true;
 }
