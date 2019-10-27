@@ -38,8 +38,8 @@ bool j1Scene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool j1Scene::Start()
 {
-	App->map->Load(level2.GetString());
-	map_name_loaded = level2;
+	App->map->Load(level1.GetString());
+	map_name_loaded = level1;
 	
 	return true;
 }
@@ -78,22 +78,22 @@ void j1Scene::CheckLevelChange()
 		
 		if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		{
-			App->fade_to_black->FadeToBlack(change_to_level_1, time_in_fade);
+			ChangeToLevel1Fade();
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		{
-			App->fade_to_black->FadeToBlack(change_to_level_2, time_in_fade);
+			ChangeToLevel2Fade();
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 		{
-			App->fade_to_black->FadeToBlack(start_this_level, time_in_fade);
+			StartThisLevelFade();
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
 		{
-			App->fade_to_black->FadeToBlack(change_between_levels, time_in_fade);
+			ChangeBetweenLevelFade();
 		}
 	}
 
@@ -117,6 +117,26 @@ void j1Scene::CheckLevelChange()
 	{
 		ChangeBetweenLevel();
 	}
+}
+
+void j1Scene::ChangeToLevel1Fade()
+{
+	App->fade_to_black->FadeToBlack(change_to_level_1, time_in_fade);
+}
+
+void j1Scene::ChangeToLevel2Fade()
+{
+	App->fade_to_black->FadeToBlack(change_to_level_2, time_in_fade);
+}
+
+void j1Scene::StartThisLevelFade()
+{
+	App->fade_to_black->FadeToBlack(start_this_level, time_in_fade);
+}
+
+void j1Scene::ChangeBetweenLevelFade()
+{
+	App->fade_to_black->FadeToBlack(change_between_levels, time_in_fade);
 }
 
 void j1Scene::StartThisLevel()

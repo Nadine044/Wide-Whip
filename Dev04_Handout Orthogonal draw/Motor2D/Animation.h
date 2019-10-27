@@ -54,6 +54,24 @@ public:
 	{
 		current_frame = 0.0f;
 	}
+
+	void LoadAnimation(pugi::xml_node node_anim)
+	{
+		speed = node_anim.attribute("speed").as_float();
+		loop = node_anim.attribute("loop").as_bool();
+
+		SDL_Rect frame;
+		for (pugi::xml_node frame_node = node_anim.child("frame"); frame_node; frame_node = frame_node.next_sibling("frame"))
+		{
+			frame.x = frame_node.attribute("x").as_int();
+			frame.y = frame_node.attribute("y").as_int();
+			frame.w = frame_node.attribute("w").as_int();
+			frame.h = frame_node.attribute("h").as_int();
+
+			PushBack(frame);
+		}
+
+	}
 };
 
 #endif

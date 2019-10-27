@@ -21,7 +21,7 @@ enum class PLAYER_STATE
 {
 	LIVE = 0,
 	DASHING,
-	CLINGING,
+	CLIMBING,
 	DEAD,
 	GOD,
 	UNKNOWN
@@ -76,10 +76,18 @@ public:
 	Animation		jump;
 	Animation		idle;
 
+	Animation		walk;
+	Animation		death;
+	Animation		dash;
+	Animation		climb;
+	Animation		fall;
+
+
 	iPoint			pos;
 	Collider*		col;
 
-	SDL_Rect			rect_limit_camera;
+
+
 	
 
 private:
@@ -106,6 +114,8 @@ private:
 	SDL_Texture*		text							= nullptr;
 	p2SString			text_path;
 
+
+	SDL_Rect			rect_limit_camera;
 
 	int					rect_limit_camera_border_x		= 0;
 	int					rect_limit_camera_border_y		= 0;
@@ -146,6 +156,9 @@ private:
 	float				time_in_fade					= 0.0f;
 
 	SDL_RendererFlip	flip							= SDL_FLIP_NONE;
+
+	int				offset_animation_x;
+	int				offset_value						= 2;
 
 
 };

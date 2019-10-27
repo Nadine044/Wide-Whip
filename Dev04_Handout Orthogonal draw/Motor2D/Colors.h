@@ -28,6 +28,7 @@ extern Color Yellow;
 extern Color Black;
 extern Color White;
 extern Color Grey;
+extern Color Pink;
 
 
 #endif // !__COLORS_H__

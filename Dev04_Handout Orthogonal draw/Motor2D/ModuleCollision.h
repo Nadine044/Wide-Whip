@@ -16,6 +16,7 @@ enum class TAG : uint
 	PLATFORM,
 	WATER,
 	PLAYER,
+	CHANGE_LEVEL,
 	MAX
 
 };
