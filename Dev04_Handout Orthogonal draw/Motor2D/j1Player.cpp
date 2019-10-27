@@ -44,6 +44,16 @@ bool j1Player::Awake(pugi::xml_node& config)
 	dash_force							= config.child("dash_force").attribute("value").as_int();
 	resistance_dash						= config.child("resistance_dash").attribute("value").as_float();
 
+
+	jump_clinged_force_left				= config.child("jump_clinged_force").attribute("value").as_int() * 1.1f;
+	jump_clinged_force_right			= config.child("jump_clinged_force").attribute("value").as_int() * 1.f;
+	resistance_jump_clinged				= config.child("resistance_jump_clinged").attribute("value").as_float();
+
+	speed								= config.child("speed").attribute("value").as_int();
+
+	text_path							= config.child_value("texture");
+
+
 	jump_clinged_force_left				= config.child("jump_clinged_force").attribute("value").as_int() * 1.1f;
 	jump_clinged_force_right			= config.child("jump_clinged_force").attribute("value").as_int() * 1.f;
 	resistance_jump_clinged				= config.child("resistance_jump_clinged").attribute("value").as_float();
@@ -73,6 +83,7 @@ bool j1Player::Awake(pugi::xml_node& config)
 
 	jump.loop = false;
 	jump.speed = 0.1;
+
 
 	walk.PushBack({ 0, 130, 47, 65});
 	walk.PushBack({ 47, 130, 47, 65 });
@@ -184,7 +195,9 @@ bool j1Player::Update(float dt)
 		break;
 	case PLAYER_STATE::DASHING:
 		pos.x += velocity_dash;
+
 		currentAnimation = &dash;
+
 		
 		 if (flip == SDL_RendererFlip::SDL_FLIP_NONE)
 		 {
@@ -203,9 +216,12 @@ bool j1Player::Update(float dt)
 			 }
 		 }
 
+		 UpdateCameraPos();
+
+
 		break;
 	case PLAYER_STATE::CLIMBING:
-		currentAnimation = &climb;
+
 
 		if ((App->input->GetKey(SDL_SCANCODE_D) != KEY_REPEAT && !jump_h_right) || (App->input->GetKey(SDL_SCANCODE_A) != KEY_REPEAT && jump_h_right))
 		{
@@ -219,6 +235,7 @@ bool j1Player::Update(float dt)
 
 		break;
 	case PLAYER_STATE::DEAD:
+
 		currentAnimation = &death;
 
 		if (SDL_GetTicks() - start_time >= time_to_jump && !dead_jumping)
@@ -339,6 +356,7 @@ void j1Player::ToAction()
 		}
 	}
 
+
 	// Dash----------------
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN && !dashed)
 	{
@@ -352,17 +370,22 @@ void j1Player::ToAction()
 void j1Player::Movement()
 {
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+
 		if (currentAnimation != &jump)
 			currentAnimation = &walk;
+
 		pos.x -= speed;
 		flip = SDL_FLIP_HORIZONTAL;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+
 		if (currentAnimation != &jump)
 			currentAnimation = &walk;
+
 		pos.x += speed;
 		flip = SDL_FLIP_NONE;
+		
 	}
 }
 

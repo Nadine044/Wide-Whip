@@ -75,15 +75,18 @@ public:
 
 	Animation		jump;
 	Animation		idle;
+
 	Animation		walk;
 	Animation		death;
 	Animation		dash;
 	Animation		climb;
 
+
 	iPoint			pos;
 	Collider*		col;
 
-	
+
+
 	
 
 private:
@@ -110,7 +113,9 @@ private:
 	SDL_Texture*		text							= nullptr;
 	p2SString			text_path;
 
+
 	SDL_Rect			rect_limit_camera;
+
 	int					rect_limit_camera_border_x		= 0;
 	int					rect_limit_camera_border_y		= 0;
 	int					map_left_offset					= 0;
