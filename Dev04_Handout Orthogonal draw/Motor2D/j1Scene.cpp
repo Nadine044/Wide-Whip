@@ -40,7 +40,7 @@ bool j1Scene::Start()
 {
 	App->map->Load(level1.GetString());
 	map_name_loaded = level1;
-	
+	App->audio->PlayMusic(music.GetString());
 	return true;
 }
 

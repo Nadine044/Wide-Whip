@@ -87,6 +87,8 @@ private:
 	p2SString			level1;
 	p2SString			level2;
 
+	p2SString			music = "audio/music/music_sadpiano.ogg";
+
 	p2SString			map_name_loaded;
 
 	float				time_in_fade;
