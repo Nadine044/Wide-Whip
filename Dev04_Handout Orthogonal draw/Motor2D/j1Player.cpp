@@ -73,14 +73,18 @@ bool j1Player::Awake(pugi::xml_node& config)
 	climb.LoadAnimation(animations_node.child("climb"));
 	fall.LoadAnimation(animations_node.child("fall"));
 
-	jump_fx.path = "audio/fx/jump.wav";
+	pugi::xml_node audio_node = config.child("audios");
+
+	jump_fx.path = audio_node.child_value("jump");
 	jump_fx.id = App->audio->LoadFx(jump_fx.path.GetString());
-	dash_fx.path = "audio/fx/dash.wav";
+	dash_fx.path = audio_node.child_value("dash");
 	dash_fx.id = App->audio->LoadFx(dash_fx.path.GetString());
-	death_init_fx.path = "audio/fx/start_death.wav";
+	death_init_fx.path = audio_node.child_value("death_start");
 	death_init_fx.id = App->audio->LoadFx(death_init_fx.path.GetString());
-	death_finish_fx.path = "audio/fx/finish_death.wav";
+	death_finish_fx.path = audio_node.child_value("death_finish");
 	death_finish_fx.id = App->audio->LoadFx(death_finish_fx.path.GetString());
+
+	offset_value = config.child("offset_value").attribute("value").as_int();
 
 	return ret;
 }

@@ -162,8 +162,8 @@ private:
 
 	SDL_RendererFlip	flip							= SDL_FLIP_NONE;
 
-	int				offset_animation_x;
-	int				offset_value						= 2;
+	int				offset_animation_x					= 0;
+	int				offset_value						= 0;
 
 
 };

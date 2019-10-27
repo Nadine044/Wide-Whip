@@ -6,26 +6,26 @@
 	<audio />
 	<map />
 	<scene>
-		<level_loaded value="Level2.tmx" />
+		<level_loaded value="Level1.tmx" />
 	</scene>
 	<player>
-		<position x="1036" y="710" />
-		<velocity value="6" />
+		<position x="4914" y="639" />
+		<velocity value="0" />
 		<state value="0" />
-		<flip value="1" />
+		<flip value="0" />
 		<collider enabled="true" />
-		<jumped value="true" />
+		<jumped value="false" />
 		<dashed value="false" />
 		<velocity_dash value="0" />
-		<velocity_jump_clinged value="6.95000029" />
+		<velocity_jump_clinged value="0" />
 	</player>
 	<collision />
 	<FadeToBlack>
-		<total_time value="1000" />
-		<now value="0" />
+		<total_time value="500" />
+		<now value="500" />
 		<current_step value="0" />
 	</FadeToBlack>
 	<renderer>
-		<camera x="-472" y="-347" />
+		<camera x="-4332" y="-189" />
 	</renderer>
 </game_state>

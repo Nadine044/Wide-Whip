@@ -31,6 +31,8 @@ bool j1Scene::Awake(pugi::xml_node& config)
 	level1 = levels.child_value("level1");
 	level2 = levels.child_value("level2");
 
+	music = config.child_value("music");
+
 	time_in_fade = config.child("time_in_fade").attribute("value").as_float();
 	return ret;
 }

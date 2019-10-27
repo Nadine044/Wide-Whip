@@ -52,6 +52,14 @@
     <map_left_offset_x value="200"/>
     <jump_clinged_force value="7"/>
     <resistance_jump_clinged value="0.25f"/>
+    <offset_value value="2"/>
+    
+    <audios>
+      <jump>audio/fx/jump.wav</jump>
+      <dash>audio/fx/dash.wav</dash>
+      <death_start>audio/fx/start_death.wav</death_start>
+      <death_finish>audio/fx/finish_death.wav</death_finish>
+    </audios>
 
 
     <animations>
@@ -115,6 +123,7 @@
       <level2>Level2.tmx</level2>
     </levels>
     <time_in_fade value="2.f"/>
+    <music>audio/music/music_sadpiano.ogg</music>
   </scene>
 
 </config>

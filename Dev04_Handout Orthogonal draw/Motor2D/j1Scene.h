@@ -87,7 +87,7 @@ private:
 	p2SString			level1;
 	p2SString			level2;
 
-	p2SString			music = "audio/music/music_sadpiano.ogg";
+	p2SString			music;
 
 	p2SString			map_name_loaded;
 
