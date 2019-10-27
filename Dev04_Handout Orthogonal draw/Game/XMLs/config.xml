@@ -19,16 +19,48 @@
     <fullscreen_window value="false"/>
   </window>
 
-  <file_system>
-    <path>data.zip</path>
-  </file_system>
-
   <map>
     <folder>maps/</folder>
   </map>
 
+
+  <collision>
+    <alpha_debug value ="100"/>
+  </collision>
+  
   <player>
-    <folder>xml/</folder>
+   <!--  <state state="UNKNOWN"/>                 -->
+   <!--  <position x="0" y="0"/>                  -->
+   <!--  <speed x="1.0" y="1.0"/>                 -->
+   <!--  <acceleration a="0.05"/>                 -->
+   <!--  <spritesheet source="player/player.png"/>-->
+   <!--  <animations pivot_x="5" pivot_y="7">     -->
+   <!--    <idle speed="0.15" loop="true">        -->
+   <!--      <frame x="0" y="0" w="24" h="24"/>   -->
+   <!--    </idle>                                -->
+   <!--  </animations>                            -->
+
+
+    <time_fade time_to_do_fade_to_black ="1.0f" time_to_jump="0.5f" time_in_fade="2.0f"/>
+    <rect_limit_camera_border x="200" y="150" w="450" h="400"/>
+    <jump_force value="10"/>
+    <gravity value="0.5f"/>
+    <texture>player/player.png</texture>
+    <speed value ="3"/>
+    <dash_force value="15"/>
+    <resistance_dash value="0.5f"/>
+    <map_left_offset_x value="200"/>
+    <jump_clinged_force value="7"/>
+    <resistance_jump_clinged value="0.25f"/>
+
   </player>
+
+  <scene>
+    <levels>
+      <level1>map1.tmx</level1>
+      <level2>mapping.tmx</level2>
+    </levels>
+    <time_in_fade value="2.f"/>
+  </scene>
 
 </config>

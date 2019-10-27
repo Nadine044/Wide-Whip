@@ -22,18 +22,24 @@ j1Scene::~j1Scene()
 {}
 
 // Called before render is available
-bool j1Scene::Awake()
+bool j1Scene::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene");
 	bool ret = true;
+	pugi::xml_node levels = config.child("levels");
 
+	level1 = levels.child_value("level1");
+	level2 = levels.child_value("level2");
+
+	time_in_fade = config.child("time_in_fade").attribute("value").as_float();
 	return ret;
 }
 
 // Called before the first frame
 bool j1Scene::Start()
 {
-	App->map->Load("mapping.tmx");
+	App->map->Load(level2.GetString());
+	map_name_loaded = level2;
 	
 	return true;
 }
@@ -46,56 +52,22 @@ bool j1Scene::PreUpdate()
 
 // Called each loop iteration
 bool j1Scene::Update(float dt)
-{
-	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
-		App->LoadGame();
-
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
-		App->SaveGame();
-
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		App->render->camera.y -= 1;
-
-	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		App->render->camera.y += 1;
-
-	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		App->render->camera.x -= 1;
-
-	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->render->camera.x += 1;
-
-
-	//Vars to config: level1 name, level2 name, time to fade black in levels.	TODO!
-
-
-
+{   	  
 
 	CheckLevelChange();
 
+	CheckSaveLoad();
 
-
-
-
-
-	////Draw player MYTODO
-	//iPoint mouse_pos;
-	//
-	//App->input->GetMousePosition(mouse_pos.x, mouse_pos.y);
-
-	//mouse_pos.x -= App->render->camera.x;
-	//mouse_pos.y -= App->render->camera.y;
-	//iPoint tile_on_mouse = App->map->WorldToMap(mouse_pos);
-
-	//p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d Tile:(%d,%d)",
-	//				App->map->data.width, App->map->data.height,
-	//				App->map->data.tile_width, App->map->data.tile_height,
-	//				App->map->data.tilesets.count(),
-	//				tile_on_mouse.x,
-	//				tile_on_mouse.y);
-
-	//App->win->SetTitle(title.GetString());
 	return true;
+}
+
+void j1Scene::CheckSaveLoad()
+{
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+		App->LoadGame();
+
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+		App->SaveGame();
 }
 
 void j1Scene::CheckLevelChange()
@@ -106,34 +78,34 @@ void j1Scene::CheckLevelChange()
 		
 		if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		{
-			App->fade_to_black->FadeToBlack(change_to_level_1, 2.f);
+			App->fade_to_black->FadeToBlack(change_to_level_1, time_in_fade);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		{
-			App->fade_to_black->FadeToBlack(change_to_level_2, 2.f);
+			App->fade_to_black->FadeToBlack(change_to_level_2, time_in_fade);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 		{
-			App->fade_to_black->FadeToBlack(start_this_level, 2.f);
+			App->fade_to_black->FadeToBlack(start_this_level, time_in_fade);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
 		{
-			App->fade_to_black->FadeToBlack(change_between_levels, 2.f);
+			App->fade_to_black->FadeToBlack(change_between_levels, time_in_fade);
 		}
 	}
 
 	// Change level if is set to change.
 	if (change_to_level_1)
 	{
-		ChangeLevelTo("map1.tmx");
+		ChangeLevelTo(level1);
 	}
 
 	if (change_to_level_2)
 	{
-		ChangeLevelTo("mapping.tmx");
+		ChangeLevelTo(level2);
 	}
 
 	if (start_this_level)
@@ -149,25 +121,26 @@ void j1Scene::CheckLevelChange()
 
 void j1Scene::StartThisLevel()
 {
-	if (App->map->GetMapNameLoaded() == "mapping.tmx")
+	if (IsLevel2Loaded())
 	{
-		ChangeLevelTo("mapping.tmx");
+		ChangeLevelTo(level2);
 	}
-	else
+
+	else if(IsLevel1Loaded())
 	{
-		ChangeLevelTo("map1.tmx");
+		ChangeLevelTo(level1);
 	}
 }
 
 void j1Scene::ChangeBetweenLevel()
 {
-	if (App->map->GetMapNameLoaded() == "mapping.tmx")
+	if (IsLevel2Loaded())
 	{
-		ChangeLevelTo("map1.tmx");
+		ChangeLevelTo(level1);
 	}
 	else
 	{
-		ChangeLevelTo("mapping.tmx");
+		ChangeLevelTo(level2);
 	}
 }
 
@@ -180,7 +153,18 @@ void j1Scene::ChangeLevelTo(const p2SString level)
 
 	//Load
 	App->map->Load(level.GetString());
+	map_name_loaded = level;
 	App->player->Start();
+}
+
+bool j1Scene::IsLevel1Loaded() const
+{
+	return GetMapNameLoaded() == level1;
+}
+
+bool j1Scene::IsLevel2Loaded() const
+{
+	return GetMapNameLoaded() == level2;
 }
 
 // Called each loop iteration
@@ -199,5 +183,29 @@ bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
 
+	return true;
+}
+
+p2SString j1Scene::GetMapNameLoaded() const
+{
+	return map_name_loaded;
+}
+
+bool j1Scene::Save(pugi::xml_node& save_file) const
+{
+	save_file.append_child("level_loaded").append_attribute("value") = GetMapNameLoaded().GetString();
+
+
+	return true;
+}
+
+bool j1Scene::Load(pugi::xml_node& save_file)
+{
+	p2SString level_saved = save_file.child("level_loaded").attribute("value").as_string();
+
+	if (level_saved != GetMapNameLoaded())
+	{
+		ChangeLevelTo(level_saved);
+	}
 	return true;
 }

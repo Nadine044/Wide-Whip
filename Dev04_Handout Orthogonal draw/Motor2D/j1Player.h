@@ -19,22 +19,14 @@ class Collider;
 
 enum class PLAYER_STATE
 {
-	LIVE,
+	LIVE = 0,
+	DASHING,
+	CLIMBING,
 	DEAD,
 	GOD,
 	UNKNOWN
 };
 
-struct PlayerData
-{
-
-	float			position_x, position_y;
-	float			speed_x, speed_y;
-	float			acceleration;
-	const char*		image;
-	//animations attributes load MYTODO
-
-};
 
 
 class j1Player : public j1Module
@@ -52,92 +44,113 @@ public:
 	//Load
 	bool Start() override;
 
-	void UpdateCameraPos();
-
-	// Called each loop iteration
-	bool Draw();
-
 	bool Update(float dt) override;
+	void JumpHorizontal();
 
-	void VerticalMovement();
-
-	void Gravity();
-
-	void Jump();
-
-	void Movement();
-
-	void Revive();
 
 	bool PostUpdate() override;
 
 	// Called before quitting
 	bool CleanUp() override;
 
-	//Load player file
-	bool Load(const char* path);
+	bool Save(pugi::xml_node&) const  override;
+
+	bool Load(pugi::xml_node&) override;
 
 	void OnTrigger(Collider* col2); // this will be virtual in the class object parent when ObjectManager will be created.
 
 	float GetVelocity() const;
+
+	void UpdateCameraPos();
+
+	bool* GetReviveBoolAdress() { return &revive; }
 
 public:
 
 	//Animations
 
 	//New player
-	PlayerData	data;
 
-	Animation*	currentAnimation = nullptr;
+	Animation*		currentAnimation = nullptr;
 
-	Animation	jump;
-	Animation	idle;
+	Animation		jump;
+	Animation		idle;
+	Animation		walk;
+	Animation		death;
+	Animation		dash;
+	Animation		climb;
 
-	iPoint pos;
+	iPoint			pos;
+	Collider*		col;
 
-	Collider* col;
-
-	SDL_RendererFlip flip = SDL_FLIP_NONE;
-
+	
+	
 
 private:
 
-	bool LoadPlayer();
+	void CheckDebugKeys();
+
+	void Gravity();
+
+	void ToAction();
+
+	void Movement();
+
+	void VerticalMovement();
+
+	void Revive();
 
 	void Death();
 
+
+	bool Draw() const;
+
 private:
 
-	pugi::xml_document	player_file;
-	p2SString			folder;
-	bool				player_loaded;
+	SDL_Texture*		text							= nullptr;
+	p2SString			text_path;
 
-	SDL_Texture* text = nullptr;
-	SDL_Texture* text2 = nullptr;
+	SDL_Rect			rect_limit_camera;
+	int					rect_limit_camera_border_x		= 0;
+	int					rect_limit_camera_border_y		= 0;
+	int					map_left_offset					= 0;
 
-	SDL_Rect rect_limit_camera;
-	int rect_limit_camera_border_x = 100;
-	int rect_limit_camera_border_y = 150;
+	uint				jump_force						= 0u;
+	float				velocity						= 0.0f;
+	float				gravity							= 0.f;
 
+	int					dash_force						= 0;
+	float				velocity_dash					= 0.0f;
+	float				resistance_dash					= 0.0f;
 
-	uint jump_force = 10;
-	float velocity = 0.0f;
-	float gravity = 0.5f;
+	float				jump_clinged_force_left			= 0;
+	float				jump_clinged_force_right		= 0;
+	float				velocity_jump_clinged			= 0.0f;
+	float				resistance_jump_clinged			= 0.0f;
 
-	bool jumping = false;
+	bool				jump_h_right = false;
 
-	bool revive = false;
+	int					speed							= 0;
+
+	
+	bool				dead_jumping					= false;
+	bool				revive							= false;
+
+	bool				draw_debug						= false;
+
+	bool				jumped							= false;
+	bool				dashed							= false;
+	bool				clinging						= false;
 
 	PLAYER_STATE		state;
 
-	Uint32 start_time = 0u;
-	float time_to_jump = 1.f;
-	float time_to_do_fade_to_black = 2.f;
+	Uint32				start_time						= 0u;
+	Uint32				time_to_jump					= 0u;
+	Uint32				time_to_do_fade_to_black		= 0u;
+	float				time_in_fade					= 0.0f;
 
-	Uint32 Utime_to_jump = 1.f;
-	Uint32 Utime_to_do_fade_to_black = 2.f;
+	SDL_RendererFlip	flip							= SDL_FLIP_NONE;
 
-	bool dead_jumping = false;
 
 };
 

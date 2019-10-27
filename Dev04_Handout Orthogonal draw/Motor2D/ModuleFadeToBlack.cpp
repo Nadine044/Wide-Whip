@@ -7,6 +7,8 @@
 #include "SDL/include/SDL_render.h"
 #include "SDL/include/SDL_timer.h"
 #include "j1Window.h"
+#include "j1Player.h"
+#include "j1Scene.h"
 
 ModuleFadeToBlack::ModuleFadeToBlack()
 {
@@ -34,7 +36,7 @@ bool ModuleFadeToBlack::Update(float dt)
 	if(current_step == fade_step::none)
 		return true;
 
-	Uint32 now = SDL_GetTicks() - start_time;
+	now = SDL_GetTicks() - start_time;
 	normalized = MIN(1.0f, (float)now / (float)total_time);
 
 	switch(current_step)
@@ -85,6 +87,76 @@ bool ModuleFadeToBlack::PostUpdate()
 
 	return true;
 }
+
+bool ModuleFadeToBlack::Save(pugi::xml_node &save_file) const
+{
+	save_file.append_child("total_time").append_attribute("value") = total_time;
+	save_file.append_child("now").append_attribute("value") = now;
+	save_file.append_child("current_step").append_attribute("value") = current_step;
+
+
+	if (App->player->GetReviveBoolAdress() == to_active)
+	{
+		save_file.append_child("test").append_attribute("value") = "revive";
+	}
+	else if (App->scene->GetChangeToLevel1BoolAdress() == to_active)
+	{
+		save_file.append_child("test").append_attribute("value") = "change_to_level_1";
+	}
+
+	else if (App->scene->GetChangeToLevel2BoolAdress() == to_active)
+	{
+		save_file.append_child("test").append_attribute("value") = "change_to_level_2";
+	}
+
+	else if (App->scene->GetStartThisLevelBoolAdress() == to_active)
+	{
+		save_file.append_child("test").append_attribute("value") = "start_this_level";
+	}
+
+	else if (App->scene->GetChangeBetweenLevelsBoolAdress() == to_active)
+	{
+		save_file.append_child("test").append_attribute("value") = "change_between_levels";
+	}
+
+
+
+	return true;
+}
+
+bool ModuleFadeToBlack::Load(pugi::xml_node &save_file)
+{
+	total_time = (Uint32)(save_file.child("total_time").attribute("value").as_uint());
+	start_time = SDL_GetTicks(); //- now;
+	current_step = (fade_step)(save_file.child("current_step").attribute("value").as_int());
+	p2SString name = save_file.child("test").attribute("value").as_string();
+	if (name == "revive")
+	{
+		to_active = App->player->GetReviveBoolAdress();
+	}
+
+	else if (name == "change_to_level_1")
+	{
+		to_active = App->scene->GetChangeToLevel1BoolAdress();
+	}
+
+	else if (name == "change_to_level_2")
+	{
+		to_active = App->scene->GetChangeToLevel2BoolAdress();
+	}
+
+	else if (name == "start_this_level")
+	{
+		to_active = App->scene->GetStartThisLevelBoolAdress();
+	}
+
+	else if (name == "change_between_levels")
+	{
+		to_active = App->scene->GetChangeBetweenLevelsBoolAdress();
+	}
+	return true;
+}
+
 
 // Fade to black. At mid point deactivate one module, then activate the other
 bool ModuleFadeToBlack::FadeToBlack(bool &active, float time)

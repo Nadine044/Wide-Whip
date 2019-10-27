@@ -118,8 +118,9 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\XMLs\config.xml" />
-    <Xml Include="..\Game\XMLs\player.xml" />
-    <Xml Include="..\Game\XMLs\save_game.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Game\XMLs\save_file" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

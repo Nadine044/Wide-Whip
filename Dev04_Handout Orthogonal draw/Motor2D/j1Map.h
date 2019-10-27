@@ -7,7 +7,7 @@
 #include "j1Module.h"
 #include "p2Defs.h"
 
-// TODO 1: Create a struct for the map layer
+
 // ----------------------------------------------------
 struct MapLayer
 {
@@ -17,12 +17,12 @@ struct MapLayer
 		RELEASE_ARRAY(data_gid);
 	}
 	p2SString		name;
-	uint				width_in_tiles;
-	uint				height_in_tiles;
+	uint			width_in_tiles;
+	uint			height_in_tiles;
 	uint*			data_gid;
 	float			parallax_vel;
 
-	// TODO 6: Short function to get the value of x,y
+
 inline uint GetID(int x, int y)
 {
 	return data_gid[x + (y * width_in_tiles)];
@@ -34,7 +34,6 @@ inline uint GetID(int x, int y)
 // ----------------------------------------------------
 struct TileSet
 {
-	// TODO 7: Create a method that receives a tile id and returns it's Rect
 	~TileSet();
 	SDL_Rect GetRectFromID(const int id)
 	{
@@ -111,14 +110,12 @@ public:
 	// Load new map
 	bool Load(const char* path);
 
-	// TODO 8: Create a method thattranslates x,y coordinates from map positions to world positions
-
 	iPoint MapToWorld(const iPoint&) const;
 	iPoint WorldToMap(const iPoint&) const;
 	iPoint MapToWorldIsometric(const iPoint& )const;
 	iPoint WorldToMapIsometric(const iPoint&)const;
 
-	p2SString GetMapNameLoaded() const;
+
 
 private:
 
@@ -138,7 +135,7 @@ private:
 	p2SString			folder;
 	bool				map_loaded;
 
-	p2SString			map_name_loaded;
+	
 };
 
 #endif // __j1MAP_H__

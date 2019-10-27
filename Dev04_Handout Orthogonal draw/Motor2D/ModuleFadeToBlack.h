@@ -13,6 +13,8 @@ public:
 	bool Start() override;
 	bool Update(float dt) override;
 	bool PostUpdate() override;
+	bool Save(pugi::xml_node&) const  override;
+	bool Load(pugi::xml_node&) override;
 	bool FadeToBlack(bool& active, float time = 1.0f);
 	bool IsFading() const;
 
@@ -24,15 +26,17 @@ private:
 		fade_to_black,
 		changing_mode,
 		fade_from_black
-	} current_step = fade_step::none;
+	}				current_step = fade_step::none;
 
-	Uint32 start_time = 0;
-	Uint32 total_time = 0;
-	Uint32 fase_time = 0;
-	SDL_Rect screen;
-	bool* to_active = nullptr;
+	Uint32			start_time = 0;
+	Uint32			total_time = 0;
+	Uint32			fase_time = 0;
+	SDL_Rect		screen;
+	bool*			to_active = nullptr;
 
-	float normalized = 0.0f;
+	float			normalized = 0.0f;
+
+	Uint32			now = 0u;
 };
 
 #endif //__MODULEFADETOBLACK_H__

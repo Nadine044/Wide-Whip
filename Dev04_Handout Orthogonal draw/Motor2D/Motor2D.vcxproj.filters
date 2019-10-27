@@ -139,14 +139,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="..\Game\XMLs\save_game.xml">
-      <Filter>Desenvolupament  ========\XMLs</Filter>
-    </Xml>
     <Xml Include="..\Game\XMLs\config.xml">
       <Filter>Desenvolupament  ========\XMLs</Filter>
     </Xml>
-    <Xml Include="..\Game\XMLs\player.xml">
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Game\XMLs\save_file">
       <Filter>Desenvolupament  ========\XMLs</Filter>
-    </Xml>
+    </None>
   </ItemGroup>
 </Project>
