@@ -62,66 +62,77 @@ bool j1Player::Awake(pugi::xml_node& config)
 
 	text_path							= config.child_value("texture");
 
-
-	idle.PushBack({ 0, 0, 47, 65 });
-	idle.PushBack({ 47, 0, 47, 65 });
-	idle.PushBack({ 94, 0, 47, 65 });
-	idle.PushBack({ 141, 0, 47, 65 });
-
-	idle.loop = true;
-	idle.speed = 0.2f;
-
-	//jump.PushBack({ 0, 67, 47, 65 });
-	//jump.PushBack({ 47, 67, 47, 65 });
-	//jump.PushBack({ 97, 67, 47, 65 });
-	jump.PushBack({ 141, 67, 47, 65 });
-	jump.PushBack({ 188, 67, 47, 65 });
-	jump.PushBack({ 235, 67, 47, 65 });
-	jump.PushBack({ 282, 67, 47, 65 });
-	//jump.PushBack({ 229, 67, 47, 65 });
-	//jump.PushBack({ 502, 67, 47, 65 });
-
-	jump.loop = false;
-	jump.speed = 0.1f;
+	pugi::xml_node animations_node = config.child("animations");
+	idle.LoadAnimation(animations_node.child("idle"));
+	jump.LoadAnimation(animations_node.child("jump"));
+	walk.LoadAnimation(animations_node.child("walk"));
+	jump.LoadAnimation(animations_node.child("jump"));
+	death.LoadAnimation(animations_node.child("death"));
+	dash.LoadAnimation(animations_node.child("dash"));
+	climb.LoadAnimation(animations_node.child("climb"));
+	fall.LoadAnimation(animations_node.child("fall"));
 
 
-	walk.PushBack({ 0, 130, 47, 65});
-	walk.PushBack({ 47, 130, 47, 65 });
-	walk.PushBack({ 94, 130, 47, 65 });
-	walk.PushBack({ 141, 130, 47, 65 });
-	walk.PushBack({ 188, 130, 47, 65 });
-	walk.PushBack({ 235, 130, 47, 65 });
+	//idle.PushBack({ 0, 0, 47, 65 });
+	//idle.PushBack({ 47, 0, 47, 65 });
+	//idle.PushBack({ 94, 0, 47, 65 });
+	//idle.PushBack({ 141, 0, 47, 65 });
 
-	walk.loop = true;
-	walk.speed = 0.2f;
+	//idle.loop = true;
+	//idle.speed = 0.2f;
 
-	death.PushBack({ 0, 195, 47, 65 });
-	death.PushBack({ 47, 195, 47, 65 });
-	death.PushBack({ 94, 195, 47, 65 });
-	death.PushBack({ 141, 195, 47, 65 });
+	////jump.PushBack({ 0, 67, 47, 65 });
+	////jump.PushBack({ 47, 67, 47, 65 });
+	////jump.PushBack({ 97, 67, 47, 65 });
+	//jump.PushBack({ 141, 67, 47, 65 });
+	//jump.PushBack({ 188, 67, 47, 65 });
+	//jump.PushBack({ 235, 67, 47, 65 });
+	//jump.PushBack({ 282, 67, 47, 65 });
+	////jump.PushBack({ 229, 67, 47, 65 });
+	////jump.PushBack({ 502, 67, 47, 65 });
 
-	death.loop = true;
-	death.speed = 0.5f;
+	//jump.loop = false;
+	//jump.speed = 0.1f;
 
-	dash.PushBack({ 0, 260, 47, 65 });
-	dash.PushBack({ 47, 260, 47, 65 });
-	dash.PushBack({ 94, 260, 47, 65 });
-	dash.PushBack({ 141, 260, 47, 65 });
-	dash.PushBack({ 188, 260, 47, 65 });
-	dash.PushBack({ 235, 260, 47, 65 });
 
-	dash.loop = true;
-	dash.speed = 0.8f;
+	//walk.PushBack({ 0, 130, 47, 65});
+	//walk.PushBack({ 47, 130, 47, 65 });
+	//walk.PushBack({ 94, 130, 47, 65 });
+	//walk.PushBack({ 141, 130, 47, 65 });
+	//walk.PushBack({ 188, 130, 47, 65 });
+	//walk.PushBack({ 235, 130, 47, 65 });
 
-	climb.PushBack({ 0, 325, 47, 65 });
+	//walk.loop = true;
+	//walk.speed = 0.2f;
 
-	fall.PushBack({ 188, 67, 47, 65 });
-	fall.PushBack({ 235, 67, 47, 65 });
-	fall.PushBack({ 282, 67, 47, 65 });
+	//death.PushBack({ 0, 195, 47, 65 });
+	//death.PushBack({ 47, 195, 47, 65 });
+	//death.PushBack({ 94, 195, 47, 65 });
+	//death.PushBack({ 141, 195, 47, 65 });
 
-	fall.loop = false;
-	fall.speed = 0.2f;
-	climb.loop = false;
+	//death.loop = true;
+	//death.speed = 0.5f;
+
+	//dash.PushBack({ 0, 260, 47, 65 });
+	//dash.PushBack({ 47, 260, 47, 65 });
+	//dash.PushBack({ 94, 260, 47, 65 });
+	//dash.PushBack({ 141, 260, 47, 65 });
+	//dash.PushBack({ 188, 260, 47, 65 });
+	//dash.PushBack({ 235, 260, 47, 65 });
+
+	//dash.loop = true;
+	//dash.speed = 0.8f;
+
+	//climb.PushBack({ 0, 325, 47, 65 });
+	//climb.loop = false;
+
+	//fall.PushBack({ 188, 67, 47, 65 });
+	//fall.PushBack({ 235, 67, 47, 65 });
+	//fall.PushBack({ 282, 67, 47, 65 });
+
+	//fall.loop = false;
+	//fall.speed = 0.2f;
+
 
 
 	return ret;

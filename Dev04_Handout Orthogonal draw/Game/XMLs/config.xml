@@ -53,6 +53,60 @@
     <jump_clinged_force value="7"/>
     <resistance_jump_clinged value="0.25f"/>
 
+
+    <animations>
+      
+      <idle speed="0.2f" loop="true">
+        <frame x="0"   y="0" w ="47" h ="65"/>
+        <frame x="47"  y="0" w ="47" h ="65"/>
+        <frame x="94"  y="0" w ="47" h ="65"/>
+        <frame x="141" y="0" w ="47" h ="65"/>
+      </idle>
+      
+      <jump speed="0.1f" loop="false">
+        <frame x="141" y="67" w ="47" h ="65"/>
+        <frame x="188" y="67" w ="47" h ="65"/>
+        <frame x="235" y="67" w ="47" h ="65"/>
+        <frame x="282" y="67" w ="47" h ="65"/>
+      </jump>
+
+      <walk speed="0.2f" loop="true">
+        <frame x="0"   y="130" w ="47" h ="65"/>
+        <frame x="47"  y="130" w ="47" h ="65"/>
+        <frame x="94"  y="130" w ="47" h ="65"/>
+        <frame x="141" y="130" w ="47" h ="65"/>
+        <frame x="188" y="130" w ="47" h ="65"/>
+        <frame x="235" y="130" w ="47" h ="65"/>
+      </walk>
+
+      <death speed="0.5f" loop="true">
+        <frame x="0"   y="195" w ="47" h ="65"/>
+        <frame x="47"  y="195" w ="47" h ="65"/>
+        <frame x="97"  y="195" w ="47" h ="65"/>
+        <frame x="141" y="195" w ="47" h ="65"/>
+      </death>
+
+      <dash speed="0.8f" loop="true">
+        <frame x="0"   y="260" w ="47" h ="65"/>
+        <frame x="47"  y="260" w ="47" h ="65"/>
+        <frame x="94"  y="260" w ="47" h ="65"/>
+        <frame x="141" y="260" w ="47" h ="65"/>
+        <frame x="188" y="260" w ="47" h ="65"/>
+        <frame x="235" y="260" w ="47" h ="65"/>
+      </dash>
+
+      <climb speed="0.1f" loop="false">
+        <frame x="0"   y="325" w ="47" h ="65"/>
+      </climb>
+
+      <fall speed="0.2f" loop="false">
+        <frame x="188"  y="67" w ="47" h ="65"/>
+        <frame x="235"  y="67" w ="47" h ="65"/>
+        <frame x="282"  y="67" w ="47" h ="65"/>
+      </fall>
+      
+    </animations>
+    
   </player>
 
   <scene>
