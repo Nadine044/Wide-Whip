@@ -156,6 +156,8 @@ private:
 
 	SDL_RendererFlip	flip							= SDL_FLIP_NONE;
 
+	iPoint				offset_animation;
+
 
 };
 

@@ -101,7 +101,7 @@ bool j1Player::Awake(pugi::xml_node& config)
 	death.PushBack({ 141, 195, 47, 65 });
 
 	death.loop = true;
-	death.speed = 0.7f;
+	death.speed = 0.5f;
 
 	dash.PushBack({ 0, 260, 47, 65 });
 	dash.PushBack({ 47, 260, 47, 65 });
@@ -110,10 +110,10 @@ bool j1Player::Awake(pugi::xml_node& config)
 	dash.PushBack({ 188, 260, 47, 65 });
 	dash.PushBack({ 235, 260, 47, 65 });
 
-	dash.loop = false;
-	dash.speed = 0.2;
+	dash.loop = true;
+	dash.speed = 0.8;
 
-	climb.PushBack({ 0, 325, 47, 65 });
+	climb.PushBack({ 0, 260, 47, 65 });
 
 	climb.loop = false;
 
@@ -275,7 +275,6 @@ bool j1Player::Update(float dt)
 	default:
 		break;
 	}
-
 	CheckDebugKeys();
 	col->UpdatePos(pos);
 	return true;
@@ -440,6 +439,7 @@ void j1Player::OnTrigger(Collider* col2)
 			velocity = 0.0f;
 			state = PLAYER_STATE::CLIMBING;
 			jump_h_right = false;
+			currentAnimation = &climb;
 		}
 	}
 	if (col->last_colision_direction == DISTANCE_DIR::RIGHT && col2->tag == TAG::WALL)
@@ -451,6 +451,7 @@ void j1Player::OnTrigger(Collider* col2)
 			velocity = 0.0f;
 			state = PLAYER_STATE::CLIMBING;
 			jump_h_right = true;
+			currentAnimation = &climb;
 		}
 	}
 
@@ -470,6 +471,7 @@ bool j1Player::Draw() const
 {
 	//Animation MYTODO
 	//----------------------	
+	
 	
 		//currentAnimation = &idle;
 	App->render->Blit(text, pos.x, pos.y, &(currentAnimation->GetCurrentFrame()), 1.0f, flip);
