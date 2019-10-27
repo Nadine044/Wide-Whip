@@ -41,22 +41,36 @@ void j1Map::Draw()
 	{
 		SDL_Rect section = { 0, 0, image_layers->data->image_width, image_layers->data->image_height };
 		App->render->Blit(image_layers->data->texture, image_layers->data->background_new_pos1, 0, &section, image_layers->data->parallax_image);
-
-		if (-App->render->camera.x > ((image_layers->data->background_new_pos1 - App->render->camera.x * (1 - image_layers->data->parallax_image))) + image_layers->data->image_width)
+		int m = (App->render->camera.x * (1 - image_layers->data->parallax_image));
+		if (-App->render->camera.x + App->render->camera.w > image_layers->data->background_new_pos2 - image_layers->data->image_width - m + image_layers->data->image_width && !image_layers->data->on_first)
 		{
 			image_layers->data->background_new_pos1 += image_layers->data->image_width * 2;
+			image_layers->data->on_first = true;
 		}
-	
+
+		if (-App->render->camera.x < (image_layers->data->background_new_pos2 - image_layers->data->image_width) -App->render->camera.x * (1 - image_layers->data->parallax_image) && image_layers->data->on_first)
+		{
+			image_layers->data->background_new_pos1 -= image_layers->data->image_width * 2;
+			image_layers->data->on_first = false;
+		}
+		
+		//if (IsOnCamera(SDL_Rect{}))
 
 		SDL_Rect section2 = { 0, 0, image_layers->data->image_width, image_layers->data->image_height };
-		App->render->Blit(image_layers->data->texture, image_layers->data->background_new_pos2 + image_layers->data->image_width, 0, &section2, image_layers->data->parallax_image);
+		App->render->Blit(image_layers->data->texture, image_layers->data->background_new_pos2 - image_layers->data->image_width, 0, &section2, image_layers->data->parallax_image);
 
-		if (-App->render->camera.x >((image_layers->data->background_new_pos2 - App->render->camera.x * (1 - image_layers->data->parallax_image))) + image_layers->data->image_width *2)
+		if (-App->render->camera.x + App->render->camera.w > ((image_layers->data->background_new_pos1 - App->render->camera.x * (1 - image_layers->data->parallax_image))) + image_layers->data->image_width && image_layers->data->on_first)
 		{
 			image_layers->data->background_new_pos2 += image_layers->data->image_width * 2;
+			image_layers->data->on_first = false;
+		}
+
+		if (-App->render->camera.x < ((image_layers->data->background_new_pos1 - App->render->camera.x * (1 - image_layers->data->parallax_image))) && !image_layers->data->on_first)
+		{
+			image_layers->data->background_new_pos2 -= image_layers->data->image_width * 2;
 		}
 	}
-
+	
 	for (tileset = data.tilesets.start; tileset; tileset = tileset->next)
 	{
 		for (p2List_item<MapLayer*>* layer = data.layers.start; layer; layer = layer->next)
