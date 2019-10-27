@@ -101,7 +101,7 @@ bool j1Player::Awake(pugi::xml_node& config)
 	death.PushBack({ 141, 195, 47, 65 });
 
 	death.loop = true;
-	death.speed = 0.2;
+	death.speed = 0.7f;
 
 	dash.PushBack({ 0, 260, 47, 65 });
 	dash.PushBack({ 47, 260, 47, 65 });
@@ -420,7 +420,14 @@ void j1Player::OnTrigger(Collider* col2)
 	{
 		velocity = 0.0f;
 		jump.Reset();
-		currentAnimation = &idle;
+		if (currentAnimation == &walk)
+		{
+			if (App->input->GetKey(SDL_SCANCODE_A) != KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_D) != KEY_REPEAT)
+				currentAnimation = &idle;
+		}
+		else
+			currentAnimation = &idle;
+
 		jumped = false;
 		dashed = false;
 	}
