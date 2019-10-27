@@ -1,17 +1,7 @@
 # Wide-Whip
-A platform game created by students of the CITM of the UPC.
-
-## Description
-
-This is a challenging platformer game with 3 main mechanics: Jump, Dash and bouncing on walls.
-
-## Links
-
-Nadine Gutiérrez: https://github.com/Nadine044
-
-Jorge Gemas: https://github.com/https://github.com/jorgegh2
-
-Github repository: https://github.com/Nadine044/Wide-Whip
+Wide-Whip is a challenging platform game where the player must overcome a series of challenges to complete the levels. The game has three main mechanics: jump, dash and bouncing on walls.
+This game is created by two students of the CITM (UPC) on the Game Development subject of the degree, in the second year.
+We programmed the game from scratch in C++ and we used free artwork.
 
 ## Instructions to execute:
 
@@ -54,11 +44,20 @@ Github repository: https://github.com/Nadine044/Wide-Whip
 
 - F10 God mode.
 
+## Links
+
+Jorge Gemas: https://github.com/https://github.com/jorgegh2
+
+Nadine Gutiérrez: https://github.com/Nadine044
+
+
+Github repository: https://github.com/Nadine044/Wide-Whip
+
 ## Who made what:
 
 - Jorge Gemas: three mainly mechanics (jump, dash and bouncing on walls), Collisions, Save and Load and the system to change (load/unload) levels. Audio of the game.
 
-- Nadine Gutiérrez: All related with the art of the game, textures, animations, and the desing of the levels and make sure the game is fun.
+- Nadine Gutiérrez: All related with the art of the game, textures, animations, and the desing of the levels and make sure the game is fun. Camera movement implementations, parallax effect.
 
 ## MIT License
 
