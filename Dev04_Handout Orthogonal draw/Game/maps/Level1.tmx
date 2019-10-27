@@ -35602,15 +35602,27 @@
  </layer>
  <imagelayer id="13" name="4Forest">
   <image source="4Forest.png" width="7680" height="960"/>
+  <properties>
+   <property name="parallax" type="float" value="0.3"/>
+  </properties>
  </imagelayer>
  <imagelayer id="11" name="3Forest">
   <image source="3Forest.png" width="7680" height="960"/>
+  <properties>
+   <property name="parallax" type="float" value="0.5"/>
+  </properties>
  </imagelayer>
  <imagelayer id="10" name="2Forest">
   <image source="2Forest.png" width="7680" height="960"/>
+  <properties>
+   <property name="parallax" type="float" value="0.7"/>
+  </properties>
  </imagelayer>
  <imagelayer id="9" name="1Forest">
   <image source="Forest1.png" width="7680" height="960"/>
+  <properties>
+   <property name="parallax" type="float" value="1"/>
+  </properties>
  </imagelayer>
  <objectgroup id="2" name="Colliders">
   <object id="1" type="WALL" x="0" y="832" width="352" height="32"/>
