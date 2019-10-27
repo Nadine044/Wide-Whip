@@ -55,8 +55,11 @@ Github repository: https://github.com/Nadine044/Wide-Whip
 Art work:
 
 https://itch.io
+
 https://opengameart.org
+
 https://freesound.org
+
 https://patrickdearteaga.com
 
 ## Who made what:
