@@ -38,8 +38,8 @@ bool j1Scene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool j1Scene::Start()
 {
-	App->map->Load(level2.GetString());
-	map_name_loaded = level2;
+	App->map->Load(level1.GetString());
+	map_name_loaded = level1;
 	
 	return true;
 }

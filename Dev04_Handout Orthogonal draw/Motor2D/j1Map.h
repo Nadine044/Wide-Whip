@@ -6,6 +6,8 @@
 #include "p2Point.h"
 #include "j1Module.h"
 #include "p2Defs.h"
+#include "j1App.h"
+#include "j1Textures.h"
 
 
 // ----------------------------------------------------
@@ -29,6 +31,20 @@ inline uint GetID(int x, int y)
 }
 };
 
+struct ImageLayers
+{
+	SDL_Texture*		texture;
+	int					position_x;
+	int					position_y;
+	int					image_width;
+	int					image_height;
+	float				parallax_image;
+
+	~ImageLayers() 
+	{
+		App->tex->UnLoad(texture);
+	};
+};
 
 
 // ----------------------------------------------------
@@ -85,6 +101,7 @@ struct MapData
 	MapTypes			type;
 	p2List<TileSet*>	tilesets;
 	p2List<MapLayer*>	layers;
+	p2List<ImageLayers*>	image_layers;
 };
 
 // ----------------------------------------------------
@@ -127,6 +144,7 @@ private:
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadObjectGroups(pugi::xml_node& node);
+	bool LoadImageLayers(pugi::xml_node& node, ImageLayers* object);
 
 public:
 

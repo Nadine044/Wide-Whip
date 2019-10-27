@@ -35,6 +35,13 @@ void j1Map::Draw()
 		return;
 	p2List_item<TileSet*>* tileset = nullptr;
 	p2List_item<MapLayer*>* layer = nullptr;
+	p2List_item<ImageLayers*>* image_layers = nullptr;
+
+	for (image_layers = data.image_layers.start; image_layers; image_layers = image_layers->next)
+	{
+		SDL_Rect section = { 0, 0, image_layers->data->image_width, image_layers->data->image_height };
+		App->render->Blit(image_layers->data->texture, 0, 0, &section, image_layers->data->parallax_image);
+	}
 
 	for (tileset = data.tilesets.start; tileset; tileset = tileset->next)
 	{
@@ -46,8 +53,9 @@ void j1Map::Draw()
 				{
 					iPoint pos_in_world = MapToWorld(iPoint(x, y));
 					SDL_Rect section = tileset->data->GetRectFromID(layer->data->GetID(x, y));
-					if (IsOnCamera(SDL_Rect{ int(pos_in_world.x + -App->render->camera.x * (1 - layer->data->parallax_vel)), pos_in_world.y, data.tile_width, data.tile_height})) //Culling
+					if (IsOnCamera(SDL_Rect{ pos_in_world.x , pos_in_world.y, data.tile_width, data.tile_height})) //Culling
 						App->render->Blit(tileset->data->texture, pos_in_world.x, pos_in_world.y, &section, layer->data->parallax_vel);
+				
 				}
 			}
 		}
@@ -197,6 +205,7 @@ bool j1Map::Load(const char* file_name)
 		data.layers.add(set);
 	}
 
+	//Load Colliders
 	pugi::xml_node object_group;
 	for (object_group = map_file.child("map").child("objectgroup"); object_group && ret; object_group = object_group.next_sibling("objectgroup"))
 	{
@@ -208,6 +217,17 @@ bool j1Map::Load(const char* file_name)
 
 	}
 
+	//Load background
+	pugi::xml_node backgroundImage;
+	for (backgroundImage = map_file.child("map").child("imagelayer"); backgroundImage && ret; backgroundImage = backgroundImage.next_sibling("imagelayer"))
+	{
+		ImageLayers* imgLayer = new ImageLayers();
+
+		ret = LoadImageLayers(backgroundImage, imgLayer);
+
+		if (ret == true)
+			data.image_layers.add(imgLayer);
+	}
 
 
 
@@ -427,6 +447,37 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 
 	return true;
 
+}
+
+bool j1Map::LoadImageLayers(pugi::xml_node& node, ImageLayers* object)
+{
+	bool ret = true;
+	pugi::xml_node image = node.child("image");
+	/*object->position_x = node.attribute("offsetx").as_int();
+	object->position_y = node.attribute("offsety").as_int();*/
+	
+	object->texture = App->tex->Load(PATH(folder.GetString(), image.attribute("source").as_string()));
+	int w, h;
+	SDL_QueryTexture(object->texture, NULL, NULL, &w, &h);
+	object->image_width = image.attribute("width").as_int();
+
+	if (object->image_width <= 0)
+	{
+		object->image_width = w;
+	}
+
+	object->image_height = image.attribute("height").as_int();
+
+	if (object->image_height <= 0)
+	{
+		object->image_height = h;
+	}
+
+	object->parallax_image = node.child("properties").child("property").attribute("value").as_float();
+
+
+	
+	return true;
 }
 
 bool j1Map::IsOnCamera(SDL_Rect rect) const
