@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-up" width="237" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="14" nextobjectid="82">
+ <tileset firstgid="1" name="Forest4" tilewidth="32" tileheight="32" tilecount="1296" columns="48">
+  <image source="Forest4.png" trans="0011ff" width="1536" height="864"/>
+ </tileset>
+ <tileset firstgid="1297" name="Forest3" tilewidth="32" tileheight="32" tilecount="1296" columns="48">
+  <image source="Forest3.png" trans="0011ff" width="1536" height="864"/>
+ </tileset>
+ <tileset firstgid="2593" name="Forest2" tilewidth="32" tileheight="32" tilecount="1296" columns="48">
+  <image source="Forest2.png" trans="0011ff" width="1536" height="864"/>
+ </tileset>
+ <tileset firstgid="3889" name="Forest1" tilewidth="32" tileheight="32" tilecount="7200" columns="240">
+  <image source="Forest1.png" trans="0011ff" width="7680" height="960"/>
+ </tileset>
  <tileset firstgid="11089" name="tileset" tilewidth="32" tileheight="32" tilecount="143" columns="13">
   <image source="tileset.png" trans="0011ff" width="416" height="352"/>
  </tileset>
@@ -28471,6 +28483,30 @@
    <tile gid="4413"/>
   </data>
  </layer>
+ <imagelayer id="13" name="4Forest">
+  <image source="4F.png" width="1536" height="960"/>
+  <properties>
+   <property name="parallax" type="float" value="0.3"/>
+  </properties>
+ </imagelayer>
+ <imagelayer id="11" name="3Forest">
+  <image source="3F.png" width="1536" height="960"/>
+  <properties>
+   <property name="parallax" type="float" value="0.5"/>
+  </properties>
+ </imagelayer>
+ <imagelayer id="10" name="2Forest">
+  <image source="2F.png" width="1536" height="960"/>
+  <properties>
+   <property name="parallax" type="float" value="0.7"/>
+  </properties>
+ </imagelayer>
+ <imagelayer id="9" name="1Forest">
+  <image source="1F.png" width="1536" height="960"/>
+  <properties>
+   <property name="parallax" type="float" value="1"/>
+  </properties>
+ </imagelayer>
  <layer id="1" name="Tileset" width="237" height="30">
   <properties>
    <property name="parallax" type="float" value="1"/>
@@ -33947,7 +33983,7 @@
    <tile gid="11104"/>
    <tile gid="11104"/>
    <tile gid="11104"/>
-   <tile gid="11104"/>
+   <tile gid="11119"/>
    <tile/>
    <tile/>
    <tile/>
@@ -34146,10 +34182,6 @@
    <tile gid="11104"/>
    <tile gid="11104"/>
    <tile gid="11104"/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -34169,12 +34201,6 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile gid="11104"/>
    <tile/>
    <tile/>
    <tile/>
@@ -34185,6 +34211,16 @@
    <tile/>
    <tile/>
    <tile gid="11104"/>
+   <tile gid="11116"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11118"/>
+   <tile gid="11132"/>
    <tile/>
    <tile/>
    <tile/>
@@ -34412,6 +34448,16 @@
    <tile/>
    <tile/>
    <tile gid="11104"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11132"/>
    <tile/>
    <tile/>
    <tile/>
@@ -34421,17 +34467,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="11104"/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
    <tile gid="11104"/>
    <tile/>
    <tile/>
@@ -34638,8 +34674,6 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="11104"/>
-   <tile gid="11104"/>
    <tile gid="11104"/>
    <tile gid="11104"/>
    <tile gid="11104"/>
@@ -34649,16 +34683,18 @@
    <tile gid="11104"/>
    <tile gid="11104"/>
    <tile gid="11104"/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
    <tile gid="11104"/>
+   <tile gid="11116"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11132"/>
    <tile/>
    <tile/>
    <tile/>
@@ -34845,21 +34881,6 @@
    <tile/>
    <tile/>
    <tile gid="11104"/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -34890,22 +34911,37 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11118"/>
+   <tile gid="11116"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11132"/>
    <tile/>
    <tile/>
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="11104"/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
    <tile/>
    <tile/>
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
    <tile gid="11104"/>
    <tile/>
    <tile/>
@@ -35111,28 +35147,28 @@
    <tile gid="11104"/>
    <tile gid="11104"/>
    <tile gid="11104"/>
-   <tile gid="11104"/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
    <tile gid="11104"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11132"/>
    <tile/>
    <tile/>
    <tile/>
@@ -35349,26 +35385,26 @@
    <tile/>
    <tile/>
    <tile gid="11104"/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
+   <tile gid="11117"/>
    <tile gid="11104"/>
    <tile gid="11104"/>
    <tile gid="11104"/>
@@ -35588,31 +35624,7 @@
    <tile gid="11104"/>
   </data>
  </layer>
- <imagelayer id="13" name="4Forest">
-  <image source="4Forest.png" width="7680" height="960"/>
-  <properties>
-   <property name="parallax" type="float" value="0.3"/>
-  </properties>
- </imagelayer>
- <imagelayer id="11" name="3Forest">
-  <image source="3Forest.png" width="7680" height="960"/>
-  <properties>
-   <property name="parallax" type="float" value="0.5"/>
-  </properties>
- </imagelayer>
- <imagelayer id="10" name="2Forest">
-  <image source="2Forest.png" width="7680" height="960"/>
-  <properties>
-   <property name="parallax" type="float" value="0.7"/>
-  </properties>
- </imagelayer>
- <imagelayer id="9" name="1Forest">
-  <image source="Forest1.png" width="7680" height="960"/>
-  <properties>
-   <property name="parallax" type="float" value="1"/>
-  </properties>
- </imagelayer>
- <objectgroup id="2" name="Colliders">
+ <objectgroup id="2" name="Colliders" visible="0">
   <object id="1" type="WALL" x="0" y="832" width="352" height="32"/>
   <object id="2" type="WALL" x="320" y="736" width="32" height="96"/>
   <object id="3" type="WALL" x="352" y="736" width="320" height="32"/>
