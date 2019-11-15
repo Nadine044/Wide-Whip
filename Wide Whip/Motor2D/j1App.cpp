@@ -14,6 +14,7 @@
 #include "j1App.h"
 #include "ModuleCollision.h"
 #include "ModuleFadeToBlack.h"
+#include "ModuleEntityManager.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -31,6 +32,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	player = new j1Player();
 	collisions = new ModuleCollision();  
 	fade_to_black = new ModuleFadeToBlack();
+	module_entity_manager = new ModuleEntityManager();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -40,6 +42,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(map);
 	AddModule(scene);
+	AddModule(module_entity_manager);
 	AddModule(player);
 	AddModule(collisions);//After scenes, objects
 	AddModule(fade_to_black);

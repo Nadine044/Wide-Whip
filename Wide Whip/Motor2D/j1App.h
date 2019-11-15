@@ -16,6 +16,7 @@ class j1Map;
 class j1Player;
 class ModuleCollision;
 class ModuleFadeToBlack;
+class ModuleEntityManager;
 
 class j1App
 {
@@ -89,6 +90,7 @@ public:
 	j1Player*			player;
 	ModuleCollision*	collisions;
 	ModuleFadeToBlack*	fade_to_black;
+	ModuleEntityManager* module_entity_manager;
 
 private:
 
