@@ -22,10 +22,14 @@ public:
 	Entity(EntityType type);
 	~Entity();
 
+	virtual bool Start() { return true; };
 	virtual bool PreUpdate() { return true; };
 	virtual bool Update(float dt) { return true; };
 	virtual bool PostUpdate() { return true; };
 	virtual bool CleanUp() { return true; };
+
+	virtual bool Save(pugi::xml_node&) const override;
+	virtual bool Load(pugi::xml_node&) override;
 
 	//virtual void Draw(float dt);
 	//On Collision??

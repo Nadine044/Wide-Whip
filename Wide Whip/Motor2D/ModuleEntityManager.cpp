@@ -11,10 +11,10 @@ ModuleEntityManager::ModuleEntityManager() : j1Module()
 
 bool ModuleEntityManager::Update(float dt)
 {
-	/*for (p2List_item<Entity*>* iter = entities.start; iter; iter = iter->next)
+	for (p2List_item<Entity*>* iter = entities.cbegin; iter; iter = iter->next)
 	{
 		iter->data->Update(dt);
-	}*/
+	}
 
 	return true;
 }
@@ -24,6 +24,7 @@ Entity* ModuleEntityManager::CreateEntity(Entity::EntityType type)
 	//STATIC ASSERT
 	//It will cause a compilation failure and produce an error message 
 	//that in most IDE's be caught and displayed in the IDE's error window.
+
 	//static_assert(Entity::EntityType::NO_TYPE == 4, "code needs update");
 	Entity* ret = nullptr;
 

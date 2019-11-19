@@ -43,20 +43,19 @@ public:
 	bool Awake(pugi::xml_node& player);
 
 	//Load
-	bool Start();
-
-	bool Update(float dt);
+	bool Start() override;
+		
+	bool Update(float dt) override;
 	void JumpHorizontal();
 
-
-	bool PostUpdate() ;
+	bool PostUpdate() override;
 
 	// Called before quitting
-	bool CleanUp();
+	bool CleanUp() override;
 
-	bool Save(pugi::xml_node&) const;
+	bool Save(pugi::xml_node&) const override;
 
-	bool Load(pugi::xml_node&);
+	bool Load(pugi::xml_node&) override;
 
 	void OnTrigger(Collider* col2); // this will be virtual in the class object parent when ObjectManager will be created.
 

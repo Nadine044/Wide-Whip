@@ -12,9 +12,11 @@ class ModuleEntityManager : public j1Module
 public:
 	ModuleEntityManager();
 
-	bool Update(float dt) override;
-	bool PostUpdate() override { return true; };
-	bool CleanUp() override { return true; };
+	virtual bool Start() { return true; };
+	virtual bool PreUpdate() { return true; };
+	virtual bool Update(float dt) { return true; };
+	virtual bool PostUpdate() { return true; };
+	virtual bool CleanUp() { return true; };
 
 	Entity* CreateEntity(Entity::EntityType type);
 
