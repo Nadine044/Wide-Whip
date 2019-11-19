@@ -11,7 +11,7 @@ ModuleEntityManager::ModuleEntityManager() : j1Module()
 
 bool ModuleEntityManager::Update(float dt)
 {
-	for (p2List_item<Entity*>* iter = entities.cbegin; iter; iter = iter->next)
+	for (p2List_item<Entity*>* iter = entities.begin; iter; iter = iter->next)
 	{
 		iter->data->Update(dt);
 	}
@@ -33,7 +33,6 @@ Entity* ModuleEntityManager::CreateEntity(Entity::EntityType type)
 	case Entity::EntityType::PLAYER:
 		ret = new j1Player();
 		break;
-
 	case Entity::EntityType::ENEMY:
 		break;
 	case Entity::EntityType::COIN:

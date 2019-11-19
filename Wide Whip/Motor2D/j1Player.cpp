@@ -7,7 +7,6 @@
 #include "j1Map.h"
 #include "j1Player.h"
 #include "ModuleCollision.h"
-#include <math.h>
 #include "ModuleFadeToBlack.h"
 #include "j1Scene.h"
 #include "Entity.h"
@@ -15,7 +14,10 @@
 
 
 j1Player::j1Player() : Entity(EntityType::PLAYER)
-{}
+{
+	player = (Entity*) App->module_entity_manager->CreateEntity(Entity::EntityType::PLAYER);
+	player->type = EntityType::PLAYER;
+}
 
 //Destructor
 j1Player::~j1Player()

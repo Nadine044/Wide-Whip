@@ -43,7 +43,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map);
 	AddModule(scene);
 	AddModule(module_entity_manager);
-	AddModule(player);
+	//AddModule(player);
 	AddModule(collisions);//After scenes, objects
 	AddModule(fade_to_black);
 	// render last to swap buffer

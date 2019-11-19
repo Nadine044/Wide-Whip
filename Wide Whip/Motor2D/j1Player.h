@@ -9,6 +9,7 @@
 #include "Animation.h"
 #include "j1Textures.h"
 #include "j1Audio.h"
+#include "Entity.h"
 //struct SDL_Texture;
 
 #define CAMERA_OFFSET_X 300
@@ -43,19 +44,19 @@ public:
 	bool Awake(pugi::xml_node& player);
 
 	//Load
-	bool Start() override;
+	bool Start();
 		
-	bool Update(float dt) override;
+	bool Update(float dt);
 	void JumpHorizontal();
 
-	bool PostUpdate() override;
+	bool PostUpdate();
 
 	// Called before quitting
-	bool CleanUp() override;
+	bool CleanUp();
 
-	bool Save(pugi::xml_node&) const override;
+	bool Save(pugi::xml_node&) const;
 
-	bool Load(pugi::xml_node&) override;
+	bool Load(pugi::xml_node&);
 
 	void OnTrigger(Collider* col2); // this will be virtual in the class object parent when ObjectManager will be created.
 
@@ -66,6 +67,8 @@ public:
 	bool* GetReviveBoolAdress() { return &revive; }
 
 public:
+
+	Entity*			player = nullptr;
 
 	//Animations
 

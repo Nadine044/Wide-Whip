@@ -4,6 +4,5 @@
 Entity::Entity(Entity::EntityType type)
 {}
 
-
 Entity::~Entity()
 {}
