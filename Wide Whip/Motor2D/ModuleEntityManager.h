@@ -14,11 +14,11 @@ public:
 
 	bool Update(float dt) override;
 
-	bool PostUpdate() override;
+	bool PostUpdate() override { return true; };
 
-	bool CleanUp() override;
+	bool CleanUp() override { return true; };
 
-	Entity CreateEntity(Entity::type type);
+	//Entity CreateEntity(Entity::type type);
 
 private:
 	p2List<Entity*> entities;

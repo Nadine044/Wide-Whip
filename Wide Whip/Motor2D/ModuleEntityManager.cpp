@@ -11,4 +11,6 @@ bool ModuleEntityManager::Update(float dt)
 	{
 		iter->data->Update(dt);
 	}
+
+	return true;
 }
