@@ -10,12 +10,12 @@
 #include <math.h>
 #include "ModuleFadeToBlack.h"
 #include "j1Scene.h"
+#include "Entity.h"
+#include "ModuleEntityManager.h"
 
 
-j1Player::j1Player() : j1Module()
-{
-	name.create("player");
-}
+j1Player::j1Player() : Entity(EntityType::PLAYER)
+{}
 
 //Destructor
 j1Player::~j1Player()

@@ -1,6 +1,7 @@
 #include "Entity.h"
+#include "ModuleEntityManager.h"
 
-Entity::Entity(const int& x, const int& y)
+Entity::Entity(Entity::EntityType type)
 {}
 
 

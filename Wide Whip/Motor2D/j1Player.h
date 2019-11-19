@@ -15,7 +15,7 @@
 #define CAMERA_OFFSET_Y 360
 #define MAP_LEFT_OFFSET_X 200
 
-
+class Entity;
 class Collider;
 
 enum class PLAYER_STATE
@@ -30,7 +30,7 @@ enum class PLAYER_STATE
 
 
 
-class j1Player : public j1Module
+class j1Player : public Entity
 {
 public:
 
@@ -43,20 +43,20 @@ public:
 	bool Awake(pugi::xml_node& player);
 
 	//Load
-	bool Start() override;
+	bool Start();
 
-	bool Update(float dt) override;
+	bool Update(float dt);
 	void JumpHorizontal();
 
 
-	bool PostUpdate() override;
+	bool PostUpdate() ;
 
 	// Called before quitting
-	bool CleanUp() override;
+	bool CleanUp();
 
-	bool Save(pugi::xml_node&) const  override;
+	bool Save(pugi::xml_node&) const;
 
-	bool Load(pugi::xml_node&) override;
+	bool Load(pugi::xml_node&);
 
 	void OnTrigger(Collider* col2); // this will be virtual in the class object parent when ObjectManager will be created.
 

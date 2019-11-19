@@ -16,10 +16,10 @@ public:
 	bool PostUpdate() override { return true; };
 	bool CleanUp() override { return true; };
 
-	//Entity CreateEntity(Entity::type type);
+	Entity* CreateEntity(Entity::EntityType type);
 
 private:
-	p2List<Entity*> entities;
+	std::vector<Entity*> entities;
 };
 
 #endif //__MODULEENTITYMANAGER_H__

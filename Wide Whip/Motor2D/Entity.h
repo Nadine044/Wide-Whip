@@ -4,6 +4,8 @@
 #include "p2Point.h"
 #include "Animation.h"
 #include "ModuleCollision.h"
+#include "Entity.h"
+#include <vector>
 
 class Entity
 {
@@ -17,7 +19,7 @@ public:
 		NO_TYPE
 	};
 
-	Entity(const int& x, const int& y);
+	Entity(EntityType type);
 	~Entity();
 
 	virtual bool PreUpdate() { return true; };
