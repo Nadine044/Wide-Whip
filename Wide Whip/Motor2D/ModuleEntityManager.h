@@ -13,9 +13,7 @@ public:
 	ModuleEntityManager();
 
 	bool Update(float dt) override;
-
 	bool PostUpdate() override { return true; };
-
 	bool CleanUp() override { return true; };
 
 	//Entity CreateEntity(Entity::type type);

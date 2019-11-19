@@ -1,9 +1,8 @@
 #include "Entity.h"
 
-Entity::Entity()
+Entity::Entity(const int& x, const int& y)
 {}
 
-bool Entity::Update(float dt)
-{
-	return true;
-}
+
+Entity::~Entity()
+{}

@@ -1,20 +1,38 @@
 #ifndef __ENTITY_H__
 #define __ENTITY_H__
 
+#include "p2Point.h"
+#include "Animation.h"
+#include "ModuleCollision.h"
+
 class Entity
 {
 public:
-	enum class type
+	enum class EntityType
 	{
-		UNKNOW = -1,
 		PLAYER,
 		ENEMY,
-		MAX
+		COIN,
+
+		NO_TYPE
 	};
 
-	Entity();
+	Entity(const int& x, const int& y);
+	~Entity();
 
-	bool Update(float dt);
+	virtual bool PreUpdate() { return true; };
+	virtual bool Update(float dt) { return true; };
+	virtual bool PostUpdate() { return true; };
+	virtual bool CleanUp() { return true; };
+
+	//virtual void Draw(float dt);
+	//On Collision??
+
+public:
+	EntityType type = EntityType::NO_TYPE;
+	iPoint position = { 0, 0 };
+	Animation* animation = nullptr;
+	Collider* collider = nullptr;
 };
 
 #endif // !__ENTITY_H__
