@@ -13,7 +13,6 @@ class j1Textures;
 class j1Audio;
 class j1Scene;
 class j1Map;
-class j1Player;
 class ModuleCollision;
 class ModuleFadeToBlack;
 class ModuleEntityManager;
@@ -87,7 +86,6 @@ public:
 	j1Audio*			audio;
 	j1Scene*			scene;
 	j1Map*				map;
-	j1Player*			player;
 	ModuleCollision*	collisions;
 	ModuleFadeToBlack*	fade_to_black;
 	ModuleEntityManager* module_entity_manager;

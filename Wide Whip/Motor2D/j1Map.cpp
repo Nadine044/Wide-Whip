@@ -8,6 +8,7 @@
 #include "ModuleCollision.h"
 #include "j1Player.h"
 #include "Colors.h"
+#include "ModuleEntityManager.h"
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
@@ -461,9 +462,10 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 
 		p2SString type = object.attribute("type").as_string();
 
-		if (type == "PLAYER")
+		if (type == "PLAYER") //myTODO
 		{
-			App->player->col = App->collisions->player = App->collisions->AddCollider(pos, w, h, TAG::PLAYER, Green, App->player, true);
+			j1Player* player = (j1Player*)App->module_entity_manager->CreateEntity(Entity::EntityType::PLAYER);
+			player->col = App->collisions->player = App->collisions->AddCollider(pos, w, h, TAG::PLAYER, Green, player, true);
 		}
 
 		else if (type == "WALL")

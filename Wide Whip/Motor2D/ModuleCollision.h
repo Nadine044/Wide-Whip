@@ -9,6 +9,8 @@
 #include "Colors.h"
 
 
+
+class j1Player;
 enum class TAG : uint
 {
 	NONE = 0,

@@ -9,6 +9,7 @@
 #include "j1Window.h"
 #include "j1Player.h"
 #include "j1Scene.h"
+#include "ModuleEntityManager.h"
 
 ModuleFadeToBlack::ModuleFadeToBlack()
 {
@@ -95,7 +96,7 @@ bool ModuleFadeToBlack::Save(pugi::xml_node &save_file) const
 	save_file.append_child("current_step").append_attribute("value") = current_step;
 
 
-	if (App->player->GetReviveBoolAdress() == to_active)
+	if (App->module_entity_manager->getPlayer(). App->player->GetReviveBoolAdress() == to_active) //MYTODO J1PLAYER
 	{
 		save_file.append_child("test").append_attribute("value") = "revive";
 	}

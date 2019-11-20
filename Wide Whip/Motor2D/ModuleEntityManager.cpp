@@ -11,7 +11,7 @@ ModuleEntityManager::ModuleEntityManager() : j1Module()
 
 bool ModuleEntityManager::Update(float dt)
 {
-	for (p2List_item<Entity*>* iter = entities.begin; iter; iter = iter->next)
+	for (p2List_item<Entity*>* iter = entities.start; iter; iter = iter->next)
 	{
 		iter->data->Update(dt);
 	}
@@ -43,8 +43,24 @@ Entity* ModuleEntityManager::CreateEntity(Entity::EntityType type)
 
 	if (ret != nullptr)
 	{
-		entities.push_back(ret);
+		entities.add(ret);
 	}
 
+	return ret;
+}
+
+Entity* ModuleEntityManager::getPlayer()
+{
+	Entity* ret = nullptr;
+
+	for (p2List_item<Entity*>* iter = entities.start ; iter < entities.end ; iter = iter->next )
+	{
+		if (iter->data->type == Entity::EntityType::PLAYER)
+		{
+			ret = iter->data;
+			return ret;
+		}
+	}
+	LOG("Player not found!");
 	return ret;
 }

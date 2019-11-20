@@ -29,7 +29,6 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	audio = new j1Audio();
 	scene = new j1Scene();
 	map = new j1Map();
-	player = new j1Player();
 	collisions = new ModuleCollision();  
 	fade_to_black = new ModuleFadeToBlack();
 	module_entity_manager = new ModuleEntityManager();
@@ -43,7 +42,6 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map);
 	AddModule(scene);
 	AddModule(module_entity_manager);
-	//AddModule(player);
 	AddModule(collisions);//After scenes, objects
 	AddModule(fade_to_black);
 	// render last to swap buffer

@@ -10,7 +10,7 @@
 #include "j1Textures.h"
 #include "j1Audio.h"
 #include "Entity.h"
-//struct SDL_Texture;
+
 
 #define CAMERA_OFFSET_X 300
 #define CAMERA_OFFSET_Y 360
@@ -68,13 +68,9 @@ public:
 
 public:
 
-	Entity*			player = nullptr;
-
 	//Animations
 
 	//New player
-
-	Animation*		currentAnimation = nullptr;
 
 	Animation		jump;
 	Animation		idle;
@@ -85,9 +81,6 @@ public:
 	Animation		climb;
 	Animation		fall;
 
-
-	iPoint			pos;
-	Collider*		col;
 
 	FX jump_fx;
 	FX dash_fx;

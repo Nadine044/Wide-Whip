@@ -208,7 +208,7 @@ bool ModuleCollision::Update(float dt)
 							}
 
 							if (trigger_matrix[(uint)collider1->data->tag][(uint)collider2->data->tag])
-								collider1->data->object->OnTrigger(collider2->data);
+								collider1->data->object->OnTrigger(collider2->data); //mytodo
 
 
 						}

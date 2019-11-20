@@ -14,10 +14,7 @@
 
 
 j1Player::j1Player() : Entity(EntityType::PLAYER)
-{
-	player = (Entity*) App->module_entity_manager->CreateEntity(Entity::EntityType::PLAYER);
-	player->type = EntityType::PLAYER;
-}
+{}
 
 //Destructor
 j1Player::~j1Player()
@@ -104,7 +101,7 @@ bool j1Player::Start()
 
 	flip = SDL_FLIP_NONE;
 
-	currentAnimation = &idle;
+	current_animation = &idle;
 	start_time = 0u;
 
 	rect_limit_camera.x = -App->render->camera.x + rect_limit_camera_border_x;
@@ -154,9 +151,9 @@ bool j1Player::Update(float dt)
 	{
 	case PLAYER_STATE::LIVE:
 
-		if (velocity < -gravity && currentAnimation != &jump)
+		if (velocity < -gravity && current_animation != &jump)
 		{
-			currentAnimation = &fall;
+			current_animation = &fall;
 		}
 
 		ToAction();
@@ -175,7 +172,7 @@ bool j1Player::Update(float dt)
 	case PLAYER_STATE::DASHING:
 		pos.x += velocity_dash;
 
-		currentAnimation = &dash;
+		current_animation = &dash;
 
 		
 		 if (flip == SDL_RendererFlip::SDL_FLIP_NONE)
@@ -215,7 +212,7 @@ bool j1Player::Update(float dt)
 		break;
 	case PLAYER_STATE::DEAD:
 
-		currentAnimation = &death;
+		current_animation = &death;
 
 		if (SDL_GetTicks() - start_time >= time_to_jump && !dead_jumping)
 		{
@@ -255,7 +252,7 @@ bool j1Player::Update(float dt)
 	default:
 		break;
 	}
-	if (currentAnimation == &climb)
+	if (current_animation == &climb)
 		flip == SDL_RendererFlip::SDL_FLIP_NONE ? offset_animation_x = offset_value : offset_animation_x = -offset_value;
 	else
 		offset_animation_x += 0;
@@ -326,7 +323,7 @@ void j1Player::ToAction()
 		jump.Reset();
 		if (!clinging)
 		{
-			currentAnimation = &jump;
+			current_animation = &jump;
 			velocity = jump_force;
 			jumped = true;
 		}
@@ -334,7 +331,7 @@ void j1Player::ToAction()
 		{
 			state = PLAYER_STATE::LIVE;
 			clinging = false;
-			currentAnimation = &jump;
+			current_animation = &jump;
 			velocity = jump_force *0.75f; //jump less
 			jumped = true;
 			jump_h_right ? velocity_jump_clinged = jump_clinged_force_left : velocity_jump_clinged = -jump_clinged_force_right;
@@ -357,8 +354,8 @@ void j1Player::Movement()
 {
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 
-		if (currentAnimation != &jump && currentAnimation != &fall)
-			currentAnimation = &walk;
+		if (current_animation != &jump && current_animation != &fall)
+			current_animation = &walk;
 
 		pos.x -= speed;
 		flip = SDL_FLIP_HORIZONTAL;
@@ -366,8 +363,8 @@ void j1Player::Movement()
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 
-		if (currentAnimation != &jump && currentAnimation != &fall)
-			currentAnimation = &walk;
+		if (current_animation != &jump && current_animation != &fall)
+			current_animation = &walk;
 
 		pos.x += speed;
 		flip = SDL_FLIP_NONE;
@@ -407,18 +404,18 @@ void j1Player::OnTrigger(Collider* col2)
 		velocity = 0.0f;
 		jump.Reset();
 		fall.Reset();
-		if (currentAnimation == &walk)
+		if (current_animation == &walk)
 		{
 			if (App->input->GetKey(SDL_SCANCODE_A) != KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_D) != KEY_REPEAT)
-				currentAnimation = &idle;
+				current_animation = &idle;
 		}
 		else
-			currentAnimation = &idle;
+			current_animation = &idle;
 
 		jumped = false;
 		dashed = false;
 	}
-	else if (col->last_colision_direction == DISTANCE_DIR::LEFT && col2->tag == TAG::WALL && currentAnimation != &walk)
+	else if (col->last_colision_direction == DISTANCE_DIR::LEFT && col2->tag == TAG::WALL && current_animation != &walk)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
@@ -427,10 +424,10 @@ void j1Player::OnTrigger(Collider* col2)
 			velocity = 0.0f;
 			state = PLAYER_STATE::CLIMBING;
 			jump_h_right = false;
-			currentAnimation = &climb;
+			current_animation = &climb;
 		}
 	}
-	else if (col->last_colision_direction == DISTANCE_DIR::RIGHT && col2->tag == TAG::WALL && currentAnimation != &walk)
+	else if (col->last_colision_direction == DISTANCE_DIR::RIGHT && col2->tag == TAG::WALL && current_animation != &walk)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
@@ -439,7 +436,7 @@ void j1Player::OnTrigger(Collider* col2)
 			velocity = 0.0f;
 			state = PLAYER_STATE::CLIMBING;
 			jump_h_right = true;
-			currentAnimation = &climb;
+			current_animation = &climb;
 		}
 	}
 
@@ -467,7 +464,7 @@ bool j1Player::Draw() const
 	
 	
 		//currentAnimation = &idle;
-	App->render->Blit(text, pos.x + offset_animation_x, pos.y, &(currentAnimation->GetCurrentFrame()), 1.0f, flip);
+	App->render->Blit(text, pos.x + offset_animation_x, pos.y, &(current_animation->GetCurrentFrame()), 1.0f, flip);
 	
 
 	//App->render->Blit(text2, pos.x, pos.y, &(jump.GetCurrentFrame()), 1.0f, flip);
