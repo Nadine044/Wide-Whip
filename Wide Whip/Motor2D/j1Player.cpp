@@ -206,6 +206,11 @@ bool j1Player::Update(float dt)
 			clinging = false;
 			state = PLAYER_STATE::LIVE;
 		}
+		else
+		{
+			time_to_jump_h_start = SDL_GetTicks();
+			LOG("Reseting time.");
+		}
 
 		ToAction();
 
@@ -322,8 +327,10 @@ void j1Player::ToAction()
 	{
 		App->audio->PlayFx(jump_fx.id);
 		jump.Reset();
-		if (!clinging)
+		
+		if (!clinging && SDL_GetTicks() - time_to_jump_h_start >= time_to_jump_h)
 		{
+			time_to_jump_h_start = 0u;
 			currentAnimation = &jump;
 			velocity = jump_force;
 			jumped = true;

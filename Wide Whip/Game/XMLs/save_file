@@ -9,23 +9,23 @@
 		<level_loaded value="Level1.tmx" />
 	</scene>
 	<player>
-		<position x="4914" y="639" />
-		<velocity value="0" />
+		<position x="3085" y="735" />
+		<velocity value="-0.5" />
 		<state value="0" />
 		<flip value="0" />
 		<collider enabled="true" />
 		<jumped value="false" />
 		<dashed value="false" />
 		<velocity_dash value="0" />
-		<velocity_jump_clinged value="0" />
+		<velocity_jump_clinged value="0.200000286" />
 	</player>
 	<collision />
 	<FadeToBlack>
-		<total_time value="500" />
-		<now value="500" />
+		<total_time value="0" />
+		<now value="0" />
 		<current_step value="0" />
 	</FadeToBlack>
 	<renderer>
-		<camera x="-4332" y="-189" />
+		<camera x="-2482" y="-187" />
 	</renderer>
 </game_state>

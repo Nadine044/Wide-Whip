@@ -160,6 +160,9 @@ private:
 	Uint32				time_to_do_fade_to_black		= 0u;
 	float				time_in_fade					= 0.0f;
 
+	Uint32 time_to_jump_h_start = 0u;
+	Uint32 time_to_jump_h = 100u;
+
 	SDL_RendererFlip	flip							= SDL_FLIP_NONE;
 
 	int				offset_animation_x					= 0;
