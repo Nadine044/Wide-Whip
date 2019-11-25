@@ -19,7 +19,7 @@ bool ModuleEntityManager::Update(float dt)
 	return true;
 }
 
-Entity* ModuleEntityManager::CreateEntity(EntityType type)
+Entity* ModuleEntityManager::CreateEntity(EntityType type, iPoint pos)
 {
 	//STATIC ASSERT
 	//It will cause a compilation failure and produce an error message 
@@ -31,7 +31,7 @@ Entity* ModuleEntityManager::CreateEntity(EntityType type)
 	switch (type)
 	{
 	case EntityType::PLAYER:
-		ret = new j1Player();
+		ret = new j1Player(pos);
 		break;
 	case EntityType::ENEMY:
 		break;

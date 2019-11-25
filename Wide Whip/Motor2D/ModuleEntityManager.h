@@ -22,7 +22,7 @@ public:
 	//bool Save(pugi::xml_node&) const;
 	//bool Load(pugi::xml_node&);
 
-	Entity* CreateEntity(EntityType type);
+	Entity* CreateEntity(EntityType type, iPoint pos);
 
 	j1Player* getPlayer();
 

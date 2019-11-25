@@ -19,7 +19,7 @@ class Entity
 {
 public:
 
-	Entity(EntityType type);
+	Entity(EntityType type, iPoint pos);
 	~Entity();
 
 	virtual bool Start() { return true; }

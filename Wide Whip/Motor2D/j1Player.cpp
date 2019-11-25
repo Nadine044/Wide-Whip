@@ -13,7 +13,7 @@
 #include "ModuleEntityManager.h"
 
 
-j1Player::j1Player() : Entity(EntityType::PLAYER)
+j1Player::j1Player(iPoint pos) : Entity(EntityType::PLAYER, pos)
 {}
 
 //Destructor
