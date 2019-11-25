@@ -6,7 +6,7 @@
 //#include "p2Log.h"
 //--------------------COLLIDER---------------------------
 
-Collider::Collider(iPoint pos, int w, int h, TAG tag, Color color, j1Player* parent, bool dynamic) : tag(tag), dynamic(dynamic), color(color), object(parent)
+Collider::Collider(iPoint pos, int w, int h, TAG tag, Color color, Entity* parent, bool dynamic) : tag(tag), dynamic(dynamic), color(color), object(parent)
 {
 	rect.x = pos.x;
 	rect.y = pos.y;
@@ -74,7 +74,7 @@ bool ModuleCollision::Awake(pugi::xml_node& config)
 	return true;
 }
 
-Collider* ModuleCollision::AddCollider(iPoint pos, int w, int h, TAG tag, Color color, j1Player* parent, bool dynamic)
+Collider* ModuleCollision::AddCollider(iPoint pos, int w, int h, TAG tag, Color color, Entity* parent, bool dynamic)
 {
 	Collider * ret = new Collider(pos, w, h, tag, color, parent, dynamic);
 	if(!dynamic)
@@ -105,6 +105,7 @@ bool ModuleCollision::Start()
 	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::PLATFORM] = true;
 	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::WATER] = true;
 	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::CHANGE_LEVEL] = true;
+	//TODO ENEMY TAG!!!!!
 
 	
 
@@ -324,7 +325,11 @@ DISTANCE_DIR ModuleCollision::OverlapDS(Collider* c_dynamic, Collider* c_static)
 	}
 
 	c_dynamic->UpdatePos(c_dynamic->object->pos);
-	player->object->UpdateCameraPos();
+	if (player->object->type == EntityType::PLAYER)
+	{
+		j1Player* _player = (j1Player*)player->object;
+		_player->UpdateCameraPos();
+	}
 	return (DISTANCE_DIR)overlap_dir;
 }
 
@@ -378,7 +383,12 @@ DISTANCE_DIR ModuleCollision::OverlapPlatform(Collider* c_dynamic, Collider* c_s
 		}
 
 		c_dynamic->UpdatePos(c_dynamic->object->pos);
-		player->object->UpdateCameraPos();
+
+		if (player->object->type == EntityType::PLAYER)
+		{
+			j1Player* _player = (j1Player*)player->object;
+			_player->UpdateCameraPos();
+		}
 		
 	}
 	return (DISTANCE_DIR)overlap_dir;

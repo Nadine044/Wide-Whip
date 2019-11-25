@@ -72,8 +72,7 @@ void j1App::AddModule(j1Module* module)
 // Called before render is available
 bool j1App::Awake()
 {
-	pugi::xml_document	config_file;
-	pugi::xml_node		config;
+
 	pugi::xml_node		app_config;
 
 	bool ret = false;
@@ -372,4 +371,9 @@ bool j1App::SavegameNow() const
 	data.reset();
 	want_to_save = false;
 	return ret;
+}
+
+const pugi::xml_node j1App::GetConfig() const
+{
+	return config;
 }

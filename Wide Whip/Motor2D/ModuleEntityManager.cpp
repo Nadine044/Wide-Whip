@@ -11,15 +11,41 @@ ModuleEntityManager::ModuleEntityManager() : j1Module()
 
 bool ModuleEntityManager::Update(float dt)
 {
-	for (p2List_item<Entity*>* iter = entities.start; iter; iter = iter->next)
+	bool ret = true;
+	for (p2List_item<Entity*>* iter = entities.start; iter && ret; iter = iter->next)
 	{
-		iter->data->Update(dt);
+		if (iter->data != nullptr)
+			ret = iter->data->Update(dt);
+
 	}
 
 	return true;
 }
 
-Entity* ModuleEntityManager::CreateEntity(EntityType type, iPoint pos)
+bool ModuleEntityManager::PostUpdate()
+{
+	bool ret = true;
+
+	for (p2List_item<Entity*>* iter = entities.start; iter && ret; iter = iter->next)
+	{
+		ret = iter->data->PostUpdate();
+		iter->data->Draw();
+	}
+	return ret;
+}
+
+bool ModuleEntityManager::CleanUp()
+{
+	for (p2List_item<Entity*>* iter = entities.start; iter; iter = iter->next)
+	{
+		iter->data->CleanUp();
+		RELEASE(iter->data);
+	}
+	entities.clear();
+	return true;
+}
+
+Entity* ModuleEntityManager::CreateEntity(EntityType type, SDL_Rect& rect)
 {
 	//STATIC ASSERT
 	//It will cause a compilation failure and produce an error message 
@@ -31,15 +57,17 @@ Entity* ModuleEntityManager::CreateEntity(EntityType type, iPoint pos)
 	switch (type)
 	{
 	case EntityType::PLAYER:
-		ret = new j1Player(pos);
+		ret = new j1Player(rect);
 		break;
 	case EntityType::ENEMY:
-		break;
-	case EntityType::COIN:
 		break;
 	case EntityType::NO_TYPE:
 		break;
 	}
+
+	ret->Awake(App->GetConfig().child("entity"));
+	ret->Start();
+
 
 	if (ret != nullptr)
 	{
@@ -53,7 +81,7 @@ j1Player* ModuleEntityManager::getPlayer()
 {
 	Entity* ret = nullptr;
 
-	for (p2List_item<Entity*>* iter = entities.start ; iter < entities.end ; iter = iter->next )
+	for (p2List_item<Entity*>* iter = entities.start ; iter; iter = iter->next )
 	{
 		if (iter->data->type == EntityType::PLAYER)
 		{

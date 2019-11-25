@@ -460,12 +460,14 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 		float w = object.attribute("width").as_float();
 		float h = object.attribute("height").as_float();
 
+		SDL_Rect rect_object = { pos.x, pos.y, w, h };
+
 		p2SString type = object.attribute("type").as_string();
 
 		if (type == "PLAYER")
 		{
-			j1Player* player = (j1Player*)App->module_entity_manager->CreateEntity(EntityType::PLAYER, pos);
-			player->col = App->collisions->player = App->collisions->AddCollider(pos, w, h, TAG::PLAYER, Green, player, true);
+			j1Player* player = (j1Player*)App->module_entity_manager->CreateEntity(EntityType::PLAYER, rect_object);
+			App->collisions->player = player->col;
 		}
 
 		else if (type == "WALL")

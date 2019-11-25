@@ -172,12 +172,11 @@ void j1Scene::ChangeLevelTo(const p2SString level)
 	//Unload
 	App->map->CleanUp();
 	App->collisions->CleanUp();
-	App->module_entity_manager->getPlayer()->CleanUp();
+	App->module_entity_manager->CleanUp();
 
 	//Load
 	App->map->Load(level.GetString());
 	map_name_loaded = level;
-	App->module_entity_manager->getPlayer()->Start();
 }
 
 bool j1Scene::IsLevel1Loaded() const

@@ -10,7 +10,6 @@
 #include "j1Textures.h"
 #include "j1Audio.h"
 #include "Entity.h"
-#include "SDL/include/SDL_render.h"
 
 
 #define CAMERA_OFFSET_X 300
@@ -37,21 +36,21 @@ class j1Player : public Entity
 {
 public:
 
-	j1Player(iPoint pos);
+	j1Player(SDL_Rect& rect);
 
 	//Destructor
 	virtual ~j1Player();
 
 	//Called before render is available
-	bool Awake(pugi::xml_node& player);
+	bool Awake(const pugi::xml_node& player) override;
 
 	//Load
 	bool Start();
 		
-	bool Update(float dt);
+	bool Update(float dt) override;
 	void JumpHorizontal();
 
-	bool PostUpdate();
+	bool PostUpdate() override;
 
 	// Called before quitting
 	bool CleanUp();
@@ -60,7 +59,7 @@ public:
 
 	bool Load(pugi::xml_node&);
 
-	void OnTrigger(Collider* col2); // this will be virtual in the class object parent when ObjectManager will be created.
+	void OnTrigger(Collider* col2) override;
 
 	float GetVelocity() const;
 
@@ -113,7 +112,7 @@ private:
 
 private:
 
-	SDL_Texture*		text							= nullptr;
+	//SDL_Texture*		text							= nullptr;
 	p2SString			text_path;
 
 
@@ -124,7 +123,6 @@ private:
 	int					map_left_offset					= 0;
 
 	uint				jump_force						= 0u;
-	float				velocity						= 0.0f;
 	float				gravity							= 0.f;
 
 	int					dash_force						= 0;
@@ -157,9 +155,6 @@ private:
 	Uint32				time_to_do_fade_to_black		= 0u;
 	float				time_in_fade					= 0.0f;
 
-	SDL_RendererFlip	flip							= SDL_FLIP_NONE;
-
-	int				offset_animation_x					= 0;
 	int				offset_value						= 0;
 
 

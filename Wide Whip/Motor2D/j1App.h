@@ -47,6 +47,7 @@ public:
 	const char* GetArgv(int index) const;
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
+	const pugi::xml_node GetConfig() const;
 
 	void LoadGame();
 	void SaveGame() const;
@@ -105,6 +106,9 @@ private:
 	bool				want_to_load;
 
 	mutable p2SString	save_game_root;
+
+	pugi::xml_document	config_file;
+	pugi::xml_node		config;
 };
 
 extern j1App* App; // No student is asking me about that ... odd :-S

@@ -8,7 +8,7 @@
 #include "SDL/include/SDL_rect.h"
 #include "Colors.h"
 
-
+class Entity;
 
 class j1Player;
 enum class TAG : uint
@@ -19,6 +19,7 @@ enum class TAG : uint
 	WATER,
 	PLAYER,
 	CHANGE_LEVEL,
+	ENEMY,
 	MAX
 
 };
@@ -41,7 +42,7 @@ public:
 	SDL_Rect		rect;
 	TAG				tag;
 	bool			dynamic = false;
-	j1Player*		object; //will be replace by object when we have entity manager.
+	Entity*			object; //will be replace by object when we have entity manager.
 	bool			first_time_collision = false;
 	
 
@@ -55,7 +56,7 @@ private:
 	Color			color;
 
 public:
-	Collider(iPoint, int, int, TAG, Color, j1Player*, bool);
+	Collider(iPoint, int, int, TAG, Color, Entity*, bool);
 
 	bool CheckColision(const Collider*) const;
 
@@ -99,7 +100,7 @@ public:
 
 	bool CleanUp() override;
 
-	Collider* AddCollider(iPoint pos, int width, int height, TAG tag, Color color, j1Player* parent = nullptr, bool dymanic = false);
+	Collider* AddCollider(iPoint pos, int width, int height, TAG tag, Color color, Entity* parent = nullptr, bool dymanic = false);
 
 	DISTANCE_DIR OverlapDS(Collider* c_dynamic, Collider* c_static);
 	DISTANCE_DIR OverlapPlatform(Collider* c_dynamic, Collider* c_static);

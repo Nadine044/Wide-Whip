@@ -14,15 +14,15 @@ public:
 	ModuleEntityManager();
 
 	//bool Start() { return true; };
-	bool PreUpdate() { return true; };
-	bool Update(float dt);
-	bool PostUpdate() { return true; };
-	bool CleanUp() { return true; };
+	bool PreUpdate() override { return true; };
+	bool Update(float dt) override;
+	bool PostUpdate() override;
+	bool CleanUp();
 
 	//bool Save(pugi::xml_node&) const;
 	//bool Load(pugi::xml_node&);
 
-	Entity* CreateEntity(EntityType type, iPoint pos);
+	Entity* CreateEntity(EntityType type, SDL_Rect& rect);
 
 	j1Player* getPlayer();
 
