@@ -19,25 +19,25 @@ bool ModuleEntityManager::Update(float dt)
 	return true;
 }
 
-Entity* ModuleEntityManager::CreateEntity(Entity::EntityType type)
+Entity* ModuleEntityManager::CreateEntity(EntityType type)
 {
 	//STATIC ASSERT
 	//It will cause a compilation failure and produce an error message 
 	//that in most IDE's be caught and displayed in the IDE's error window.
 
-	//static_assert(Entity::EntityType::NO_TYPE == 4, "code needs update");
+	//static_assert(EntityType::NO_TYPE == 4, "code needs update");
 	Entity* ret = nullptr;
 
 	switch (type)
 	{
-	case Entity::EntityType::PLAYER:
+	case EntityType::PLAYER:
 		ret = new j1Player();
 		break;
-	case Entity::EntityType::ENEMY:
+	case EntityType::ENEMY:
 		break;
-	case Entity::EntityType::COIN:
+	case EntityType::COIN:
 		break;
-	case Entity::EntityType::NO_TYPE:
+	case EntityType::NO_TYPE:
 		break;
 	}
 
@@ -55,7 +55,7 @@ j1Player* ModuleEntityManager::getPlayer()
 
 	for (p2List_item<Entity*>* iter = entities.start ; iter < entities.end ; iter = iter->next )
 	{
-		if (iter->data->type == Entity::EntityType::PLAYER)
+		if (iter->data->type == EntityType::PLAYER)
 		{
 			ret = iter->data;
 			return (j1Player*)ret;

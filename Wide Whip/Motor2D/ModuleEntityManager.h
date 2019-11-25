@@ -3,8 +3,9 @@
 
 #include "j1Module.h"
 #include "p2List.h"
+#include "Entity.h"
+#include "j1Player.h"
 
-class Entity;
 class j1Player;
 
 class ModuleEntityManager : public j1Module
@@ -21,7 +22,7 @@ public:
 	//bool Save(pugi::xml_node&) const;
 	//bool Load(pugi::xml_node&);
 
-	Entity* CreateEntity(Entity::EntityType type);
+	Entity* CreateEntity(EntityType type);
 
 	j1Player* getPlayer();
 

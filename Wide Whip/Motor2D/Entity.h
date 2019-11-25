@@ -2,21 +2,22 @@
 #define _ENTITY_H_
 
 #include "p2Point.h"
-#include "Animation.h"
-#include "ModuleCollision.h"
-#include <vector>
+
+class Collider;
+class Animation;
+
+enum class EntityType
+{
+	PLAYER,
+	ENEMY,
+	COIN,
+
+	NO_TYPE
+};
 
 class Entity
 {
 public:
-	enum class EntityType
-	{
-		PLAYER,
-		ENEMY,
-		COIN,
-
-		NO_TYPE
-	};
 
 	Entity(EntityType type);
 	~Entity();

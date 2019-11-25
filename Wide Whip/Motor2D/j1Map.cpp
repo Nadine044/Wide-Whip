@@ -464,7 +464,7 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 
 		if (type == "PLAYER") //myTODO
 		{
-			j1Player* player = (j1Player*)App->module_entity_manager->CreateEntity(Entity::EntityType::PLAYER);
+			j1Player* player = (j1Player*)App->module_entity_manager->CreateEntity(EntityType::PLAYER);
 			player->col = App->collisions->player = App->collisions->AddCollider(pos, w, h, TAG::PLAYER, Green, player, true);
 		}
 

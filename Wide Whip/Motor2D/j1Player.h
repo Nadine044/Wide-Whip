@@ -10,6 +10,7 @@
 #include "j1Textures.h"
 #include "j1Audio.h"
 #include "Entity.h"
+#include "SDL/include/SDL_render.h"
 
 
 #define CAMERA_OFFSET_X 300
@@ -18,6 +19,7 @@
 
 class Entity;
 class Collider;
+class Animation;
 
 enum class PLAYER_STATE
 {
