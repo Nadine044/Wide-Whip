@@ -5,6 +5,7 @@
 #include "p2List.h"
 
 class Entity;
+class j1Player;
 
 class ModuleEntityManager : public j1Module
 {
@@ -21,7 +22,8 @@ public:
 	//bool Load(pugi::xml_node&);
 
 	Entity* CreateEntity(Entity::EntityType type);
-	Entity* getPlayer(); //mytodo J1PLAYER
+
+	j1Player* getPlayer();
 
 private:
 	p2List<Entity*> entities;

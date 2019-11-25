@@ -97,6 +97,8 @@ bool j1Player::Start()
 	pos.y = col->rect.y;	
 
 	//App->player->Load("XMLs/player.xml");
+	//App->module_entity_manager->getPlayer()->Load("XMLs/player.xml");
+	
 	text = App->tex->Load(text_path.GetString());
 
 	flip = SDL_FLIP_NONE;

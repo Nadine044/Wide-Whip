@@ -49,7 +49,7 @@ Entity* ModuleEntityManager::CreateEntity(Entity::EntityType type)
 	return ret;
 }
 
-Entity* ModuleEntityManager::getPlayer()
+j1Player* ModuleEntityManager::getPlayer()
 {
 	Entity* ret = nullptr;
 
@@ -58,9 +58,9 @@ Entity* ModuleEntityManager::getPlayer()
 		if (iter->data->type == Entity::EntityType::PLAYER)
 		{
 			ret = iter->data;
-			return ret;
+			return (j1Player*)ret;
 		}
 	}
 	LOG("Player not found!");
-	return ret;
+	return (j1Player*)ret;
 }
