@@ -114,7 +114,12 @@
 
       <animations>
         
-        
+        <idle speed="0.2f" loop="true">
+          <frame x="0"   y="0" w ="47" h ="65"/>
+          <frame x="47"  y="0" w ="47" h ="65"/>
+          <frame x="94"  y="0" w ="47" h ="65"/>
+          <frame x="141" y="0" w ="47" h ="65"/>
+        </idle>
         
       </animations>
       

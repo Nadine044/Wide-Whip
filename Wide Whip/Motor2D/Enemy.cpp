@@ -26,6 +26,10 @@ bool Enemy::Awake(const pugi::xml_node& config)
 	gravity = enemy_node.child("gravity").attribute("value").as_float();
 	text_path = enemy_node.child_value("texture");
 
+	pugi::xml_node animations_node = enemy_node.child("animations");
+
+	idle.LoadAnimation(animations_node.child("idle"));
+
 	return ret;
 }
 
