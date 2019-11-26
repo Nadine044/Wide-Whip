@@ -8,6 +8,27 @@
 	<scene>
 		<level_loaded value="Level1.tmx" />
 	</scene>
+	<enitity_manager>
+		<entity>
+			<position x="154" y="607" />
+			<entity_type value="0" />
+			<velocity value="-0.5" />
+			<state value="0" />
+			<flip value="0" />
+			<collider enabled="true" />
+			<jumped value="false" />
+			<dashed value="false" />
+			<velocity_dash value="0" />
+			<velocity_jump_clinged value="0" />
+		</entity>
+		<entity>
+			<position x="454" y="573" />
+			<entity_type value="1" />
+			<state value="0" />
+			<flip value="0" />
+			<collider enabled="true" />
+		</entity>
+	</enitity_manager>
 	<collision />
 	<FadeToBlack>
 		<total_time value="0" />
@@ -15,6 +36,6 @@
 		<current_step value="0" />
 	</FadeToBlack>
 	<renderer>
-		<camera x="0" y="-123" />
+		<camera x="0" y="-187" />
 	</renderer>
 </game_state>
