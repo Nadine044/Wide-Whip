@@ -120,8 +120,41 @@ bool ModuleEntityManager::Save(pugi::xml_node& save_file) const
 	return ret;
 }
 
-
-bool ModuleEntityManager::Load(pugi::xml_node& node)
+bool ModuleEntityManager::Load(pugi::xml_node& load_file)
 {
+
+	//TODO: DO CLEAN UP!!!
+	//Load every <entity> created in save_file (next_sibling)
+
+	bool ret = false;
+
+	pugi::xml_document data;
+
+	pugi::xml_parse_result result = data.load_file(save_game_root.GetString());
+
+	if (result != NULL)
+	{
+		LOG("Loading new Game State from %s...", save_game_root.GetString());
+
+		load_file = data.child("game_state");
+
+		p2List_item<Entity*>* item = entities.start;
+		ret = true;
+
+		while (item != NULL && ret == true)
+		{
+			ret = item->data->Load(load_file.child(item->data->name.GetString()));
+			item = item->next;
+		}
+
+		data.reset();
+		if (ret == true)
+			LOG("...finished loading");
+		else
+			LOG("...loading process interrupted with error on module %s", (item != NULL) ? item->data->name.GetString() : "unknown");
+	}
+	else
+		LOG("Could not parse game state xml file %s. pugi error: %s", save_game_root.GetString(), result.description());
+
 	return true;
 }

@@ -2,6 +2,7 @@
 #include "Enemy.h"
 #include "Entity.h"
 #include "j1Textures.h"
+#include "ModuleCollision.h"
 
 Enemy::Enemy(SDL_Rect& rect) : Entity(EntityType::ENEMY, rect)
 {}
@@ -60,5 +61,24 @@ bool Enemy::PostUpdate()
 
 bool Enemy::CleanUp()
 {
+	return true;
+}
+
+bool Enemy::Save(pugi::xml_node& save_file) const
+{
+	pugi::xml_node pos_node = save_file.append_child("position");
+	pos_node.append_attribute("x") = pos.x;
+	pos_node.append_attribute("y") = pos.y;
+
+	save_file.append_child("entity_type").append_attribute("value") = (int)type;
+
+	//TODO: save_file.append_child("velocity").append_attribute("value") = GetVelocity();
+	save_file.append_child("state").append_attribute("value") = (int)state;
+
+	save_file.append_child("flip").append_attribute("value") = flip;
+
+	save_file.append_child("collider").append_attribute("enabled") = col->IsEnabled();
+
+
 	return true;
 }

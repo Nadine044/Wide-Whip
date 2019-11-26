@@ -31,6 +31,8 @@ public:
 
 private:
 	p2List<Entity*> entities;
+
+	mutable p2SString	save_game_root;
 };
 
 #endif //__MODULEENTITYMANAGER_H__
