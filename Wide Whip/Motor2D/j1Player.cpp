@@ -499,6 +499,8 @@ bool j1Player::Load(pugi::xml_node& save_file)
 	pos.x = save_file.child("position").attribute("x").as_int();
 	pos.y = save_file.child("position").attribute("y").as_int();
 
+	type = EntityType(save_file.child("entity_type").attribute("value").as_int());
+
 	velocity = save_file.child("velocity").attribute("value").as_float();
 	state = PLAYER_STATE(save_file.child("state").attribute("value").as_int());
 

@@ -10,11 +10,11 @@
 	</scene>
 	<enitity_manager>
 		<entity>
-			<position x="154" y="607" />
+			<position x="122" y="607" />
 			<entity_type value="0" />
 			<velocity value="-0.5" />
 			<state value="0" />
-			<flip value="0" />
+			<flip value="1" />
 			<collider enabled="true" />
 			<jumped value="false" />
 			<dashed value="false" />
@@ -36,6 +36,6 @@
 		<current_step value="0" />
 	</FadeToBlack>
 	<renderer>
-		<camera x="0" y="-187" />
+		<camera x="0" y="-123" />
 	</renderer>
 </game_state>

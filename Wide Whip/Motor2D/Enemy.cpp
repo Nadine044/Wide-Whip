@@ -82,3 +82,19 @@ bool Enemy::Save(pugi::xml_node& save_file) const
 
 	return true;
 }
+
+bool Enemy::Load(pugi::xml_node& save_file)
+{
+	pos.x = save_file.child("position").attribute("x").as_int();
+	pos.y = save_file.child("position").attribute("y").as_int();
+
+	type = EntityType(save_file.child("entity_type").attribute("value").as_int());
+
+	state = ENEMY_STATE(save_file.child("state").attribute("value").as_int());
+
+	flip = (SDL_RendererFlip)save_file.child("flip").attribute("value").as_int();
+
+	save_file.child("collider").attribute("enabled").as_bool() ? col->Enable() : col->Disable();
+
+	return true;
+}
