@@ -69,9 +69,18 @@ public:
 
 private:
 
-	p2SString		text_path;
+	p2SString			text_path;
 
-	ENEMY_STATE		state;
+	ENEMY_STATE			state;
+
+	int					speed = 0;
+	float				gravity = 0.f;
+
+	Uint32				start_time = 0u;
+	Uint32				time_to_jump = 0u;
+	Uint32				time_to_do_fade_to_black = 0u;
+	float				time_in_fade = 0.0f;
+	
 };
 
 

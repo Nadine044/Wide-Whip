@@ -15,6 +15,6 @@
 		<current_step value="0" />
 	</FadeToBlack>
 	<renderer>
-		<camera x="0" y="-187" />
+		<camera x="0" y="-123" />
 	</renderer>
 </game_state>

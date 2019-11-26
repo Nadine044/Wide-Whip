@@ -96,7 +96,7 @@ bool ModuleFadeToBlack::Save(pugi::xml_node &save_file) const
 	save_file.append_child("current_step").append_attribute("value") = current_step;
 
 
-	if (App->module_entity_manager->getPlayer()->GetReviveBoolAdress() == to_active) //MYTODO J1PLAYER
+	if (App->module_entity_manager->getPlayer()->GetReviveBoolAdress() == to_active)
 	{
 		save_file.append_child("test").append_attribute("value") = "revive";
 	}

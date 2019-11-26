@@ -7,6 +7,7 @@
 #include <math.h>
 #include "ModuleCollision.h"
 #include "j1Player.h"
+#include "Enemy.h"
 #include "Colors.h"
 #include "ModuleEntityManager.h"
 
@@ -468,6 +469,12 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 		{
 			j1Player* player = (j1Player*)App->module_entity_manager->CreateEntity(EntityType::PLAYER, rect_object);
 			App->collisions->player = player->col;
+		}
+
+		else if (type == "ENEMY")
+		{
+			Enemy* firstEnemyWalkable = (Enemy*)App->module_entity_manager->CreateEntity(EntityType::ENEMY, rect_object);
+			App->collisions->enemyWalkable = firstEnemyWalkable->col;
 		}
 
 		else if (type == "WALL")

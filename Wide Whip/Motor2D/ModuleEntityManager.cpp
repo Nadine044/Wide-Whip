@@ -3,6 +3,7 @@
 #include "ModuleEntityManager.h"
 #include "Entity.h"
 #include "j1Player.h"
+#include "Enemy.h"
 
 ModuleEntityManager::ModuleEntityManager() : j1Module()
 {
@@ -60,6 +61,7 @@ Entity* ModuleEntityManager::CreateEntity(EntityType type, SDL_Rect& rect)
 		ret = new j1Player(rect);
 		break;
 	case EntityType::ENEMY:
+		ret = new Enemy(rect);
 		break;
 	case EntityType::NO_TYPE:
 		break;

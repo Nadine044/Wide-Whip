@@ -3,6 +3,7 @@
 #include "ModuleCollision.h"
 #include "j1Input.h" //temporally
 #include "j1Player.h" // wil be replace by object
+#include "Enemy.h"
 //#include "p2Log.h"
 //--------------------COLLIDER---------------------------
 
@@ -105,8 +106,14 @@ bool ModuleCollision::Start()
 	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::PLATFORM] = true;
 	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::WATER] = true;
 	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::CHANGE_LEVEL] = true;
-	//TODO ENEMY TAG!!!!!
+	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::ENEMY] = true;
 
+	//ENEMY TAG
+	trigger_matrix[(uint)TAG::ENEMY][(uint)TAG::WALL] = true;
+	trigger_matrix[(uint)TAG::ENEMY][(uint)TAG::PLATFORM] = true;
+	trigger_matrix[(uint)TAG::ENEMY][(uint)TAG::WATER] = true;
+	trigger_matrix[(uint)TAG::ENEMY][(uint)TAG::CHANGE_LEVEL] = true;
+	trigger_matrix[(uint)TAG::ENEMY][(uint)TAG::PLAYER] = true;
 	
 
 	//PHYSICS MATRIX to overlap.
@@ -114,6 +121,11 @@ bool ModuleCollision::Start()
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::WALL] = true;
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::PLATFORM] = true;
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::CHANGE_LEVEL] = true;
+
+	//PHYSICS MATRIX to overlap WALKABLE ENEMY
+	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::WALL] = true;
+	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::PLATFORM] = true;
+	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::CHANGE_LEVEL] = true;
 	
 	return true;
 }
@@ -330,6 +342,7 @@ DISTANCE_DIR ModuleCollision::OverlapDS(Collider* c_dynamic, Collider* c_static)
 		j1Player* _player = (j1Player*)player->object;
 		_player->UpdateCameraPos();
 	}
+
 	return (DISTANCE_DIR)overlap_dir;
 }
 

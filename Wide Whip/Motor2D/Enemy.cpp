@@ -17,7 +17,14 @@ bool Enemy::Awake(const pugi::xml_node& config)
 
 	pugi::xml_node enemy_node = config.child("enemy");
 
-	//TODO: Load all config.xml enemy vars here (the same as player data)
+	pugi::xml_node time_in_fade_node	= enemy_node.child("time_fade");
+	time_to_do_fade_to_black = (Uint32)(time_in_fade_node.attribute("time_to_do_fade_to_black").as_float() * 1000.0f);
+	time_to_jump = (Uint32)(time_in_fade_node.attribute("time_to_jump").as_float() * 1000.0f);
+	time_in_fade = time_in_fade_node.attribute("time_in_fade").as_float();
+
+	speed = enemy_node.child("speed").attribute("value").as_int();
+	gravity = enemy_node.child("gravity").attribute("value").as_float();
+	text_path = enemy_node.child_value("texture");
 
 	return ret;
 }
@@ -32,6 +39,7 @@ bool Enemy::Start()
 	flip = SDL_FLIP_NONE;
 
 	current_animation = &idle;
+	start_time = 0u;
 
 	return ret;
 }

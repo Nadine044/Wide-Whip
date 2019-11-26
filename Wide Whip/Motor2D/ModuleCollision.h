@@ -110,6 +110,7 @@ public:
 public:
 
 	Collider* player = nullptr; //temporally to move a collider;
+	Collider* enemyWalkable = nullptr;
 
 private:
 
