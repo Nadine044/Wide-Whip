@@ -39,7 +39,7 @@ public:
 	j1Player(SDL_Rect& rect);
 
 	//Destructor
-	virtual ~j1Player();
+	~j1Player();
 
 	//Called before render is available
 	bool Awake(const pugi::xml_node& player) override;
@@ -53,11 +53,11 @@ public:
 	bool PostUpdate() override;
 
 	// Called before quitting
-	bool CleanUp();
+	bool CleanUp() override;
 
-	bool Save(pugi::xml_node&) const;
+	bool Save(pugi::xml_node&) const override;
 
-	bool Load(pugi::xml_node&);
+	bool Load(pugi::xml_node&) override;
 
 	void OnTrigger(Collider* col2) override;
 
@@ -114,7 +114,6 @@ private:
 
 	//SDL_Texture*		text							= nullptr;
 	p2SString			text_path;
-
 
 	SDL_Rect			rect_limit_camera;
 

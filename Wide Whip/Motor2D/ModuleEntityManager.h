@@ -5,6 +5,7 @@
 #include "p2List.h"
 #include "Entity.h"
 #include "j1Player.h"
+#include "PugiXml\src\pugixml.hpp"
 
 class j1Player;
 
@@ -19,8 +20,11 @@ public:
 	bool PostUpdate() override;
 	bool CleanUp();
 
-	//bool Save(pugi::xml_node&) const;
-	//bool Load(pugi::xml_node&);
+	bool SaveAllEntities(pugi::xml_node& config) const;
+	//bool LoadAllEntities();
+
+	bool Save(pugi::xml_node&) const;
+	bool Load(pugi::xml_node&);
 
 	Entity* CreateEntity(EntityType type, SDL_Rect& rect);
 

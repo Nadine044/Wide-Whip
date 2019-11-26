@@ -4,7 +4,7 @@
 #include "p2Point.h"
 #include "PugiXml\src\pugixml.hpp"
 #include "SDL/include/SDL_render.h"
-
+#include "p2SString.h"
 
 class Collider;
 class Animation;
@@ -36,8 +36,8 @@ public:
 
 	virtual void OnTrigger(Collider* col2) {}; // this will be virtual in the class object parent when ObjectManager will be created.
 
-	//virtual bool Save(pugi::xml_node&) const;
-	//virtual bool Load(pugi::xml_node&);
+	virtual bool Save(pugi::xml_node&) const;
+	virtual bool Load(pugi::xml_node&);
 
 	
 
@@ -46,19 +46,21 @@ public:
 	float GetVelocity();
 
 public:
-	EntityType type = EntityType::NO_TYPE;
-	char* name = nullptr;
-	iPoint pos = { 0, 0 };
-	SDL_Texture* text = nullptr;
-	Animation* current_animation = nullptr;
-	Collider* col = nullptr;
+	EntityType			type = EntityType::NO_TYPE;
+	p2SString			name;
+	iPoint				pos = { 0, 0 };
+	SDL_Texture*		text = nullptr;
+	Animation*			current_animation = nullptr;
+	Collider*			col = nullptr;
 
-	int				offset_animation_x = 0;
+	int					offset_animation_x = 0;
 
 	SDL_RendererFlip	flip = SDL_FLIP_NONE;
-protected:
-	float				velocity = 0.0f;
 
+
+protected:
+
+	float				velocity = 0.0f;
 
 };
 

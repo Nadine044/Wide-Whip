@@ -47,3 +47,13 @@ float Entity::GetVelocity()
 {
 	return velocity;
 }
+
+bool Entity::Save(pugi::xml_node& node) const
+{
+	return true;
+}
+
+bool Entity::Load(pugi::xml_node& node)
+{
+	return true;
+}

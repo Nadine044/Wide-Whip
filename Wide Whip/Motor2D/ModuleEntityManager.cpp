@@ -92,3 +92,39 @@ j1Player* ModuleEntityManager::getPlayer()
 	LOG("Player not found!");
 	return (j1Player*)ret;
 }
+
+bool ModuleEntityManager::SaveAllEntities(pugi::xml_node& save_file) const
+{
+	bool ret = true;
+
+	LOG("Saving all entities");
+	
+	p2List_item<Entity*>* item = entities.start;
+
+	while (item != NULL && ret == true)
+	{
+		ret = item->data->Save(save_file.append_child(item->data->name.GetString()));
+		item = item->next;
+	}
+
+	if (ret == true)
+	{
+		//TODO : //data.save_file(save_game_root.GetString());
+		LOG("... finished saving");
+	}
+	else
+		LOG("Save process halted from an error in entity %s", (item != NULL) ? item->data->name.GetString() : "unknown");
+
+	return ret;
+
+}
+
+bool ModuleEntityManager::Save(pugi::xml_node& node) const
+{
+	return true;
+}
+
+bool ModuleEntityManager::Load(pugi::xml_node& node)
+{
+	return true;
+}
