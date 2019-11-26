@@ -476,6 +476,8 @@ bool j1Player::Save(pugi::xml_node& save_file) const
 	pos_node.append_attribute("x") = pos.x;
 	pos_node.append_attribute("y") = pos.y;
 
+	save_file.append_child("entity_type").append_attribute("value") = (int)type;
+
 	save_file.append_child("velocity").append_attribute("value") = GetVelocity();
 	save_file.append_child("state").append_attribute("value") = (int)state;
 

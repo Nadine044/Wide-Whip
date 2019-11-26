@@ -93,12 +93,12 @@ j1Player* ModuleEntityManager::getPlayer()
 	return (j1Player*)ret;
 }
 
-bool ModuleEntityManager::SaveAllEntities(pugi::xml_node& save_file) const
+bool ModuleEntityManager::Save(pugi::xml_node& save_file) const
 {
 	bool ret = true;
 
 	LOG("Saving all entities");
-	
+
 	p2List_item<Entity*>* item = entities.start;
 
 	while (item != NULL && ret == true)
@@ -116,13 +116,8 @@ bool ModuleEntityManager::SaveAllEntities(pugi::xml_node& save_file) const
 		LOG("Save process halted from an error in entity %s", (item != NULL) ? item->data->name.GetString() : "unknown");
 
 	return ret;
-
 }
 
-bool ModuleEntityManager::Save(pugi::xml_node& node) const
-{
-	return true;
-}
 
 bool ModuleEntityManager::Load(pugi::xml_node& node)
 {

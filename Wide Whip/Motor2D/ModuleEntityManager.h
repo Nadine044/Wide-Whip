@@ -20,7 +20,6 @@ public:
 	bool PostUpdate() override;
 	bool CleanUp();
 
-	bool SaveAllEntities(pugi::xml_node& config) const;
 	//bool LoadAllEntities();
 
 	bool Save(pugi::xml_node&) const;

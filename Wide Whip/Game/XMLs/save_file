@@ -8,7 +8,6 @@
 	<scene>
 		<level_loaded value="Level1.tmx" />
 	</scene>
-	<enitity_manager />
 	<collision />
 	<FadeToBlack>
 		<total_time value="0" />
