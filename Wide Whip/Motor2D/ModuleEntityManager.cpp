@@ -3,11 +3,24 @@
 #include "ModuleEntityManager.h"
 #include "Entity.h"
 #include "j1Player.h"
-#include "Enemy.h"
+#include "EnemyFly.h"
 
 ModuleEntityManager::ModuleEntityManager() : j1Module()
 {
 	name.create("enitity_manager");
+}
+
+
+bool ModuleEntityManager::PreUpdate()
+{
+	bool ret = true;
+
+	for (p2List_item<Entity*>* iter = entities.start; iter && ret; iter = iter->next)
+	{
+		ret = iter->data->PreUpdate();
+
+	}
+	return ret;
 }
 
 bool ModuleEntityManager::Update(float dt)
@@ -60,8 +73,11 @@ Entity* ModuleEntityManager::CreateEntity(EntityType type, SDL_Rect& rect)
 	case EntityType::PLAYER:
 		ret = new j1Player(rect);
 		break;
-	case EntityType::ENEMY:
-		ret = new Enemy(rect);
+	case EntityType::FLYENEMY:
+		ret = new EnemyFly(rect);
+		break;
+	case EntityType::WALKENEMY:
+		LOG("No Walk Enemy class created!");
 		break;
 	case EntityType::NO_TYPE:
 		break;

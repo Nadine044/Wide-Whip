@@ -21,7 +21,11 @@ Entity::Entity(EntityType type, SDL_Rect& rect) : type(type)
 		color = Green;
 		tag = TAG::PLAYER;
 		break;
-	case EntityType::ENEMY:
+	case EntityType::FLYENEMY:
+		color = Red;
+		tag = TAG::ENEMY;
+		break;
+	case EntityType::WALKENEMY:
 		color = Red;
 		tag = TAG::ENEMY;
 		break;

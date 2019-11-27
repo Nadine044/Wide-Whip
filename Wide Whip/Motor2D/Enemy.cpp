@@ -3,8 +3,11 @@
 #include "Entity.h"
 #include "j1Textures.h"
 #include "ModuleCollision.h"
+#include "ModuleEntityManager.h"
+#include "j1Map.h"
+#include "j1Pathfinding.h"
 
-Enemy::Enemy(SDL_Rect& rect) : Entity(EntityType::ENEMY, rect)
+Enemy::Enemy(EntityType type, SDL_Rect& rect) : Entity(type, rect)
 {}
 
 //Destructor
@@ -17,11 +20,6 @@ bool Enemy::Awake(const pugi::xml_node& config)
 	bool ret = true;
 
 	pugi::xml_node enemy_node = config.child("enemy");
-
-	pugi::xml_node time_in_fade_node	= enemy_node.child("time_fade");
-	time_to_do_fade_to_black = (Uint32)(time_in_fade_node.attribute("time_to_do_fade_to_black").as_float() * 1000.0f);
-	time_to_jump = (Uint32)(time_in_fade_node.attribute("time_to_jump").as_float() * 1000.0f);
-	time_in_fade = time_in_fade_node.attribute("time_in_fade").as_float();
 
 	speed = enemy_node.child("speed").attribute("value").as_int();
 	gravity = enemy_node.child("gravity").attribute("value").as_float();
@@ -44,13 +42,53 @@ bool Enemy::Start()
 	flip = SDL_FLIP_NONE;
 
 	current_animation = &idle;
-	start_time = 0u;
+	state = ENEMY_STATE::IDLE;
 
 	return ret;
 }
 
+bool Enemy::PreUpdate()
+{
+	iPoint player_pos = App->module_entity_manager->getPlayer()->pos;
+	switch (state)
+	{
+	case ENEMY_STATE::UNKNOWN:
+		break;
+	case ENEMY_STATE::IDLE:
+		
+		if (pos.DistanceTo(player_pos) <= range_detect)
+		{
+			state = ENEMY_STATE::PATHFINDING;
+			App->pathfinding_module->CreatePath(App->map->WorldToMap(pos), App->map->WorldToMap(player_pos));
+		}
+		break;
+	case ENEMY_STATE::PATHFINDING:
+		break;
+	case ENEMY_STATE::DEAD:
+		break;
+	default:
+		break;
+	}
+	return true;
+}
+
 bool Enemy::Update(float dt)
 {
+
+	switch (state)
+	{
+	case ENEMY_STATE::UNKNOWN:
+		break;
+	case ENEMY_STATE::IDLE:
+		break;
+	case ENEMY_STATE::PATHFINDING:
+		GoToPlayer();
+		break;
+	case ENEMY_STATE::DEAD:
+		break;
+	default:
+		break;
+	}
 	return true;
 }
 

@@ -15,7 +15,8 @@ enum class EntityType
 	NO_TYPE = -1,
 
 	PLAYER,
-	ENEMY,
+	FLYENEMY,
+	WALKENEMY,
 
 	MAX	
 };

@@ -49,14 +49,17 @@
     <ClCompile Include="ModuleEntityManager.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
+    <ClCompile Include="j1Pathfinding.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>Desenvolupament  ========\Modules</Filter>
+      <Filter>Desenvolupament  ========\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="j1Pathfinding.cpp">
-      <Filter>Desenvolupament  ========\Modules</Filter>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Desenvolupament  ========\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyFly.cpp">
+      <Filter>Desenvolupament  ========\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -129,14 +132,17 @@
     <ClInclude Include="ModuleEntityManager.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h">
+    <ClInclude Include="j1Pathfinding.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>Desenvolupament  ========\Modules</Filter>
+      <Filter>Desenvolupament  ========\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="j1Pathfinding.h">
-      <Filter>Desenvolupament  ========\Modules</Filter>
+    <ClInclude Include="Entity.h">
+      <Filter>Desenvolupament  ========\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyFly.h">
+      <Filter>Desenvolupament  ========\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +166,9 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\XMLs">
       <UniqueIdentifier>{6a85b5cc-27d7-45aa-8b4f-b30ce86d6bc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Entities">
+      <UniqueIdentifier>{1bbf8b21-5fde-44dd-aaf8-e3465a1a182c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -471,10 +471,16 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 			App->collisions->player = player->col;
 		}
 
-		else if (type == "ENEMY")
+		else if (type == "FLYENEMY")
 		{
-			Enemy* firstEnemyWalkable = (Enemy*)App->module_entity_manager->CreateEntity(EntityType::ENEMY, rect_object);
-			App->collisions->enemyWalkable = firstEnemyWalkable->col;
+			Enemy* enemy = (Enemy*)App->module_entity_manager->CreateEntity(EntityType::FLYENEMY, rect_object);
+			App->collisions->enemyWalkable = enemy->col;
+		}
+
+		else if (type == "WALKENEMY")
+		{
+			Enemy* enemy = (Enemy*)App->module_entity_manager->CreateEntity(EntityType::WALKENEMY, rect_object);
+			App->collisions->enemyWalkable = enemy->col;
 		}
 
 		else if (type == "WALL")

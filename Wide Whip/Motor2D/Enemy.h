@@ -22,20 +22,17 @@ enum class EnemyType
 
 enum class ENEMY_STATE
 {
-	LIVE = 0,
-	WALKING,
-	//RUNNING,
-	ATTACKING,
+	UNKNOWN = -1,
+	IDLE,
 	PATHFINDING,
-	DEAD,
-	UNKNOWN
+	DEAD
 };
 
 class Enemy : public Entity
 {
 public:
 	
-	Enemy(SDL_Rect& rect);
+	Enemy(EntityType type, SDL_Rect& rect);
 
 	//Destructor
 	~Enemy();
@@ -46,6 +43,7 @@ public:
 	//Load
 	bool Start();
 
+	bool PreUpdate();
 	bool Update(float dt) override;
 	bool PostUpdate() override;
 
@@ -76,11 +74,12 @@ private:
 	int					speed = 0;
 	float				gravity = 0.f;
 
-	Uint32				start_time = 0u;
-	Uint32				time_to_jump = 0u;
-	Uint32				time_to_do_fade_to_black = 0u;
-	float				time_in_fade = 0.0f;
-	
+	uint				range_detect = 200u; //distance in pixels.
+
+protected:
+
+	virtual void GoToPlayer() {};
+
 };
 
 
