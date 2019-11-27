@@ -65,7 +65,7 @@ public:
 
 	//FX
 
-private:
+protected:
 
 	p2SString			text_path;
 
@@ -75,6 +75,7 @@ private:
 	float				gravity = 0.f;
 
 	uint				range_detect = 200u; //distance in pixels.
+	uint				minim_range_detect = 50u; //distance in pixels.
 
 protected:
 

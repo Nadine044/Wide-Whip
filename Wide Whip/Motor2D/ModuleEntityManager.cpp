@@ -1,6 +1,7 @@
 #include "j1App.h"
 #include "p2Log.h"
 #include "ModuleEntityManager.h"
+#include "ModuleCollision.h"
 #include "Entity.h"
 #include "j1Player.h"
 #include "EnemyFly.h"
@@ -18,7 +19,6 @@ bool ModuleEntityManager::PreUpdate()
 	for (p2List_item<Entity*>* iter = entities.start; iter && ret; iter = iter->next)
 	{
 		ret = iter->data->PreUpdate();
-
 	}
 	return ret;
 }
@@ -30,6 +30,8 @@ bool ModuleEntityManager::Update(float dt)
 	{
 		if (iter->data != nullptr)
 			ret = iter->data->Update(dt);
+
+		iter->data->col->UpdatePos(iter->data->pos);
 
 	}
 

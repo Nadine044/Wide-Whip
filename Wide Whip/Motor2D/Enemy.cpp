@@ -44,6 +44,8 @@ bool Enemy::Start()
 	current_animation = &idle;
 	state = ENEMY_STATE::IDLE;
 
+	speed = 1;
+
 	return ret;
 }
 
@@ -56,13 +58,16 @@ bool Enemy::PreUpdate()
 		break;
 	case ENEMY_STATE::IDLE:
 		
-		if (pos.DistanceTo(player_pos) <= range_detect)
+		if (pos.DistanceTo(player_pos) <= range_detect && pos.DistanceTo(player_pos) > minim_range_detect)
 		{
 			state = ENEMY_STATE::PATHFINDING;
-			App->pathfinding_module->CreatePath(App->map->WorldToMap(pos), App->map->WorldToMap(player_pos));
-		}
+			App->pathfinding_module->CreatePath(App->map->WorldToMap(pos + pivot_down_central), App->map->WorldToMap(player_pos + App->module_entity_manager->getPlayer()->pivot_down_central));
+		}			
+
 		break;
 	case ENEMY_STATE::PATHFINDING:
+	//	if (pos.DistanceTo(player_pos) <= minim_range_detect)
+		//	state = ENEMY_STATE::IDLE;
 		break;
 	case ENEMY_STATE::DEAD:
 		break;
@@ -82,6 +87,7 @@ bool Enemy::Update(float dt)
 	case ENEMY_STATE::IDLE:
 		break;
 	case ENEMY_STATE::PATHFINDING:
+		App->pathfinding_module->CreatePath(App->map->WorldToMap(pos + pivot_down_central), App->map->WorldToMap(App->module_entity_manager->getPlayer()->pos + App->module_entity_manager->getPlayer()->pivot_down_central));
 		GoToPlayer();
 		break;
 	case ENEMY_STATE::DEAD:

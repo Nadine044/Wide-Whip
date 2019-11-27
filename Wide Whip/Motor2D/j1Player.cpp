@@ -263,7 +263,7 @@ bool j1Player::Update(float dt)
 		offset_animation_x = 0;
 
 	CheckDebugKeys();
-	col->UpdatePos(pos);
+
 	return true;
 }
 

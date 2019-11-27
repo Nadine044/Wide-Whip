@@ -57,10 +57,12 @@ public:
 	int					offset_animation_x = 0;
 
 	SDL_RendererFlip	flip = SDL_FLIP_NONE;
+	iPoint pivot_down_central;
+	iPoint pivot_up_central;
+
 
 
 protected:
-
 	float				velocity = 0.0f;
 
 };
