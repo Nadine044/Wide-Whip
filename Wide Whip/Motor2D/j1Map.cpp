@@ -7,7 +7,9 @@
 #include <math.h>
 #include "ModuleCollision.h"
 #include "j1Player.h"
+#include "Enemy.h"
 #include "Colors.h"
+#include "ModuleEntityManager.h"
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
@@ -459,11 +461,20 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 		float w = object.attribute("width").as_float();
 		float h = object.attribute("height").as_float();
 
+		SDL_Rect rect_object = { pos.x, pos.y, w, h };
+
 		p2SString type = object.attribute("type").as_string();
 
 		if (type == "PLAYER")
 		{
-			App->player->col = App->collisions->player = App->collisions->AddCollider(pos, w, h, TAG::PLAYER, Green, App->player, true);
+			j1Player* player = (j1Player*)App->module_entity_manager->CreateEntity(EntityType::PLAYER, rect_object);
+			App->collisions->player = player->col;
+		}
+
+		else if (type == "ENEMY")
+		{
+			Enemy* firstEnemyWalkable = (Enemy*)App->module_entity_manager->CreateEntity(EntityType::ENEMY, rect_object);
+			App->collisions->enemyWalkable = firstEnemyWalkable->col;
 		}
 
 		else if (type == "WALL")

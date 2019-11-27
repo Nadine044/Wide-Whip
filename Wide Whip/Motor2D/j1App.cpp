@@ -14,6 +14,7 @@
 #include "j1App.h"
 #include "ModuleCollision.h"
 #include "ModuleFadeToBlack.h"
+#include "ModuleEntityManager.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -28,9 +29,9 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	audio = new j1Audio();
 	scene = new j1Scene();
 	map = new j1Map();
-	player = new j1Player();
 	collisions = new ModuleCollision();  
 	fade_to_black = new ModuleFadeToBlack();
+	module_entity_manager = new ModuleEntityManager();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -40,7 +41,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(map);
 	AddModule(scene);
-	AddModule(player);
+	AddModule(module_entity_manager);
 	AddModule(collisions);//After scenes, objects
 	AddModule(fade_to_black);
 	// render last to swap buffer
@@ -71,8 +72,7 @@ void j1App::AddModule(j1Module* module)
 // Called before render is available
 bool j1App::Awake()
 {
-	pugi::xml_document	config_file;
-	pugi::xml_node		config;
+
 	pugi::xml_node		app_config;
 
 	bool ret = false;
@@ -371,4 +371,9 @@ bool j1App::SavegameNow() const
 	data.reset();
 	want_to_save = false;
 	return ret;
+}
+
+const pugi::xml_node j1App::GetConfig() const
+{
+	return config;
 }

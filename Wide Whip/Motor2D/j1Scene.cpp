@@ -11,6 +11,7 @@
 #include "j1Scene.h"
 #include "ModuleCollision.h"
 #include "ModuleFadeToBlack.h"
+#include "ModuleEntityManager.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -171,12 +172,11 @@ void j1Scene::ChangeLevelTo(const p2SString level)
 	//Unload
 	App->map->CleanUp();
 	App->collisions->CleanUp();
-	App->player->CleanUp();
+	App->module_entity_manager->CleanUp();
 
 	//Load
 	App->map->Load(level.GetString());
 	map_name_loaded = level;
-	App->player->Start();
 }
 
 bool j1Scene::IsLevel1Loaded() const

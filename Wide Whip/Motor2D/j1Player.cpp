@@ -7,63 +7,64 @@
 #include "j1Map.h"
 #include "j1Player.h"
 #include "ModuleCollision.h"
-#include <math.h>
 #include "ModuleFadeToBlack.h"
 #include "j1Scene.h"
+#include "Entity.h"
+#include "ModuleEntityManager.h"
 
 
-j1Player::j1Player() : j1Module()
-{
-	name.create("player");
-}
+j1Player::j1Player(SDL_Rect& rect) : Entity(EntityType::PLAYER, rect)
+{}
 
 //Destructor
 j1Player::~j1Player()
 {}
 
-bool j1Player::Awake(pugi::xml_node& config)
+bool j1Player::Awake(const pugi::xml_node& config)
 {
 	LOG("Loading Player Parser");
 	bool ret = true;
 
-	pugi::xml_node time_in_fade_node	= config.child("time_fade");	
+	pugi::xml_node player_node = config.child("player");
+
+	pugi::xml_node time_in_fade_node	= player_node.child("time_fade");
 	time_to_do_fade_to_black			= (Uint32)(time_in_fade_node.attribute("time_to_do_fade_to_black").as_float() * 1000.0f);
 	time_to_jump						= (Uint32)(time_in_fade_node.attribute("time_to_jump").as_float() * 1000.0f);
 	time_in_fade						= time_in_fade_node.attribute("time_in_fade").as_float();
 
-	pugi::xml_node rect_limit			= config.child("rect_limit_camera_border");
+	pugi::xml_node rect_limit			= player_node.child("rect_limit_camera_border");
 	rect_limit_camera_border_x			= rect_limit.attribute("x").as_int();
 	rect_limit_camera_border_y			= rect_limit.attribute("y").as_int();
 	rect_limit_camera.w					= rect_limit.attribute("w").as_float();
 	rect_limit_camera.h					= rect_limit.attribute("h").as_float();
 	
-	map_left_offset						= config.child("map_left_offset_x").attribute("value").as_int();
+	map_left_offset						= player_node.child("map_left_offset_x").attribute("value").as_int();
 
-	jump_force							= config.child("jump_force").attribute("value").as_uint();
-	gravity								= config.child("gravity").attribute("value").as_float();
+	jump_force							= player_node.child("jump_force").attribute("value").as_uint();
+	gravity								= player_node.child("gravity").attribute("value").as_float();
 
-	dash_force							= config.child("dash_force").attribute("value").as_int();
-	resistance_dash						= config.child("resistance_dash").attribute("value").as_float();
-
-
-	jump_clinged_force_left				= config.child("jump_clinged_force").attribute("value").as_int() * 1.1f;
-	jump_clinged_force_right			= config.child("jump_clinged_force").attribute("value").as_int() * 1.f;
-	resistance_jump_clinged				= config.child("resistance_jump_clinged").attribute("value").as_float();
-
-	speed								= config.child("speed").attribute("value").as_int();
-
-	text_path							= config.child_value("texture");
+	dash_force							= player_node.child("dash_force").attribute("value").as_int();
+	resistance_dash						= player_node.child("resistance_dash").attribute("value").as_float();
 
 
-	jump_clinged_force_left				= config.child("jump_clinged_force").attribute("value").as_int() * 1.1f;
-	jump_clinged_force_right			= config.child("jump_clinged_force").attribute("value").as_int() * 1.f;
-	resistance_jump_clinged				= config.child("resistance_jump_clinged").attribute("value").as_float();
+	jump_clinged_force_left				= player_node.child("jump_clinged_force").attribute("value").as_int() * 1.1f;
+	jump_clinged_force_right			= player_node.child("jump_clinged_force").attribute("value").as_int() * 1.f;
+	resistance_jump_clinged				= player_node.child("resistance_jump_clinged").attribute("value").as_float();
 
-	speed								= config.child("speed").attribute("value").as_int();
+	speed								= player_node.child("speed").attribute("value").as_int();
 
-	text_path							= config.child_value("texture");
+	text_path							= player_node.child_value("texture");
 
-	pugi::xml_node animations_node = config.child("animations");
+
+	jump_clinged_force_left				= player_node.child("jump_clinged_force").attribute("value").as_int() * 1.1f;
+	jump_clinged_force_right			= player_node.child("jump_clinged_force").attribute("value").as_int() * 1.f;
+	resistance_jump_clinged				= player_node.child("resistance_jump_clinged").attribute("value").as_float();
+
+	speed								= player_node.child("speed").attribute("value").as_int();
+
+	text_path							= player_node.child_value("texture");
+
+	pugi::xml_node animations_node = player_node.child("animations");
 	idle.LoadAnimation(animations_node.child("idle"));
 	jump.LoadAnimation(animations_node.child("jump"));
 	walk.LoadAnimation(animations_node.child("walk"));
@@ -73,7 +74,7 @@ bool j1Player::Awake(pugi::xml_node& config)
 	climb.LoadAnimation(animations_node.child("climb"));
 	fall.LoadAnimation(animations_node.child("fall"));
 
-	pugi::xml_node audio_node = config.child("audios");
+	pugi::xml_node audio_node = player_node.child("audios");
 
 	jump_fx.path = audio_node.child_value("jump");
 	jump_fx.id = App->audio->LoadFx(jump_fx.path.GetString());
@@ -84,7 +85,7 @@ bool j1Player::Awake(pugi::xml_node& config)
 	death_finish_fx.path = audio_node.child_value("death_finish");
 	death_finish_fx.id = App->audio->LoadFx(death_finish_fx.path.GetString());
 
-	offset_value = config.child("offset_value").attribute("value").as_int();
+	offset_value = player_node.child("offset_value").attribute("value").as_int();
 
 	return ret;
 }
@@ -94,15 +95,17 @@ bool j1Player::Start()
 	LOG("Loading Player textures");
 	bool ret = true;
 
-	pos.x = col->rect.x;
-	pos.y = col->rect.y;	
+	//pos.x = col->rect.x;
+	//pos.y = col->rect.y;	
 
 	//App->player->Load("XMLs/player.xml");
+	//App->module_entity_manager->getPlayer()->Load("XMLs/player.xml");
+	
 	text = App->tex->Load(text_path.GetString());
 
 	flip = SDL_FLIP_NONE;
 
-	currentAnimation = &idle;
+	current_animation = &idle;
 	start_time = 0u;
 
 	rect_limit_camera.x = -App->render->camera.x + rect_limit_camera_border_x;
@@ -152,9 +155,9 @@ bool j1Player::Update(float dt)
 	{
 	case PLAYER_STATE::LIVE:
 
-		if (velocity < -gravity && currentAnimation != &jump)
+		if (velocity < -gravity && current_animation != &jump)
 		{
-			currentAnimation = &fall;
+			current_animation = &fall;
 		}
 
 		ToAction();
@@ -173,7 +176,7 @@ bool j1Player::Update(float dt)
 	case PLAYER_STATE::DASHING:
 		pos.x += velocity_dash;
 
-		currentAnimation = &dash;
+		current_animation = &dash;
 
 		
 		 if (flip == SDL_RendererFlip::SDL_FLIP_NONE)
@@ -213,7 +216,7 @@ bool j1Player::Update(float dt)
 		break;
 	case PLAYER_STATE::DEAD:
 
-		currentAnimation = &death;
+		current_animation = &death;
 
 		if (SDL_GetTicks() - start_time >= time_to_jump && !dead_jumping)
 		{
@@ -235,6 +238,7 @@ bool j1Player::Update(float dt)
 		if (revive)
 		{
 			Revive();
+			return false;
 		}
 
 		break;
@@ -253,10 +257,10 @@ bool j1Player::Update(float dt)
 	default:
 		break;
 	}
-	if (currentAnimation == &climb)
+	if (current_animation == &climb)
 		flip == SDL_RendererFlip::SDL_FLIP_NONE ? offset_animation_x = offset_value : offset_animation_x = -offset_value;
 	else
-		offset_animation_x += 0;
+		offset_animation_x = 0;
 
 	CheckDebugKeys();
 	col->UpdatePos(pos);
@@ -324,7 +328,7 @@ void j1Player::ToAction()
 		jump.Reset();
 		if (!clinging)
 		{
-			currentAnimation = &jump;
+			current_animation = &jump;
 			velocity = jump_force;
 			jumped = true;
 		}
@@ -332,7 +336,7 @@ void j1Player::ToAction()
 		{
 			state = PLAYER_STATE::LIVE;
 			clinging = false;
-			currentAnimation = &jump;
+			current_animation = &jump;
 			velocity = jump_force *0.75f; //jump less
 			jumped = true;
 			jump_h_right ? velocity_jump_clinged = jump_clinged_force_left : velocity_jump_clinged = -jump_clinged_force_right;
@@ -355,8 +359,8 @@ void j1Player::Movement()
 {
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 
-		if (currentAnimation != &jump && currentAnimation != &fall)
-			currentAnimation = &walk;
+		if (current_animation != &jump && current_animation != &fall)
+			current_animation = &walk;
 
 		pos.x -= speed;
 		flip = SDL_FLIP_HORIZONTAL;
@@ -364,8 +368,8 @@ void j1Player::Movement()
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 
-		if (currentAnimation != &jump && currentAnimation != &fall)
-			currentAnimation = &walk;
+		if (current_animation != &jump && current_animation != &fall)
+			current_animation = &walk;
 
 		pos.x += speed;
 		flip = SDL_FLIP_NONE;
@@ -376,14 +380,13 @@ void j1Player::Movement()
 void j1Player::Revive()
 {
 	state = PLAYER_STATE::LIVE;
-	App->scene->StartThisLevel();
 	velocity = 0.0f;
+	App->scene->StartThisLevel();
 }
 
 bool j1Player::PostUpdate()
 {
 	//MYTODO
-	Draw();
 	if (draw_debug)
 	{
 		App->render->DrawQuad(rect_limit_camera, White.r, White.g, White.b, App->collisions->GetAlphaDebug());
@@ -405,18 +408,18 @@ void j1Player::OnTrigger(Collider* col2)
 		velocity = 0.0f;
 		jump.Reset();
 		fall.Reset();
-		if (currentAnimation == &walk)
+		if (current_animation == &walk)
 		{
 			if (App->input->GetKey(SDL_SCANCODE_A) != KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_D) != KEY_REPEAT)
-				currentAnimation = &idle;
+				current_animation = &idle;
 		}
 		else
-			currentAnimation = &idle;
+			current_animation = &idle;
 
 		jumped = false;
 		dashed = false;
 	}
-	else if (col->last_colision_direction == DISTANCE_DIR::LEFT && col2->tag == TAG::WALL && currentAnimation != &walk)
+	else if (col->last_colision_direction == DISTANCE_DIR::LEFT && col2->tag == TAG::WALL && current_animation != &walk)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
@@ -425,10 +428,10 @@ void j1Player::OnTrigger(Collider* col2)
 			velocity = 0.0f;
 			state = PLAYER_STATE::CLIMBING;
 			jump_h_right = false;
-			currentAnimation = &climb;
+			current_animation = &climb;
 		}
 	}
-	else if (col->last_colision_direction == DISTANCE_DIR::RIGHT && col2->tag == TAG::WALL && currentAnimation != &walk)
+	else if (col->last_colision_direction == DISTANCE_DIR::RIGHT && col2->tag == TAG::WALL && current_animation != &walk)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
@@ -437,7 +440,7 @@ void j1Player::OnTrigger(Collider* col2)
 			velocity = 0.0f;
 			state = PLAYER_STATE::CLIMBING;
 			jump_h_right = true;
-			currentAnimation = &climb;
+			current_animation = &climb;
 		}
 	}
 
@@ -458,21 +461,7 @@ void j1Player::Death()
 	dead_jumping = false;
 }
 
-bool j1Player::Draw() const
-{
-	//Animation MYTODO
-	//----------------------	
-	
-	
-		//currentAnimation = &idle;
-	App->render->Blit(text, pos.x + offset_animation_x, pos.y, &(currentAnimation->GetCurrentFrame()), 1.0f, flip);
-	
 
-	//App->render->Blit(text2, pos.x, pos.y, &(jump.GetCurrentFrame()), 1.0f, flip);
-	//App->render->Blit(text, pos.x, pos.y, &(idle.GetCurrentFrame()), 1.0f, flip);
-
-	return true;
-}
 
 bool j1Player::CleanUp()
 {
@@ -486,6 +475,8 @@ bool j1Player::Save(pugi::xml_node& save_file) const
 	pugi::xml_node pos_node = save_file.append_child("position");
 	pos_node.append_attribute("x") = pos.x;
 	pos_node.append_attribute("y") = pos.y;
+
+	save_file.append_child("entity_type").append_attribute("value") = (int)type;
 
 	save_file.append_child("velocity").append_attribute("value") = GetVelocity();
 	save_file.append_child("state").append_attribute("value") = (int)state;
@@ -507,6 +498,8 @@ bool j1Player::Load(pugi::xml_node& save_file)
 {
 	pos.x = save_file.child("position").attribute("x").as_int();
 	pos.y = save_file.child("position").attribute("y").as_int();
+
+	type = EntityType(save_file.child("entity_type").attribute("value").as_int());
 
 	velocity = save_file.child("velocity").attribute("value").as_float();
 	state = PLAYER_STATE(save_file.child("state").attribute("value").as_int());

@@ -13,9 +13,9 @@ class j1Textures;
 class j1Audio;
 class j1Scene;
 class j1Map;
-class j1Player;
 class ModuleCollision;
 class ModuleFadeToBlack;
+class ModuleEntityManager;
 
 class j1App
 {
@@ -47,6 +47,7 @@ public:
 	const char* GetArgv(int index) const;
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
+	const pugi::xml_node GetConfig() const;
 
 	void LoadGame();
 	void SaveGame() const;
@@ -86,9 +87,9 @@ public:
 	j1Audio*			audio;
 	j1Scene*			scene;
 	j1Map*				map;
-	j1Player*			player;
 	ModuleCollision*	collisions;
 	ModuleFadeToBlack*	fade_to_black;
+	ModuleEntityManager* module_entity_manager;
 
 private:
 
@@ -105,6 +106,9 @@ private:
 	bool				want_to_load;
 
 	mutable p2SString	save_game_root;
+
+	pugi::xml_document	config_file;
+	pugi::xml_node		config;
 };
 
 extern j1App* App; // No student is asking me about that ... odd :-S

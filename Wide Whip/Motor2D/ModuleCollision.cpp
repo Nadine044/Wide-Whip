@@ -3,10 +3,11 @@
 #include "ModuleCollision.h"
 #include "j1Input.h" //temporally
 #include "j1Player.h" // wil be replace by object
+#include "Enemy.h"
 //#include "p2Log.h"
 //--------------------COLLIDER---------------------------
 
-Collider::Collider(iPoint pos, int w, int h, TAG tag, Color color, j1Player* parent, bool dynamic) : tag(tag), dynamic(dynamic), color(color), object(parent)
+Collider::Collider(iPoint pos, int w, int h, TAG tag, Color color, Entity* parent, bool dynamic) : tag(tag), dynamic(dynamic), color(color), object(parent)
 {
 	rect.x = pos.x;
 	rect.y = pos.y;
@@ -74,7 +75,7 @@ bool ModuleCollision::Awake(pugi::xml_node& config)
 	return true;
 }
 
-Collider* ModuleCollision::AddCollider(iPoint pos, int w, int h, TAG tag, Color color, j1Player* parent, bool dynamic)
+Collider* ModuleCollision::AddCollider(iPoint pos, int w, int h, TAG tag, Color color, Entity* parent, bool dynamic)
 {
 	Collider * ret = new Collider(pos, w, h, tag, color, parent, dynamic);
 	if(!dynamic)
@@ -105,7 +106,14 @@ bool ModuleCollision::Start()
 	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::PLATFORM] = true;
 	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::WATER] = true;
 	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::CHANGE_LEVEL] = true;
+	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::ENEMY] = true;
 
+	//ENEMY TAG
+	trigger_matrix[(uint)TAG::ENEMY][(uint)TAG::WALL] = true;
+	trigger_matrix[(uint)TAG::ENEMY][(uint)TAG::PLATFORM] = true;
+	trigger_matrix[(uint)TAG::ENEMY][(uint)TAG::WATER] = true;
+	trigger_matrix[(uint)TAG::ENEMY][(uint)TAG::CHANGE_LEVEL] = true;
+	trigger_matrix[(uint)TAG::ENEMY][(uint)TAG::PLAYER] = true;
 	
 
 	//PHYSICS MATRIX to overlap.
@@ -113,6 +121,11 @@ bool ModuleCollision::Start()
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::WALL] = true;
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::PLATFORM] = true;
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::CHANGE_LEVEL] = true;
+
+	//PHYSICS MATRIX to overlap WALKABLE ENEMY
+	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::WALL] = true;
+	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::PLATFORM] = true;
+	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::CHANGE_LEVEL] = true;
 	
 	return true;
 }
@@ -208,7 +221,7 @@ bool ModuleCollision::Update(float dt)
 							}
 
 							if (trigger_matrix[(uint)collider1->data->tag][(uint)collider2->data->tag])
-								collider1->data->object->OnTrigger(collider2->data);
+								collider1->data->object->OnTrigger(collider2->data); //mytodo
 
 
 						}
@@ -324,7 +337,12 @@ DISTANCE_DIR ModuleCollision::OverlapDS(Collider* c_dynamic, Collider* c_static)
 	}
 
 	c_dynamic->UpdatePos(c_dynamic->object->pos);
-	player->object->UpdateCameraPos();
+	if (player->object->type == EntityType::PLAYER)
+	{
+		j1Player* _player = (j1Player*)player->object;
+		_player->UpdateCameraPos();
+	}
+
 	return (DISTANCE_DIR)overlap_dir;
 }
 
@@ -378,7 +396,12 @@ DISTANCE_DIR ModuleCollision::OverlapPlatform(Collider* c_dynamic, Collider* c_s
 		}
 
 		c_dynamic->UpdatePos(c_dynamic->object->pos);
-		player->object->UpdateCameraPos();
+
+		if (player->object->type == EntityType::PLAYER)
+		{
+			j1Player* _player = (j1Player*)player->object;
+			_player->UpdateCameraPos();
+		}
 		
 	}
 	return (DISTANCE_DIR)overlap_dir;

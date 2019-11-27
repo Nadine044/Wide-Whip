@@ -9,14 +9,16 @@
 #include "Animation.h"
 #include "j1Textures.h"
 #include "j1Audio.h"
-//struct SDL_Texture;
+#include "Entity.h"
+
 
 #define CAMERA_OFFSET_X 300
 #define CAMERA_OFFSET_Y 360
 #define MAP_LEFT_OFFSET_X 200
 
-
+class Entity;
 class Collider;
+class Animation;
 
 enum class PLAYER_STATE
 {
@@ -30,35 +32,34 @@ enum class PLAYER_STATE
 
 
 
-class j1Player : public j1Module
+class j1Player : public Entity
 {
 public:
 
-	j1Player();
+	j1Player(SDL_Rect& rect);
 
 	//Destructor
-	virtual ~j1Player();
+	~j1Player();
 
 	//Called before render is available
-	bool Awake(pugi::xml_node& player);
+	bool Awake(const pugi::xml_node& player) override;
 
 	//Load
-	bool Start() override;
-
+	bool Start();
+		
 	bool Update(float dt) override;
 	void JumpHorizontal();
-
 
 	bool PostUpdate() override;
 
 	// Called before quitting
 	bool CleanUp() override;
 
-	bool Save(pugi::xml_node&) const  override;
+	bool Save(pugi::xml_node&) const override;
 
 	bool Load(pugi::xml_node&) override;
 
-	void OnTrigger(Collider* col2); // this will be virtual in the class object parent when ObjectManager will be created.
+	void OnTrigger(Collider* col2) override;
 
 	float GetVelocity() const;
 
@@ -72,8 +73,6 @@ public:
 
 	//New player
 
-	Animation*		currentAnimation = nullptr;
-
 	Animation		jump;
 	Animation		idle;
 
@@ -83,9 +82,6 @@ public:
 	Animation		climb;
 	Animation		fall;
 
-
-	iPoint			pos;
-	Collider*		col;
 
 	FX jump_fx;
 	FX dash_fx;
@@ -116,9 +112,8 @@ private:
 
 private:
 
-	SDL_Texture*		text							= nullptr;
+	//SDL_Texture*		text							= nullptr;
 	p2SString			text_path;
-
 
 	SDL_Rect			rect_limit_camera;
 
@@ -127,7 +122,6 @@ private:
 	int					map_left_offset					= 0;
 
 	uint				jump_force						= 0u;
-	float				velocity						= 0.0f;
 	float				gravity							= 0.f;
 
 	int					dash_force						= 0;
@@ -160,9 +154,6 @@ private:
 	Uint32				time_to_do_fade_to_black		= 0u;
 	float				time_in_fade					= 0.0f;
 
-	SDL_RendererFlip	flip							= SDL_FLIP_NONE;
-
-	int				offset_animation_x					= 0;
 	int				offset_value						= 0;
 
 
