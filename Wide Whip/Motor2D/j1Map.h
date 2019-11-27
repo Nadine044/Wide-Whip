@@ -8,8 +8,7 @@
 #include "p2Defs.h"
 #include "j1App.h"
 #include "j1Textures.h"
-
-
+#include "SDL/include/SDL_rect.h"
 // ----------------------------------------------------
 struct MapLayer
 {
@@ -136,7 +135,6 @@ public:
 
 
 	bool IsOnCamera(SDL_Rect) const;
-
 
 
 private:

@@ -12,6 +12,7 @@
 #include "ModuleCollision.h"
 #include "ModuleFadeToBlack.h"
 #include "ModuleEntityManager.h"
+#include "j1Pathfinding.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -41,15 +42,43 @@ bool j1Scene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool j1Scene::Start()
 {
-	App->map->Load(level1.GetString());
-	map_name_loaded = level1;
-	App->audio->PlayMusic(music.GetString());
+
+	if (App->map->Load(level1.GetString()) == true)
+	{
+		map_name_loaded = level1;
+		App->audio->PlayMusic(music.GetString());
+	}
+
+	debug_tex = App->tex->Load("maps/path2.png");
+
+
 	return true;
 }
 
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
+	static iPoint origin;
+	static bool origin_selected = false;
+
+	int x, y;
+	App->input->GetMousePosition(x, y);
+	iPoint p = App->render->ScreenToWorld(x, y);
+	p = App->map->WorldToMap(p);
+
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		if (origin_selected == true)
+		{
+			App->pathfinding_module->CreatePath(origin, p);
+			origin_selected = false;
+		}
+		else
+		{
+			origin = p;
+			origin_selected = true;
+		}
+	}
 	return true;
 }
 
@@ -60,6 +89,8 @@ bool j1Scene::Update(float dt)
 	CheckLevelChange();
 
 	CheckSaveLoad();
+
+	
 
 	return true;
 }
@@ -193,6 +224,23 @@ bool j1Scene::IsLevel2Loaded() const
 bool j1Scene::PostUpdate()
 {
 	bool ret = true;
+
+	int x, y;
+	App->input->GetMousePosition(x, y);
+	iPoint p = App->render->ScreenToWorld(x, y);
+	p = App->map->WorldToMap(p);
+	p = App->map->MapToWorld(p);
+
+	SDL_Rect rect = { 0, 0, 64, 64 };
+	App->render->Blit(debug_tex, p.x, p.y, &rect);
+
+	const p2DynArray<iPoint>* path = App->pathfinding_module->GetLastPath();
+
+	for (uint i = 0; i < path->Count(); ++i)
+	{
+		iPoint pos = App->map->MapToWorld(*path->At(i));
+		App->render->Blit(debug_tex, pos.x, pos.y);
+	}
 
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;

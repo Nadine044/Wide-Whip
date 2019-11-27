@@ -60,6 +60,8 @@ public:
 
 	bool CheckColision(const Collider*) const;
 
+	bool CheckColision(const iPoint&) const;
+
 	bool CheckColisionBottom(const Collider*) const;
 
 	void UpdatePos(const iPoint pos);
@@ -106,6 +108,8 @@ public:
 	DISTANCE_DIR OverlapPlatform(Collider* c_dynamic, Collider* c_static);
 
 	Uint8 GetAlphaDebug() const;
+
+	const bool IsInSomeCollider(const iPoint& pos_map) const;
 
 public:
 
