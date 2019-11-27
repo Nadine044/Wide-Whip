@@ -79,7 +79,6 @@ bool Enemy::Save(pugi::xml_node& save_file) const
 
 	save_file.append_child("collider").append_attribute("enabled") = col->IsEnabled();
 
-
 	return true;
 }
 
