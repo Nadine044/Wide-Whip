@@ -1,6 +1,7 @@
 #include "EnemyFly.h"
 #include "j1App.h"
 #include "ModuleEntityManager.h"
+#include "ModuleCollision.h"
 #include "j1Pathfinding.h"
 #include "j1Map.h"
 
@@ -43,9 +44,9 @@ void EnemyFly::GoToPlayer()
 			iPoint pivot_player = App->module_entity_manager->getPlayer()->pivot_down_central;
 
 
-			if (next_point_pivot_down_central.x  < enemy_relative_pos.x )
-				pos.x -= speed;  //left
-			else if (next_point_pivot_down_central.x  > enemy_relative_pos.x)
+			//if (next_point_pivot_down_central.x  < enemy_relative_pos.x )
+				//pos.x -= speed;  //left
+			if (next_point_pivot_down_central.x - App->map->data.tile_width * 0.5f > enemy_relative_pos.x - col->rect.w*0.5f)
 				pos.x += speed;  //right
 
 			if (next_point_pivot_down_central.y  < enemy_relative_pos.y )

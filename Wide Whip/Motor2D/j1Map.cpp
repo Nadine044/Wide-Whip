@@ -83,11 +83,21 @@ void j1Map::Draw()
 					SDL_Rect section = tileset->data->GetRectFromID(layer->data->GetID(x, y));
 					if (IsOnCamera(SDL_Rect{ pos_in_world.x , pos_in_world.y, data.tile_width, data.tile_height})) //Culling
 						App->render->Blit(tileset->data->texture, pos_in_world.x, pos_in_world.y, &section, layer->data->parallax_vel);
-				
+					if(y == 0)
+					App->render->DrawLine(pos_in_world.x, 0, pos_in_world.x, 1000, 255, 255, 255);
+
 				}
+			
+			iPoint q;
+			q.x = 0;
+			q.y = y;
+				iPoint s = MapToWorld(q);
+				App->render->DrawLine(0, s.y, 1000, s.y, 255, 255, 255);
 			}
 		}
 	}
+
+
 }
 
 bool j1Map::PostUpdate()

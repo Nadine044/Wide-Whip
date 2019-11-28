@@ -231,7 +231,7 @@ bool j1Scene::PostUpdate()
 	p = App->map->WorldToMap(p);
 	p = App->map->MapToWorld(p);
 
-	SDL_Rect rect = { 0, 0, 64, 64 };
+	SDL_Rect rect = { 0, 0, 32, 32 };
 	App->render->Blit(debug_tex, p.x, p.y, &rect);
 
 	const p2DynArray<iPoint>* path = App->pathfinding_module->GetLastPath();
