@@ -230,3 +230,5 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	return -1;
 }
 
+
+

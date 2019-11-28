@@ -43,73 +43,92 @@ void EnemyFly::GoToNextPoint()
 			iPoint enemy_relative_pos = pos + pivot_down_central;
 			iPoint pivot_player = App->module_entity_manager->getPlayer()->pivot_down_central;
 
-			//horizontal----
-			if (velocity_x == 0)
+			if (in_collision)
 			{
-				if (next_point_pivot_down_central.x > enemy_relative_pos.x)
-					velocity_x = speed;
-
-				else if(next_point_pivot_down_central.x < enemy_relative_pos.x)
-					velocity_x = -speed;
-			}
-
-
-			if (velocity_x < 0)
-			{
-				if (next_point_pivot_down_central.x + App->map->data.tile_width * 0.5f < enemy_relative_pos.x + col->rect.w*0.5f)
+				//horizontal----
+				if (velocity_x == 0)
 				{
-					velocity_x = -speed;//left
-					pos.x += velocity_x;
+					if (next_point_pivot_down_central.x > enemy_relative_pos.x)
+						velocity_x = speed;
 
+					else if(next_point_pivot_down_central.x < enemy_relative_pos.x)
+						velocity_x = -speed;
 				}
-				else
-					velocity_x = 0;
-			}
-			else if (velocity_x > 0)
-			{
-				if (next_point_pivot_down_central.x - App->map->data.tile_width * 0.5f > enemy_relative_pos.x - col->rect.w*0.5f)
+
+
+				if (velocity_x < 0)
 				{
-					velocity_x = speed; //right
-					pos.x += velocity_x;
+					if (next_point_pivot_down_central.x + App->map->data.tile_width * 0.5f < enemy_relative_pos.x + col->rect.w*0.5f)
+					{
+						velocity_x = -speed;//left
+						pos.x += velocity_x;
+
+					}
+					else
+						velocity_x = 0;
 				}
-				else
-					velocity_x = 0;
-			}
-
-
-			//Vertical-----
-
-			if (velocity_y == 0)
-			{
-				if (next_point_pivot_down_central.y - App->map->data.tile_height * 0.5f > pos.y + pivot_down_central.y * 0.5f)
-					velocity_y = speed;
-
-				else if (next_point_pivot_down_central.y - App->map->data.tile_height * 0.5f < pos.y + pivot_down_central.y * 0.5f)
-					velocity_y = -speed;
-			}
-
-
-
-			if (velocity_y < 0)
-			{
-				if (next_point_pivot_down_central.y < enemy_relative_pos.y + 10)
+				else if (velocity_x > 0)
 				{
-					velocity_y = -speed; //up
-					pos.y += velocity_y;
+					if (next_point_pivot_down_central.x - App->map->data.tile_width * 0.5f > enemy_relative_pos.x - col->rect.w*0.5f)
+					{
+						velocity_x = speed; //right
+						pos.x += velocity_x;
+					}
+					else
+						velocity_x = 0;
 				}
-				else
-					velocity_y = 0;
-			}
-			else if (velocity_y > 0)
-			{
-				if (next_point_pivot_down_central.y - App->map->data.tile_height > enemy_relative_pos.y - col->rect.h)
-				{
-					velocity_y = speed; //down
-					pos.y += velocity_y;
-				}
-				else
-					velocity_y = 0;
 
+
+				//Vertical-----
+
+				if (velocity_y == 0)
+				{
+					if (next_point_pivot_down_central.y - App->map->data.tile_height * 0.5f > pos.y + pivot_down_central.y * 0.5f)
+						velocity_y = speed;
+
+					else if (next_point_pivot_down_central.y - App->map->data.tile_height * 0.5f < pos.y + pivot_down_central.y * 0.5f)
+						velocity_y = -speed;
+				}
+
+
+
+					if (velocity_y < 0)
+					{
+						if (next_point_pivot_down_central.y < enemy_relative_pos.y + 10)
+						{
+							velocity_y = -speed; //up
+							pos.y += velocity_y;
+						}
+						else
+							velocity_y = 0;
+					}
+					else if (velocity_y > 0)
+					{
+						if (next_point_pivot_down_central.y - App->map->data.tile_height > enemy_relative_pos.y - col->rect.h)
+						{
+							velocity_y = speed; //down
+							pos.y += velocity_y;
+						}
+						else
+							velocity_y = 0;
+					}
+			}
+			else
+			{
+				//normal
+				iPoint enemy_central_pos = pos;
+				enemy_central_pos.x += col->rect.w *0.5f;
+				enemy_central_pos.y += col->rect.h *0.5f;
+				iPoint pos_central_map = App->map->WorldToMap(enemy_central_pos);
+				if (pos_central_map.x < next_point->x)
+					pos.x += speed;
+				else if (pos_central_map.x > next_point->x)
+					pos.x -= speed;
+
+				if (pos_central_map.y < next_point->y)
+					pos.y += speed;
+				else if (pos_central_map.y > next_point->y)
+					pos.y -= speed;
 			}
 		}
 	}

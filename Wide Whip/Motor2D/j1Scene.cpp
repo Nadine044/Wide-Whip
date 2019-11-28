@@ -46,7 +46,7 @@ bool j1Scene::Start()
 	if (App->map->Load(level1.GetString()) == true)
 	{
 		map_name_loaded = level1;
-		App->audio->PlayMusic(music.GetString());
+		//App->audio->PlayMusic(music.GetString());
 	}
 
 	debug_tex = App->tex->Load("maps/path2.png");

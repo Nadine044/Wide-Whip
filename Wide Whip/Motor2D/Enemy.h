@@ -76,7 +76,7 @@ protected:
 	int					speed = 0;
 	float				gravity = 0.f;
 
-	uint				range_detect = 200u; //distance in pixels.
+	uint				range_detect = 300u; //distance in pixels.
 	uint				minim_range_detect = 75u; //distance in pixels.
 
 	uint time_to_pathfind_start = 0u;
@@ -85,6 +85,10 @@ protected:
 
 	virtual void GoToNextPoint() {};
 	void GoToPlayer();
+
+	bool PathIsAHorizontalLine(const iPoint & nexp_point);
+
+	bool in_collision = false;
 
 };
 

@@ -46,7 +46,7 @@ bool Enemy::Start()
 	current_animation = &idle;
 	state = ENEMY_STATE::IDLE;
 
-	speed = 2;
+	speed = 1;
 	velocity = 0;
 
 	return ret;
@@ -92,20 +92,20 @@ bool Enemy::Update(float dt)
 		velocity = 0;
 		break;
 	case ENEMY_STATE::PATHFINDING:
-		if (pos.DistanceTo(App->module_entity_manager->getPlayer()->pos) <= minim_range_detect)
+		if (pos.DistanceTo(App->module_entity_manager->getPlayer()->pos) <=/*minim_range_detect*/ 0)
 			GoToPlayer();
 		else
 		{
 			if (time_to_pathfind < SDL_GetTicks() - time_to_pathfind_start)
 			{
-				time_to_pathfind_start = SDL_GetTicks();
-				if (velocity_y == 0)
+			/*	time_to_pathfind_start = SDL_GetTicks();
+				if (velocity_y == 0)*/
 					App->pathfinding_module->CreatePath(App->map->WorldToMap(pos + p), App->map->WorldToMap(App->module_entity_manager->getPlayer()->pos + App->module_entity_manager->getPlayer()->pivot_down_central));
-				else if (velocity_y < 0)
+				/*else if (velocity_y < 0)
 					App->pathfinding_module->CreatePath(App->map->WorldToMap(pos + pivot_down_central), App->map->WorldToMap(App->module_entity_manager->getPlayer()->pos + App->module_entity_manager->getPlayer()->pivot_down_central));
 				else if (velocity_y > 0)
 					App->pathfinding_module->CreatePath(App->map->WorldToMap(pos + pivot_up_central), App->map->WorldToMap(App->module_entity_manager->getPlayer()->pos + App->module_entity_manager->getPlayer()->pivot_down_central));
-			}
+		*/	}
 			GoToNextPoint();
 		}
 		break;
@@ -114,6 +114,7 @@ bool Enemy::Update(float dt)
 	default:
 		break;
 	}
+	in_collision = false;
 	return true;
 }
 
@@ -131,6 +132,7 @@ void Enemy::OnTrigger(Collider* col2)
 {
 	if (col2->tag == TAG::WALL)
 	{
+		in_collision = true;
 		if(col->last_colision_direction == DISTANCE_DIR::UP || col->last_colision_direction == DISTANCE_DIR::DOWN)
 			velocity_y = 0;
 	}
@@ -188,4 +190,15 @@ void Enemy::GoToPlayer()
 	{
 		pos.y += speed;
 	}
+}
+
+bool Enemy::PathIsAHorizontalLine(const iPoint& next_point)
+{
+	// next_point in map pos.
+	bool ret = false;
+	const p2DynArray<iPoint>* path = App->pathfinding_module->GetLastPath();
+	if (path->At(path->Count()-1)->y == path->At(path->Count()-3)->y)
+		ret = true;
+
+	return ret;
 }
