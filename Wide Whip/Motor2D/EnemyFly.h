@@ -2,7 +2,8 @@
 #define __ENEMYFLY_H__
 
 #include "Enemy.h"
-
+#include "p2DynArray.h"
+#include "p2Point.h"
 
 class EnemyFly : public Enemy
 {
@@ -11,6 +12,8 @@ public:
 
 private:
 	void GoToNextPoint() override;
+	void MoveNormal(const p2DynArray<iPoint> * path, const iPoint * next_point);
+	void MoveInCollision(const iPoint * next_point);
 };
 
 #endif // !__ENEMYFLY_H__

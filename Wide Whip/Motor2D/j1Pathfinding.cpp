@@ -230,5 +230,33 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	return -1;
 }
 
+const iPoint* j1PathFinding::GetNextHorizontalPoint(const iPoint* current_point) const
+{
+	const p2DynArray<iPoint>* path = GetLastPath();
+	int index = path->Find(current_point);
+	for (int i = index-1; i >= 0; --i)
+	{
+		if (path->At(i)->x != current_point->x)
+		{
+			return path->At(i);
+		}
+	}
 
+	return nullptr;
+}
+
+const iPoint* j1PathFinding::GetNextVerticalPoint(const iPoint* current_point) const
+{
+	const p2DynArray<iPoint>* path = GetLastPath();
+	int index = path->Find(current_point);
+	for (int i = index - 1; i >= 0; --i)
+	{
+		if (path->At(i)->y != current_point->y)
+		{
+			return path->At(i);
+		}
+	}
+
+	return nullptr;
+}
 
