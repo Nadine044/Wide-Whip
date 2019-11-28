@@ -83,18 +83,28 @@ void j1Map::Draw()
 					SDL_Rect section = tileset->data->GetRectFromID(layer->data->GetID(x, y));
 					if (IsOnCamera(SDL_Rect{ pos_in_world.x , pos_in_world.y, data.tile_width, data.tile_height})) //Culling
 						App->render->Blit(tileset->data->texture, pos_in_world.x, pos_in_world.y, &section, layer->data->parallax_vel);
-					if(y == 0)
-					App->render->DrawLine(pos_in_world.x, 0, pos_in_world.x, 1000, 255, 255, 255);
+
 
 				}
-			
-			iPoint q;
-			q.x = 0;
-			q.y = y;
-				iPoint s = MapToWorld(q);
-				App->render->DrawLine(0, s.y, 1000, s.y, 255, 255, 255);
+		
 			}
 		}
+	}
+
+	for (uint y = 0; y < data.layers.start->data->height_in_tiles; ++y)
+	{
+		iPoint pos_in_world = MapToWorld(iPoint(0, y));
+		if (pos_in_world.y < -App->render->camera.y + App->render->camera.h && pos_in_world.y > -App->render->camera.y) // Culling in camera
+			App->render->DrawLine(-App->render->camera.x, pos_in_world.y, -App->render->camera.x + App->render->camera.w, pos_in_world.y, 255, 255, 255);
+
+	}
+
+	for (uint x = 0; x < data.layers.start->data->width_in_tiles; ++x)
+	{
+
+		iPoint pos_in_world = MapToWorld(iPoint(x, 0));
+		if (pos_in_world.x < -App->render->camera.x + App->render->camera.w && pos_in_world.x > -App->render->camera.x) // Culling in camera
+		App->render->DrawLine(pos_in_world.x, -App->render->camera.y, pos_in_world.x, -App->render->camera.y + App->render->camera.h, 255, 255, 255);
 	}
 
 
