@@ -64,6 +64,8 @@ public:
 
 protected:
 	float				velocity = 0.0f;
+	float				velocity_x = 0.0f;
+	float				velocity_y = 0.0f;
 
 };
 

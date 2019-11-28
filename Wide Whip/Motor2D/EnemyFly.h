@@ -10,7 +10,7 @@ public:
 	EnemyFly(SDL_Rect& rect);
 
 private:
-	void GoToPlayer() override;
+	void GoToNextPoint() override;
 };
 
 #endif // !__ENEMYFLY_H__

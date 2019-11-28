@@ -7,13 +7,13 @@
 
 EnemyFly::EnemyFly(SDL_Rect& rect) : Enemy(EntityType::FLYENEMY, rect) {};
 
-void EnemyFly::GoToPlayer()
+void EnemyFly::GoToNextPoint()
 {
 
 	const p2DynArray<iPoint>* path = App->pathfinding_module->GetLastPath();
 	if (path != nullptr)
 	{
-		const iPoint* next_point = path->At(path->Count()-2);
+		const iPoint* next_point = path->At(path->Count()-3);
 
 		//if (next_point != nullptr)
 		//{
@@ -43,17 +43,74 @@ void EnemyFly::GoToPlayer()
 			iPoint enemy_relative_pos = pos + pivot_down_central;
 			iPoint pivot_player = App->module_entity_manager->getPlayer()->pivot_down_central;
 
+			//horizontal----
+			if (velocity_x == 0)
+			{
+				if (next_point_pivot_down_central.x > enemy_relative_pos.x)
+					velocity_x = speed;
 
-			//if (next_point_pivot_down_central.x  < enemy_relative_pos.x )
-				//pos.x -= speed;  //left
-			if (next_point_pivot_down_central.x - App->map->data.tile_width * 0.5f > enemy_relative_pos.x - col->rect.w*0.5f)
-				pos.x += speed;  //right
+				else if(next_point_pivot_down_central.x < enemy_relative_pos.x)
+					velocity_x = -speed;
+			}
 
-			if (next_point_pivot_down_central.y  < enemy_relative_pos.y )
-				pos.y -= speed;  //up
 
-			else if (next_point_pivot_down_central.y  > enemy_relative_pos.y)
-				pos.y += speed;  //down
+			if (velocity_x < 0)
+			{
+				if (next_point_pivot_down_central.x + App->map->data.tile_width * 0.5f < enemy_relative_pos.x + col->rect.w*0.5f)
+				{
+					velocity_x = -speed;//left
+					pos.x += velocity_x;
+
+				}
+				else
+					velocity_x = 0;
+			}
+			else if (velocity_x > 0)
+			{
+				if (next_point_pivot_down_central.x - App->map->data.tile_width * 0.5f > enemy_relative_pos.x - col->rect.w*0.5f)
+				{
+					velocity_x = speed; //right
+					pos.x += velocity_x;
+				}
+				else
+					velocity_x = 0;
+			}
+
+
+			//Vertical-----
+
+			if (velocity_y == 0)
+			{
+				if (next_point_pivot_down_central.y - App->map->data.tile_height * 0.5f > pos.y + pivot_down_central.y * 0.5f)
+					velocity_y = speed;
+
+				else if (next_point_pivot_down_central.y - App->map->data.tile_height * 0.5f < pos.y + pivot_down_central.y * 0.5f)
+					velocity_y = -speed;
+			}
+
+
+
+			if (velocity_y < 0)
+			{
+				if (next_point_pivot_down_central.y < enemy_relative_pos.y + 10)
+				{
+					velocity_y = -speed; //up
+					pos.y += velocity_y;
+				}
+				else
+					velocity_y = 0;
+			}
+			else if (velocity_y > 0)
+			{
+				if (next_point_pivot_down_central.y - App->map->data.tile_height > enemy_relative_pos.y - col->rect.h)
+				{
+					velocity_y = speed; //down
+					pos.y += velocity_y;
+				}
+				else
+					velocity_y = 0;
+
+			}
 		}
 	}
 }

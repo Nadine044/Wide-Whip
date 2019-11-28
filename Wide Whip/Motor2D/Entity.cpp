@@ -11,10 +11,10 @@ Entity::Entity(EntityType type, SDL_Rect& rect) : type(type)
 	pos.y = rect.y;
 
 	pivot_down_central.x = rect.w * 0.5f;
-	pivot_down_central.y = rect.h;
+	pivot_down_central.y = rect.h - 10;
 
-	//pivot_up_central.x = rect.w * 0.5f;
-	//pivot_down_central.y = 0;
+	pivot_up_central.x = rect.w * 0.5f;
+	pivot_up_central.y = 0;
 
 	TAG tag;
 	Color color;

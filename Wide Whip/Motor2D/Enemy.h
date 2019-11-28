@@ -50,6 +50,8 @@ public:
 	//Called before quitting
 	bool CleanUp() override;
 
+
+	void OnTrigger(Collider* col) override;
 	//Save&Load
 
 	bool Save(pugi::xml_node&) const override;
@@ -75,11 +77,14 @@ protected:
 	float				gravity = 0.f;
 
 	uint				range_detect = 200u; //distance in pixels.
-	uint				minim_range_detect = 50u; //distance in pixels.
+	uint				minim_range_detect = 75u; //distance in pixels.
 
+	uint time_to_pathfind_start = 0u;
+	uint time_to_pathfind = 200u;
 protected:
 
-	virtual void GoToPlayer() {};
+	virtual void GoToNextPoint() {};
+	void GoToPlayer();
 
 };
 

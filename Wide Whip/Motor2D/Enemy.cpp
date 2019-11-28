@@ -6,6 +6,8 @@
 #include "ModuleEntityManager.h"
 #include "j1Map.h"
 #include "j1Pathfinding.h"
+#include "p2DynArray.h"
+#include "SDL/include/SDL_timer.h"
 
 Enemy::Enemy(EntityType type, SDL_Rect& rect) : Entity(type, rect)
 {}
@@ -44,7 +46,8 @@ bool Enemy::Start()
 	current_animation = &idle;
 	state = ENEMY_STATE::IDLE;
 
-	speed = 1;
+	speed = 2;
+	velocity = 0;
 
 	return ret;
 }
@@ -60,14 +63,13 @@ bool Enemy::PreUpdate()
 		
 		if (pos.DistanceTo(player_pos) <= range_detect && pos.DistanceTo(player_pos) > minim_range_detect)
 		{
+			time_to_pathfind_start = SDL_GetTicks();
 			state = ENEMY_STATE::PATHFINDING;
-			App->pathfinding_module->CreatePath(App->map->WorldToMap(pos + pivot_down_central), App->map->WorldToMap(player_pos + App->module_entity_manager->getPlayer()->pivot_down_central));
+			App->pathfinding_module->CreatePath(App->map->WorldToMap(pos + pivot_down_central), App->map->WorldToMap(player_pos + App->module_entity_manager->getPlayer()->pivot_down_central));			
 		}			
 
 		break;
 	case ENEMY_STATE::PATHFINDING:
-	//	if (pos.DistanceTo(player_pos) <= minim_range_detect)
-		//	state = ENEMY_STATE::IDLE;
 		break;
 	case ENEMY_STATE::DEAD:
 		break;
@@ -79,16 +81,33 @@ bool Enemy::PreUpdate()
 
 bool Enemy::Update(float dt)
 {
-
+	iPoint p;
+	p.x = col->rect.w * 0.5f;
+	p.y = col->rect.h * 0.5f;
 	switch (state)
 	{
 	case ENEMY_STATE::UNKNOWN:
 		break;
 	case ENEMY_STATE::IDLE:
+		velocity = 0;
 		break;
 	case ENEMY_STATE::PATHFINDING:
-		App->pathfinding_module->CreatePath(App->map->WorldToMap(pos + pivot_down_central), App->map->WorldToMap(App->module_entity_manager->getPlayer()->pos + App->module_entity_manager->getPlayer()->pivot_down_central));
-		GoToPlayer();
+		if (pos.DistanceTo(App->module_entity_manager->getPlayer()->pos) <= minim_range_detect)
+			GoToPlayer();
+		else
+		{
+			if (time_to_pathfind < SDL_GetTicks() - time_to_pathfind_start)
+			{
+				time_to_pathfind_start = SDL_GetTicks();
+				if (velocity_y == 0)
+					App->pathfinding_module->CreatePath(App->map->WorldToMap(pos + p), App->map->WorldToMap(App->module_entity_manager->getPlayer()->pos + App->module_entity_manager->getPlayer()->pivot_down_central));
+				else if (velocity_y < 0)
+					App->pathfinding_module->CreatePath(App->map->WorldToMap(pos + pivot_down_central), App->map->WorldToMap(App->module_entity_manager->getPlayer()->pos + App->module_entity_manager->getPlayer()->pivot_down_central));
+				else if (velocity_y > 0)
+					App->pathfinding_module->CreatePath(App->map->WorldToMap(pos + pivot_up_central), App->map->WorldToMap(App->module_entity_manager->getPlayer()->pos + App->module_entity_manager->getPlayer()->pivot_down_central));
+			}
+			GoToNextPoint();
+		}
 		break;
 	case ENEMY_STATE::DEAD:
 		break;
@@ -106,6 +125,15 @@ bool Enemy::PostUpdate()
 bool Enemy::CleanUp()
 {
 	return true;
+}
+
+void Enemy::OnTrigger(Collider* col2)
+{
+	if (col2->tag == TAG::WALL)
+	{
+		if(col->last_colision_direction == DISTANCE_DIR::UP || col->last_colision_direction == DISTANCE_DIR::DOWN)
+			velocity_y = 0;
+	}
 }
 
 bool Enemy::Save(pugi::xml_node& save_file) const
@@ -140,4 +168,24 @@ bool Enemy::Load(pugi::xml_node& save_file)
 	save_file.child("collider").attribute("enabled").as_bool() ? col->Enable() : col->Disable();
 
 	return true;
+}
+
+void Enemy::GoToPlayer()
+{
+	if (App->module_entity_manager->getPlayer()->pos.x < pos.x)
+	{
+		pos.x -= speed;
+	}
+	else if (App->module_entity_manager->getPlayer()->pos.x > pos.x)
+	{
+		pos.x += speed;
+	}
+	if (App->module_entity_manager->getPlayer()->pos.y < pos.y)
+	{
+		pos.y -= speed;
+	}
+	else if (App->module_entity_manager->getPlayer()->pos.y > pos.y)
+	{
+		pos.y += speed;
+	}
 }
