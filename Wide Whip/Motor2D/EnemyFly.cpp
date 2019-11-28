@@ -13,121 +13,119 @@ void EnemyFly::GoToNextPoint()
 	const p2DynArray<iPoint>* path = App->pathfinding_module->GetLastPath();
 	if (path != nullptr)
 	{
-		const iPoint* next_point = path->At(path->Count()-3);
+		const iPoint* next_point = path->At(path->Count()-3); // is Array. So Count() -1 are the last. Pick the next because the last is so close (collider enemy is bigger than 1 tile) 
 
-		//if (next_point != nullptr)
-		//{
-		//	iPoint next_point_pivot_down_central = App->map->MapToWorld(*next_point);
-		//	next_point_pivot_down_central.x += App->map->data.tile_width * 0.5f;
-		//	next_point_pivot_down_central.y += App->map->data.tile_height;
-
-		//	iPoint enemy_relative_pos = pos + pivot_down_central;
-		//	iPoint pivot_player = App->module_entity_manager->getPlayer()->pivot_down_central;
-		//	if (next_point_pivot_down_central.x + speed < enemy_relative_pos.x - pivot_player.x)
-		//		pos.x -= speed;  //left
-		//	else if (next_point_pivot_down_central.x - speed > enemy_relative_pos.x - pivot_player.x)
-		//		pos.x += speed;  //right
-
-		//	if (next_point_pivot_down_central.y + speed < enemy_relative_pos.y - pivot_player.y)
-		//		pos.y -= speed;  //up
-
-		//	else if (next_point_pivot_down_central.y - speed > enemy_relative_pos.y - pivot_player.y)
-		//		pos.y += speed;  //down
-		//}
 		if (next_point != nullptr)
 		{
-			iPoint next_point_pivot_down_central = App->map->MapToWorld(*next_point);
-			next_point_pivot_down_central.x += App->map->data.tile_width * 0.5f;
-			next_point_pivot_down_central.y += App->map->data.tile_height - speed;
+			// The next declarations are in word coordinates (pixels)
+			iPoint next_point_world = App->map->MapToWorld(*next_point);
 
-			iPoint enemy_relative_pos = pos + pivot_down_central;
-			iPoint pivot_player = App->module_entity_manager->getPlayer()->pivot_down_central;
+			//next_pont pivots
+			iPoint next_point_pivot_central = next_point_world;
+			next_point_pivot_central.x += App->map->data.tile_width * 0.5f;
+			next_point_pivot_central.y += App->map->data.tile_height * 0.5f;
+
+			iPoint next_point_pivot_down_right = next_point_world;
+			next_point_pivot_down_right.x += App->map->data.tile_width;
+			next_point_pivot_down_right.y += App->map->data.tile_height;
+
+
+			//enemy pivots
+			iPoint enemy_central_pos = pos;
+			enemy_central_pos.x += col->rect.w * 0.5f;
+			enemy_central_pos.y += col->rect.h * 0.5f;
+			
+			iPoint enemy_down_right_pos = pos;
+			enemy_down_right_pos.x += col->rect.w;
+			enemy_down_right_pos.y += col->rect.h;
+
 
 			if (in_collision)
 			{
+				// All coordinates in world (pixels)
 				//horizontal----
-				if (velocity_x == 0)
+				if (HorizontalDirection == HorizontalMovementDirection::NO_DIRECTION)
 				{
-					if (next_point_pivot_down_central.x > enemy_relative_pos.x)
-						velocity_x = speed;
+					// If in the previous frame it did not move in x, calculate the new address from the central positions.
+					if (next_point_pivot_central.x > enemy_central_pos.x)
+						HorizontalDirection = HorizontalMovementDirection::RIGHT;
 
-					else if(next_point_pivot_down_central.x < enemy_relative_pos.x)
-						velocity_x = -speed;
+					else if(next_point_pivot_central.x < enemy_central_pos.x)
+						HorizontalDirection = HorizontalMovementDirection::LEFT;
 				}
 
 
-				if (velocity_x < 0)
+				if (HorizontalDirection == HorizontalMovementDirection::LEFT)
 				{
-					if (next_point_pivot_down_central.x + App->map->data.tile_width * 0.5f < enemy_relative_pos.x + col->rect.w*0.5f)
-					{
-						velocity_x = -speed;//left
-						pos.x += velocity_x;
+					// Left
+					if (next_point_pivot_down_right.x < enemy_down_right_pos.x)
+						pos.x -= speed;
 
-					}
 					else
-						velocity_x = 0;
+						HorizontalDirection = HorizontalMovementDirection::NO_DIRECTION;
 				}
-				else if (velocity_x > 0)
+				else if (HorizontalDirection == HorizontalMovementDirection::RIGHT)
 				{
-					if (next_point_pivot_down_central.x - App->map->data.tile_width * 0.5f > enemy_relative_pos.x - col->rect.w*0.5f)
-					{
-						velocity_x = speed; //right
-						pos.x += velocity_x;
-					}
+					// Right
+					if (next_point_world.x > pos.x)
+						pos.x += speed;
+					
 					else
-						velocity_x = 0;
+						HorizontalDirection = HorizontalMovementDirection::NO_DIRECTION;
 				}
 
 
 				//Vertical-----
 
-				if (velocity_y == 0)
+				if (VerticalDirection == VerticalMovementDirection::NO_DIRECTION)
 				{
-					if (next_point_pivot_down_central.y - App->map->data.tile_height * 0.5f > pos.y + pivot_down_central.y * 0.5f)
-						velocity_y = speed;
+					// If in the previous frame it did not move in y, calculate the new address from the central positions.
+					if (next_point_pivot_central.y > enemy_central_pos.y)
+						VerticalDirection = VerticalMovementDirection::DOWN;
 
-					else if (next_point_pivot_down_central.y - App->map->data.tile_height * 0.5f < pos.y + pivot_down_central.y * 0.5f)
-						velocity_y = -speed;
+					else if (next_point_pivot_central.y < enemy_central_pos.y)
+						VerticalDirection = VerticalMovementDirection::UP;
 				}
 
 
 
-					if (velocity_y < 0)
-					{
-						if (next_point_pivot_down_central.y < enemy_relative_pos.y + 10)
-						{
-							velocity_y = -speed; //up
-							pos.y += velocity_y;
-						}
-						else
-							velocity_y = 0;
-					}
-					else if (velocity_y > 0)
-					{
-						if (next_point_pivot_down_central.y - App->map->data.tile_height > enemy_relative_pos.y - col->rect.h)
-						{
-							velocity_y = speed; //down
-							pos.y += velocity_y;
-						}
-						else
-							velocity_y = 0;
-					}
+				if (VerticalDirection == VerticalMovementDirection::UP)
+				{
+					// Up
+					if (next_point_pivot_down_right.y < enemy_down_right_pos.y + 10)
+						pos.y -= speed;
+					
+					else
+						VerticalDirection = VerticalMovementDirection::NO_DIRECTION;
+				}
+				else if (VerticalDirection == VerticalMovementDirection::DOWN)
+				{
+					// Down
+					if (next_point_world.y > pos.y)
+						pos.y += speed;
+					
+					// if 
+					else
+						VerticalDirection = VerticalMovementDirection::NO_DIRECTION;
+				}
 			}
 			else
 			{
-				//normal
-				iPoint enemy_central_pos = pos;
-				enemy_central_pos.x += col->rect.w *0.5f;
-				enemy_central_pos.y += col->rect.h *0.5f;
+				// Normal movement (tiles)
+				// All coordinates in map.
+
 				iPoint pos_central_map = App->map->WorldToMap(enemy_central_pos);
-				if (pos_central_map.x < next_point->x)
+
+				// Horizontal
+				if (pos_central_map.x < next_point->x)			// Right
 					pos.x += speed;
-				else if (pos_central_map.x > next_point->x)
+				else if (pos_central_map.x > next_point->x)		// Left
 					pos.x -= speed;
 
-				if (pos_central_map.y < next_point->y)
+				// Vertical
+				if (pos_central_map.y < next_point->y)			// Down
 					pos.y += speed;
-				else if (pos_central_map.y > next_point->y)
+				else if (pos_central_map.y > next_point->y)		// Up
 					pos.y -= speed;
 			}
 		}

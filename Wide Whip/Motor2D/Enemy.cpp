@@ -89,23 +89,15 @@ bool Enemy::Update(float dt)
 	case ENEMY_STATE::UNKNOWN:
 		break;
 	case ENEMY_STATE::IDLE:
-		velocity = 0;
 		break;
 	case ENEMY_STATE::PATHFINDING:
-		if (pos.DistanceTo(App->module_entity_manager->getPlayer()->pos) <=/*minim_range_detect*/ 0)
+		if (pos.DistanceTo(App->module_entity_manager->getPlayer()->pos) <= minim_range_detect)
 			GoToPlayer();
 		else
 		{
 			if (time_to_pathfind < SDL_GetTicks() - time_to_pathfind_start)
-			{
-			/*	time_to_pathfind_start = SDL_GetTicks();
-				if (velocity_y == 0)*/
-					App->pathfinding_module->CreatePath(App->map->WorldToMap(pos + p), App->map->WorldToMap(App->module_entity_manager->getPlayer()->pos + App->module_entity_manager->getPlayer()->pivot_down_central));
-				/*else if (velocity_y < 0)
-					App->pathfinding_module->CreatePath(App->map->WorldToMap(pos + pivot_down_central), App->map->WorldToMap(App->module_entity_manager->getPlayer()->pos + App->module_entity_manager->getPlayer()->pivot_down_central));
-				else if (velocity_y > 0)
-					App->pathfinding_module->CreatePath(App->map->WorldToMap(pos + pivot_up_central), App->map->WorldToMap(App->module_entity_manager->getPlayer()->pos + App->module_entity_manager->getPlayer()->pivot_down_central));
-		*/	}
+				App->pathfinding_module->CreatePath(App->map->WorldToMap(pos + p), App->map->WorldToMap(App->module_entity_manager->getPlayer()->pos + App->module_entity_manager->getPlayer()->pivot_down_central));
+
 			GoToNextPoint();
 		}
 		break;
@@ -114,7 +106,7 @@ bool Enemy::Update(float dt)
 	default:
 		break;
 	}
-	in_collision = false;
+	in_collision = false; //reset every frame. (dirty but works)
 	return true;
 }
 
@@ -133,8 +125,8 @@ void Enemy::OnTrigger(Collider* col2)
 	if (col2->tag == TAG::WALL)
 	{
 		in_collision = true;
-		if(col->last_colision_direction == DISTANCE_DIR::UP || col->last_colision_direction == DISTANCE_DIR::DOWN)
-			velocity_y = 0;
+		if (col->last_colision_direction == DISTANCE_DIR::UP || col->last_colision_direction == DISTANCE_DIR::DOWN)
+			VerticalDirection = VerticalMovementDirection::NO_DIRECTION; //reset Direction in vertical movement to avoid tremors.
 	}
 }
 

@@ -28,6 +28,20 @@ enum class ENEMY_STATE
 	DEAD
 };
 
+enum class VerticalMovementDirection
+{
+	NO_DIRECTION,
+	UP,
+	DOWN
+};
+
+enum class HorizontalMovementDirection
+{
+	NO_DIRECTION,
+	RIGHT,
+	LEFT
+};
+
 class Enemy : public Entity
 {
 public:
@@ -81,6 +95,12 @@ protected:
 
 	uint time_to_pathfind_start = 0u;
 	uint time_to_pathfind = 200u;
+
+	bool in_collision = false;
+
+	HorizontalMovementDirection HorizontalDirection = HorizontalMovementDirection::NO_DIRECTION;
+	VerticalMovementDirection VerticalDirection = VerticalMovementDirection::NO_DIRECTION;
+
 protected:
 
 	virtual void GoToNextPoint() {};
@@ -88,7 +108,7 @@ protected:
 
 	bool PathIsAHorizontalLine(const iPoint & nexp_point);
 
-	bool in_collision = false;
+
 
 };
 
