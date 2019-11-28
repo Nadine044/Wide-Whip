@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include "j1Player.h"
 #include "EnemyFly.h"
+#include "EnemyWalk.h"
 
 ModuleEntityManager::ModuleEntityManager() : j1Module()
 {
@@ -79,7 +80,8 @@ Entity* ModuleEntityManager::CreateEntity(EntityType type, SDL_Rect& rect)
 		ret = new EnemyFly(rect);
 		break;
 	case EntityType::WALKENEMY:
-		LOG("No Walk Enemy class created!");
+		ret = new EnemyWalk(rect);
+		break;
 		break;
 	case EntityType::NO_TYPE:
 		break;

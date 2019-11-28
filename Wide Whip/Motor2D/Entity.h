@@ -67,6 +67,9 @@ protected:
 	float				velocity_x = 0.0f;
 	float				velocity_y = 0.0f;
 
+	int					speed = 0;
+	float				gravity = 0.f;
+
 };
 
 #endif // !_ENTITY_H_

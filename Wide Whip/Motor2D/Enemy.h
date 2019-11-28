@@ -58,14 +58,14 @@ public:
 	bool Start();
 
 	bool PreUpdate();
-	bool Update(float dt) override;
+	virtual bool Update(float dt) override;
 	bool PostUpdate() override;
 
 	//Called before quitting
 	bool CleanUp() override;
 
 
-	void OnTrigger(Collider* col) override;
+	virtual void OnTrigger(Collider* col) override;
 	//Save&Load
 
 	bool Save(pugi::xml_node&) const override;
@@ -87,8 +87,7 @@ protected:
 
 	ENEMY_STATE			state;
 
-	int					speed = 0;
-	float				gravity = 0.f;
+
 
 	uint				range_detect = 300u; //distance in pixels.
 	uint				minim_range_detect = 75u; //distance in pixels.

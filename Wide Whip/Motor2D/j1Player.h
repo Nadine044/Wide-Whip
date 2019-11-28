@@ -107,9 +107,6 @@ private:
 
 	void Death();
 
-
-	bool Draw() const;
-
 private:
 
 	//SDL_Texture*		text							= nullptr;
@@ -122,7 +119,6 @@ private:
 	int					map_left_offset					= 0;
 
 	uint				jump_force						= 0u;
-	float				gravity							= 0.f;
 
 	int					dash_force						= 0;
 	float				velocity_dash					= 0.0f;
@@ -134,8 +130,6 @@ private:
 	float				resistance_jump_clinged			= 0.0f;
 
 	bool				jump_h_right = false;
-
-	int					speed							= 0;
 
 	
 	bool				dead_jumping					= false;
