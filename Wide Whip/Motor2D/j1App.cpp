@@ -19,6 +19,9 @@
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 {
+	
+	PERF_START(ptimer);
+
 	frames = 0;
 	want_to_save = want_to_load = false;
 
@@ -46,6 +49,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(fade_to_black);
 	// render last to swap buffer
 	AddModule(render);
+
+	PERF_PEEK(ptimer);
 }
 
 // Destructor
@@ -72,6 +77,7 @@ void j1App::AddModule(j1Module* module)
 // Called before render is available
 bool j1App::Awake()
 {
+	PERF_START(ptimer);
 
 	pugi::xml_node		app_config;
 
@@ -102,11 +108,15 @@ bool j1App::Awake()
 	}
 
 	return ret;
+
+	PERF_PEEK(ptimer);
 }
 
 // Called before the first frame
 bool j1App::Start()
 {
+	PERF_START(ptimer);
+
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.start;
@@ -118,6 +128,8 @@ bool j1App::Start()
 	}
 
 	return ret;
+
+	PERF_PEEK(ptimer);
 }
 
 // Called each loop iteration
@@ -159,8 +171,7 @@ pugi::xml_node j1App::LoadConfig(pugi::xml_document& config_file) const
 
 // ---------------------------------------------
 void j1App::PrepareUpdate()
-{
-}
+{}
 
 // ---------------------------------------------
 void j1App::FinishUpdate()
@@ -170,6 +181,25 @@ void j1App::FinishUpdate()
 
 	if(want_to_load == true)
 		LoadGameNow();
+	
+	//Framerate
+
+	if (last_sec_frame_time.Read() > 1000)
+	{
+		last_sec_frame_time.Start();
+		prev_last_sec_frame_count = last_sec_frame_count;
+		last_sec_frame_count = 0;
+	}
+
+	avg_fps = float(frame_count) / startup_time.ReadSec();
+	uint last_frame_ms = frame_time.Read();
+	frames_on_last_update = prev_last_sec_frame_count;
+
+	if (framerate_cap > 0 && last_frame_ms < framerate_cap)
+	{
+		SDL_Delay(framerate_cap - last_frame_ms);
+	}
+
 }
 
 // Call modules before each loop iteration
@@ -240,6 +270,8 @@ bool j1App::PostUpdate()
 // Called before quitting
 bool j1App::CleanUp()
 {
+	PERF_START(ptimer);
+
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.end;
@@ -251,6 +283,8 @@ bool j1App::CleanUp()
 	}
 
 	return ret;
+
+	PERF_PEEK(ptimer);
 }
 
 // ---------------------------------------
