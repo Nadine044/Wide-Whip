@@ -93,6 +93,12 @@ bool j1App::Awake()
 		title.create(app_config.child("title").child_value());
 		organization.create(app_config.child("organization").child_value());
 		save_game_root = app_config.child("save_file_root").child_value();
+		
+		int cap = app_config.child("framerate_cap").attribute("value").as_int();
+		if (cap > 0)
+		{
+			framerate_cap = 1000 / cap;
+		}
 	}
 
 	if(ret == true)
@@ -171,7 +177,18 @@ pugi::xml_node j1App::LoadConfig(pugi::xml_document& config_file) const
 
 // ---------------------------------------------
 void j1App::PrepareUpdate()
-{}
+{
+	frame_count++;
+	last_sec_frame_count++;
+	if (!is_paused)
+		dt = frame_time.ReadSec();
+
+	else
+		dt = 0.0f;
+
+	frame_time.Start();
+	ptimer.Start();
+}
 
 // ---------------------------------------------
 void j1App::FinishUpdate()

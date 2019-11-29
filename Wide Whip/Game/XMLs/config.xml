@@ -5,6 +5,7 @@
     <title>Wide Whip</title>
     <organization>UPC</organization>
     <save_file_root>XMLs/save_file</save_file_root>
+    <framerate_cap value="28"/>
   </app>
 	
   <renderer>

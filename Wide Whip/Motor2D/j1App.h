@@ -106,6 +106,7 @@ private:
 
 	mutable bool		want_to_save;
 	bool				want_to_load;
+	bool				is_paused = false;
 
 	mutable p2SString	save_game_root;
 
