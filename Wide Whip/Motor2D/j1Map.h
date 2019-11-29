@@ -155,10 +155,8 @@ private:
 	pugi::xml_document	map_file;
 	p2SString			folder;
 	bool				map_loaded;
-
-
-
 	
+	bool				draw_debug = false;
 };
 
 #endif // __j1MAP_H__

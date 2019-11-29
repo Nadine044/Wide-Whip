@@ -72,7 +72,6 @@ bool Enemy::PreUpdate()
 	case ENEMY_STATE::PATHFINDING:
 		if (pos.DistanceTo(player_pos) > range_detect)
 		{
-			App->pathfinding_module->GetLastPath()->Clear();
 			state = ENEMY_STATE::IDLE;
 		}
 		break;

@@ -14,11 +14,16 @@
 // Details: http://theory.stanford.edu/~amitp/GameProgramming/
 // --------------------------------------------------
 
+#include "j1Textures.h"
 class j1PathFinding : public j1Module
 {
 public:
 
 	j1PathFinding();
+
+
+	bool Start() override;
+	bool PostUpdate() override;
 
 	// Called before quitting
 	bool CleanUp();
@@ -43,6 +48,9 @@ private:
 
 	// we store the created path here
 	p2DynArray<iPoint> last_path;
+
+	SDL_Texture* debug_tex;
+	bool draw_debug = false;
 };
 
 // forward declaration

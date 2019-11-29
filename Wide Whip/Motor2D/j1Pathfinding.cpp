@@ -3,9 +3,49 @@
 #include "j1App.h"
 #include "j1PathFinding.h"
 #include "j1Map.h"
+#include "j1Input.h"
+#include "j1Render.h"
+
+
 j1PathFinding::j1PathFinding() : j1Module(), last_path(DEFAULT_PATH_LENGTH)
 {
 	name.create("pathfinding");
+}
+
+bool j1PathFinding::Start()
+{
+	debug_tex = App->tex->Load("maps/path2.png");
+
+	return true;
+}
+
+bool j1PathFinding::PostUpdate()
+{
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		draw_debug = !draw_debug;
+
+
+	if (draw_debug)
+	{
+		int x, y;
+		App->input->GetMousePosition(x, y);
+		iPoint p = App->render->ScreenToWorld(x, y);
+		p = App->map->WorldToMap(p);
+		p = App->map->MapToWorld(p);
+
+		SDL_Rect rect = { 0, 0, 32, 32 };
+		App->render->Blit(debug_tex, p.x, p.y, &rect);
+
+		const p2DynArray<iPoint>* path = App->pathfinding_module->GetLastPath();
+
+		for (uint i = 0; i < path->Count(); ++i)
+		{
+			iPoint pos = App->map->MapToWorld(*path->At(i));
+			App->render->Blit(debug_tex, pos.x, pos.y);
+		}
+	}
+
+	return true;
 }
 
 // Called before quitting

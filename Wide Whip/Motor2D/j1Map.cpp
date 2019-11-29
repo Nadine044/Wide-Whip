@@ -10,6 +10,7 @@
 #include "Enemy.h"
 #include "Colors.h"
 #include "ModuleEntityManager.h"
+#include "j1Input.h"
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
@@ -35,6 +36,10 @@ void j1Map::Draw()
 {
 	if(map_loaded == false)
 		return;
+
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		draw_debug = !draw_debug;
+
 	p2List_item<TileSet*>* tileset = nullptr;
 	p2List_item<MapLayer*>* layer = nullptr;
 	p2List_item<ImageLayers*>* image_layers = nullptr;
@@ -91,22 +96,24 @@ void j1Map::Draw()
 		}
 	}
 
-	for (uint y = 0; y < data.layers.start->data->height_in_tiles; ++y)
+	if (draw_debug)
 	{
-		iPoint pos_in_world = MapToWorld(iPoint(0, y));
-		if (pos_in_world.y < -App->render->camera.y + App->render->camera.h && pos_in_world.y > -App->render->camera.y) // Culling in camera
-			App->render->DrawLine(-App->render->camera.x, pos_in_world.y, -App->render->camera.x + App->render->camera.w, pos_in_world.y, 255, 255, 255);
+		for (uint y = 0; y < data.layers.start->data->height_in_tiles; ++y)
+		{
+			iPoint pos_in_world = MapToWorld(iPoint(0, y));
+			if (pos_in_world.y < -App->render->camera.y + App->render->camera.h && pos_in_world.y > -App->render->camera.y) // Culling in camera
+				App->render->DrawLine(-App->render->camera.x, pos_in_world.y, -App->render->camera.x + App->render->camera.w, pos_in_world.y, 255, 255, 255);
 
+		}
+
+		for (uint x = 0; x < data.layers.start->data->width_in_tiles; ++x)
+		{
+
+			iPoint pos_in_world = MapToWorld(iPoint(x, 0));
+			if (pos_in_world.x < -App->render->camera.x + App->render->camera.w && pos_in_world.x > -App->render->camera.x) // Culling in camera
+				App->render->DrawLine(pos_in_world.x, -App->render->camera.y, pos_in_world.x, -App->render->camera.y + App->render->camera.h, 255, 255, 255);
+		}
 	}
-
-	for (uint x = 0; x < data.layers.start->data->width_in_tiles; ++x)
-	{
-
-		iPoint pos_in_world = MapToWorld(iPoint(x, 0));
-		if (pos_in_world.x < -App->render->camera.x + App->render->camera.w && pos_in_world.x > -App->render->camera.x) // Culling in camera
-		App->render->DrawLine(pos_in_world.x, -App->render->camera.y, pos_in_world.x, -App->render->camera.y + App->render->camera.h, 255, 255, 255);
-	}
-
 
 }
 
