@@ -12,7 +12,7 @@ public:
 
 private:
 	void GoToNextPoint() override;
-	void MoveNormal(const p2DynArray<iPoint> * path, const iPoint * next_point);
+	void MoveNormal(const iPoint * next_point);
 	void MoveInCollision(const iPoint * next_point);
 };
 

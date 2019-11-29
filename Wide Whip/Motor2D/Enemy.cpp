@@ -6,8 +6,9 @@
 #include "ModuleEntityManager.h"
 #include "j1Map.h"
 #include "j1Pathfinding.h"
-#include "p2DynArray.h"
 #include "SDL/include/SDL_timer.h"
+#include "j1Input.h"
+#include "j1Render.h"
 
 Enemy::Enemy(EntityType type, SDL_Rect& rect) : Entity(type, rect)
 {}
@@ -49,6 +50,8 @@ bool Enemy::Start()
 	speed = 1;
 	velocity = 0;
 
+	debug_tex = App->tex->Load("maps/path2.png");
+
 	return ret;
 }
 
@@ -65,7 +68,7 @@ bool Enemy::PreUpdate()
 		{
 			time_to_pathfind_start = SDL_GetTicks();
 			state = ENEMY_STATE::PATHFINDING;
-			App->pathfinding_module->CreatePath(App->map->WorldToMap(pos + pivot_down_central), App->map->WorldToMap(player_pos + App->module_entity_manager->getPlayer()->pivot_down_central));			
+			App->pathfinding_module->CreatePath(path, App->map->WorldToMap(pos + pivot_down_central), App->map->WorldToMap(player_pos + App->module_entity_manager->getPlayer()->pivot_down_central));			
 		}			
 
 		break;
@@ -100,8 +103,13 @@ bool Enemy::Update(float dt)
 		else
 		{
 			if (time_to_pathfind < SDL_GetTicks() - time_to_pathfind_start)
-				App->pathfinding_module->CreatePath(App->map->WorldToMap(pos + p), App->map->WorldToMap(App->module_entity_manager->getPlayer()->pos + App->module_entity_manager->getPlayer()->pivot_down_central));
-
+			{
+				time_to_pathfind_start = SDL_GetTicks();
+				App->pathfinding_module->CreatePath(path, App->map->WorldToMap(pos + p), App->map->WorldToMap(App->module_entity_manager->getPlayer()->pos + App->module_entity_manager->getPlayer()->pivot_down_central));
+				LOG("pathfinding");
+			}
+			else
+				LOG("WAITING");
 			GoToNextPoint();
 		}
 		break;
@@ -116,6 +124,27 @@ bool Enemy::Update(float dt)
 
 bool Enemy::PostUpdate()
 {
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		draw_debug = !draw_debug;
+
+
+	if (draw_debug)
+	{
+		int x, y;
+		App->input->GetMousePosition(x, y);
+		iPoint p = App->render->ScreenToWorld(x, y);
+		p = App->map->WorldToMap(p);
+		p = App->map->MapToWorld(p);
+
+		SDL_Rect rect = { 0, 0, 32, 32 };
+		App->render->Blit(debug_tex, p.x, p.y, &rect);
+
+		for (uint i = 0; i < path.Count(); ++i)
+		{
+			iPoint pos = App->map->MapToWorld(*path.At(i));
+			App->render->Blit(debug_tex, pos.x, pos.y);
+		}
+	}
 	return true;
 }
 
@@ -186,15 +215,4 @@ void Enemy::GoToPlayer()
 	{
 		pos.y += speed;
 	}
-}
-
-bool Enemy::PathIsAHorizontalLine(const iPoint& next_point)
-{
-	// next_point in map pos.
-	bool ret = false;
-	const p2DynArray<iPoint>* path = App->pathfinding_module->GetLastPath();
-	if (path->At(path->Count()-1)->y == path->At(path->Count()-3)->y)
-		ret = true;
-
-	return ret;
 }

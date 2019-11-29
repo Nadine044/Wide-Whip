@@ -9,45 +9,42 @@ EnemyFly::EnemyFly(SDL_Rect& rect) : Enemy(EntityType::FLYENEMY, rect) {};
 
 void EnemyFly::GoToNextPoint()
 {
-	const p2DynArray<iPoint>* path = App->pathfinding_module->GetLastPath();
-	if (path != nullptr)
+	const iPoint* next_point = path.At(path.Count()-3); // is Array. So Count() -1 are the last. Pick the next because the last is so close (collider enemy is bigger than 1 tile) 
+
+	if (next_point != nullptr)
 	{
-		const iPoint* next_point = path->At(path->Count()-3); // is Array. So Count() -1 are the last. Pick the next because the last is so close (collider enemy is bigger than 1 tile) 
 
-		if (next_point != nullptr)
+		if (in_collision)
 		{
-
-			if (in_collision)
-			{
-				MoveInCollision(next_point);
-			}
-			else
-			{
-				MoveNormal(path, next_point);
-			}
+			MoveInCollision(next_point);
+		}
+		else
+		{
+			MoveNormal(next_point);
 		}
 	}
+
 }
 
-void EnemyFly::MoveNormal(const p2DynArray<iPoint> * path, const iPoint * next_point)
+void EnemyFly::MoveNormal(const iPoint * next_point)
 {
 	// Normal movement (tiles)
 	// All coordinates in map.
 
-	const iPoint* current_point = path->At(path->Count() - 1); // path is array. Start from 0. Last is Count()-1. Current is the last cause the path start from the destination (player) to origin (enemy). 
+	const iPoint* current_point = path.At(path.Count() - 1); // path is array. Start from 0. Last is Count()-1. Current is the last cause the path start from the destination (player) to origin (enemy). 
 
 	const iPoint* next_point_x = next_point; //next point in axis x.
 	const iPoint* next_point_y = next_point; //next point in axis y.
 
 	if (next_point->x == current_point->x) // If it's the same x, calcule the new point in x and assign it if exist. 
 	{
-		const iPoint* next = App->pathfinding_module->GetNextHorizontalPoint(current_point);
+		const iPoint* next = App->pathfinding_module->GetNextHorizontalPoint(path, current_point);
 		if (next != nullptr)
 			next_point_x = next;
 	}
 	if (next_point->y == current_point->y) // If it's the same y, calcule the new point in y and assign it if exist. 
 	{
-		const iPoint* next = App->pathfinding_module->GetNextVerticalPoint(current_point);
+		const iPoint* next = App->pathfinding_module->GetNextVerticalPoint(path, current_point);
 		if (next != nullptr)
 			next_point_y = next;
 	}

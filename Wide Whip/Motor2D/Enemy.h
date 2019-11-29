@@ -6,6 +6,7 @@
 #include "Entity.h"
 #include "Animation.h"
 #include "p2SString.h"
+#include "p2DynArray.h"
 
 class Entity;
 class Animation;
@@ -87,15 +88,19 @@ protected:
 
 	ENEMY_STATE			state;
 
+	p2DynArray<iPoint> path;
 
 
 	uint				range_detect = 300u; //distance in pixels.
 	uint				minim_range_detect = 75u; //distance in pixels.
 
 	uint time_to_pathfind_start = 0u;
-	uint time_to_pathfind = 200u;
+	uint time_to_pathfind = 250u;
 
 	bool in_collision = false;
+
+	SDL_Texture* debug_tex;
+	bool draw_debug = false;
 
 	HorizontalMovementDirection HorizontalDirection = HorizontalMovementDirection::NO_DIRECTION;
 	VerticalMovementDirection VerticalDirection = VerticalMovementDirection::NO_DIRECTION;
@@ -104,10 +109,6 @@ protected:
 
 	virtual void GoToNextPoint() {};
 	void GoToPlayer();
-
-	bool PathIsAHorizontalLine(const iPoint & nexp_point);
-
-
 
 };
 

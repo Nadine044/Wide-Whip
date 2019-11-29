@@ -19,6 +19,33 @@ bool j1PathFinding::Start()
 	return true;
 }
 
+bool j1PathFinding::PreUpdate()
+{
+	static iPoint origin;
+	static bool origin_selected = false;
+
+	int x, y;
+	App->input->GetMousePosition(x, y);
+	iPoint p = App->render->ScreenToWorld(x, y);
+	p = App->map->WorldToMap(p);
+
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		if (origin_selected == true)
+		{
+			App->pathfinding_module->CreatePath(last_path, origin, p);
+			origin_selected = false;
+		}
+		else
+		{
+			origin = p;
+			origin_selected = true;
+		}
+	}
+
+	return true;
+}
+
 bool j1PathFinding::PostUpdate()
 {
 	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
@@ -189,11 +216,11 @@ int PathNode::CalculateF(const iPoint& destination)
 // ----------------------------------------------------------------------------------
 // Actual A* algorithm: return number of steps in the creation of the path or -1 ----
 // ----------------------------------------------------------------------------------
-int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
+int j1PathFinding::CreatePath(p2DynArray<iPoint>& path, const iPoint& origin, const iPoint& destination)
 {
 	int ret = -1;
 	// TODO 1: if origin or destination are not walkable, return -1
-	last_path.Clear();
+	path.Clear();
 	if (!IsWalkable(origin) || !CheckBoundaries(origin) || !IsWalkable(destination) || !CheckBoundaries(destination))
 	{
 		return ret;
@@ -221,11 +248,11 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 		if (current->pos == destination)
 		{
 			const PathNode* parent_current = &visited.list.end->data;
-			last_path.PushBack(parent_current->pos);
+			path.PushBack(parent_current->pos);
 			while (parent_current->pos != origin)
 			{
 				parent_current = parent_current->parent;
-				last_path.PushBack(parent_current->pos);
+				path.PushBack(parent_current->pos);
 			}
 			return (int)visited.list.count();
 		}
@@ -270,30 +297,28 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	return -1;
 }
 
-const iPoint* j1PathFinding::GetNextHorizontalPoint(const iPoint* current_point) const
+const iPoint* j1PathFinding::GetNextHorizontalPoint(p2DynArray<iPoint>& path, const iPoint* current_point) const
 {
-	const p2DynArray<iPoint>* path = GetLastPath();
-	int index = path->Find(current_point);
+	int index = path.Find(current_point);
 	for (int i = index-1; i >= 0; --i)
 	{
-		if (path->At(i)->x != current_point->x)
+		if (path.At(i)->x != current_point->x)
 		{
-			return path->At(i);
+			return path.At(i);
 		}
 	}
 
 	return nullptr;
 }
 
-const iPoint* j1PathFinding::GetNextVerticalPoint(const iPoint* current_point) const
+const iPoint* j1PathFinding::GetNextVerticalPoint(p2DynArray<iPoint>& path, const iPoint* current_point) const
 {
-	const p2DynArray<iPoint>* path = GetLastPath();
-	int index = path->Find(current_point);
+	int index = path.Find(current_point);
 	for (int i = index - 1; i >= 0; --i)
 	{
-		if (path->At(i)->y != current_point->y)
+		if (path.At(i)->y != current_point->y)
 		{
-			return path->At(i);
+			return path.At(i);
 		}
 	}
 

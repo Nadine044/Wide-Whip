@@ -23,17 +23,18 @@ public:
 
 
 	bool Start() override;
+	bool PreUpdate() override;
 	bool PostUpdate() override;
 
 	// Called before quitting
 	bool CleanUp();
 
 	// Main function to request a path from A to B
-	int CreatePath(const iPoint& origin, const iPoint& destination);
+	int CreatePath(p2DynArray<iPoint>& path, const iPoint& origin, const iPoint& destination);
 
-	const iPoint* GetNextHorizontalPoint(const iPoint* current_point) const;
+	const iPoint* GetNextHorizontalPoint(p2DynArray<iPoint>& path, const iPoint* current_point) const;
 
-	const iPoint * GetNextVerticalPoint(const iPoint * current_point) const;
+	const iPoint * GetNextVerticalPoint(p2DynArray<iPoint>& path, const iPoint * current_point) const;
 
 	// To request all tiles involved in the last generated path
 	const p2DynArray<iPoint>* GetLastPath() const;
