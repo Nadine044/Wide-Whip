@@ -5,7 +5,7 @@
     <title>Wide Whip</title>
     <organization>UPC</organization>
     <save_file_root>XMLs/save_file</save_file_root>
-    <framerate_cap value="28"/>
+    <framerate_cap value="30"/>
   </app>
 	
   <renderer>
@@ -36,7 +36,7 @@
       <jump_force value="10"/>
       <gravity value="0.5f"/>
       <texture>player/player.png</texture>
-      <speed value ="3"/>
+      <speed value ="200"/>
       <dash_force value="15"/>
       <resistance_dash value="0.5f"/>
       <map_left_offset_x value="200"/>
@@ -54,7 +54,7 @@
 
       <animations>
 
-        <idle speed="0.2f" loop="true">
+        <idle speed="0.3f" loop="true">
           <frame x="0"   y="0" w ="47" h ="65"/>
           <frame x="47"  y="0" w ="47" h ="65"/>
           <frame x="94"  y="0" w ="47" h ="65"/>

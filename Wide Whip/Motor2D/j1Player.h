@@ -48,7 +48,7 @@ public:
 	bool Start();
 		
 	bool Update(float dt) override;
-	void JumpHorizontal();
+	void JumpHorizontal(float dt);
 
 	bool PostUpdate() override;
 
@@ -99,9 +99,9 @@ private:
 
 	void ToAction();
 
-	void Movement();
+	void Movement(float dt);
 
-	void VerticalMovement();
+	void VerticalMovement(float dt);
 
 	void Revive();
 

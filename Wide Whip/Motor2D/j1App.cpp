@@ -94,7 +94,7 @@ bool j1App::Awake()
 		organization.create(app_config.child("organization").child_value());
 		save_game_root = app_config.child("save_file_root").child_value();
 		
-		int cap = app_config.child("framerate_cap").attribute("value").as_int();
+		int cap = app_config.child("framerate_cap").attribute("value").as_float();
 		if (cap > 0)
 		{
 			framerate_cap = 1000 / cap;
@@ -209,8 +209,14 @@ void j1App::FinishUpdate()
 	}
 
 	avg_fps = float(frame_count) / startup_time.ReadSec();
+	float seconds_since_startup = startup_time.ReadSec();
 	uint last_frame_ms = frame_time.Read();
 	frames_on_last_update = prev_last_sec_frame_count;
+
+	static char title[256];
+	sprintf_s(title, 256, "dt: %.2f, Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i  Time since startup: %.3f Frame Count: %lu ",
+		dt, avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, frame_count);
+	App->win->SetTitle(title);
 
 	if (framerate_cap > 0 && last_frame_ms < framerate_cap)
 	{
@@ -427,4 +433,9 @@ bool j1App::SavegameNow() const
 const pugi::xml_node j1App::GetConfig() const
 {
 	return config;
+}
+
+const float j1App::GetDT()
+{
+	return dt;
 }

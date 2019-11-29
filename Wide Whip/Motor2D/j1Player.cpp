@@ -162,11 +162,11 @@ bool j1Player::Update(float dt)
 
 		ToAction();
 
-		Movement();
+		Movement(dt);
 
 		Gravity();
 
-		JumpHorizontal();
+		JumpHorizontal(dt);
 
 		UpdateCameraPos();
 
@@ -244,9 +244,9 @@ bool j1Player::Update(float dt)
 		break;
 	case PLAYER_STATE::GOD:
 
-		Movement();
+		Movement(dt);
 
-		VerticalMovement();
+		VerticalMovement(dt);
 
 		UpdateCameraPos();
 
@@ -267,16 +267,16 @@ bool j1Player::Update(float dt)
 	return true;
 }
 
-void j1Player::JumpHorizontal()
+void j1Player::JumpHorizontal(float dt)
 {
 	if (velocity_jump_clinged < 0 && !jump_h_right)
 	{
-		pos.x += velocity_jump_clinged;
+		pos.x += velocity_jump_clinged * dt;
 		velocity_jump_clinged += resistance_jump_clinged;
 	}
 	else if (velocity_jump_clinged > 0 && jump_h_right)
 	{
-		pos.x += velocity_jump_clinged;
+		pos.x += velocity_jump_clinged * dt;
 		velocity_jump_clinged -= resistance_jump_clinged;
 	}
 }
@@ -302,14 +302,14 @@ void j1Player::CheckDebugKeys()
 		draw_debug = !draw_debug;
 }
 
-void j1Player::VerticalMovement()
+void j1Player::VerticalMovement(float dt)
 {
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
-		pos.y -= speed;
+		pos.y -= speed * dt;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-		pos.y += speed;
+		pos.y += speed * dt;
 	}
 }
 
@@ -355,14 +355,14 @@ void j1Player::ToAction()
 	}
 }
 
-void j1Player::Movement()
+void j1Player::Movement(float dt)
 {
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 
 		if (current_animation != &jump && current_animation != &fall)
 			current_animation = &walk;
 
-		pos.x -= speed;
+		pos.x -= speed * dt;
 		flip = SDL_FLIP_HORIZONTAL;
 	}
 
@@ -371,7 +371,7 @@ void j1Player::Movement()
 		if (current_animation != &jump && current_animation != &fall)
 			current_animation = &walk;
 
-		pos.x += speed;
+		pos.x += speed * dt;
 		flip = SDL_FLIP_NONE;
 		
 	}

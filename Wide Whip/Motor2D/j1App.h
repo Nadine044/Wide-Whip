@@ -50,6 +50,7 @@ public:
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
 	const pugi::xml_node GetConfig() const;
+	const float GetDT();
 
 	void LoadGame();
 	void SaveGame() const;
