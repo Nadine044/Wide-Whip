@@ -32,7 +32,7 @@ bool j1Player::Awake(const pugi::xml_node& config)
 	time_to_jump						= (Uint32)(time_in_fade_node.attribute("time_to_jump").as_float() * 1000.0f);
 	time_in_fade						= time_in_fade_node.attribute("time_in_fade").as_float();
 
-	dt_multiplied						= config.child("app").child("dt_multiplied").attribute("value").as_int();
+	dt_multiplied						= config.previous_sibling("app").child("dt_multiplied").attribute("value").as_int();
 
 	pugi::xml_node rect_limit			= player_node.child("rect_limit_camera_border");
 	rect_limit_camera_border_x			= rect_limit.attribute("x").as_int();
