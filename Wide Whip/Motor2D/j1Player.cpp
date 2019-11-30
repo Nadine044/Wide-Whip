@@ -315,8 +315,13 @@ void j1Player::VerticalMovement(float dt)
 
 void j1Player::Gravity()
 {
-	velocity -= gravity;
-	pos.y += -velocity;
+	if(App->GetDT() < 1.0f)
+	{
+	velocity -= gravity * App->GetDT() * 50;
+	int v_y_final = velocity * App->GetDT() * 50;
+	LOG("%i", v_y_final);
+	pos.y -= v_y_final;
+	}
 }
 
 void j1Player::ToAction()
@@ -329,7 +334,7 @@ void j1Player::ToAction()
 		if (!clinging)
 		{
 			current_animation = &jump;
-			velocity = jump_force * App->GetDT();
+			velocity = jump_force;
 			jumped = true;
 		}
 		else
@@ -337,7 +342,7 @@ void j1Player::ToAction()
 			state = PLAYER_STATE::LIVE;
 			clinging = false;
 			current_animation = &jump;
-			velocity = jump_force *0.75f * App->GetDT(); //jump less
+			velocity = jump_force * 0.75f;//jump less
 			jumped = true;
 			jump_h_right ? velocity_jump_clinged = jump_clinged_force_left : velocity_jump_clinged = -jump_clinged_force_right;
 		}
@@ -357,12 +362,13 @@ void j1Player::ToAction()
 
 void j1Player::Movement(float dt)
 {
+	int final_v = speed * dt;
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 
 		if (current_animation != &jump && current_animation != &fall)
 			current_animation = &walk;
 
-		pos.x -= speed;
+		pos.x -= final_v;
 		flip = SDL_FLIP_HORIZONTAL;
 	}
 
@@ -371,7 +377,7 @@ void j1Player::Movement(float dt)
 		if (current_animation != &jump && current_animation != &fall)
 			current_animation = &walk;
 
-		pos.x += speed * dt;
+		pos.x += final_v;
 		flip = SDL_FLIP_NONE;
 		
 	}
