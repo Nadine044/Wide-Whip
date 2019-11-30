@@ -48,7 +48,7 @@ public:
 	bool Start();
 		
 	bool Update(float dt) override;
-	void JumpHorizontal();
+	void JumpHorizontal(float dt);
 
 	bool PostUpdate() override;
 
@@ -95,13 +95,13 @@ private:
 
 	void CheckDebugKeys();
 
-	void Gravity();
+	void Gravity(float dt);
 
 	void ToAction();
 
-	void Movement();
+	void Movement(float dt);
 
-	void VerticalMovement();
+	void VerticalMovement(float dt);
 
 	void Revive();
 
@@ -150,6 +150,9 @@ private:
 
 	int				offset_value						= 0;
 
+	float max_speed = 0.0f;
+	float min_speed = 0.0f;
+	float dt_multiplied = 0.0f;
 
 };
 
