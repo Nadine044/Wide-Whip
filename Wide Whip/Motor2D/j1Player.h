@@ -48,7 +48,7 @@ public:
 	bool Start();
 		
 	bool Update(float dt) override;
-	void JumpHorizontal(float dt);
+	void JumpHorizontal();
 
 	bool PostUpdate() override;
 
@@ -95,13 +95,13 @@ private:
 
 	void CheckDebugKeys();
 
-	void Gravity(float dt);
+	void Gravity();
 
 	void ToAction();
 
-	void Movement(float dt);
+	void Movement();
 
-	void VerticalMovement(float dt);
+	void VerticalMovement();
 
 	void Revive();
 
@@ -112,8 +112,7 @@ private:
 
 private:
 
-	int					dt_multiplied					= 0;
-
+	//SDL_Texture*		text							= nullptr;
 	p2SString			text_path;
 
 	SDL_Rect			rect_limit_camera;
@@ -125,20 +124,19 @@ private:
 	uint				jump_force						= 0u;
 	float				gravity							= 0.f;
 
-	float				dash_force						= 0;
+	int					dash_force						= 0;
 	float				velocity_dash					= 0.0f;
 	float				resistance_dash					= 0.0f;
 
-	float				jump_clinged_force_left			= 0.f;
-	float				jump_clinged_force_right		= 0.f;
+	float				jump_clinged_force_left			= 0;
+	float				jump_clinged_force_right		= 0;
 	float				velocity_jump_clinged			= 0.0f;
 	float				resistance_jump_clinged			= 0.0f;
 
 	bool				jump_h_right = false;
 
 	int					speed							= 0;
-	int					max_speed						= 0;
-	int					min_speed						= 0;
+
 	
 	bool				dead_jumping					= false;
 	bool				revive							= false;
