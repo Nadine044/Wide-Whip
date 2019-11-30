@@ -43,7 +43,7 @@ bool j1Player::Awake(const pugi::xml_node& config)
 	jump_force							= player_node.child("jump_force").attribute("value").as_uint();
 	gravity								= player_node.child("gravity").attribute("value").as_float();
 
-	dash_force							= player_node.child("dash_force").attribute("value").as_int();
+	dash_force							= player_node.child("dash_force").attribute("value").as_float();
 	resistance_dash						= player_node.child("resistance_dash").attribute("value").as_float();
 
 
@@ -174,14 +174,14 @@ bool j1Player::Update(float dt)
 
 		break;
 	case PLAYER_STATE::DASHING:
-		pos.x += velocity_dash;
+		pos.x += velocity_dash * dt * 25;
 
 		current_animation = &dash;
 
 		
 		 if (flip == SDL_RendererFlip::SDL_FLIP_NONE)
 		 {
-			 velocity_dash -= resistance_dash;
+			 velocity_dash -= resistance_dash * dt * 25;
 			 if (velocity_dash <= 0.0f)
 			 {
 				 state = PLAYER_STATE::LIVE;
@@ -189,7 +189,7 @@ bool j1Player::Update(float dt)
 		 }
 		 else
 		 {
-			 velocity_dash += resistance_dash;
+			 velocity_dash += resistance_dash * dt * 25;
 			 if (velocity_dash >= 0.0f)
 			 {
 				 state = PLAYER_STATE::LIVE;
@@ -271,13 +271,13 @@ void j1Player::JumpHorizontal(float dt)
 {
 	if (velocity_jump_clinged < 0 && !jump_h_right)
 	{
-		pos.x += velocity_jump_clinged;
-		velocity_jump_clinged += resistance_jump_clinged;
+		pos.x += velocity_jump_clinged * dt * 25;
+		velocity_jump_clinged += resistance_jump_clinged * dt * 25;
 	}
 	else if (velocity_jump_clinged > 0 && jump_h_right)
 	{
-		pos.x += velocity_jump_clinged;
-		velocity_jump_clinged -= resistance_jump_clinged;
+		pos.x += velocity_jump_clinged * dt * 25;
+		velocity_jump_clinged -= resistance_jump_clinged * dt * 25;
 	}
 }
 
@@ -317,8 +317,8 @@ void j1Player::Gravity()
 {
 	if(App->GetDT() < 1.0f)
 	{
-	velocity -= gravity * App->GetDT() * 50;
-	int v_y_final = velocity * App->GetDT() * 50;
+	velocity -= gravity * App->GetDT() * 25;
+	int v_y_final = velocity * App->GetDT() * 25;
 	LOG("%i", v_y_final);
 	pos.y -= v_y_final;
 	}

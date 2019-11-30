@@ -124,12 +124,12 @@ private:
 	uint				jump_force						= 0u;
 	float				gravity							= 0.f;
 
-	int					dash_force						= 0;
+	float					dash_force						= 0;
 	float				velocity_dash					= 0.0f;
 	float				resistance_dash					= 0.0f;
 
-	float				jump_clinged_force_left			= 0;
-	float				jump_clinged_force_right		= 0;
+	float				jump_clinged_force_left			= 0.f;
+	float				jump_clinged_force_right		= 0.f;
 	float				velocity_jump_clinged			= 0.0f;
 	float				resistance_jump_clinged			= 0.0f;
 
