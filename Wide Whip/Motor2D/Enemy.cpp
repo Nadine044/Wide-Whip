@@ -27,6 +27,7 @@ bool Enemy::Awake(const pugi::xml_node& config)
 	speed = enemy_node.child("speed").attribute("value").as_int();
 	gravity = enemy_node.child("gravity").attribute("value").as_float();
 	text_path = enemy_node.child_value("texture");
+	dt_multiplied = config.previous_sibling("app").child("dt_multiplied").attribute("value").as_int();
 
 	pugi::xml_node animations_node = enemy_node.child("animations");
 
@@ -47,8 +48,8 @@ bool Enemy::Start()
 	current_animation = &idle;
 	state = ENEMY_STATE::IDLE;
 
-	speed = 1;
-	velocity = 0;
+	//speed = 1;
+	//velocity = 0;
 
 	debug_tex = App->tex->Load("maps/path2.png");
 
@@ -89,8 +90,9 @@ bool Enemy::PreUpdate()
 bool Enemy::Update(float dt)
 {
 	iPoint p;
-	p.x = col->rect.w * 0.5f;
-	p.y = col->rect.h * 0.5f;
+	p.x = col->rect.w * 0.5f * dt;
+	p.y = col->rect.h * 0.5f * dt;
+
 	switch (state)
 	{
 	case ENEMY_STATE::UNKNOWN:
@@ -99,7 +101,7 @@ bool Enemy::Update(float dt)
 		break;
 	case ENEMY_STATE::PATHFINDING:
 		if (pos.DistanceTo(App->module_entity_manager->getPlayer()->pos) <= minim_range_detect)
-			GoToPlayer();
+			GoToPlayer(dt);
 		else
 		{
 			if (time_to_pathfind < SDL_GetTicks() - time_to_pathfind_start)
@@ -110,7 +112,7 @@ bool Enemy::Update(float dt)
 			}
 			else
 				LOG("WAITING");
-			GoToNextPoint();
+			GoToNextPoint(dt);
 		}
 		break;
 	case ENEMY_STATE::DEAD:
@@ -126,7 +128,6 @@ bool Enemy::PostUpdate()
 {
 	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 		draw_debug = !draw_debug;
-
 
 	if (draw_debug)
 	{
@@ -197,22 +198,22 @@ bool Enemy::Load(pugi::xml_node& save_file)
 	return true;
 }
 
-void Enemy::GoToPlayer()
+void Enemy::GoToPlayer(float dt)
 {
 	if (App->module_entity_manager->getPlayer()->pos.x < pos.x)
 	{
-		pos.x -= speed;
+		pos.x -= speed * dt;
 	}
 	else if (App->module_entity_manager->getPlayer()->pos.x > pos.x)
 	{
-		pos.x += speed;
+		pos.x += speed * dt;
 	}
 	if (App->module_entity_manager->getPlayer()->pos.y < pos.y)
 	{
-		pos.y -= speed;
+		pos.y -= speed * dt;
 	}
 	else if (App->module_entity_manager->getPlayer()->pos.y > pos.y)
 	{
-		pos.y += speed;
+		pos.y += speed * dt;
 	}
 }

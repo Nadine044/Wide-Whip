@@ -17,7 +17,7 @@ public:
 
 
 private:
-	void GoToNextPoint() override;
+	void GoToNextPoint(float dt) override;
 
 private:
 	Collider* ground = nullptr;

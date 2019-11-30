@@ -88,8 +88,9 @@ protected:
 
 	ENEMY_STATE			state;
 
-	p2DynArray<iPoint> path;
+	p2DynArray<iPoint>	path;
 
+	int dt_multiplied	= 0;
 
 	uint				range_detect = 300u; //distance in pixels.
 	uint				minim_range_detect = 75u; //distance in pixels.
@@ -107,8 +108,8 @@ protected:
 
 protected:
 
-	virtual void GoToNextPoint() {};
-	void GoToPlayer();
+	virtual void GoToNextPoint(float dt) {};
+	void GoToPlayer(float dt);
 
 };
 

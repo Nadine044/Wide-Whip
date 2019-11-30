@@ -63,6 +63,8 @@ public:
 
 
 protected:
+	int					dt_multiplied = 0;
+
 	float				velocity = 0.0f;
 	float				velocity_x = 0.0f;
 	float				velocity_y = 0.0f;

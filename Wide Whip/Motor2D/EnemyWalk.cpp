@@ -8,7 +8,7 @@
 EnemyWalk::EnemyWalk(SDL_Rect& rect) : Enemy(EntityType::WALKENEMY, rect) {};
 
 
-void EnemyWalk::GoToNextPoint()
+void EnemyWalk::GoToNextPoint(float dt)
 {
 
 	const iPoint* next_point = path.At(path.Count() - 3); // is Array. So Count() -1 are the last. Pick the next because the last is so close (collider enemy is bigger than 1 tile) 
@@ -42,10 +42,10 @@ void EnemyWalk::GoToNextPoint()
 			if (ground != nullptr)
 			{
 				if(ground->rect.x + ground->rect.w > pos.x + col->rect.w)
-					pos.x += speed;
+					pos.x += speed * dt;
 			}
 			else
-				pos.x += speed;
+				pos.x += speed * dt;
 		}
 		else if (enemy_pivot_central_down_map.x > next_point_x->x)		
 		{
@@ -53,10 +53,10 @@ void EnemyWalk::GoToNextPoint()
 			if (ground != nullptr)
 			{
 				if (ground->rect.x < pos.x)
-					pos.x -= speed;
+					pos.x -= speed * dt;
 			}
 			else
-				pos.x -= speed;
+				pos.x -= speed * dt;
 		}
 	}
 	

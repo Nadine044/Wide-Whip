@@ -112,8 +112,8 @@
     <enemy>
 
       <texture>enemies/walker/Minotaur.png</texture>
-      <speed value ="3"/>
-      <gravity value="0.5f"/>
+      <speed value ="100"/>
+      <gravity value="2.5f"/>
 
       <animations>
         

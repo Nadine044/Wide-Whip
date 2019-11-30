@@ -11,9 +11,9 @@ public:
 	EnemyFly(SDL_Rect& rect);
 
 private:
-	void GoToNextPoint() override;
-	void MoveNormal(const iPoint * next_point);
-	void MoveInCollision(const iPoint * next_point);
+	void GoToNextPoint(float dt) override;
+	void MoveNormal(const iPoint * next_point, float dt);
+	void MoveInCollision(const iPoint * next_point, float dt);
 };
 
 #endif // !__ENEMYFLY_H__
