@@ -271,12 +271,12 @@ void j1Player::JumpHorizontal(float dt)
 {
 	if (velocity_jump_clinged < 0 && !jump_h_right)
 	{
-		pos.x += velocity_jump_clinged * dt;
+		pos.x += velocity_jump_clinged;
 		velocity_jump_clinged += resistance_jump_clinged;
 	}
 	else if (velocity_jump_clinged > 0 && jump_h_right)
 	{
-		pos.x += velocity_jump_clinged * dt;
+		pos.x += velocity_jump_clinged;
 		velocity_jump_clinged -= resistance_jump_clinged;
 	}
 }
@@ -329,7 +329,7 @@ void j1Player::ToAction()
 		if (!clinging)
 		{
 			current_animation = &jump;
-			velocity = jump_force;
+			velocity = jump_force * App->GetDT();
 			jumped = true;
 		}
 		else
@@ -337,7 +337,7 @@ void j1Player::ToAction()
 			state = PLAYER_STATE::LIVE;
 			clinging = false;
 			current_animation = &jump;
-			velocity = jump_force *0.75f; //jump less
+			velocity = jump_force *0.75f * App->GetDT(); //jump less
 			jumped = true;
 			jump_h_right ? velocity_jump_clinged = jump_clinged_force_left : velocity_jump_clinged = -jump_clinged_force_right;
 		}
@@ -362,7 +362,7 @@ void j1Player::Movement(float dt)
 		if (current_animation != &jump && current_animation != &fall)
 			current_animation = &walk;
 
-		pos.x -= speed * dt;
+		pos.x -= speed;
 		flip = SDL_FLIP_HORIZONTAL;
 	}
 
