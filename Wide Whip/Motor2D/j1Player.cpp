@@ -11,6 +11,7 @@
 #include "j1Scene.h"
 #include "Entity.h"
 #include "ModuleEntityManager.h"
+#include "Brofiler/Brofiler.h"
 
 
 j1Player::j1Player(SDL_Rect& rect) : Entity(EntityType::PLAYER, rect)
@@ -22,6 +23,7 @@ j1Player::~j1Player()
 
 bool j1Player::Awake(const pugi::xml_node& config)
 {
+
 	LOG("Loading Player Parser");
 	bool ret = true;
 
@@ -92,6 +94,7 @@ bool j1Player::Awake(const pugi::xml_node& config)
 
 bool j1Player::Start()
 {
+
 	LOG("Loading Player textures");
 	bool ret = true;
 
@@ -119,6 +122,8 @@ bool j1Player::Start()
 
 void j1Player::UpdateCameraPos()
 {
+	BROFILER_CATEGORY("PlayerUpdateCameraPos", Profiler::Color::Green);
+
 	if (pos.x > map_left_offset)//final map offset
 	{
 		if (pos.x < rect_limit_camera.x)
@@ -150,6 +155,7 @@ void j1Player::UpdateCameraPos()
 
 bool j1Player::Update(float dt)
 {
+	BROFILER_CATEGORY("PlayerUpdate", Profiler::Color::Green);
 
 	switch (state)
 	{
@@ -269,6 +275,8 @@ bool j1Player::Update(float dt)
 
 void j1Player::JumpHorizontal()
 {
+	BROFILER_CATEGORY("PlayerJumpHorizontal", Profiler::Color::Green);
+
 	if (velocity_jump_clinged < 0 && !jump_h_right)
 	{
 		pos.x += velocity_jump_clinged;
@@ -283,6 +291,8 @@ void j1Player::JumpHorizontal()
 
 void j1Player::CheckDebugKeys()
 {
+	BROFILER_CATEGORY("PlayerCheckDebugKeys", Profiler::Color::Green);
+
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 	{
 		if (state == PLAYER_STATE::LIVE)
@@ -304,6 +314,8 @@ void j1Player::CheckDebugKeys()
 
 void j1Player::VerticalMovement()
 {
+	BROFILER_CATEGORY("PlayerVerticalMovement", Profiler::Color::Green);
+
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
 		pos.y -= speed;
 	}
@@ -315,12 +327,16 @@ void j1Player::VerticalMovement()
 
 void j1Player::Gravity()
 {
+	BROFILER_CATEGORY("PlayerGravity", Profiler::Color::Green);
+
 	velocity -= gravity;
 	pos.y += -velocity;
 }
 
 void j1Player::ToAction()
 {
+	BROFILER_CATEGORY("PlayerToAction", Profiler::Color::Green);
+
 	// Jump-----------------
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !jumped)
 	{
@@ -357,6 +373,8 @@ void j1Player::ToAction()
 
 void j1Player::Movement()
 {
+	BROFILER_CATEGORY("PlayerMovement", Profiler::Color::Green);
+
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 
 		if (current_animation != &jump && current_animation != &fall)
@@ -379,6 +397,8 @@ void j1Player::Movement()
 
 void j1Player::Revive()
 {
+	BROFILER_CATEGORY("PlayerRevive", Profiler::Color::Green);
+
 	state = PLAYER_STATE::LIVE;
 	velocity = 0.0f;
 	App->scene->StartThisLevel();
@@ -386,7 +406,8 @@ void j1Player::Revive()
 
 bool j1Player::PostUpdate()
 {
-	//MYTODO
+	BROFILER_CATEGORY("PlayerPostUpdate", Profiler::Color::Green);
+
 	if (draw_debug)
 	{
 		App->render->DrawQuad(rect_limit_camera, White.r, White.g, White.b, App->collisions->GetAlphaDebug());
@@ -396,6 +417,8 @@ bool j1Player::PostUpdate()
 
 void j1Player::OnTrigger(Collider* col2)
 {
+	BROFILER_CATEGORY("PlayerOnTrigger", Profiler::Color::Green);
+
 	if (col2->tag == TAG::WATER)
 	{
 		Death();
@@ -454,6 +477,8 @@ void j1Player::OnTrigger(Collider* col2)
 
 void j1Player::Death()
 {
+	BROFILER_CATEGORY("PlayerDeath", Profiler::Color::Green);
+
 	col->Disable();
 	App->audio->PlayFx(death_init_fx.id);
 	state = PLAYER_STATE::DEAD;	
@@ -465,6 +490,8 @@ void j1Player::Death()
 
 bool j1Player::CleanUp()
 {
+	BROFILER_CATEGORY("PlayerCleanUp", Profiler::Color::Green);
+
 	LOG("Player unloaded");
 	App->tex->UnLoad(text);
 	return true;
@@ -472,6 +499,8 @@ bool j1Player::CleanUp()
 
 bool j1Player::Save(pugi::xml_node& save_file) const
 {
+	BROFILER_CATEGORY("PlayerSave", Profiler::Color::Green);
+
 	pugi::xml_node pos_node = save_file.append_child("position");
 	pos_node.append_attribute("x") = pos.x;
 	pos_node.append_attribute("y") = pos.y;
@@ -496,6 +525,8 @@ bool j1Player::Save(pugi::xml_node& save_file) const
 
 bool j1Player::Load(pugi::xml_node& save_file)
 {
+	BROFILER_CATEGORY("PlayerLoad", Profiler::Color::Green);
+
 	pos.x = save_file.child("position").attribute("x").as_int();
 	pos.y = save_file.child("position").attribute("y").as_int();
 

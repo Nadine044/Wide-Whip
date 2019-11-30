@@ -4,9 +4,12 @@
 #include "j1Render.h"
 #include "ModuleCollision.h"
 #include "p2Log.h"
+#include "Brofiler/Brofiler.h"
 
 Entity::Entity(EntityType type, SDL_Rect& rect) : type(type)
 {
+	BROFILER_CATEGORY("EntityConstructor", Profiler::Color::Blue);
+
 	pos.x = rect.x;
 	pos.y = rect.y;
 
@@ -40,6 +43,8 @@ Entity::~Entity()
 
 void Entity::Draw() const
 {
+	BROFILER_CATEGORY("EntityDraw", Profiler::Color::Blue);
+
 	App->render->Blit(text, pos.x + offset_animation_x, pos.y, &(current_animation->GetCurrentFrame()), 1.0f, flip);
 }
 
@@ -50,10 +55,14 @@ float Entity::GetVelocity()
 
 bool Entity::Save(pugi::xml_node& node) const
 {
+	BROFILER_CATEGORY("EntitySave", Profiler::Color::Blue);
+
 	return true;
 }
 
 bool Entity::Load(pugi::xml_node& node)
 {
+	BROFILER_CATEGORY("EntityLoad", Profiler::Color::Blue);
+
 	return true;
 }
