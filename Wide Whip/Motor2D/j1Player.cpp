@@ -32,6 +32,8 @@ bool j1Player::Awake(const pugi::xml_node& config)
 	time_to_jump						= (Uint32)(time_in_fade_node.attribute("time_to_jump").as_float() * 1000.0f);
 	time_in_fade						= time_in_fade_node.attribute("time_in_fade").as_float();
 
+	dt_multiplied						= config.child("app").child("dt_multiplied").attribute("value").as_int();
+
 	pugi::xml_node rect_limit			= player_node.child("rect_limit_camera_border");
 	rect_limit_camera_border_x			= rect_limit.attribute("x").as_int();
 	rect_limit_camera_border_y			= rect_limit.attribute("y").as_int();
@@ -52,6 +54,8 @@ bool j1Player::Awake(const pugi::xml_node& config)
 	resistance_jump_clinged				= player_node.child("resistance_jump_clinged").attribute("value").as_float();
 
 	speed								= player_node.child("speed").attribute("value").as_int();
+	max_speed							= player_node.child("max_speed").attribute("value").as_int();
+	min_speed							= player_node.child("min_speed").attribute("value").as_int();
 
 	text_path							= player_node.child_value("texture");
 
@@ -166,7 +170,7 @@ bool j1Player::Update(float dt)
 
 		Movement(dt);
 
-		Gravity();
+		Gravity(dt);
 
 		JumpHorizontal(dt);
 
@@ -176,14 +180,14 @@ bool j1Player::Update(float dt)
 
 		break;
 	case PLAYER_STATE::DASHING:
-		pos.x += velocity_dash * dt * 25;
+		pos.x += velocity_dash * dt * dt_multiplied;
 
 		current_animation = &dash;
 
 		
 		 if (flip == SDL_RendererFlip::SDL_FLIP_NONE)
 		 {
-			 velocity_dash -= resistance_dash * dt * 25;
+			 velocity_dash -= resistance_dash * dt * dt_multiplied;
 			 if (velocity_dash <= 0.0f)
 			 {
 				 state = PLAYER_STATE::LIVE;
@@ -191,7 +195,7 @@ bool j1Player::Update(float dt)
 		 }
 		 else
 		 {
-			 velocity_dash += resistance_dash * dt * 25;
+			 velocity_dash += resistance_dash * dt * dt_multiplied;
 			 if (velocity_dash >= 0.0f)
 			 {
 				 state = PLAYER_STATE::LIVE;
@@ -230,7 +234,7 @@ bool j1Player::Update(float dt)
 
 		if (dead_jumping)
 		{
-			Gravity();
+			Gravity(dt);
 			if (SDL_GetTicks() - start_time >= time_to_do_fade_to_black)
 			{
 				App->fade_to_black->FadeToBlack(revive, time_in_fade);
@@ -273,13 +277,13 @@ void j1Player::JumpHorizontal(float dt)
 {
 	if (velocity_jump_clinged < 0 && !jump_h_right)
 	{
-		pos.x += velocity_jump_clinged * dt * 25;
-		velocity_jump_clinged += resistance_jump_clinged * dt * 25;
+		pos.x += velocity_jump_clinged * dt * dt_multiplied;
+		velocity_jump_clinged += resistance_jump_clinged * dt * dt_multiplied;
 	}
 	else if (velocity_jump_clinged > 0 && jump_h_right)
 	{
-		pos.x += velocity_jump_clinged * dt * 25;
-		velocity_jump_clinged -= resistance_jump_clinged * dt * 25;
+		pos.x += velocity_jump_clinged * dt * dt_multiplied;
+		velocity_jump_clinged -= resistance_jump_clinged * dt * dt_multiplied;
 	}
 }
 
@@ -315,18 +319,17 @@ void j1Player::VerticalMovement(float dt)
 	}
 }
 
-void j1Player::Gravity()
+void j1Player::Gravity(float dt)
 {
+	velocity -= gravity * dt * dt_multiplied;
 
+	int v_y_final = velocity * dt * dt_multiplied;
 
-	velocity -= gravity * App->GetDT() * 25;
+	if (v_y_final > max_speed)
+		v_y_final = max_speed;
 
-	int v_y_final = velocity * App->GetDT() * 25;
-
-	if (v_y_final > 50)
-		v_y_final = 50.f;
-	if (v_y_final < -50)
-		v_y_final = -50.f;
+	if (v_y_final < min_speed)
+		v_y_final = min_speed;
 
 	LOG("%i", v_y_final);
 	pos.y -= v_y_final;

@@ -95,7 +95,7 @@ private:
 
 	void CheckDebugKeys();
 
-	void Gravity();
+	void Gravity(float dt);
 
 	void ToAction();
 
@@ -112,7 +112,8 @@ private:
 
 private:
 
-	//SDL_Texture*		text							= nullptr;
+	int					dt_multiplied					= 0;
+
 	p2SString			text_path;
 
 	SDL_Rect			rect_limit_camera;
@@ -124,7 +125,7 @@ private:
 	uint				jump_force						= 0u;
 	float				gravity							= 0.f;
 
-	float					dash_force						= 0;
+	float				dash_force						= 0;
 	float				velocity_dash					= 0.0f;
 	float				resistance_dash					= 0.0f;
 
@@ -136,7 +137,8 @@ private:
 	bool				jump_h_right = false;
 
 	int					speed							= 0;
-
+	int					max_speed						= 0;
+	int					min_speed						= 0;
 	
 	bool				dead_jumping					= false;
 	bool				revive							= false;

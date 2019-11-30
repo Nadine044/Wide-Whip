@@ -6,6 +6,7 @@
     <organization>UPC</organization>
     <save_file_root>XMLs/save_file</save_file_root>
     <framerate_cap value="10"/>
+    <dt_multiplied value="25"/>
   </app>
 	
   <renderer>
@@ -37,6 +38,8 @@
       <gravity value="2.5f"/>
       <texture>player/player.png</texture>
       <speed value ="225"/>
+      <max_speed value="50"/>
+      <min_speed value="-50"/>
       <dash_force value="35.f"/>
       <resistance_dash value="2.f"/>
       <map_left_offset_x value="200"/>
