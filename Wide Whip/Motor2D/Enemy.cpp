@@ -3,8 +3,14 @@
 #include "Entity.h"
 #include "j1Textures.h"
 #include "ModuleCollision.h"
+#include "ModuleEntityManager.h"
+#include "j1Map.h"
+#include "j1Pathfinding.h"
+#include "SDL/include/SDL_timer.h"
+#include "j1Input.h"
+#include "j1Render.h"
 
-Enemy::Enemy(SDL_Rect& rect) : Entity(EntityType::ENEMY, rect)
+Enemy::Enemy(EntityType type, SDL_Rect& rect) : Entity(type, rect)
 {}
 
 //Destructor
@@ -17,11 +23,6 @@ bool Enemy::Awake(const pugi::xml_node& config)
 	bool ret = true;
 
 	pugi::xml_node enemy_node = config.child("enemy");
-
-	pugi::xml_node time_in_fade_node	= enemy_node.child("time_fade");
-	time_to_do_fade_to_black = (Uint32)(time_in_fade_node.attribute("time_to_do_fade_to_black").as_float() * 1000.0f);
-	time_to_jump = (Uint32)(time_in_fade_node.attribute("time_to_jump").as_float() * 1000.0f);
-	time_in_fade = time_in_fade_node.attribute("time_in_fade").as_float();
 
 	speed = enemy_node.child("speed").attribute("value").as_int();
 	gravity = enemy_node.child("gravity").attribute("value").as_float();
@@ -44,24 +45,122 @@ bool Enemy::Start()
 	flip = SDL_FLIP_NONE;
 
 	current_animation = &idle;
-	start_time = 0u;
+	state = ENEMY_STATE::IDLE;
+
+	speed = 1;
+	velocity = 0;
+
+	debug_tex = App->tex->Load("maps/path2.png");
 
 	return ret;
 }
 
+bool Enemy::PreUpdate()
+{
+	iPoint player_pos = App->module_entity_manager->getPlayer()->pos;
+	switch (state)
+	{
+	case ENEMY_STATE::UNKNOWN:
+		break;
+	case ENEMY_STATE::IDLE:
+		
+		if (pos.DistanceTo(player_pos) <= range_detect && pos.DistanceTo(player_pos) > minim_range_detect)
+		{
+			time_to_pathfind_start = SDL_GetTicks();
+			state = ENEMY_STATE::PATHFINDING;
+			App->pathfinding_module->CreatePath(path, App->map->WorldToMap(pos + pivot_down_central), App->map->WorldToMap(player_pos + App->module_entity_manager->getPlayer()->pivot_down_central));			
+		}			
+
+		break;
+	case ENEMY_STATE::PATHFINDING:
+		if (pos.DistanceTo(player_pos) > range_detect)
+		{
+			state = ENEMY_STATE::IDLE;
+		}
+		break;
+	case ENEMY_STATE::DEAD:
+		break;
+	default:
+		break;
+	}
+	return true;
+}
+
 bool Enemy::Update(float dt)
 {
+	iPoint p;
+	p.x = col->rect.w * 0.5f;
+	p.y = col->rect.h * 0.5f;
+	switch (state)
+	{
+	case ENEMY_STATE::UNKNOWN:
+		break;
+	case ENEMY_STATE::IDLE:
+		break;
+	case ENEMY_STATE::PATHFINDING:
+		if (pos.DistanceTo(App->module_entity_manager->getPlayer()->pos) <= minim_range_detect)
+			GoToPlayer();
+		else
+		{
+			if (time_to_pathfind < SDL_GetTicks() - time_to_pathfind_start)
+			{
+				time_to_pathfind_start = SDL_GetTicks();
+				App->pathfinding_module->CreatePath(path, App->map->WorldToMap(pos + p), App->map->WorldToMap(App->module_entity_manager->getPlayer()->pos + App->module_entity_manager->getPlayer()->pivot_down_central));
+				LOG("pathfinding");
+			}
+			else
+				LOG("WAITING");
+			GoToNextPoint();
+		}
+		break;
+	case ENEMY_STATE::DEAD:
+		break;
+	default:
+		break;
+	}
+	in_collision = false; //reset every frame. (dirty but works)
 	return true;
 }
 
 bool Enemy::PostUpdate()
 {
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		draw_debug = !draw_debug;
+
+
+	if (draw_debug)
+	{
+		int x, y;
+		App->input->GetMousePosition(x, y);
+		iPoint p = App->render->ScreenToWorld(x, y);
+		p = App->map->WorldToMap(p);
+		p = App->map->MapToWorld(p);
+
+		SDL_Rect rect = { 0, 0, 32, 32 };
+		App->render->Blit(debug_tex, p.x, p.y, &rect);
+
+		for (uint i = 0; i < path.Count(); ++i)
+		{
+			iPoint pos = App->map->MapToWorld(*path.At(i));
+			App->render->Blit(debug_tex, pos.x, pos.y);
+		}
+	}
 	return true;
 }
 
 bool Enemy::CleanUp()
 {
 	return true;
+}
+
+void Enemy::OnTrigger(Collider* col2)
+{
+	if (col2->tag == TAG::WALL)
+	{
+		in_collision = true;
+		if (col->last_colision_direction == DISTANCE_DIR::UP || col->last_colision_direction == DISTANCE_DIR::DOWN)
+			VerticalDirection = VerticalMovementDirection::NO_DIRECTION; //reset Direction in vertical movement to avoid tremors.
+	}
 }
 
 bool Enemy::Save(pugi::xml_node& save_file) const
@@ -96,4 +195,24 @@ bool Enemy::Load(pugi::xml_node& save_file)
 	save_file.child("collider").attribute("enabled").as_bool() ? col->Enable() : col->Disable();
 
 	return true;
+}
+
+void Enemy::GoToPlayer()
+{
+	if (App->module_entity_manager->getPlayer()->pos.x < pos.x)
+	{
+		pos.x -= speed;
+	}
+	else if (App->module_entity_manager->getPlayer()->pos.x > pos.x)
+	{
+		pos.x += speed;
+	}
+	if (App->module_entity_manager->getPlayer()->pos.y < pos.y)
+	{
+		pos.y -= speed;
+	}
+	else if (App->module_entity_manager->getPlayer()->pos.y > pos.y)
+	{
+		pos.y += speed;
+	}
 }

@@ -18,6 +18,7 @@ class j1Map;
 class ModuleCollision;
 class ModuleFadeToBlack;
 class ModuleEntityManager;
+class j1PathFinding;
 
 class j1App
 {
@@ -93,6 +94,7 @@ public:
 	ModuleCollision*	collisions;
 	ModuleFadeToBlack*	fade_to_black;
 	ModuleEntityManager* module_entity_manager;
+	j1PathFinding*		pathfinding_module;
 
 private:
 

@@ -10,6 +10,12 @@ Entity::Entity(EntityType type, SDL_Rect& rect) : type(type)
 	pos.x = rect.x;
 	pos.y = rect.y;
 
+	pivot_down_central.x = rect.w * 0.5f;
+	pivot_down_central.y = rect.h - 10;
+
+	pivot_up_central.x = rect.w * 0.5f;
+	pivot_up_central.y = 0;
+
 	TAG tag;
 	Color color;
 	switch (type)
@@ -21,7 +27,11 @@ Entity::Entity(EntityType type, SDL_Rect& rect) : type(type)
 		color = Green;
 		tag = TAG::PLAYER;
 		break;
-	case EntityType::ENEMY:
+	case EntityType::FLYENEMY:
+		color = Red;
+		tag = TAG::ENEMY;
+		break;
+	case EntityType::WALKENEMY:
 		color = Red;
 		tag = TAG::ENEMY;
 		break;

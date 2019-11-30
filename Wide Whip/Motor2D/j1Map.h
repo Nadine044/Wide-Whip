@@ -8,8 +8,7 @@
 #include "p2Defs.h"
 #include "j1App.h"
 #include "j1Textures.h"
-
-
+#include "SDL/include/SDL_rect.h"
 // ----------------------------------------------------
 struct MapLayer
 {
@@ -138,7 +137,6 @@ public:
 	bool IsOnCamera(SDL_Rect) const;
 
 
-
 private:
 
 	bool LoadMap();
@@ -157,10 +155,8 @@ private:
 	pugi::xml_document	map_file;
 	p2SString			folder;
 	bool				map_loaded;
-
-
-
 	
+	bool				draw_debug = false;
 };
 
 #endif // __j1MAP_H__

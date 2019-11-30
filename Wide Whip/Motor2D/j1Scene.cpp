@@ -41,15 +41,23 @@ bool j1Scene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool j1Scene::Start()
 {
-	App->map->Load(level1.GetString());
-	map_name_loaded = level1;
-	App->audio->PlayMusic(music.GetString());
+
+	if (App->map->Load(level1.GetString()) == true)
+	{
+		map_name_loaded = level1;
+		App->audio->PlayMusic(music.GetString());
+	}
+
+	debug_tex = App->tex->Load("maps/path2.png");
+
+
 	return true;
 }
 
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
+
 	return true;
 }
 
@@ -60,6 +68,8 @@ bool j1Scene::Update(float dt)
 	CheckLevelChange();
 
 	CheckSaveLoad();
+
+	
 
 	return true;
 }

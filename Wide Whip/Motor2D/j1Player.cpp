@@ -269,7 +269,7 @@ bool j1Player::Update(float dt)
 		offset_animation_x = 0;
 
 	CheckDebugKeys();
-	col->UpdatePos(pos);
+
 	return true;
 }
 
@@ -420,7 +420,6 @@ void j1Player::OnTrigger(Collider* col2)
 	}
 	//Acces to the other colldier when a collision is checked.
 	//Do Something when a collisions is checked.
-	LOG("it's this a collision!");
 	if (col->last_colision_direction == DISTANCE_DIR::UP && velocity <= 0.0f)
 	{
 		velocity = 0.0f;

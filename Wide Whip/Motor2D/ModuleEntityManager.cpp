@@ -1,13 +1,27 @@
 #include "j1App.h"
 #include "p2Log.h"
 #include "ModuleEntityManager.h"
+#include "ModuleCollision.h"
 #include "Entity.h"
 #include "j1Player.h"
-#include "Enemy.h"
+#include "EnemyFly.h"
+#include "EnemyWalk.h"
 
 ModuleEntityManager::ModuleEntityManager() : j1Module()
 {
 	name.create("enitity_manager");
+}
+
+
+bool ModuleEntityManager::PreUpdate()
+{
+	bool ret = true;
+
+	for (p2List_item<Entity*>* iter = entities.start; iter && ret; iter = iter->next)
+	{
+		ret = iter->data->PreUpdate();
+	}
+	return ret;
 }
 
 bool ModuleEntityManager::Update(float dt)
@@ -17,6 +31,8 @@ bool ModuleEntityManager::Update(float dt)
 	{
 		if (iter->data != nullptr)
 			ret = iter->data->Update(dt);
+
+		iter->data->col->UpdatePos(iter->data->pos);
 
 	}
 
@@ -60,8 +76,12 @@ Entity* ModuleEntityManager::CreateEntity(EntityType type, SDL_Rect& rect)
 	case EntityType::PLAYER:
 		ret = new j1Player(rect);
 		break;
-	case EntityType::ENEMY:
-		ret = new Enemy(rect);
+	case EntityType::FLYENEMY:
+		ret = new EnemyFly(rect);
+		break;
+	case EntityType::WALKENEMY:
+		ret = new EnemyWalk(rect);
+		break;
 		break;
 	case EntityType::NO_TYPE:
 		break;

@@ -15,7 +15,7 @@ public:
 	ModuleEntityManager();
 
 	//bool Start() { return true; };
-	bool PreUpdate() override { return true; };
+	bool PreUpdate() override;
 	bool Update(float dt) override;
 	bool PostUpdate() override;
 	bool CleanUp();

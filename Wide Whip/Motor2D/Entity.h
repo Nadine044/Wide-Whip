@@ -15,7 +15,8 @@ enum class EntityType
 	NO_TYPE = -1,
 
 	PLAYER,
-	ENEMY,
+	FLYENEMY,
+	WALKENEMY,
 
 	MAX	
 };
@@ -56,11 +57,18 @@ public:
 	int					offset_animation_x = 0;
 
 	SDL_RendererFlip	flip = SDL_FLIP_NONE;
+	iPoint pivot_down_central;
+	iPoint pivot_up_central;
+
 
 
 protected:
-
 	float				velocity = 0.0f;
+	float				velocity_x = 0.0f;
+	float				velocity_y = 0.0f;
+
+	int					speed = 0;
+	float				gravity = 0.f;
 
 };
 

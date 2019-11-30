@@ -150,6 +150,23 @@ public:
 		return result;
 	}
 
+	const int Find(const VALUE* element) const
+	{
+		// return the index of the element. -1 if not finded.
+		int index = -1;
+
+		for (int i = 0; i < num_elements; ++i)
+		{
+			if (At(i) == element)
+			{
+				index = i;
+				return index;
+			}
+		}
+
+		return index;
+	}
+
 	// Utils
 	unsigned int GetCapacity() const
 	{
