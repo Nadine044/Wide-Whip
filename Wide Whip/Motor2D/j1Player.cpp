@@ -95,8 +95,10 @@ bool j1Player::Start()
 	LOG("Loading Player textures");
 	bool ret = true;
 
-	//pos.x = col->rect.x;
-	//pos.y = col->rect.y;	
+	pos.x = col->rect.x;
+	pos.y = col->rect.y;	
+
+	velocity = 0.f;
 
 	//App->player->Load("XMLs/player.xml");
 	//App->module_entity_manager->getPlayer()->Load("XMLs/player.xml");
@@ -315,13 +317,20 @@ void j1Player::VerticalMovement(float dt)
 
 void j1Player::Gravity()
 {
-	if(App->GetDT() < 1.0f)
-	{
+
+
 	velocity -= gravity * App->GetDT() * 25;
+
 	int v_y_final = velocity * App->GetDT() * 25;
+
+	if (v_y_final > 50)
+		v_y_final = 50.f;
+	if (v_y_final < -50)
+		v_y_final = -50.f;
+
 	LOG("%i", v_y_final);
 	pos.y -= v_y_final;
-	}
+
 }
 
 void j1Player::ToAction()
