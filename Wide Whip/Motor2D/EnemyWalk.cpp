@@ -14,7 +14,7 @@ bool EnemyWalk::Awake(const pugi::xml_node& walker)
 
 	pugi::xml_node enemy_node = walker.child("enemy");
 
-	Enemy::Awake(enemy_node);
+	Enemy::Awake(walker);
 	text_path = enemy_node.child_value("texture_walker");
 
 	return ret;

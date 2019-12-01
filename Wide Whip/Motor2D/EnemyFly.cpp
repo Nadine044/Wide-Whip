@@ -14,7 +14,7 @@ bool EnemyFly::Awake(const pugi::xml_node& flyer)
 
 	pugi::xml_node enemy_node = flyer.child("enemy");
 
-	Enemy::Awake(enemy_node);
+	Enemy::Awake(flyer);
 	text_path = enemy_node.child_value("texture_flyer");
 
 	return ret;
