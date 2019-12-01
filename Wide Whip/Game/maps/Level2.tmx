@@ -7204,10 +7204,7 @@
   <object id="212" type="WALL" x="2400" y="288" width="32" height="672"/>
   <object id="213" type="WALKENEMY" x="605" y="751" width="94" height="42"/>
   <object id="214" type="WALKENEMY" x="1635" y="559" width="94" height="42"/>
-  <object id="215" type="WALKENEMY" x="1829" y="433" width="94" height="42"/>
-  <object id="217" type="FLYENEMY" x="662" y="352" width="64" height="44"/>
-  <object id="219" type="FLYENEMY" x="1364" y="420" width="64" height="44"/>
+  <object id="219" type="FLYENEMY" x="1184" y="480" width="64" height="44"/>
   <object id="220" type="FLYENEMY" x="1850" y="140" width="64" height="44"/>
-  <object id="221" type="FLYENEMY" x="1656" y="334" width="64" height="44"/>
  </objectgroup>
 </map>

@@ -7267,16 +7267,11 @@
   <object id="145" type="FLYENEMY" x="1415.45" y="706.545" width="64" height="44"/>
   <object id="149" type="WALKENEMY" x="569.333" y="691" width="94" height="42"/>
   <object id="150" type="WALKENEMY" x="2253.91" y="685.909" width="94" height="42"/>
-  <object id="151" type="WALKENEMY" x="1040.88" y="594.152" width="94" height="42"/>
-  <object id="152" type="WALKENEMY" x="3071.18" y="751.727" width="94" height="42"/>
   <object id="153" type="WALKENEMY" x="4016.64" y="430.515" width="94" height="42"/>
-  <object id="155" type="WALKENEMY" x="5968.15" y="497.182" width="94" height="42"/>
   <object id="156" type="FLYENEMY" x="664.97" y="444.667" width="64" height="44"/>
   <object id="157" type="FLYENEMY" x="2722.55" y="590.121" width="64" height="44"/>
   <object id="158" type="FLYENEMY" x="3383.15" y="511.333" width="64" height="44"/>
-  <object id="159" type="FLYENEMY" x="4749.82" y="487.091" width="64" height="44"/>
   <object id="160" type="FLYENEMY" x="5619.52" y="462.848" width="64" height="44"/>
-  <object id="161" type="FLYENEMY" x="6761.94" y="441.636" width="64" height="44"/>
   <object id="162" type="FLYENEMY" x="6971.03" y="574.97" width="64" height="44"/>
  </objectgroup>
 </map>
