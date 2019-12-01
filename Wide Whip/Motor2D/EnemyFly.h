@@ -14,6 +14,8 @@ private:
 	void GoToNextPoint(float dt) override;
 	void MoveNormal(const iPoint * next_point, float dt);
 	void MoveInCollision(const iPoint * next_point, float dt);
+
+	bool CleanUp() override;
 };
 
 #endif // !__ENEMYFLY_H__

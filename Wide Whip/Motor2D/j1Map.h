@@ -9,6 +9,7 @@
 #include "j1App.h"
 #include "j1Textures.h"
 #include "SDL/include/SDL_rect.h"
+#include "j1Player.h"
 #include "Enemy.h"
 // ----------------------------------------------------
 struct MapLayer
@@ -150,6 +151,11 @@ private:
 public:
 
 	MapData data;
+
+	//Entities
+
+	j1Player* player = nullptr;
+	Enemy* enemy = nullptr;
 	Enemy* walk_enemy = nullptr;
 
 private:

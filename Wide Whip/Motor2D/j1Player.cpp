@@ -434,7 +434,7 @@ void j1Player::OnTrigger(Collider* col2)
 	if (col2->tag == TAG::ENEMY && state == PLAYER_STATE::DASHING)
 	{
 		LOG("Attacking enemy");
-		App->module_entity_manager->DeleteEntity(App->map->walk_enemy);
+		App->module_entity_manager->DeleteEntity(App->map->enemy);
 		col2->Disable();
 		state = PLAYER_STATE::LIVE;
 	}

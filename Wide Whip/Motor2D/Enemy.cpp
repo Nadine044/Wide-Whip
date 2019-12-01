@@ -152,6 +152,8 @@ bool Enemy::PostUpdate()
 
 bool Enemy::CleanUp()
 {
+	LOG("Enemy unloaded");
+	App->tex->UnLoad(text);
 	return true;
 }
 

@@ -99,3 +99,10 @@ void EnemyWalk::Gravity()
 	velocity -= gravity;
 	pos.y += -velocity;
 }
+
+bool EnemyWalk::CleanUp()
+{
+	LOG("EnemyWalk unloaded");
+	App->tex->UnLoad(text);
+	return true;
+}
