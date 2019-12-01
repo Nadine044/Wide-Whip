@@ -44,7 +44,7 @@ We programmed the game from scratch in C++ and we used free artwork.
 
 - F10 God mode.
 
--F11 Cap ON / OFF.
+- F11 Cap ON / OFF.
 
 ## Links
 
