@@ -77,6 +77,7 @@ bool j1Player::Awake(const pugi::xml_node& config)
 	dash.LoadAnimation(animations_node.child("dash"));
 	climb.LoadAnimation(animations_node.child("climb"));
 	fall.LoadAnimation(animations_node.child("fall"));
+	attack.LoadAnimation(animations_node.child("attack"));
 
 	pugi::xml_node audio_node = player_node.child("audios");
 
@@ -220,6 +221,12 @@ bool j1Player::Update(float dt)
 
 
 		break;
+
+	case PLAYER_STATE::ATTACK:
+
+		current_animation = &attack;
+
+		break;
 	case PLAYER_STATE::DEAD:
 
 		current_animation = &death;
@@ -310,13 +317,13 @@ void j1Player::CheckDebugKeys()
 
 void j1Player::VerticalMovement(float dt)
 {
-	int final_v = speed * dt;
+	int final_speed = speed * dt;
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
-		pos.y -= final_v;
+		pos.y -= final_speed;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-		pos.y += final_v;
+		pos.y += final_speed;
 	}
 }
 
@@ -418,6 +425,11 @@ void j1Player::OnTrigger(Collider* col2)
 	if (col2->tag == TAG::WATER)
 	{
 		Death();
+	}
+
+	if (col2->tag == TAG::ENEMY)
+	{
+		Death();		
 	}
 	//Acces to the other colldier when a collision is checked.
 	//Do Something when a collisions is checked.
@@ -538,5 +550,10 @@ bool j1Player::Load(pugi::xml_node& save_file)
 float j1Player::GetVelocity() const
 {
 	return velocity;
+}
+
+void j1Player::Attack()
+{
+
 }
 

@@ -42,6 +42,9 @@ bool Enemy::Start()
 	LOG("Loading Enemy textures");
 	bool ret = true;
 
+	pos.x = col->rect.x;
+	pos.y = col->rect.y;
+
 	text = App->tex->Load(text_path.GetString());
 
 	flip = SDL_FLIP_NONE;
@@ -110,7 +113,6 @@ bool Enemy::Update(float dt)
 				time_to_pathfind_start = SDL_GetTicks();
 				App->pathfinding_module->CreatePath(path, App->map->WorldToMap(pos + p), App->map->WorldToMap(App->module_entity_manager->getPlayer()->pos + App->module_entity_manager->getPlayer()->pivot_down_central));
 			}
-
 			GoToNextPoint(dt);
 		}
 		break;
@@ -162,7 +164,9 @@ void Enemy::OnTrigger(Collider* col2)
 			VerticalDirection = VerticalMovementDirection::NO_DIRECTION; //reset Direction in vertical movement to avoid tremors.
 	}
 	if (col2->tag == TAG::PLAYER)
-		LOG("PLayer");
+	{
+		LOG("Enemy attacking Player");
+	}
 }
 
 bool Enemy::Save(pugi::xml_node& save_file) const

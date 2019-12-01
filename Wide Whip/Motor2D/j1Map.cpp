@@ -502,12 +502,14 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 		{
 			Enemy* enemy = (Enemy*)App->module_entity_manager->CreateEntity(EntityType::FLYENEMY, rect_object);
 			App->collisions->enemyWalkable = enemy->col;
+			//Collider* ret = App->collisions->AddCollider(pos, w, h, TAG::ENEMY, Red);
 		}
 
 		else if (type == "WALKENEMY")
 		{
 			Enemy* enemy = (Enemy*)App->module_entity_manager->CreateEntity(EntityType::WALKENEMY, rect_object);
 			App->collisions->enemyWalkable = enemy->col;
+			//Collider* ret = App->collisions->AddCollider(pos, w, h, TAG::ENEMY, Red);
 		}
 
 		else if (type == "WALL")

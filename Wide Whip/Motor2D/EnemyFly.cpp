@@ -28,9 +28,10 @@ void EnemyFly::GoToNextPoint(float dt)
 
 void EnemyFly::MoveNormal(const iPoint * next_point, float dt)
 {
-	int final_speed = speed * dt;
 	// Normal movement (tiles)
 	// All coordinates in map.
+
+	int final_speed = speed * dt;
 
 	const iPoint* current_point = path.At(path.Count() - 1); // path is array. Start from 0. Last is Count()-1. Current is the last cause the path start from the destination (player) to origin (enemy). 
 

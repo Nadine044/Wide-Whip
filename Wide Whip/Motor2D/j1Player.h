@@ -25,6 +25,7 @@ enum class PLAYER_STATE
 	LIVE = 0,
 	DASHING,
 	CLIMBING,
+	ATTACK,
 	DEAD,
 	GOD,
 	UNKNOWN
@@ -81,6 +82,7 @@ public:
 	Animation		dash;
 	Animation		climb;
 	Animation		fall;
+	Animation		attack;
 
 
 	FX jump_fx;
@@ -102,6 +104,8 @@ private:
 	void Movement(float dt);
 
 	void VerticalMovement(float dt);
+
+	void Attack();
 
 	void Revive();
 

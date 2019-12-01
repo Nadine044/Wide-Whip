@@ -120,12 +120,13 @@ bool ModuleCollision::Start()
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::WALL] = true;
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::PLATFORM] = true;
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::CHANGE_LEVEL] = true;
+	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::ENEMY] = true;
 
 	//PHYSICS MATRIX to overlap WALKABLE ENEMY
 	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::WALL] = true;
 	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::PLATFORM] = true;
-	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::CHANGE_LEVEL] = true;
-	
+	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::PLAYER] = true;
+
 	return true;
 }
 
@@ -233,7 +234,6 @@ bool ModuleCollision::Update(float dt)
 			}
 		}
 
-
 		//Dynamics vs Dynamics (only detect, no overlap)
 
 		for (collider1 = colliders_dynamic_list.start; collider1; collider1 = collider1->next)
@@ -247,7 +247,7 @@ bool ModuleCollision::Update(float dt)
 						if (collider1->data->CheckColision(collider2->data))
 						{
 							if (trigger_matrix[(uint)collider1->data->tag][(uint)collider2->data->tag])
-								collider1->data->object->OnTrigger(collider2->data); 
+								collider1->data->object->OnTrigger(collider2->data);
 						}
 						else
 						{
