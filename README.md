@@ -22,7 +22,7 @@ We programmed the game from scratch in C++ and we used free artwork.
 
 - Space jump.
 
-- Left Shift dash.
+- Left Shift dash (Attack).
 
 - Keeping A or D to grab the wall.
 
