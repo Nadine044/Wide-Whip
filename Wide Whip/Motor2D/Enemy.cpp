@@ -91,8 +91,8 @@ bool Enemy::PreUpdate()
 bool Enemy::Update(float dt)
 {
 	iPoint p;
-	p.x = col->rect.w * 0.5f * dt;
-	p.y = col->rect.h * 0.5f * dt;
+	p.x = col->rect.w * 0.5f;
+	p.y = col->rect.h * 0.5f;
 
 	switch (state)
 	{
@@ -109,10 +109,8 @@ bool Enemy::Update(float dt)
 			{
 				time_to_pathfind_start = SDL_GetTicks();
 				App->pathfinding_module->CreatePath(path, App->map->WorldToMap(pos + p), App->map->WorldToMap(App->module_entity_manager->getPlayer()->pos + App->module_entity_manager->getPlayer()->pivot_down_central));
-				LOG("pathfinding");
 			}
-			else
-				LOG("WAITING");
+
 			GoToNextPoint(dt);
 		}
 		break;
@@ -163,6 +161,8 @@ void Enemy::OnTrigger(Collider* col2)
 		if (col->last_colision_direction == DISTANCE_DIR::UP || col->last_colision_direction == DISTANCE_DIR::DOWN)
 			VerticalDirection = VerticalMovementDirection::NO_DIRECTION; //reset Direction in vertical movement to avoid tremors.
 	}
+	if (col2->tag == TAG::PLAYER)
+		LOG("PLayer");
 }
 
 bool Enemy::Save(pugi::xml_node& save_file) const

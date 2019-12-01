@@ -15,6 +15,7 @@ void EnemyWalk::GoToNextPoint(float dt)
 
 	if (next_point != nullptr)
 	{
+		int final_speed = speed * dt;
 		const iPoint* current_point = path.At(path.Count() - 1); // path is array. Start from 0. Last is Count()-1. Current is the last cause the path start from the destination (player) to origin (enemy). 
 
 		const iPoint* next_point_x = next_point; //next point in axis x.
@@ -43,12 +44,16 @@ void EnemyWalk::GoToNextPoint(float dt)
 			if (ground != nullptr)
 			{
 				if (ground->rect.x + ground->rect.w > pos.x + col->rect.w)
+				{
 					flip = SDL_FLIP_HORIZONTAL;
-				pos.x += speed * dt;
+					pos.x += final_speed;
+				}
 			}
 			else
+			{
 				flip = SDL_FLIP_HORIZONTAL;
-				pos.x += speed * dt;
+				pos.x += final_speed;
+			}
 		}
 		else if (enemy_pivot_central_down_map.x > next_point_x->x)		
 		{
@@ -56,14 +61,16 @@ void EnemyWalk::GoToNextPoint(float dt)
 			if (ground != nullptr)
 			{
 				if (ground->rect.x < pos.x)
-					pos.x -= speed * dt;
+					pos.x -= final_speed;
 				if(flip == SDL_FLIP_HORIZONTAL)
 					flip = SDL_FLIP_NONE;
 			}
 			else
+			{
 				if (flip == SDL_FLIP_HORIZONTAL)
 					flip = SDL_FLIP_NONE;
-				pos.x -= speed * dt;
+				pos.x -= final_speed;
+			}
 		}
 	}
 	
@@ -71,6 +78,7 @@ void EnemyWalk::GoToNextPoint(float dt)
 
 void EnemyWalk::OnTrigger(Collider* col2)
 {
+	Enemy::OnTrigger(col2);
 	if (col2->tag == TAG::WALL && col->last_colision_direction == DISTANCE_DIR::UP)
 	{
 		velocity = 0;

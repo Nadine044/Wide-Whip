@@ -310,12 +310,13 @@ void j1Player::CheckDebugKeys()
 
 void j1Player::VerticalMovement(float dt)
 {
+	int final_v = speed * dt;
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
-		pos.y -= speed * dt;
+		pos.y -= final_v;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-		pos.y += speed * dt;
+		pos.y += final_v;
 	}
 }
 

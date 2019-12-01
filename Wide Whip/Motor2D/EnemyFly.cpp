@@ -28,6 +28,7 @@ void EnemyFly::GoToNextPoint(float dt)
 
 void EnemyFly::MoveNormal(const iPoint * next_point, float dt)
 {
+	int final_speed = speed * dt;
 	// Normal movement (tiles)
 	// All coordinates in map.
 
@@ -60,15 +61,15 @@ void EnemyFly::MoveNormal(const iPoint * next_point, float dt)
 	// ---------------MOVEMENT-------------------
 	// Horizontal
 	if (pos_central_map.x < next_point_x->x)			// Right
-		pos.x += speed * dt;
+		pos.x += final_speed;
 	else if (pos_central_map.x > next_point_x->x)		// Left
-		pos.x -= speed * dt;
+		pos.x -= final_speed;
 
 	// Vertical
 	if (pos_central_map.y < next_point_y->y)			// Down
-		pos.y += speed * dt;
+		pos.y += final_speed;
 	else if (pos_central_map.y > next_point_y->y)		// Up
-		pos.y -= speed * dt;
+		pos.y -= final_speed;
 
 }
 
