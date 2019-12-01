@@ -6,8 +6,6 @@
 #include "j1Player.h"
 #include "j1Map.h"
 
-#define VSYNC true
-
 j1Render::j1Render() : j1Module()
 {
 	name.create("renderer");
@@ -31,6 +29,7 @@ bool j1Render::Awake(pugi::xml_node& config)
 
 	if(config.child("vsync").attribute("value").as_bool(true) == true)
 	{
+		vsync_active = true;
 		flags |= SDL_RENDERER_PRESENTVSYNC;
 		LOG("Using vsync");
 	}
@@ -122,6 +121,17 @@ void j1Render::SetViewPort(const SDL_Rect& rect)
 void j1Render::ResetViewPort()
 {
 	SDL_RenderSetViewport(renderer, &viewport);
+}
+
+iPoint j1Render::ScreenToWorld(int x, int y) const
+{
+	iPoint ret;
+	int scale = App->win->GetScale();
+
+	ret.x = (x - camera.x / scale);
+	ret.y = (y - camera.y / scale);
+
+	return ret;
 }
 
 // Blit to screen
@@ -246,4 +256,9 @@ bool j1Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, U
 	}
 
 	return ret;
+}
+
+const bool j1Render::IsVsyncActive() const
+{
+	return vsync_active;
 }

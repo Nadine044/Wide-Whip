@@ -96,7 +96,7 @@ bool ModuleFadeToBlack::Save(pugi::xml_node &save_file) const
 	save_file.append_child("current_step").append_attribute("value") = current_step;
 
 
-	if (App->module_entity_manager->getPlayer()->GetReviveBoolAdress() == to_active)
+	if (App->module_entity_manager->GetPlayer()->GetReviveBoolAdress() == to_active)
 	{
 		save_file.append_child("test").append_attribute("value") = "revive";
 	}
@@ -130,10 +130,10 @@ bool ModuleFadeToBlack::Load(pugi::xml_node &save_file)
 	total_time = (Uint32)(save_file.child("total_time").attribute("value").as_uint());
 	start_time = SDL_GetTicks(); //- now;
 	current_step = (fade_step)(save_file.child("current_step").attribute("value").as_int());
-	p2SString name = save_file.child("test").attribute("value").as_string();
+	p2String name = save_file.child("test").attribute("value").as_string();
 	if (name == "revive")
 	{
-		to_active = App->module_entity_manager->getPlayer()->GetReviveBoolAdress();
+		to_active = App->module_entity_manager->GetPlayer()->GetReviveBoolAdress();
 	}
 
 	else if (name == "change_to_level_1")

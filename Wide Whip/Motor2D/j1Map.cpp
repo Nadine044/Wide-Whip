@@ -10,6 +10,7 @@
 #include "Enemy.h"
 #include "Colors.h"
 #include "ModuleEntityManager.h"
+#include "j1Input.h"
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
@@ -35,6 +36,10 @@ void j1Map::Draw()
 {
 	if(map_loaded == false)
 		return;
+
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		draw_debug = !draw_debug;
+
 	p2List_item<TileSet*>* tileset = nullptr;
 	p2List_item<MapLayer*>* layer = nullptr;
 	p2List_item<ImageLayers*>* image_layers = nullptr;
@@ -83,11 +88,33 @@ void j1Map::Draw()
 					SDL_Rect section = tileset->data->GetRectFromID(layer->data->GetID(x, y));
 					if (IsOnCamera(SDL_Rect{ pos_in_world.x , pos_in_world.y, data.tile_width, data.tile_height})) //Culling
 						App->render->Blit(tileset->data->texture, pos_in_world.x, pos_in_world.y, &section, layer->data->parallax_vel);
-				
+
+
 				}
+		
 			}
 		}
 	}
+
+	if (draw_debug)
+	{
+		for (uint y = 0; y < data.layers.start->data->height_in_tiles; ++y)
+		{
+			iPoint pos_in_world = MapToWorld(iPoint(0, y));
+			if (pos_in_world.y < -App->render->camera.y + App->render->camera.h && pos_in_world.y > -App->render->camera.y) // Culling in camera
+				App->render->DrawLine(-App->render->camera.x, pos_in_world.y, -App->render->camera.x + App->render->camera.w, pos_in_world.y, 255, 255, 255);
+
+		}
+
+		for (uint x = 0; x < data.layers.start->data->width_in_tiles; ++x)
+		{
+
+			iPoint pos_in_world = MapToWorld(iPoint(x, 0));
+			if (pos_in_world.x < -App->render->camera.x + App->render->camera.w && pos_in_world.x > -App->render->camera.x) // Culling in camera
+				App->render->DrawLine(pos_in_world.x, -App->render->camera.y, pos_in_world.x, -App->render->camera.y + App->render->camera.h, 255, 255, 255);
+		}
+	}
+
 }
 
 bool j1Map::PostUpdate()
@@ -192,7 +219,7 @@ TileSet::~TileSet()
 bool j1Map::Load(const char* file_name)
 {
 	bool ret = true;
-	p2SString tmp("%s%s", folder.GetString(), file_name);
+	p2String tmp("%s%s", folder.GetString(), file_name);
 
 	pugi::xml_parse_result result = map_file.load_file(tmp.GetString());
 
@@ -320,7 +347,7 @@ bool j1Map::LoadMap()
 		data.height = map.attribute("height").as_int();
 		data.tile_width = map.attribute("tilewidth").as_int();
 		data.tile_height = map.attribute("tileheight").as_int();
-		p2SString bg_color(map.attribute("backgroundcolor").as_string());
+		p2String bg_color(map.attribute("backgroundcolor").as_string());
 
 		data.background_color.r = 0;
 		data.background_color.g = 0;
@@ -329,7 +356,7 @@ bool j1Map::LoadMap()
 
 		if(bg_color.Length() > 0)
 		{
-			p2SString red, green, blue;
+			p2String red, green, blue;
 			bg_color.SubString(1, 2, red);
 			bg_color.SubString(3, 4, green);
 			bg_color.SubString(5, 6, blue);
@@ -346,7 +373,7 @@ bool j1Map::LoadMap()
 			if(v >= 0 && v <= 255) data.background_color.b = v;
 		}
 
-		p2SString orientation(map.attribute("orientation").as_string());
+		p2String orientation(map.attribute("orientation").as_string());
 
 		if(orientation == "orthogonal")
 		{
@@ -463,18 +490,29 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 
 		SDL_Rect rect_object = { pos.x, pos.y, w, h };
 
-		p2SString type = object.attribute("type").as_string();
+		p2String type = object.attribute("type").as_string();
 
 		if (type == "PLAYER")
 		{
-			j1Player* player = (j1Player*)App->module_entity_manager->CreateEntity(EntityType::PLAYER, rect_object);
+			Player* player = nullptr;
+			player = (Player*)App->module_entity_manager->CreateEntity(EntityType::PLAYER, rect_object);
 			App->collisions->player = player->col;
 		}
 
-		else if (type == "ENEMY")
+		else if (type == "FLYENEMY")
 		{
-			Enemy* firstEnemyWalkable = (Enemy*)App->module_entity_manager->CreateEntity(EntityType::ENEMY, rect_object);
-			App->collisions->enemyWalkable = firstEnemyWalkable->col;
+			Enemy* flyer_enemy1 = nullptr;
+			flyer_enemy1 = (Enemy*)App->module_entity_manager->CreateEntity(EntityType::FLYENEMY, rect_object);
+			App->collisions->enemyWalkable = flyer_enemy1->col;
+			//Collider* ret = App->collisions->AddCollider(pos, w, h, TAG::ENEMY, Red);
+		}
+
+		else if (type == "WALKENEMY")
+		{
+			Enemy* walker_enemy1 = nullptr;
+			walker_enemy1 = (Enemy*)App->module_entity_manager->CreateEntity(EntityType::WALKENEMY, rect_object);
+			App->collisions->enemyWalkable = walker_enemy1->col;
+			//Collider* ret = App->collisions->AddCollider(pos, w, h, TAG::ENEMY, Red);
 		}
 
 		else if (type == "WALL")

@@ -39,6 +39,7 @@ const bool Collider::IsToDelete() const
 
 void Collider::Remove()
 {
+	Disable();
 	to_delete = true;
 }
 
@@ -112,7 +113,6 @@ bool ModuleCollision::Start()
 	trigger_matrix[(uint)TAG::ENEMY][(uint)TAG::WALL] = true;
 	trigger_matrix[(uint)TAG::ENEMY][(uint)TAG::PLATFORM] = true;
 	trigger_matrix[(uint)TAG::ENEMY][(uint)TAG::WATER] = true;
-	trigger_matrix[(uint)TAG::ENEMY][(uint)TAG::CHANGE_LEVEL] = true;
 	trigger_matrix[(uint)TAG::ENEMY][(uint)TAG::PLAYER] = true;
 	
 
@@ -121,12 +121,13 @@ bool ModuleCollision::Start()
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::WALL] = true;
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::PLATFORM] = true;
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::CHANGE_LEVEL] = true;
+	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::ENEMY] = true;
 
 	//PHYSICS MATRIX to overlap WALKABLE ENEMY
 	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::WALL] = true;
 	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::PLATFORM] = true;
-	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::CHANGE_LEVEL] = true;
-	
+	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::PLAYER] = true;
+
 	return true;
 }
 
@@ -224,6 +225,30 @@ bool ModuleCollision::Update(float dt)
 								collider1->data->object->OnTrigger(collider2->data); //mytodo
 
 
+						}
+						else
+						{
+							collider2->data->first_time_collision = true;
+						}
+					}
+				}
+			}
+		}
+
+		//Dynamics vs Dynamics (only detect, no overlap)
+
+		for (collider1 = colliders_dynamic_list.start; collider1; collider1 = collider1->next)
+		{
+			if (collider1->data->IsEnabled())
+			{
+				for (collider2 = colliders_dynamic_list.start; collider2; collider2 = collider2->next)
+				{
+					if (collider2->data->IsEnabled() && collider1 != collider2)
+					{
+						if (collider1->data->CheckColision(collider2->data))
+						{
+							if (trigger_matrix[(uint)collider1->data->tag][(uint)collider2->data->tag])
+								collider1->data->object->OnTrigger(collider2->data);
 						}
 						else
 						{
@@ -339,7 +364,7 @@ DISTANCE_DIR ModuleCollision::OverlapDS(Collider* c_dynamic, Collider* c_static)
 	c_dynamic->UpdatePos(c_dynamic->object->pos);
 	if (player->object->type == EntityType::PLAYER)
 	{
-		j1Player* _player = (j1Player*)player->object;
+		Player* _player = (Player*)player->object;
 		_player->UpdateCameraPos();
 	}
 
@@ -399,7 +424,7 @@ DISTANCE_DIR ModuleCollision::OverlapPlatform(Collider* c_dynamic, Collider* c_s
 
 		if (player->object->type == EntityType::PLAYER)
 		{
-			j1Player* _player = (j1Player*)player->object;
+			Player* _player = (Player*)player->object;
 			_player->UpdateCameraPos();
 		}
 		

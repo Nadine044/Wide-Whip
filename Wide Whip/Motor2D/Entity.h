@@ -5,6 +5,7 @@
 #include "PugiXml\src\pugixml.hpp"
 #include "SDL/include/SDL_render.h"
 #include "p2SString.h"
+#include "j1Audio.h"
 
 class Collider;
 class Animation;
@@ -15,7 +16,8 @@ enum class EntityType
 	NO_TYPE = -1,
 
 	PLAYER,
-	ENEMY,
+	FLYENEMY,
+	WALKENEMY,
 
 	MAX	
 };
@@ -43,11 +45,11 @@ public:
 
 	void Draw() const;
 
-	float GetVelocity();
+	const float GetVelocity() const ;
 
 public:
 	EntityType			type = EntityType::NO_TYPE;
-	p2SString			name = "entity";
+	p2String			name = "entity";
 	iPoint				pos = { 0, 0 };
 	SDL_Texture*		text = nullptr;
 	Animation*			current_animation = nullptr;
@@ -56,11 +58,20 @@ public:
 	int					offset_animation_x = 0;
 
 	SDL_RendererFlip	flip = SDL_FLIP_NONE;
+	iPoint pivot_down_central;
+	iPoint pivot_up_central;
+
 
 
 protected:
+	int					dt_multiplied = 0;
 
 	float				velocity = 0.0f;
+	float				velocity_x = 0.0f;
+	float				velocity_y = 0.0f;
+
+	int					speed = 0;
+	float				gravity = 0.f;
 
 };
 

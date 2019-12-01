@@ -25,6 +25,7 @@ enum class PLAYER_STATE
 	LIVE = 0,
 	DASHING,
 	CLIMBING,
+	ATTACK,
 	DEAD,
 	GOD,
 	UNKNOWN
@@ -32,14 +33,14 @@ enum class PLAYER_STATE
 
 
 
-class j1Player : public Entity
+class Player : public Entity
 {
 public:
 
-	j1Player(SDL_Rect& rect);
+	Player(SDL_Rect& rect);
 
 	//Destructor
-	~j1Player();
+	~Player();
 
 	//Called before render is available
 	bool Awake(const pugi::xml_node& player) override;
@@ -48,7 +49,7 @@ public:
 	bool Start();
 		
 	bool Update(float dt) override;
-	void JumpHorizontal();
+	void JumpHorizontal(float dt);
 
 	bool PostUpdate() override;
 
@@ -73,6 +74,30 @@ public:
 
 	//New player
 
+	
+
+	
+
+private:
+
+	void CheckDebugKeys();
+
+	void Gravity(float dt);
+
+	void ToAction();
+
+	void Movement(float dt);
+
+	void VerticalMovement(float dt);
+
+	void Attack();
+
+	void Revive();
+
+	void Death();
+
+private:
+
 	Animation		jump;
 	Animation		idle;
 
@@ -81,39 +106,16 @@ public:
 	Animation		dash;
 	Animation		climb;
 	Animation		fall;
+	Animation		attack;
 
 
 	FX jump_fx;
 	FX dash_fx;
 	FX death_init_fx;
 	FX death_finish_fx;
-	FX dashtest;
-
-	
-
-private:
-
-	void CheckDebugKeys();
-
-	void Gravity();
-
-	void ToAction();
-
-	void Movement();
-
-	void VerticalMovement();
-
-	void Revive();
-
-	void Death();
-
-
-	bool Draw() const;
-
-private:
 
 	//SDL_Texture*		text							= nullptr;
-	p2SString			text_path;
+	p2String			text_path;
 
 	SDL_Rect			rect_limit_camera;
 
@@ -122,7 +124,6 @@ private:
 	int					map_left_offset					= 0;
 
 	uint				jump_force						= 0u;
-	float				gravity							= 0.f;
 
 	int					dash_force						= 0;
 	float				velocity_dash					= 0.0f;
@@ -134,8 +135,6 @@ private:
 	float				resistance_jump_clinged			= 0.0f;
 
 	bool				jump_h_right = false;
-
-	int					speed							= 0;
 
 	
 	bool				dead_jumping					= false;
@@ -154,8 +153,11 @@ private:
 	Uint32				time_to_do_fade_to_black		= 0u;
 	float				time_in_fade					= 0.0f;
 
-	int				offset_value						= 0;
+	int					offset_value					= 0;
 
+	float				max_speed						= 0.0f;
+	float				min_speed						= 0.0f;
+	float				dt_multiplied					= 0.0f;
 
 };
 

@@ -14,14 +14,16 @@
 #include "Brofiler/Brofiler.h"
 
 
-j1Player::j1Player(SDL_Rect& rect) : Entity(EntityType::PLAYER, rect)
-{}
+Player::Player(SDL_Rect& rect) : Entity(EntityType::PLAYER, rect)
+{
+	name = "Player";
+}
 
 //Destructor
-j1Player::~j1Player()
+Player::~Player()
 {}
 
-bool j1Player::Awake(const pugi::xml_node& config)
+bool Player::Awake(const pugi::xml_node& config)
 {
 
 	LOG("Loading Player Parser");
@@ -34,6 +36,8 @@ bool j1Player::Awake(const pugi::xml_node& config)
 	time_to_jump						= (Uint32)(time_in_fade_node.attribute("time_to_jump").as_float() * 1000.0f);
 	time_in_fade						= time_in_fade_node.attribute("time_in_fade").as_float();
 
+	dt_multiplied						= config.previous_sibling("app").child("dt_multiplied").attribute("value").as_int();
+
 	pugi::xml_node rect_limit			= player_node.child("rect_limit_camera_border");
 	rect_limit_camera_border_x			= rect_limit.attribute("x").as_int();
 	rect_limit_camera_border_y			= rect_limit.attribute("y").as_int();
@@ -45,7 +49,7 @@ bool j1Player::Awake(const pugi::xml_node& config)
 	jump_force							= player_node.child("jump_force").attribute("value").as_uint();
 	gravity								= player_node.child("gravity").attribute("value").as_float();
 
-	dash_force							= player_node.child("dash_force").attribute("value").as_int();
+	dash_force							= player_node.child("dash_force").attribute("value").as_float();
 	resistance_dash						= player_node.child("resistance_dash").attribute("value").as_float();
 
 
@@ -54,6 +58,8 @@ bool j1Player::Awake(const pugi::xml_node& config)
 	resistance_jump_clinged				= player_node.child("resistance_jump_clinged").attribute("value").as_float();
 
 	speed								= player_node.child("speed").attribute("value").as_int();
+	max_speed							= player_node.child("max_speed").attribute("value").as_int();
+	min_speed							= player_node.child("min_speed").attribute("value").as_int();
 
 	text_path							= player_node.child_value("texture");
 
@@ -75,6 +81,7 @@ bool j1Player::Awake(const pugi::xml_node& config)
 	dash.LoadAnimation(animations_node.child("dash"));
 	climb.LoadAnimation(animations_node.child("climb"));
 	fall.LoadAnimation(animations_node.child("fall"));
+	attack.LoadAnimation(animations_node.child("attack"));
 
 	pugi::xml_node audio_node = player_node.child("audios");
 
@@ -92,17 +99,19 @@ bool j1Player::Awake(const pugi::xml_node& config)
 	return ret;
 }
 
-bool j1Player::Start()
+bool Player::Start()
 {
 
 	LOG("Loading Player textures");
 	bool ret = true;
 
-	//pos.x = col->rect.x;
-	//pos.y = col->rect.y;	
+	pos.x = col->rect.x;
+	pos.y = col->rect.y;	
+
+	velocity = 0.f;
 
 	//App->player->Load("XMLs/player.xml");
-	//App->module_entity_manager->getPlayer()->Load("XMLs/player.xml");
+	//App->module_entity_manager->GetPlayer()->Load("XMLs/player.xml");
 	
 	text = App->tex->Load(text_path.GetString());
 
@@ -120,7 +129,7 @@ bool j1Player::Start()
 	return ret;
 }
 
-void j1Player::UpdateCameraPos()
+void Player::UpdateCameraPos()
 {
 	BROFILER_CATEGORY("PlayerUpdateCameraPos", Profiler::Color::Green);
 
@@ -153,7 +162,7 @@ void j1Player::UpdateCameraPos()
 
 }
 
-bool j1Player::Update(float dt)
+bool Player::Update(float dt)
 {
 	BROFILER_CATEGORY("PlayerUpdate", Profiler::Color::Green);
 
@@ -168,11 +177,11 @@ bool j1Player::Update(float dt)
 
 		ToAction();
 
-		Movement();
+		Movement(dt);
 
-		Gravity();
+		Gravity(dt);
 
-		JumpHorizontal();
+		JumpHorizontal(dt);
 
 		UpdateCameraPos();
 
@@ -180,14 +189,14 @@ bool j1Player::Update(float dt)
 
 		break;
 	case PLAYER_STATE::DASHING:
-		pos.x += velocity_dash;
+		pos.x += velocity_dash * dt * dt_multiplied;
 
 		current_animation = &dash;
 
 		
 		 if (flip == SDL_RendererFlip::SDL_FLIP_NONE)
 		 {
-			 velocity_dash -= resistance_dash;
+			 velocity_dash -= resistance_dash * dt * dt_multiplied;
 			 if (velocity_dash <= 0.0f)
 			 {
 				 state = PLAYER_STATE::LIVE;
@@ -195,7 +204,7 @@ bool j1Player::Update(float dt)
 		 }
 		 else
 		 {
-			 velocity_dash += resistance_dash;
+			 velocity_dash += resistance_dash * dt * dt_multiplied;
 			 if (velocity_dash >= 0.0f)
 			 {
 				 state = PLAYER_STATE::LIVE;
@@ -220,6 +229,12 @@ bool j1Player::Update(float dt)
 
 
 		break;
+
+	case PLAYER_STATE::ATTACK:
+
+		current_animation = &attack;
+
+		break;
 	case PLAYER_STATE::DEAD:
 
 		current_animation = &death;
@@ -234,7 +249,7 @@ bool j1Player::Update(float dt)
 
 		if (dead_jumping)
 		{
-			Gravity();
+			Gravity(dt);
 			if (SDL_GetTicks() - start_time >= time_to_do_fade_to_black)
 			{
 				App->fade_to_black->FadeToBlack(revive, time_in_fade);
@@ -250,9 +265,9 @@ bool j1Player::Update(float dt)
 		break;
 	case PLAYER_STATE::GOD:
 
-		Movement();
+		Movement(dt);
 
-		VerticalMovement();
+		VerticalMovement(dt);
 
 		UpdateCameraPos();
 
@@ -269,27 +284,27 @@ bool j1Player::Update(float dt)
 		offset_animation_x = 0;
 
 	CheckDebugKeys();
-	col->UpdatePos(pos);
+
 	return true;
 }
 
-void j1Player::JumpHorizontal()
+void Player::JumpHorizontal(float dt)
 {
 	BROFILER_CATEGORY("PlayerJumpHorizontal", Profiler::Color::Green);
 
 	if (velocity_jump_clinged < 0 && !jump_h_right)
 	{
-		pos.x += velocity_jump_clinged;
-		velocity_jump_clinged += resistance_jump_clinged;
+		pos.x += velocity_jump_clinged * dt * dt_multiplied;
+		velocity_jump_clinged += resistance_jump_clinged * dt * dt_multiplied;
 	}
 	else if (velocity_jump_clinged > 0 && jump_h_right)
 	{
-		pos.x += velocity_jump_clinged;
-		velocity_jump_clinged -= resistance_jump_clinged;
+		pos.x += velocity_jump_clinged * dt * dt_multiplied;
+		velocity_jump_clinged -= resistance_jump_clinged * dt * dt_multiplied;
 	}
 }
 
-void j1Player::CheckDebugKeys()
+void Player::CheckDebugKeys()
 {
 	BROFILER_CATEGORY("PlayerCheckDebugKeys", Profiler::Color::Green);
 
@@ -312,28 +327,42 @@ void j1Player::CheckDebugKeys()
 		draw_debug = !draw_debug;
 }
 
-void j1Player::VerticalMovement()
+void Player::VerticalMovement(float dt)
 {
 	BROFILER_CATEGORY("PlayerVerticalMovement", Profiler::Color::Green);
 
+	int final_speed = speed * dt;
+
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
-		pos.y -= speed;
+		pos.y -= final_speed;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-		pos.y += speed;
+		pos.y += final_speed;
 	}
 }
 
-void j1Player::Gravity()
+void Player::Gravity(float dt)
 {
+
 	BROFILER_CATEGORY("PlayerGravity", Profiler::Color::Green);
 
-	velocity -= gravity;
-	pos.y += -velocity;
+	velocity -= gravity * dt * dt_multiplied;
+
+	int v_y_final = velocity * dt * dt_multiplied;
+
+	if (v_y_final > max_speed)
+		v_y_final = max_speed;
+
+	if (v_y_final < min_speed)
+		v_y_final = min_speed;
+
+	LOG("%i", v_y_final);
+	pos.y -= v_y_final;
+
 }
 
-void j1Player::ToAction()
+void Player::ToAction()
 {
 	BROFILER_CATEGORY("PlayerToAction", Profiler::Color::Green);
 
@@ -353,7 +382,7 @@ void j1Player::ToAction()
 			state = PLAYER_STATE::LIVE;
 			clinging = false;
 			current_animation = &jump;
-			velocity = jump_force *0.75f; //jump less
+			velocity = jump_force * 0.75f;//jump less
 			jumped = true;
 			jump_h_right ? velocity_jump_clinged = jump_clinged_force_left : velocity_jump_clinged = -jump_clinged_force_right;
 		}
@@ -371,16 +400,18 @@ void j1Player::ToAction()
 	}
 }
 
-void j1Player::Movement()
+void Player::Movement(float dt)
 {
 	BROFILER_CATEGORY("PlayerMovement", Profiler::Color::Green);
+
+	int final_v = speed * dt;
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 
 		if (current_animation != &jump && current_animation != &fall)
 			current_animation = &walk;
 
-		pos.x -= speed;
+		pos.x -= final_v;
 		flip = SDL_FLIP_HORIZONTAL;
 	}
 
@@ -389,13 +420,13 @@ void j1Player::Movement()
 		if (current_animation != &jump && current_animation != &fall)
 			current_animation = &walk;
 
-		pos.x += speed;
+		pos.x += final_v;
 		flip = SDL_FLIP_NONE;
 		
 	}
 }
 
-void j1Player::Revive()
+void Player::Revive()
 {
 	BROFILER_CATEGORY("PlayerRevive", Profiler::Color::Green);
 
@@ -404,7 +435,7 @@ void j1Player::Revive()
 	App->scene->StartThisLevel();
 }
 
-bool j1Player::PostUpdate()
+bool Player::PostUpdate()
 {
 	BROFILER_CATEGORY("PlayerPostUpdate", Profiler::Color::Green);
 
@@ -415,7 +446,7 @@ bool j1Player::PostUpdate()
 	return true;
 }
 
-void j1Player::OnTrigger(Collider* col2)
+void Player::OnTrigger(Collider* col2)
 {
 	BROFILER_CATEGORY("PlayerOnTrigger", Profiler::Color::Green);
 
@@ -423,9 +454,22 @@ void j1Player::OnTrigger(Collider* col2)
 	{
 		Death();
 	}
+
+	if (col2->tag == TAG::ENEMY && state == PLAYER_STATE::DASHING)
+	{
+		LOG("Attacking enemy");
+		Enemy* enemy1 = (Enemy*)(col2->object);
+		App->audio->PlayFx(enemy1->slime_death.id);
+		App->module_entity_manager->DeleteEntity(col2->object);
+	}
+	else if (col2->tag == TAG::ENEMY)
+	{
+		Death();		
+	}
+
+
 	//Acces to the other colldier when a collision is checked.
 	//Do Something when a collisions is checked.
-	LOG("it's this a collision!");
 	if (col->last_colision_direction == DISTANCE_DIR::UP && velocity <= 0.0f)
 	{
 		velocity = 0.0f;
@@ -475,7 +519,7 @@ void j1Player::OnTrigger(Collider* col2)
 
 }
 
-void j1Player::Death()
+void Player::Death()
 {
 	BROFILER_CATEGORY("PlayerDeath", Profiler::Color::Green);
 
@@ -488,7 +532,7 @@ void j1Player::Death()
 
 
 
-bool j1Player::CleanUp()
+bool Player::CleanUp()
 {
 	BROFILER_CATEGORY("PlayerCleanUp", Profiler::Color::Green);
 
@@ -497,7 +541,7 @@ bool j1Player::CleanUp()
 	return true;
 }
 
-bool j1Player::Save(pugi::xml_node& save_file) const
+bool Player::Save(pugi::xml_node& save_file) const
 {
 	BROFILER_CATEGORY("PlayerSave", Profiler::Color::Green);
 
@@ -523,7 +567,7 @@ bool j1Player::Save(pugi::xml_node& save_file) const
 	return true;
 }
 
-bool j1Player::Load(pugi::xml_node& save_file)
+bool Player::Load(pugi::xml_node& save_file)
 {
 	BROFILER_CATEGORY("PlayerLoad", Profiler::Color::Green);
 
@@ -548,8 +592,13 @@ bool j1Player::Load(pugi::xml_node& save_file)
 	return true;
 }
 
-float j1Player::GetVelocity() const
+float Player::GetVelocity() const
 {
 	return velocity;
+}
+
+void Player::Attack()
+{
+	//Basic Attack
 }
 

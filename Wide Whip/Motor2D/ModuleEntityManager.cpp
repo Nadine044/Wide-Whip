@@ -1,13 +1,27 @@
 #include "j1App.h"
 #include "p2Log.h"
 #include "ModuleEntityManager.h"
+#include "ModuleCollision.h"
 #include "Entity.h"
 #include "j1Player.h"
-#include "Enemy.h"
+#include "EnemyFly.h"
+#include "EnemyWalk.h"
 
 ModuleEntityManager::ModuleEntityManager() : j1Module()
 {
 	name.create("enitity_manager");
+}
+
+
+bool ModuleEntityManager::PreUpdate()
+{
+	bool ret = true;
+
+	for (p2List_item<Entity*>* iter = entities.start; iter && ret; iter = iter->next)
+	{
+		ret = iter->data->PreUpdate();
+	}
+	return ret;
 }
 
 bool ModuleEntityManager::Update(float dt)
@@ -16,7 +30,11 @@ bool ModuleEntityManager::Update(float dt)
 	for (p2List_item<Entity*>* iter = entities.start; iter && ret; iter = iter->next)
 	{
 		if (iter->data != nullptr)
+		{
 			ret = iter->data->Update(dt);
+			if(ret)
+				iter->data->col->UpdatePos(iter->data->pos);
+		}
 
 	}
 
@@ -58,10 +76,14 @@ Entity* ModuleEntityManager::CreateEntity(EntityType type, SDL_Rect& rect)
 	switch (type)
 	{
 	case EntityType::PLAYER:
-		ret = new j1Player(rect);
+		ret = new Player(rect);
 		break;
-	case EntityType::ENEMY:
-		ret = new Enemy(rect);
+	case EntityType::FLYENEMY:
+		ret = new EnemyFly(rect);
+		break;
+	case EntityType::WALKENEMY:
+		ret = new EnemyWalk(rect);
+		break;
 		break;
 	case EntityType::NO_TYPE:
 		break;
@@ -79,7 +101,24 @@ Entity* ModuleEntityManager::CreateEntity(EntityType type, SDL_Rect& rect)
 	return ret;
 }
 
-j1Player* ModuleEntityManager::getPlayer()
+void ModuleEntityManager::DeleteEntity(Entity* entity_to_delete)
+{
+	p2List_item<Entity*>* item = entities.start;
+
+	for (item = entities.start; item; item = item->next)
+	{
+		if (item->data == entity_to_delete)
+		{
+			entity_to_delete->col->Remove();
+			entities.del(item);
+			item->data->CleanUp();
+			RELEASE(item->data);
+			return;
+		}
+	}
+}
+
+Player* ModuleEntityManager::GetPlayer() const
 {
 	Entity* ret = nullptr;
 
@@ -88,11 +127,11 @@ j1Player* ModuleEntityManager::getPlayer()
 		if (iter->data->type == EntityType::PLAYER)
 		{
 			ret = iter->data;
-			return (j1Player*)ret;
+			return (Player*)ret;
 		}
 	}
 	LOG("Player not found!");
-	return (j1Player*)ret;
+	return (Player*)ret;
 }
 
 bool ModuleEntityManager::Save(pugi::xml_node& save_file) const

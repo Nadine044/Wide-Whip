@@ -8,8 +8,9 @@
 #include "p2Defs.h"
 #include "j1App.h"
 #include "j1Textures.h"
-
-
+#include "SDL/include/SDL_rect.h"
+#include "j1Player.h"
+#include "Enemy.h"
 // ----------------------------------------------------
 struct MapLayer
 {
@@ -18,7 +19,7 @@ struct MapLayer
 	{
 		RELEASE_ARRAY(data_gid);
 	}
-	p2SString		name;
+	p2String		name;
 	uint			width_in_tiles;
 	uint			height_in_tiles;
 	uint*			data_gid;
@@ -70,7 +71,7 @@ struct TileSet
 		return ret;
 
 	}
-	p2SString			name;
+	p2String			name;
 	int					firstgid;
 	int					margin;
 	int					spacing;
@@ -138,7 +139,6 @@ public:
 	bool IsOnCamera(SDL_Rect) const;
 
 
-
 private:
 
 	bool LoadMap();
@@ -155,12 +155,10 @@ public:
 private:
 
 	pugi::xml_document	map_file;
-	p2SString			folder;
+	p2String			folder;
 	bool				map_loaded;
-
-
-
 	
+	bool				draw_debug = false;
 };
 
 #endif // __j1MAP_H__

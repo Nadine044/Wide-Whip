@@ -4,6 +4,8 @@
 #include "p2List.h"
 #include "j1Module.h"
 #include "PugiXml\src\pugixml.hpp"
+#include "j1Timer.h"
+#include "j1PerfTimer.h"
 
 // Modules
 class j1Window;
@@ -16,6 +18,7 @@ class j1Map;
 class ModuleCollision;
 class ModuleFadeToBlack;
 class ModuleEntityManager;
+class j1PathFinding;
 
 class j1App
 {
@@ -48,10 +51,11 @@ public:
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
 	const pugi::xml_node GetConfig() const;
+	const float GetDT();
 
 	void LoadGame();
 	void SaveGame() const;
-	void GetSaveGames(p2List<p2SString>& list_to_fill) const;
+	void GetSaveGames(p2List<p2String>& list_to_fill) const;
 
 private:
 
@@ -90,25 +94,42 @@ public:
 	ModuleCollision*	collisions;
 	ModuleFadeToBlack*	fade_to_black;
 	ModuleEntityManager* module_entity_manager;
+	j1PathFinding*		pathfinding_module;
 
 private:
 
 	p2List<j1Module*>	modules;
+
 	uint				frames;
-	float				dt;
 	int					argc;
 	char**				args;
 
-	p2SString			title;
-	p2SString			organization;
+	p2String			title;
+	p2String			organization;
 
 	mutable bool		want_to_save;
 	bool				want_to_load;
+	bool				is_paused = false;
 
-	mutable p2SString	save_game_root;
+	mutable p2String	save_game_root;
 
 	pugi::xml_document	config_file;
 	pugi::xml_node		config;
+
+	j1PerfTimer			ptimer;
+
+	uint				frame_count = 0u;
+	j1Timer				startup_time;
+	j1Timer				frame_time;
+	j1Timer				last_sec_frame_time;
+	uint				last_sec_frame_count = 0u;
+	uint				prev_last_sec_frame_count = 0u;
+	uint16_t			framerate_cap = 0u;
+	float				avg_fps = 0.0f;
+	uint				frames_on_last_update = 0u;
+	float				dt = 0.f;
+
+	bool cap = true;
 };
 
 extern j1App* App; // No student is asking me about that ... odd :-S

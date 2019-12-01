@@ -32,6 +32,9 @@ public:
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
 
+
+	iPoint ScreenToWorld(int x, int y) const;
+
 	// Blit
 	void SetViewPort(const SDL_Rect& rect);
 	void ResetViewPort();
@@ -43,12 +46,17 @@ public:
 	// Set background color
 	void SetBackgroundColor(SDL_Color color);
 
+	const bool IsVsyncActive() const;
+
 public:
 
 	SDL_Renderer*	renderer;
 	SDL_Rect		camera;
 	SDL_Rect		viewport;
 	SDL_Color		background;
+
+private:
+	bool vsync_active = false;
 };
 
 #endif // __j1RENDER_H__

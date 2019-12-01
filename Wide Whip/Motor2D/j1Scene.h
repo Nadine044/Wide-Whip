@@ -49,9 +49,9 @@ public:
 
 	void ChangeBetweenLevel();
 
-	void ChangeLevelTo(const p2SString level);
+	void ChangeLevelTo(const p2String level);
 
-	p2SString GetMapNameLoaded() const;
+	p2String GetMapNameLoaded() const;
 
 	void ChangeToLevel1Fade();
 
@@ -84,14 +84,16 @@ private:
 	bool				change_between_levels	= false;
 	bool				start_this_level		= false;
 
-	p2SString			level1;
-	p2SString			level2;
+	p2String			level1;
+	p2String			level2;
 
-	p2SString			music;
+	p2String			music;
 
-	p2SString			map_name_loaded;
+	p2String			map_name_loaded;
 
 	float				time_in_fade;
+
+	SDL_Texture* debug_tex;
 
 };
 
