@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "j1Textures.h"
 #include "ModuleCollision.h"
+#include "Brofiler/Brofiler.h"
 #include "ModuleEntityManager.h"
 #include "j1Map.h"
 #include "j1Pathfinding.h"
@@ -93,6 +94,8 @@ bool Enemy::PreUpdate()
 
 bool Enemy::Update(float dt)
 {
+	BROFILER_CATEGORY("EnemyUpdate", Profiler::Color::Red);
+
 	iPoint p;
 	p.x = col->rect.w * 0.5f;
 	p.y = col->rect.h * 0.5f;
@@ -122,11 +125,14 @@ bool Enemy::Update(float dt)
 		break;
 	}
 	in_collision = false; //reset every frame. (dirty but works)
+
 	return true;
 }
 
 bool Enemy::PostUpdate()
 {
+	BROFILER_CATEGORY("EnemyPostUpdate", Profiler::Color::Red);
+
 	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 		draw_debug = !draw_debug;
 
@@ -152,8 +158,11 @@ bool Enemy::PostUpdate()
 
 bool Enemy::CleanUp()
 {
+	BROFILER_CATEGORY("EnemyCleanUp", Profiler::Color::Red);
+
 	LOG("Enemy unloaded");
 	App->tex->UnLoad(text);
+
 	return true;
 }
 
@@ -173,6 +182,8 @@ void Enemy::OnTrigger(Collider* col2)
 
 bool Enemy::Save(pugi::xml_node& save_file) const
 {
+	BROFILER_CATEGORY("EnemySave", Profiler::Color::Red);
+
 	pugi::xml_node pos_node = save_file.append_child("position");
 	pos_node.append_attribute("x") = pos.x;
 	pos_node.append_attribute("y") = pos.y;
@@ -191,6 +202,8 @@ bool Enemy::Save(pugi::xml_node& save_file) const
 
 bool Enemy::Load(pugi::xml_node& save_file)
 {
+	BROFILER_CATEGORY("EnemyLoad", Profiler::Color::Red);
+
 	pos.x = save_file.child("position").attribute("x").as_int();
 	pos.y = save_file.child("position").attribute("y").as_int();
 

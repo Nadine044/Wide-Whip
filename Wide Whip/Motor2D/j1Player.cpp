@@ -11,6 +11,7 @@
 #include "j1Scene.h"
 #include "Entity.h"
 #include "ModuleEntityManager.h"
+#include "Brofiler/Brofiler.h"
 
 
 Player::Player(SDL_Rect& rect) : Entity(EntityType::PLAYER, rect)
@@ -24,6 +25,7 @@ Player::~Player()
 
 bool Player::Awake(const pugi::xml_node& config)
 {
+
 	LOG("Loading Player Parser");
 	bool ret = true;
 
@@ -99,6 +101,7 @@ bool Player::Awake(const pugi::xml_node& config)
 
 bool Player::Start()
 {
+
 	LOG("Loading Player textures");
 	bool ret = true;
 
@@ -128,6 +131,8 @@ bool Player::Start()
 
 void Player::UpdateCameraPos()
 {
+	BROFILER_CATEGORY("PlayerUpdateCameraPos", Profiler::Color::Green);
+
 	if (pos.x > map_left_offset)//final map offset
 	{
 		if (pos.x < rect_limit_camera.x)
@@ -159,6 +164,7 @@ void Player::UpdateCameraPos()
 
 bool Player::Update(float dt)
 {
+	BROFILER_CATEGORY("PlayerUpdate", Profiler::Color::Green);
 
 	switch (state)
 	{
@@ -284,6 +290,8 @@ bool Player::Update(float dt)
 
 void Player::JumpHorizontal(float dt)
 {
+	BROFILER_CATEGORY("PlayerJumpHorizontal", Profiler::Color::Green);
+
 	if (velocity_jump_clinged < 0 && !jump_h_right)
 	{
 		pos.x += velocity_jump_clinged * dt * dt_multiplied;
@@ -298,6 +306,8 @@ void Player::JumpHorizontal(float dt)
 
 void Player::CheckDebugKeys()
 {
+	BROFILER_CATEGORY("PlayerCheckDebugKeys", Profiler::Color::Green);
+
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 	{
 		if (state == PLAYER_STATE::LIVE)
@@ -319,7 +329,10 @@ void Player::CheckDebugKeys()
 
 void Player::VerticalMovement(float dt)
 {
+	BROFILER_CATEGORY("PlayerVerticalMovement", Profiler::Color::Green);
+
 	int final_speed = speed * dt;
+
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
 		pos.y -= final_speed;
 	}
@@ -331,6 +344,9 @@ void Player::VerticalMovement(float dt)
 
 void Player::Gravity(float dt)
 {
+
+	BROFILER_CATEGORY("PlayerGravity", Profiler::Color::Green);
+
 	velocity -= gravity * dt * dt_multiplied;
 
 	int v_y_final = velocity * dt * dt_multiplied;
@@ -348,6 +364,8 @@ void Player::Gravity(float dt)
 
 void Player::ToAction()
 {
+	BROFILER_CATEGORY("PlayerToAction", Profiler::Color::Green);
+
 	// Jump-----------------
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !jumped)
 	{
@@ -384,7 +402,10 @@ void Player::ToAction()
 
 void Player::Movement(float dt)
 {
+	BROFILER_CATEGORY("PlayerMovement", Profiler::Color::Green);
+
 	int final_v = speed * dt;
+
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 
 		if (current_animation != &jump && current_animation != &fall)
@@ -407,6 +428,8 @@ void Player::Movement(float dt)
 
 void Player::Revive()
 {
+	BROFILER_CATEGORY("PlayerRevive", Profiler::Color::Green);
+
 	state = PLAYER_STATE::LIVE;
 	velocity = 0.0f;
 	App->scene->StartThisLevel();
@@ -414,6 +437,8 @@ void Player::Revive()
 
 bool Player::PostUpdate()
 {
+	BROFILER_CATEGORY("PlayerPostUpdate", Profiler::Color::Green);
+
 	if (draw_debug)
 	{
 		App->render->DrawQuad(rect_limit_camera, White.r, White.g, White.b, App->collisions->GetAlphaDebug());
@@ -423,6 +448,8 @@ bool Player::PostUpdate()
 
 void Player::OnTrigger(Collider* col2)
 {
+	BROFILER_CATEGORY("PlayerOnTrigger", Profiler::Color::Green);
+
 	if (col2->tag == TAG::WATER)
 	{
 		Death();
@@ -494,6 +521,8 @@ void Player::OnTrigger(Collider* col2)
 
 void Player::Death()
 {
+	BROFILER_CATEGORY("PlayerDeath", Profiler::Color::Green);
+
 	col->Disable();
 	App->audio->PlayFx(death_init_fx.id);
 	state = PLAYER_STATE::DEAD;	
@@ -505,6 +534,8 @@ void Player::Death()
 
 bool Player::CleanUp()
 {
+	BROFILER_CATEGORY("PlayerCleanUp", Profiler::Color::Green);
+
 	LOG("Player unloaded");
 	App->tex->UnLoad(text);
 	return true;
@@ -512,6 +543,8 @@ bool Player::CleanUp()
 
 bool Player::Save(pugi::xml_node& save_file) const
 {
+	BROFILER_CATEGORY("PlayerSave", Profiler::Color::Green);
+
 	pugi::xml_node pos_node = save_file.append_child("position");
 	pos_node.append_attribute("x") = pos.x;
 	pos_node.append_attribute("y") = pos.y;
@@ -536,6 +569,8 @@ bool Player::Save(pugi::xml_node& save_file) const
 
 bool Player::Load(pugi::xml_node& save_file)
 {
+	BROFILER_CATEGORY("PlayerLoad", Profiler::Color::Green);
+
 	pos.x = save_file.child("position").attribute("x").as_int();
 	pos.y = save_file.child("position").attribute("y").as_int();
 
