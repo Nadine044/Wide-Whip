@@ -217,15 +217,39 @@ void j1App::FinishUpdate()
 	frames_on_last_update = prev_last_sec_frame_count;
 
 	static char title[256];
-	sprintf_s(title, 256, "dt: %.2f, Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i  Time since startup: %.3f Frame Count: %lu ",
-		dt, avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, frame_count);
+	if (cap)
+	{
+		if(App->render->IsVsyncActive())
+		sprintf_s(title, 256, "FPS: %i, Av.FPS: %.2f Last Frame Ms: %02u Cap: True Vsync: True",
+			frames_on_last_update, avg_fps, last_frame_ms);
+
+		else
+			sprintf_s(title, 256, "FPS: %i, Av.FPS: %.2f Last Frame Ms: %02u Cap: True Vsync: False",
+				frames_on_last_update, avg_fps, last_frame_ms);
+	}
+	else
+	{
+		if (App->render->IsVsyncActive())
+		sprintf_s(title, 256, "FPS: %i, Av.FPS: %.2f Last Frame Ms: %02u Cap: False Vsync: True",
+			frames_on_last_update, avg_fps, last_frame_ms);
+
+		else
+			sprintf_s(title, 256, "FPS: %i, Av.FPS: %.2f Last Frame Ms: %02u Cap: False Vsync: False",
+				frames_on_last_update, avg_fps, last_frame_ms);
+
+	}
 	App->win->SetTitle(title);
 
-	if (framerate_cap > 0 && last_frame_ms < framerate_cap)
-	{
-		SDL_Delay(framerate_cap - last_frame_ms);
-	}
+	if (input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
+		cap = !cap;
 
+	if (cap)
+	{
+		if (framerate_cap > 0 && last_frame_ms < framerate_cap)
+		{
+			SDL_Delay(framerate_cap - last_frame_ms);
+		}
+	}
 }
 
 // Call modules before each loop iteration

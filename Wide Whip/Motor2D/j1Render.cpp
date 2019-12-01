@@ -6,8 +6,6 @@
 #include "j1Player.h"
 #include "j1Map.h"
 
-#define VSYNC true
-
 j1Render::j1Render() : j1Module()
 {
 	name.create("renderer");
@@ -31,6 +29,7 @@ bool j1Render::Awake(pugi::xml_node& config)
 
 	if(config.child("vsync").attribute("value").as_bool(true) == true)
 	{
+		vsync_active = true;
 		flags |= SDL_RENDERER_PRESENTVSYNC;
 		LOG("Using vsync");
 	}
@@ -257,4 +256,9 @@ bool j1Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, U
 	}
 
 	return ret;
+}
+
+const bool j1Render::IsVsyncActive() const
+{
+	return vsync_active;
 }

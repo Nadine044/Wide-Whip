@@ -46,12 +46,17 @@ public:
 	// Set background color
 	void SetBackgroundColor(SDL_Color color);
 
+	const bool IsVsyncActive() const;
+
 public:
 
 	SDL_Renderer*	renderer;
 	SDL_Rect		camera;
 	SDL_Rect		viewport;
 	SDL_Color		background;
+
+private:
+	bool vsync_active = false;
 };
 
 #endif // __j1RENDER_H__

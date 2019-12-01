@@ -128,6 +128,8 @@ private:
 	float				avg_fps = 0.0f;
 	uint				frames_on_last_update = 0u;
 	float				dt = 0.f;
+
+	bool cap = true;
 };
 
 extern j1App* App; // No student is asking me about that ... odd :-S

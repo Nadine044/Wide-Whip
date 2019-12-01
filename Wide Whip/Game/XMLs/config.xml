@@ -5,12 +5,12 @@
     <title>Wide Whip</title>
     <organization>UPC</organization>
     <save_file_root>XMLs/save_file</save_file_root>
-    <framerate_cap value="60"/>
+    <framerate_cap value="30"/>
     <dt_multiplied value="25"/>
   </app>
 	
   <renderer>
-    <vsync value="true"/>
+    <vsync value="false"/>
   </renderer>
 
   <window>
