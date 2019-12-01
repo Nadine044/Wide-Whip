@@ -114,7 +114,7 @@ void ModuleEntityManager::DeleteEntity(Entity* entity_to_delete)
 			break;
 		}
 		else
-			++item;
+			item = item->next;
 	}
 }
 
