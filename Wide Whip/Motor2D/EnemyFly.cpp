@@ -74,6 +74,8 @@ void EnemyFly::MoveNormal(const iPoint * next_point, float dt)
 
 void EnemyFly::MoveInCollision(const iPoint * next_point, float dt)
 {
+	int final_speed = speed * dt;
+
 	// The next declarations are in word coordinates (pixels)
 	iPoint next_point_world = App->map->MapToWorld(*next_point);
 
@@ -115,7 +117,7 @@ void EnemyFly::MoveInCollision(const iPoint * next_point, float dt)
 	{
 		// Left
 		if (next_point_pivot_down_right.x < enemy_down_right_pos.x)
-			pos.x -= speed * dt;
+			pos.x -= final_speed;
 
 		else
 			HorizontalDirection = HorizontalMovementDirection::NO_DIRECTION;
@@ -124,7 +126,7 @@ void EnemyFly::MoveInCollision(const iPoint * next_point, float dt)
 	{
 		// Right
 		if (next_point_world.x > pos.x)
-			pos.x += speed * dt;
+			pos.x += final_speed;
 
 		else
 			HorizontalDirection = HorizontalMovementDirection::NO_DIRECTION;
@@ -149,7 +151,7 @@ void EnemyFly::MoveInCollision(const iPoint * next_point, float dt)
 	{
 		// Up
 		if (next_point_pivot_down_right.y < enemy_down_right_pos.y + 10)
-			pos.y -= speed * dt;
+			pos.y -= final_speed;
 
 		else
 			VerticalDirection = VerticalMovementDirection::NO_DIRECTION;
@@ -158,7 +160,7 @@ void EnemyFly::MoveInCollision(const iPoint * next_point, float dt)
 	{
 		// Down
 		if (next_point_world.y > pos.y)
-			pos.y += speed * dt;
+			pos.y += final_speed;
 
 		// if 
 		else

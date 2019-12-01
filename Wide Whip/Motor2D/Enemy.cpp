@@ -32,6 +32,7 @@ bool Enemy::Awake(const pugi::xml_node& config)
 	pugi::xml_node animations_node = enemy_node.child("animations");
 
 	idle.LoadAnimation(animations_node.child("idle"));
+	walk.LoadAnimation(animations_node.child("walk"));
 
 	return ret;
 }
@@ -200,20 +201,21 @@ bool Enemy::Load(pugi::xml_node& save_file)
 
 void Enemy::GoToPlayer(float dt)
 {
+	int final_speed = speed * dt;
 	if (App->module_entity_manager->getPlayer()->pos.x < pos.x)
 	{
-		pos.x -= speed * dt;
+		pos.x -= final_speed;
 	}
 	else if (App->module_entity_manager->getPlayer()->pos.x > pos.x)
 	{
-		pos.x += speed * dt;
+		pos.x += final_speed;
 	}
 	if (App->module_entity_manager->getPlayer()->pos.y < pos.y)
 	{
-		pos.y -= speed * dt;
+		pos.y -= final_speed;
 	}
 	else if (App->module_entity_manager->getPlayer()->pos.y > pos.y)
 	{
-		pos.y += speed * dt;
+		pos.y += final_speed;
 	}
 }

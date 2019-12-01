@@ -79,6 +79,7 @@ public:
 	//Animations
 
 	Animation	idle;
+	Animation	walk;
 
 	//FX
 

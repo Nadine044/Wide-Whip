@@ -35,16 +35,19 @@ void EnemyWalk::GoToNextPoint(float dt)
 
 		iPoint enemy_pivot_central_down_map = App->map->WorldToMap(enemy_pivot_central_down);
 
+		current_animation = &walk;
 
 		if (enemy_pivot_central_down_map.x < next_point_x->x)
 		{
 			// Right
 			if (ground != nullptr)
 			{
-				if(ground->rect.x + ground->rect.w > pos.x + col->rect.w)
-					pos.x += speed * dt;
+				if (ground->rect.x + ground->rect.w > pos.x + col->rect.w)
+					flip = SDL_FLIP_HORIZONTAL;
+				pos.x += speed * dt;
 			}
 			else
+				flip = SDL_FLIP_HORIZONTAL;
 				pos.x += speed * dt;
 		}
 		else if (enemy_pivot_central_down_map.x > next_point_x->x)		
@@ -54,8 +57,12 @@ void EnemyWalk::GoToNextPoint(float dt)
 			{
 				if (ground->rect.x < pos.x)
 					pos.x -= speed * dt;
+				if(flip == SDL_FLIP_HORIZONTAL)
+					flip = SDL_FLIP_NONE;
 			}
 			else
+				if (flip == SDL_FLIP_HORIZONTAL)
+					flip = SDL_FLIP_NONE;
 				pos.x -= speed * dt;
 		}
 	}
