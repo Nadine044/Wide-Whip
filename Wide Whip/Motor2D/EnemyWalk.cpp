@@ -5,7 +5,10 @@
 #include "j1Map.h"
 #include "ModuleCollision.h"
 
-EnemyWalk::EnemyWalk(SDL_Rect& rect) : Enemy(EntityType::WALKENEMY, rect) {};
+EnemyWalk::EnemyWalk(SDL_Rect& rect) : Enemy(EntityType::WALKENEMY, rect) 
+{
+	name = "EnemyWalk";
+};
 
 bool EnemyWalk::Awake(const pugi::xml_node& walker)
 {

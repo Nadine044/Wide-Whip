@@ -364,7 +364,7 @@ DISTANCE_DIR ModuleCollision::OverlapDS(Collider* c_dynamic, Collider* c_static)
 	c_dynamic->UpdatePos(c_dynamic->object->pos);
 	if (player->object->type == EntityType::PLAYER)
 	{
-		j1Player* _player = (j1Player*)player->object;
+		Player* _player = (Player*)player->object;
 		_player->UpdateCameraPos();
 	}
 
@@ -424,7 +424,7 @@ DISTANCE_DIR ModuleCollision::OverlapPlatform(Collider* c_dynamic, Collider* c_s
 
 		if (player->object->type == EntityType::PLAYER)
 		{
-			j1Player* _player = (j1Player*)player->object;
+			Player* _player = (Player*)player->object;
 			_player->UpdateCameraPos();
 		}
 		

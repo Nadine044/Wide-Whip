@@ -76,7 +76,7 @@ Entity* ModuleEntityManager::CreateEntity(EntityType type, SDL_Rect& rect)
 	switch (type)
 	{
 	case EntityType::PLAYER:
-		ret = new j1Player(rect);
+		ret = new Player(rect);
 		break;
 	case EntityType::FLYENEMY:
 		ret = new EnemyFly(rect);
@@ -118,7 +118,7 @@ void ModuleEntityManager::DeleteEntity(Entity* entity_to_delete)
 	}
 }
 
-j1Player* ModuleEntityManager::getPlayer()
+Player* ModuleEntityManager::GetPlayer()
 {
 	Entity* ret = nullptr;
 
@@ -127,11 +127,11 @@ j1Player* ModuleEntityManager::getPlayer()
 		if (iter->data->type == EntityType::PLAYER)
 		{
 			ret = iter->data;
-			return (j1Player*)ret;
+			return (Player*)ret;
 		}
 	}
 	LOG("Player not found!");
-	return (j1Player*)ret;
+	return (Player*)ret;
 }
 
 bool ModuleEntityManager::Save(pugi::xml_node& save_file) const

@@ -13,14 +13,16 @@
 #include "ModuleEntityManager.h"
 
 
-j1Player::j1Player(SDL_Rect& rect) : Entity(EntityType::PLAYER, rect)
-{}
+Player::Player(SDL_Rect& rect) : Entity(EntityType::PLAYER, rect)
+{
+	name = "Player";
+}
 
 //Destructor
-j1Player::~j1Player()
+Player::~Player()
 {}
 
-bool j1Player::Awake(const pugi::xml_node& config)
+bool Player::Awake(const pugi::xml_node& config)
 {
 	LOG("Loading Player Parser");
 	bool ret = true;
@@ -95,7 +97,7 @@ bool j1Player::Awake(const pugi::xml_node& config)
 	return ret;
 }
 
-bool j1Player::Start()
+bool Player::Start()
 {
 	LOG("Loading Player textures");
 	bool ret = true;
@@ -106,7 +108,7 @@ bool j1Player::Start()
 	velocity = 0.f;
 
 	//App->player->Load("XMLs/player.xml");
-	//App->module_entity_manager->getPlayer()->Load("XMLs/player.xml");
+	//App->module_entity_manager->GetPlayer()->Load("XMLs/player.xml");
 	
 	text = App->tex->Load(text_path.GetString());
 
@@ -124,7 +126,7 @@ bool j1Player::Start()
 	return ret;
 }
 
-void j1Player::UpdateCameraPos()
+void Player::UpdateCameraPos()
 {
 	if (pos.x > map_left_offset)//final map offset
 	{
@@ -155,7 +157,7 @@ void j1Player::UpdateCameraPos()
 
 }
 
-bool j1Player::Update(float dt)
+bool Player::Update(float dt)
 {
 
 	switch (state)
@@ -280,7 +282,7 @@ bool j1Player::Update(float dt)
 	return true;
 }
 
-void j1Player::JumpHorizontal(float dt)
+void Player::JumpHorizontal(float dt)
 {
 	if (velocity_jump_clinged < 0 && !jump_h_right)
 	{
@@ -294,7 +296,7 @@ void j1Player::JumpHorizontal(float dt)
 	}
 }
 
-void j1Player::CheckDebugKeys()
+void Player::CheckDebugKeys()
 {
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 	{
@@ -315,7 +317,7 @@ void j1Player::CheckDebugKeys()
 		draw_debug = !draw_debug;
 }
 
-void j1Player::VerticalMovement(float dt)
+void Player::VerticalMovement(float dt)
 {
 	int final_speed = speed * dt;
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
@@ -327,7 +329,7 @@ void j1Player::VerticalMovement(float dt)
 	}
 }
 
-void j1Player::Gravity(float dt)
+void Player::Gravity(float dt)
 {
 	velocity -= gravity * dt * dt_multiplied;
 
@@ -344,7 +346,7 @@ void j1Player::Gravity(float dt)
 
 }
 
-void j1Player::ToAction()
+void Player::ToAction()
 {
 	// Jump-----------------
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !jumped)
@@ -380,7 +382,7 @@ void j1Player::ToAction()
 	}
 }
 
-void j1Player::Movement(float dt)
+void Player::Movement(float dt)
 {
 	int final_v = speed * dt;
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
@@ -403,14 +405,14 @@ void j1Player::Movement(float dt)
 	}
 }
 
-void j1Player::Revive()
+void Player::Revive()
 {
 	state = PLAYER_STATE::LIVE;
 	velocity = 0.0f;
 	App->scene->StartThisLevel();
 }
 
-bool j1Player::PostUpdate()
+bool Player::PostUpdate()
 {
 	if (draw_debug)
 	{
@@ -419,7 +421,7 @@ bool j1Player::PostUpdate()
 	return true;
 }
 
-void j1Player::OnTrigger(Collider* col2)
+void Player::OnTrigger(Collider* col2)
 {
 	if (col2->tag == TAG::WATER)
 	{
@@ -488,7 +490,7 @@ void j1Player::OnTrigger(Collider* col2)
 
 }
 
-void j1Player::Death()
+void Player::Death()
 {
 	col->Disable();
 	App->audio->PlayFx(death_init_fx.id);
@@ -499,14 +501,14 @@ void j1Player::Death()
 
 
 
-bool j1Player::CleanUp()
+bool Player::CleanUp()
 {
 	LOG("Player unloaded");
 	App->tex->UnLoad(text);
 	return true;
 }
 
-bool j1Player::Save(pugi::xml_node& save_file) const
+bool Player::Save(pugi::xml_node& save_file) const
 {
 	pugi::xml_node pos_node = save_file.append_child("position");
 	pos_node.append_attribute("x") = pos.x;
@@ -530,7 +532,7 @@ bool j1Player::Save(pugi::xml_node& save_file) const
 	return true;
 }
 
-bool j1Player::Load(pugi::xml_node& save_file)
+bool Player::Load(pugi::xml_node& save_file)
 {
 	pos.x = save_file.child("position").attribute("x").as_int();
 	pos.y = save_file.child("position").attribute("y").as_int();
@@ -553,12 +555,12 @@ bool j1Player::Load(pugi::xml_node& save_file)
 	return true;
 }
 
-float j1Player::GetVelocity() const
+float Player::GetVelocity() const
 {
 	return velocity;
 }
 
-void j1Player::Attack()
+void Player::Attack()
 {
 	//Basic Attack
 }

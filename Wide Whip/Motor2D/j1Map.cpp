@@ -494,8 +494,8 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 
 		if (type == "PLAYER")
 		{
-			j1Player* player = nullptr;
-			player = (j1Player*)App->module_entity_manager->CreateEntity(EntityType::PLAYER, rect_object);
+			Player* player = nullptr;
+			player = (Player*)App->module_entity_manager->CreateEntity(EntityType::PLAYER, rect_object);
 			App->collisions->player = player->col;
 		}
 

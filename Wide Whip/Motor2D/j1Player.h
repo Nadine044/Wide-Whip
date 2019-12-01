@@ -33,14 +33,14 @@ enum class PLAYER_STATE
 
 
 
-class j1Player : public Entity
+class Player : public Entity
 {
 public:
 
-	j1Player(SDL_Rect& rect);
+	Player(SDL_Rect& rect);
 
 	//Destructor
-	~j1Player();
+	~Player();
 
 	//Called before render is available
 	bool Awake(const pugi::xml_node& player) override;

@@ -7,7 +7,7 @@
 #include "j1Player.h"
 #include "PugiXml\src\pugixml.hpp"
 
-class j1Player;
+class Player;
 
 class ModuleEntityManager : public j1Module
 {
@@ -20,7 +20,7 @@ public:
 	bool PostUpdate() override;
 	bool CleanUp();
 
-	//bool LoadAllEntities();
+
 
 	bool Save(pugi::xml_node&) const;
 	bool Load(pugi::xml_node&);
@@ -28,12 +28,10 @@ public:
 	Entity* CreateEntity(EntityType type, SDL_Rect& rect);
 	void DeleteEntity(Entity* entity_to_delete);
 
-	j1Player* getPlayer();
+	Player* GetPlayer() const;
 
 private:
 	p2List<Entity*> entities;
-
-	mutable p2SString	save_game_root;
 };
 
 #endif //__MODULEENTITYMANAGER_H__

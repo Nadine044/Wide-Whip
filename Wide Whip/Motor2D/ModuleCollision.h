@@ -10,7 +10,7 @@
 
 class Entity;
 
-class j1Player;
+class Player;
 enum class TAG : uint
 {
 	NONE = 0,

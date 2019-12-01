@@ -62,7 +62,7 @@ bool Enemy::Start()
 
 bool Enemy::PreUpdate()
 {
-	iPoint player_pos = App->module_entity_manager->getPlayer()->pos;
+	iPoint player_pos = App->module_entity_manager->GetPlayer()->pos;
 	switch (state)
 	{
 	case ENEMY_STATE::UNKNOWN:
@@ -73,7 +73,7 @@ bool Enemy::PreUpdate()
 		{
 			time_to_pathfind_start = SDL_GetTicks();
 			state = ENEMY_STATE::PATHFINDING;
-			App->pathfinding_module->CreatePath(path, App->map->WorldToMap(pos + pivot_down_central), App->map->WorldToMap(player_pos + App->module_entity_manager->getPlayer()->pivot_down_central));			
+			App->pathfinding_module->CreatePath(path, App->map->WorldToMap(pos + pivot_down_central), App->map->WorldToMap(player_pos + App->module_entity_manager->GetPlayer()->pivot_down_central));			
 		}			
 
 		break;
@@ -104,14 +104,14 @@ bool Enemy::Update(float dt)
 	case ENEMY_STATE::IDLE:
 		break;
 	case ENEMY_STATE::PATHFINDING:
-		if (pos.DistanceTo(App->module_entity_manager->getPlayer()->pos) <= minim_range_detect)
+		if (pos.DistanceTo(App->module_entity_manager->GetPlayer()->pos) <= minim_range_detect)
 			GoToPlayer(dt);
 		else
 		{
 			if (time_to_pathfind < SDL_GetTicks() - time_to_pathfind_start)
 			{
 				time_to_pathfind_start = SDL_GetTicks();
-				App->pathfinding_module->CreatePath(path, App->map->WorldToMap(pos + p), App->map->WorldToMap(App->module_entity_manager->getPlayer()->pos + App->module_entity_manager->getPlayer()->pivot_down_central));
+				App->pathfinding_module->CreatePath(path, App->map->WorldToMap(pos + p), App->map->WorldToMap(App->module_entity_manager->GetPlayer()->pos + App->module_entity_manager->GetPlayer()->pivot_down_central));
 			}
 			GoToNextPoint(dt);
 		}
@@ -208,19 +208,19 @@ bool Enemy::Load(pugi::xml_node& save_file)
 void Enemy::GoToPlayer(float dt)
 {
 	int final_speed = speed * dt;
-	if (App->module_entity_manager->getPlayer()->pos.x < pos.x)
+	if (App->module_entity_manager->GetPlayer()->pos.x < pos.x)
 	{
 		pos.x -= final_speed;
 	}
-	else if (App->module_entity_manager->getPlayer()->pos.x > pos.x)
+	else if (App->module_entity_manager->GetPlayer()->pos.x > pos.x)
 	{
 		pos.x += final_speed;
 	}
-	if (App->module_entity_manager->getPlayer()->pos.y < pos.y)
+	if (App->module_entity_manager->GetPlayer()->pos.y < pos.y)
 	{
 		pos.y -= final_speed;
 	}
-	else if (App->module_entity_manager->getPlayer()->pos.y > pos.y)
+	else if (App->module_entity_manager->GetPlayer()->pos.y > pos.y)
 	{
 		pos.y += final_speed;
 	}
