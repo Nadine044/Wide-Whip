@@ -26,6 +26,7 @@ public:
 	bool Load(pugi::xml_node&);
 
 	Entity* CreateEntity(EntityType type, SDL_Rect& rect);
+	void DeleteEntity(Entity* entity_to_delete);
 
 	j1Player* getPlayer();
 

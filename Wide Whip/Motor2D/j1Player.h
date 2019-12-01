@@ -152,11 +152,11 @@ private:
 	Uint32				time_to_do_fade_to_black		= 0u;
 	float				time_in_fade					= 0.0f;
 
-	int				offset_value						= 0;
+	int					offset_value					= 0;
 
-	float max_speed = 0.0f;
-	float min_speed = 0.0f;
-	float dt_multiplied = 0.0f;
+	float				max_speed						= 0.0f;
+	float				min_speed						= 0.0f;
+	float				dt_multiplied					= 0.0f;
 
 };
 

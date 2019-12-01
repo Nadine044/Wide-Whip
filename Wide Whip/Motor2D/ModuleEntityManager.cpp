@@ -99,6 +99,25 @@ Entity* ModuleEntityManager::CreateEntity(EntityType type, SDL_Rect& rect)
 	return ret;
 }
 
+void ModuleEntityManager::DeleteEntity(Entity* entity_to_delete)
+{
+	p2List_item<Entity*>* item = entities.start;
+
+	while (item != entities.end)
+	{
+		if (item != nullptr && item->data == entity_to_delete)
+		{
+			item->data->CleanUp();
+			delete item;
+			item = nullptr;
+			//item = entities.del;
+			break;
+		}
+		else
+			++item;
+	}
+}
+
 j1Player* ModuleEntityManager::getPlayer()
 {
 	Entity* ret = nullptr;
