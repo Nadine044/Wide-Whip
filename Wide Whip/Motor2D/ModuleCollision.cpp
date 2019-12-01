@@ -39,6 +39,7 @@ const bool Collider::IsToDelete() const
 
 void Collider::Remove()
 {
+	Disable();
 	to_delete = true;
 }
 

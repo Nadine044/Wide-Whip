@@ -426,18 +426,17 @@ void j1Player::OnTrigger(Collider* col2)
 		Death();
 	}
 
-	if (col2->tag == TAG::ENEMY)
-	{
-		//Death();		
-	}
-
 	if (col2->tag == TAG::ENEMY && state == PLAYER_STATE::DASHING)
 	{
 		LOG("Attacking enemy");
-		App->module_entity_manager->DeleteEntity(App->map->enemy);
-		col2->Disable();
-		state = PLAYER_STATE::LIVE;
+		App->module_entity_manager->DeleteEntity(col2->object);
 	}
+	else if (col2->tag == TAG::ENEMY)
+	{
+		Death();		
+	}
+
+
 	//Acces to the other colldier when a collision is checked.
 	//Do Something when a collisions is checked.
 	if (col->last_colision_direction == DISTANCE_DIR::UP && velocity <= 0.0f)

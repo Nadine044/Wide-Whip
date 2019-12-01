@@ -13,8 +13,6 @@ public:
 
 	bool Update(float dt) override;
 
-	bool CleanUp() override;
-
 	void Gravity();
 
 

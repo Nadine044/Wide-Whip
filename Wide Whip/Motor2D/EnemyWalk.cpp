@@ -45,12 +45,16 @@ void EnemyWalk::GoToNextPoint(float dt)
 			if (ground != nullptr)
 			{
 				if (ground->rect.x + ground->rect.w > pos.x + col->rect.w)
+				{
 					flip = SDL_FLIP_HORIZONTAL;
-				pos.x += final_speed;
+					pos.x += final_speed;
+				}
 			}
 			else
+			{
 				flip = SDL_FLIP_HORIZONTAL;
 				pos.x += final_speed;
+			}
 		}
 		else if (enemy_pivot_central_down_map.x > next_point_x->x)		
 		{
@@ -63,9 +67,13 @@ void EnemyWalk::GoToNextPoint(float dt)
 					flip = SDL_FLIP_NONE;
 			}
 			else
+			{
 				if (flip == SDL_FLIP_HORIZONTAL)
 					flip = SDL_FLIP_NONE;
 				pos.x -= final_speed;
+
+			}
+				
 		}
 	}
 	
@@ -76,7 +84,7 @@ void EnemyWalk::OnTrigger(Collider* col2)
 	Enemy::OnTrigger(col2);
 	if (col2->tag == TAG::WALL && col->last_colision_direction == DISTANCE_DIR::UP)
 	{
-		velocity = 0;
+		velocity = 0.f;
 		ground = col2;
 	}
 	if (col2->tag == TAG::PLAYER)
@@ -98,11 +106,4 @@ void EnemyWalk::Gravity()
 {
 	velocity -= gravity;
 	pos.y += -velocity;
-}
-
-bool EnemyWalk::CleanUp()
-{
-	LOG("EnemyWalk unloaded");
-	App->tex->UnLoad(text);
-	return true;
 }

@@ -154,6 +154,7 @@ bool Enemy::CleanUp()
 {
 	LOG("Enemy unloaded");
 	App->tex->UnLoad(text);
+	App->tex->UnLoad(debug_tex);
 	return true;
 }
 

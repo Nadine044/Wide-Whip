@@ -169,10 +169,3 @@ void EnemyFly::MoveInCollision(const iPoint * next_point, float dt)
 			VerticalDirection = VerticalMovementDirection::NO_DIRECTION;
 	}
 }
-
-bool EnemyFly::CleanUp()
-{
-	LOG("EnemyFly unloaded");
-	App->tex->UnLoad(text);
-	return true;
-}

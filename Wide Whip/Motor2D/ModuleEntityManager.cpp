@@ -30,9 +30,11 @@ bool ModuleEntityManager::Update(float dt)
 	for (p2List_item<Entity*>* iter = entities.start; iter && ret; iter = iter->next)
 	{
 		if (iter->data != nullptr)
+		{
 			ret = iter->data->Update(dt);
-
-		iter->data->col->UpdatePos(iter->data->pos);
+			if(ret)
+				iter->data->col->UpdatePos(iter->data->pos);
+		}
 
 	}
 
@@ -103,18 +105,16 @@ void ModuleEntityManager::DeleteEntity(Entity* entity_to_delete)
 {
 	p2List_item<Entity*>* item = entities.start;
 
-	while (item != entities.end)
+	for (item = entities.start; item; item = item->next)
 	{
-		if (item != nullptr && item->data == entity_to_delete)
+		if (item->data == entity_to_delete)
 		{
+			entity_to_delete->col->Remove();
+			entities.del(item);
 			item->data->CleanUp();
-			delete item;
-			item = nullptr;
-			//item = entities.del;
-			break;
+			RELEASE(item->data);
+			return;
 		}
-		else
-			item = item->next;
 	}
 }
 
