@@ -71,7 +71,7 @@ public:
 
 public:
 
-	p2SString	name;
+	p2String	name;
 	bool		active;
 
 };

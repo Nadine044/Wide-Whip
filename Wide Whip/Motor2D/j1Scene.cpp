@@ -177,7 +177,7 @@ void j1Scene::ChangeBetweenLevel()
 	}
 }
 
-void j1Scene::ChangeLevelTo(const p2SString level)
+void j1Scene::ChangeLevelTo(const p2String level)
 {
 	//Unload
 	App->map->CleanUp();
@@ -218,7 +218,7 @@ bool j1Scene::CleanUp()
 	return true;
 }
 
-p2SString j1Scene::GetMapNameLoaded() const
+p2String j1Scene::GetMapNameLoaded() const
 {
 	return map_name_loaded;
 }
@@ -233,7 +233,7 @@ bool j1Scene::Save(pugi::xml_node& save_file) const
 
 bool j1Scene::Load(pugi::xml_node& save_file)
 {
-	p2SString level_saved = save_file.child("level_loaded").attribute("value").as_string();
+	p2String level_saved = save_file.child("level_loaded").attribute("value").as_string();
 
 	if (level_saved != GetMapNameLoaded())
 	{

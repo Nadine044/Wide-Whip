@@ -219,7 +219,7 @@ TileSet::~TileSet()
 bool j1Map::Load(const char* file_name)
 {
 	bool ret = true;
-	p2SString tmp("%s%s", folder.GetString(), file_name);
+	p2String tmp("%s%s", folder.GetString(), file_name);
 
 	pugi::xml_parse_result result = map_file.load_file(tmp.GetString());
 
@@ -347,7 +347,7 @@ bool j1Map::LoadMap()
 		data.height = map.attribute("height").as_int();
 		data.tile_width = map.attribute("tilewidth").as_int();
 		data.tile_height = map.attribute("tileheight").as_int();
-		p2SString bg_color(map.attribute("backgroundcolor").as_string());
+		p2String bg_color(map.attribute("backgroundcolor").as_string());
 
 		data.background_color.r = 0;
 		data.background_color.g = 0;
@@ -356,7 +356,7 @@ bool j1Map::LoadMap()
 
 		if(bg_color.Length() > 0)
 		{
-			p2SString red, green, blue;
+			p2String red, green, blue;
 			bg_color.SubString(1, 2, red);
 			bg_color.SubString(3, 4, green);
 			bg_color.SubString(5, 6, blue);
@@ -373,7 +373,7 @@ bool j1Map::LoadMap()
 			if(v >= 0 && v <= 255) data.background_color.b = v;
 		}
 
-		p2SString orientation(map.attribute("orientation").as_string());
+		p2String orientation(map.attribute("orientation").as_string());
 
 		if(orientation == "orthogonal")
 		{
@@ -490,7 +490,7 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 
 		SDL_Rect rect_object = { pos.x, pos.y, w, h };
 
-		p2SString type = object.attribute("type").as_string();
+		p2String type = object.attribute("type").as_string();
 
 		if (type == "PLAYER")
 		{

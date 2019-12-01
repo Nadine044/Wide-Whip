@@ -74,22 +74,7 @@ public:
 
 	//New player
 
-	Animation		jump;
-	Animation		idle;
-
-	Animation		walk;
-	Animation		death;
-	Animation		dash;
-	Animation		climb;
-	Animation		fall;
-	Animation		attack;
-
-
-	FX jump_fx;
-	FX dash_fx;
-	FX death_init_fx;
-	FX death_finish_fx;
-	FX dashtest;
+	
 
 	
 
@@ -113,8 +98,24 @@ private:
 
 private:
 
+	Animation		jump;
+	Animation		idle;
+
+	Animation		walk;
+	Animation		death;
+	Animation		dash;
+	Animation		climb;
+	Animation		fall;
+	Animation		attack;
+
+
+	FX jump_fx;
+	FX dash_fx;
+	FX death_init_fx;
+	FX death_finish_fx;
+
 	//SDL_Texture*		text							= nullptr;
-	p2SString			text_path;
+	p2String			text_path;
 
 	SDL_Rect			rect_limit_camera;
 

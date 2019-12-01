@@ -9,7 +9,7 @@
 
 #define TMP_STRING_SIZE	4096
 
-class p2SString
+class p2String
 {
 private:
 
@@ -19,13 +19,13 @@ private:
 public:
 
 	// Constructors
-	p2SString()
+	p2String()
 	{
 		Alloc(1);
 		Clear();
 	}
 
-	p2SString(unsigned int size)
+	p2String(unsigned int size)
 	{
 		if(size > 0)
 			Alloc(size);
@@ -35,13 +35,13 @@ public:
 		Clear();
 	}
 
-	p2SString(const p2SString& string)
+	p2String(const p2String& string)
 	{
 		Alloc(string.size);
 		strcpy_s(str, size, string.str);
 	}
 
-	p2SString(const char *format, ...)
+	p2String(const char *format, ...)
 	{
 		size = 0;
 
@@ -70,13 +70,13 @@ public:
 	}
 	
 	// Destructor
-	virtual ~p2SString()
+	virtual ~p2String()
 	{
 		if(str != NULL)
 			delete[] str;
 	}
 
-	const p2SString& create(const char *format, ...)
+	const p2String& create(const char *format, ...)
 	{
 		size = 0;
 
@@ -107,7 +107,7 @@ public:
 	}
 
 	// Operators
-	bool operator== (const p2SString& string) const
+	bool operator== (const p2String& string) const
 	{
 		return strcmp(string.str, str) == 0;
 	}
@@ -119,7 +119,7 @@ public:
 		return false;
 	}
 
-	bool operator!= (const p2SString& string) const
+	bool operator!= (const p2String& string) const
 	{
 		return strcmp(string.str, str) != 0;
 	}
@@ -131,7 +131,7 @@ public:
 		return true;
 	}
 	
-	const p2SString& operator= (const p2SString& string)
+	const p2String& operator= (const p2String& string)
 	{
 		if(string.Length() + 1 > size)
 		{
@@ -146,9 +146,9 @@ public:
 		return(*this);
 	}
 
-	const p2SString& operator= (const char* string)
+	const p2String& operator= (const char* string)
 	{
-		p2SString t(string);
+		p2String t(string);
 		(*this) = t;
 		return *this;
 
@@ -172,7 +172,7 @@ public:
 		return(*this);
 	}
 	
-	const p2SString& operator+= (const p2SString& string)
+	const p2String& operator+= (const p2String& string)
 	{
 		unsigned int need_size = string.Length() + Length() + 1;
 
@@ -189,7 +189,7 @@ public:
 		return(*this);
 	}
 
-	const p2SString& operator+= (const char* string)
+	const p2String& operator+= (const char* string)
 	{
 		if(string != NULL)
 		{
@@ -333,7 +333,7 @@ public:
 	/**
 	* Paste a substring into buffer
 	*/
-	uint SubString(unsigned int start, unsigned int end, p2SString& buffer) const
+	uint SubString(unsigned int start, unsigned int end, p2String& buffer) const
 	{
 		if(str != NULL)
 		{

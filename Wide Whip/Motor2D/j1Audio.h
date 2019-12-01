@@ -12,7 +12,7 @@ struct Mix_Chunk;
 
 struct FX
 {
-	p2SString path;
+	p2String path;
 	uint id;
 };
 

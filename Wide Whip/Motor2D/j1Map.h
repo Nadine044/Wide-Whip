@@ -19,7 +19,7 @@ struct MapLayer
 	{
 		RELEASE_ARRAY(data_gid);
 	}
-	p2SString		name;
+	p2String		name;
 	uint			width_in_tiles;
 	uint			height_in_tiles;
 	uint*			data_gid;
@@ -71,7 +71,7 @@ struct TileSet
 		return ret;
 
 	}
-	p2SString			name;
+	p2String			name;
 	int					firstgid;
 	int					margin;
 	int					spacing;
@@ -155,7 +155,7 @@ public:
 private:
 
 	pugi::xml_document	map_file;
-	p2SString			folder;
+	p2String			folder;
 	bool				map_loaded;
 	
 	bool				draw_debug = false;

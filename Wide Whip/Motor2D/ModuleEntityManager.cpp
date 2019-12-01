@@ -118,7 +118,7 @@ void ModuleEntityManager::DeleteEntity(Entity* entity_to_delete)
 	}
 }
 
-Player* ModuleEntityManager::GetPlayer()
+Player* ModuleEntityManager::GetPlayer() const
 {
 	Entity* ret = nullptr;
 

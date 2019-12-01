@@ -72,20 +72,10 @@ public:
 	bool Save(pugi::xml_node&) const override;
 	bool Load(pugi::xml_node&) override;
 
-	//Enemy functions:
-
-public:
-
-	//Animations
-
+protected:
 	Animation	idle;
 	Animation	walk;
-
-	//FX
-
-protected:
-
-	p2SString			text_path;
+	p2String			text_path;
 
 	ENEMY_STATE			state;
 

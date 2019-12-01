@@ -53,7 +53,7 @@ void Entity::Draw() const
 	App->render->Blit(text, pos.x + offset_animation_x, pos.y, &(current_animation->GetCurrentFrame()), 1.0f, flip);
 }
 
-float Entity::GetVelocity()
+const float Entity::GetVelocity() const
 {
 	return velocity;
 }

@@ -130,7 +130,7 @@ bool ModuleFadeToBlack::Load(pugi::xml_node &save_file)
 	total_time = (Uint32)(save_file.child("total_time").attribute("value").as_uint());
 	start_time = SDL_GetTicks(); //- now;
 	current_step = (fade_step)(save_file.child("current_step").attribute("value").as_int());
-	p2SString name = save_file.child("test").attribute("value").as_string();
+	p2String name = save_file.child("test").attribute("value").as_string();
 	if (name == "revive")
 	{
 		to_active = App->module_entity_manager->GetPlayer()->GetReviveBoolAdress();

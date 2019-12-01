@@ -44,11 +44,11 @@ public:
 
 	void Draw() const;
 
-	float GetVelocity();
+	const float GetVelocity() const ;
 
 public:
 	EntityType			type = EntityType::NO_TYPE;
-	p2SString			name = "entity";
+	p2String			name = "entity";
 	iPoint				pos = { 0, 0 };
 	SDL_Texture*		text = nullptr;
 	Animation*			current_animation = nullptr;

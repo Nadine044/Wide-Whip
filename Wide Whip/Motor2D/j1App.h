@@ -55,7 +55,7 @@ public:
 
 	void LoadGame();
 	void SaveGame() const;
-	void GetSaveGames(p2List<p2SString>& list_to_fill) const;
+	void GetSaveGames(p2List<p2String>& list_to_fill) const;
 
 private:
 
@@ -104,14 +104,14 @@ private:
 	int					argc;
 	char**				args;
 
-	p2SString			title;
-	p2SString			organization;
+	p2String			title;
+	p2String			organization;
 
 	mutable bool		want_to_save;
 	bool				want_to_load;
 	bool				is_paused = false;
 
-	mutable p2SString	save_game_root;
+	mutable p2String	save_game_root;
 
 	pugi::xml_document	config_file;
 	pugi::xml_node		config;
