@@ -412,7 +412,6 @@ void j1Player::Revive()
 
 bool j1Player::PostUpdate()
 {
-	//MYTODO
 	if (draw_debug)
 	{
 		App->render->DrawQuad(rect_limit_camera, White.r, White.g, White.b, App->collisions->GetAlphaDebug());
@@ -429,7 +428,14 @@ void j1Player::OnTrigger(Collider* col2)
 
 	if (col2->tag == TAG::ENEMY)
 	{
-		Death();		
+		//Death();		
+	}
+
+	if (col2->tag == TAG::ENEMY && state == PLAYER_STATE::DASHING)
+	{
+		LOG("Attacking enemy");
+		col2->Disable();
+		state = PLAYER_STATE::LIVE;
 	}
 	//Acces to the other colldier when a collision is checked.
 	//Do Something when a collisions is checked.
@@ -554,6 +560,6 @@ float j1Player::GetVelocity() const
 
 void j1Player::Attack()
 {
-
+	//Basic Attack
 }
 
