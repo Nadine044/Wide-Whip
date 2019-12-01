@@ -31,8 +31,8 @@ bool Enemy::Awake(const pugi::xml_node& config)
 
 	pugi::xml_node animations_node = enemy_node.child("animations");
 
-	idle.LoadAnimation(animations_node.child("idle"));
-	walk.LoadAnimation(animations_node.child("walk"));
+	//idle.LoadAnimation(animations_node.child("idle"));
+	//walk.LoadAnimation(animations_node.child("walk"));
 
 	return ret;
 }

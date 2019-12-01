@@ -139,6 +139,22 @@
           <frame x="576"   y="0" w ="94" h ="60"/>
           <frame x="672"   y="0" w ="94" h ="60"/>
         </walk>
+
+        <idle_flyer speed="0.2f" loop="true">
+          <frame x="0"   y="96" w ="64" h ="44"/>
+          <frame x="64"   y="96" w ="64" h ="44"/>
+          <frame x="128"   y="96" w ="64" h ="44"/>
+          <frame x="192"   y="96" w ="64" h ="44"/>
+          <frame x="256"   y="96" w ="64" h ="44"/>
+        </idle_flyer>
+
+        <walk_flyer speed="0.2f" loop="true">
+          <frame x="0"   y="96" w ="64" h ="44"/>
+          <frame x="64"   y="96" w ="64" h ="44"/>
+          <frame x="128"   y="96" w ="64" h ="44"/>
+          <frame x="192"   y="96" w ="64" h ="44"/>
+          <frame x="256"   y="96" w ="64" h ="44"/>
+        </walk_flyer>
         
       </animations>
       

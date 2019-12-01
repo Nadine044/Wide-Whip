@@ -20,6 +20,9 @@ bool EnemyFly::Awake(const pugi::xml_node& flyer)
 	Enemy::Awake(flyer);
 	text_path = enemy_node.child_value("texture_flyer");
 
+	idle.LoadAnimation(enemy_node.child("animations").child("idle_flyer"));
+	walk.LoadAnimation(enemy_node.child("animations").child("walk_flyer"));
+
 	return ret;
 }
 

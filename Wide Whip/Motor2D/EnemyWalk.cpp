@@ -20,6 +20,9 @@ bool EnemyWalk::Awake(const pugi::xml_node& walker)
 	Enemy::Awake(walker);
 	text_path = enemy_node.child_value("texture_walker");
 
+	idle.LoadAnimation(enemy_node.child("animations").child("idle"));
+	walk.LoadAnimation(enemy_node.child("animations").child("walk"));
+
 	return ret;
 }
 
