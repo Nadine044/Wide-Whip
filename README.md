@@ -5,7 +5,7 @@ We programmed the game from scratch in C++ and we used free artwork.
 
 ## Instructions to execute:
 
-- Download the release: https://github.com/Nadine044/Wide-Whip/releases.
+- Download the latest release: https://github.com/Nadine044/Wide-Whip/releases.
 
 - Unzip the file.
 
@@ -44,6 +44,8 @@ We programmed the game from scratch in C++ and we used free artwork.
 
 - F10 God mode.
 
+-F11 Cap ON / OFF.
+
 ## Links
 
 Jorge Gemas: https://github.com/jorgegh2
@@ -66,9 +68,9 @@ https://patrickdearteaga.com
 
 ## Who made what:
 
-- Jorge Gemas: three mainly mechanics (jump, dash and bouncing on walls), Collisions, Save and Load and the system to change (load/unload) levels. Audio of the game. Actual parallax effect.
+- Jorge Gemas: three mainly mechanics (jump, dash and bouncing on walls), Collisions, Save and Load and the system to change (load/unload) levels. Audio of the game. Actual parallax effect. Enemies pathfinding. Entity Manager.
 
-- Nadine Gutiérrez: All related with the art of the game, textures, animations, and the desing of the levels and make sure the game is fun. Camera movement implementations, old parallax effect.
+- Nadine Gutiérrez: All related with the art of the game, textures, animations, and the desing of the levels and make sure the game is fun. Camera movement implementations, old parallax effect. Entity Manager. Brofiler integrations.
 
 ## MIT License
 
