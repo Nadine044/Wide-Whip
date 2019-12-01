@@ -7,6 +7,7 @@
 #include "Animation.h"
 #include "p2SString.h"
 #include "p2DynArray.h"
+#include "j1Audio.h"
 
 class Entity;
 class Animation;
@@ -75,6 +76,7 @@ public:
 protected:
 	Animation	idle;
 	Animation	walk;
+
 	p2String			text_path;
 
 	ENEMY_STATE			state;
@@ -101,6 +103,9 @@ protected:
 
 	virtual void GoToNextPoint(float dt) {};
 	void GoToPlayer(float dt);
+
+public:
+	FX					slime_death;
 
 };
 

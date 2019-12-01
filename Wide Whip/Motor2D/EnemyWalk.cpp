@@ -4,6 +4,7 @@
 #include "j1Pathfinding.h"
 #include "j1Map.h"
 #include "ModuleCollision.h"
+#include "p2SString.h"
 
 EnemyWalk::EnemyWalk(SDL_Rect& rect) : Enemy(EntityType::WALKENEMY, rect) 
 {
@@ -22,6 +23,9 @@ bool EnemyWalk::Awake(const pugi::xml_node& walker)
 
 	idle.LoadAnimation(enemy_node.child("animations").child("idle"));
 	walk.LoadAnimation(enemy_node.child("animations").child("walk"));
+	
+	slime_death.path = enemy_node.child("audios").child_value("slime_death");
+	slime_death.id = App->audio->LoadFx(slime_death.path.GetString());
 
 	return ret;
 }

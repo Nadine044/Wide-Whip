@@ -5,6 +5,7 @@
 #include "PugiXml\src\pugixml.hpp"
 #include "SDL/include/SDL_render.h"
 #include "p2SString.h"
+#include "j1Audio.h"
 
 class Collider;
 class Animation;

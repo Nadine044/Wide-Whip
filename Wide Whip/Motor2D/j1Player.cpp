@@ -431,6 +431,8 @@ void Player::OnTrigger(Collider* col2)
 	if (col2->tag == TAG::ENEMY && state == PLAYER_STATE::DASHING)
 	{
 		LOG("Attacking enemy");
+		Enemy* enemy1 = (Enemy*)(col2->object);
+		App->audio->PlayFx(enemy1->slime_death.id);
 		App->module_entity_manager->DeleteEntity(col2->object);
 	}
 	else if (col2->tag == TAG::ENEMY)
