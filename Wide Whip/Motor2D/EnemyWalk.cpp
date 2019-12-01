@@ -7,6 +7,18 @@
 
 EnemyWalk::EnemyWalk(SDL_Rect& rect) : Enemy(EntityType::WALKENEMY, rect) {};
 
+bool EnemyWalk::Awake(const pugi::xml_node& walker)
+{
+	LOG("Loading Walker Parser");
+	bool ret = true;
+
+	pugi::xml_node enemy_node = walker.child("enemy");
+
+	Enemy::Awake(enemy_node);
+	text_path = enemy_node.child_value("texture_walker");
+
+	return ret;
+}
 
 void EnemyWalk::GoToNextPoint(float dt)
 {

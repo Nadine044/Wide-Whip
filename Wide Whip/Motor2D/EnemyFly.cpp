@@ -7,6 +7,19 @@
 
 EnemyFly::EnemyFly(SDL_Rect& rect) : Enemy(EntityType::FLYENEMY, rect) {};
 
+bool EnemyFly::Awake(const pugi::xml_node& flyer)
+{
+	LOG("Loading Flyer Parser");
+	bool ret = true;
+
+	pugi::xml_node enemy_node = flyer.child("enemy");
+
+	Enemy::Awake(enemy_node);
+	text_path = enemy_node.child_value("texture_flyer");
+
+	return ret;
+}
+
 void EnemyFly::GoToNextPoint(float dt)
 {
 	const iPoint* next_point = path.At(path.Count()-3); // is Array. So Count() -1 are the last. Pick the next because the last is so close (collider enemy is bigger than 1 tile) 

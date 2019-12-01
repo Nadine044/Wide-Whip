@@ -10,6 +10,8 @@ class EnemyFly : public Enemy
 public:
 	EnemyFly(SDL_Rect& rect);
 
+	bool Awake(const pugi::xml_node& flyer) override;
+
 private:
 	void GoToNextPoint(float dt) override;
 	void MoveNormal(const iPoint * next_point, float dt);

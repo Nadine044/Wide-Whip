@@ -116,9 +116,11 @@
       </animations>
 
     </player>
+    
     <enemy>
 
-      <texture>enemies/walker/Slime.png</texture>
+      <texture_walker>enemies/walker/Slime.png</texture_walker>
+      <texture_flyer>enemies/walker/Bat.png</texture_flyer>
       <speed value ="100"/>
       <gravity value="2.5f"/>
 

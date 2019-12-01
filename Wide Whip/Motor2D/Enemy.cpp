@@ -26,7 +26,7 @@ bool Enemy::Awake(const pugi::xml_node& config)
 
 	speed = enemy_node.child("speed").attribute("value").as_int();
 	gravity = enemy_node.child("gravity").attribute("value").as_float();
-	text_path = enemy_node.child_value("texture");
+	//text_path = enemy_node.child_value("texture");
 	dt_multiplied = config.previous_sibling("app").child("dt_multiplied").attribute("value").as_int();
 
 	pugi::xml_node animations_node = enemy_node.child("animations");
@@ -154,7 +154,6 @@ bool Enemy::CleanUp()
 {
 	LOG("Enemy unloaded");
 	App->tex->UnLoad(text);
-	App->tex->UnLoad(debug_tex);
 	return true;
 }
 

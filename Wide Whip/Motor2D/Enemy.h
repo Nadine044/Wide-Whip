@@ -53,7 +53,7 @@ public:
 	~Enemy();
 
 	//Called before render is available
-	bool Awake(const pugi::xml_node& enemy) override;
+	virtual bool Awake(const pugi::xml_node& enemy) override;
 
 	//Load
 	bool Start();

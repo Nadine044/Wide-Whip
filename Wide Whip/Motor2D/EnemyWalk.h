@@ -11,6 +11,7 @@ public:
 	EnemyWalk(SDL_Rect& rect);
 	void OnTrigger(Collider* col) override;
 
+	bool Awake(const pugi::xml_node& walker) override;
 	bool Update(float dt) override;
 
 	void Gravity();

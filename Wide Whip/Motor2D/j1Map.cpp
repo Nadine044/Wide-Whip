@@ -494,21 +494,24 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 
 		if (type == "PLAYER")
 		{
+			j1Player* player = nullptr;
 			player = (j1Player*)App->module_entity_manager->CreateEntity(EntityType::PLAYER, rect_object);
 			App->collisions->player = player->col;
 		}
 
 		else if (type == "FLYENEMY")
 		{
-			enemy = (Enemy*)App->module_entity_manager->CreateEntity(EntityType::FLYENEMY, rect_object);
-			App->collisions->enemyWalkable = enemy->col;
+			Enemy* flyer_enemy1 = nullptr;
+			flyer_enemy1 = (Enemy*)App->module_entity_manager->CreateEntity(EntityType::FLYENEMY, rect_object);
+			App->collisions->enemyWalkable = flyer_enemy1->col;
 			//Collider* ret = App->collisions->AddCollider(pos, w, h, TAG::ENEMY, Red);
 		}
 
 		else if (type == "WALKENEMY")
 		{
-			walk_enemy = (Enemy*)App->module_entity_manager->CreateEntity(EntityType::WALKENEMY, rect_object);
-			App->collisions->enemyWalkable = walk_enemy->col;
+			Enemy* walker_enemy1 = nullptr;
+			walker_enemy1 = (Enemy*)App->module_entity_manager->CreateEntity(EntityType::WALKENEMY, rect_object);
+			App->collisions->enemyWalkable = walker_enemy1->col;
 			//Collider* ret = App->collisions->AddCollider(pos, w, h, TAG::ENEMY, Red);
 		}
 

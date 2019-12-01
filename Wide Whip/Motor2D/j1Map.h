@@ -152,12 +152,6 @@ public:
 
 	MapData data;
 
-	//Entities
-
-	j1Player* player = nullptr;
-	Enemy* enemy = nullptr;
-	Enemy* walk_enemy = nullptr;
-
 private:
 
 	pugi::xml_document	map_file;
