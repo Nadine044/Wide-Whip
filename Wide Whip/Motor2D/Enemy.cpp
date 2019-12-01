@@ -10,6 +10,7 @@
 #include "SDL/include/SDL_timer.h"
 #include "j1Input.h"
 #include "j1Render.h"
+#include "Brofiler/Brofiler.h"
 
 Enemy::Enemy(EntityType type, SDL_Rect& rect) : Entity(type, rect)
 {}
@@ -63,6 +64,8 @@ bool Enemy::Start()
 
 bool Enemy::PreUpdate()
 {
+	BROFILER_CATEGORY("EnemyPreUpdate", Profiler::Color::Red);
+
 	iPoint player_pos = App->module_entity_manager->GetPlayer()->pos;
 	switch (state)
 	{

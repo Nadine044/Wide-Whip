@@ -21,6 +21,7 @@ bool j1PathFinding::Start()
 
 bool j1PathFinding::PreUpdate()
 {
+
 	static iPoint origin;
 	static bool origin_selected = false;
 
@@ -48,6 +49,7 @@ bool j1PathFinding::PreUpdate()
 
 bool j1PathFinding::PostUpdate()
 {
+
 	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 		draw_debug = !draw_debug;
 
@@ -88,6 +90,7 @@ bool j1PathFinding::CleanUp()
 // Utility: return true if pos is inside the map boundaries
 bool j1PathFinding::CheckBoundaries(const iPoint& pos) const
 {
+
 	return (pos.x >= 0 && pos.x <= (int)App->map->data.width * App->map->data.tile_width &&
 			pos.y >= 0 && pos.y <= (int)App->map->data.height * App->map->data.tile_height);
 }
@@ -95,6 +98,7 @@ bool j1PathFinding::CheckBoundaries(const iPoint& pos) const
 // Utility: returns true is the tile is walkable
 bool j1PathFinding::IsWalkable(const iPoint& pos) const
 {
+
 	bool ret = true;
 	if (CheckBoundaries(pos))
 	{
