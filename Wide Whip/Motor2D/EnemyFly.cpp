@@ -6,9 +6,7 @@
 #include "j1Map.h"
 
 EnemyFly::EnemyFly(SDL_Rect& rect) : Enemy(EntityType::FLYENEMY, rect) 
-{
-	name = "EnemyFly";
-};
+{};
 
 bool EnemyFly::Awake(const pugi::xml_node& flyer)
 {

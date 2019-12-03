@@ -10,32 +10,81 @@
 	</scene>
 	<pathfinding />
 	<enitity_manager>
-		<Player>
-			<position x="105" y="607" />
+		<entity>
+			<position x="1038" y="575" />
 			<entity_type value="0" />
 			<velocity value="0" />
 			<state value="0" />
-			<flip value="0" />
+			<flip value="1" />
 			<collider enabled="true" />
 			<jumped value="false" />
 			<dashed value="false" />
-			<velocity_dash value="0.799998522" />
-			<velocity_jump_clinged value="0" />
-		</Player>
-		<EnemyFly>
-			<position x="670" y="452" />
+			<velocity_dash value="-0.200002551" />
+			<velocity_jump_clinged value="-1.59999967" />
+		</entity>
+		<entity>
+			<position x="1304" y="616" />
 			<entity_type value="1" />
-			<state value="0" />
+			<state value="1" />
 			<flip value="0" />
 			<collider enabled="true" />
-		</EnemyFly>
-		<EnemyWalk>
-			<position x="401" y="694" />
+		</entity>
+		<entity>
+			<position x="461" y="694" />
+			<entity_type value="2" />
+			<state value="0" />
+			<flip value="1" />
+			<collider enabled="true" />
+		</entity>
+		<entity>
+			<position x="2253" y="882065" />
 			<entity_type value="2" />
 			<state value="0" />
 			<flip value="0" />
 			<collider enabled="true" />
-		</EnemyWalk>
+		</entity>
+		<entity>
+			<position x="4016" y="438" />
+			<entity_type value="2" />
+			<state value="0" />
+			<flip value="0" />
+			<collider enabled="true" />
+		</entity>
+		<entity>
+			<position x="790" y="800" />
+			<entity_type value="1" />
+			<state value="0" />
+			<flip value="0" />
+			<collider enabled="true" />
+		</entity>
+		<entity>
+			<position x="2722" y="590" />
+			<entity_type value="1" />
+			<state value="0" />
+			<flip value="0" />
+			<collider enabled="true" />
+		</entity>
+		<entity>
+			<position x="3383" y="511" />
+			<entity_type value="1" />
+			<state value="0" />
+			<flip value="0" />
+			<collider enabled="true" />
+		</entity>
+		<entity>
+			<position x="5619" y="462" />
+			<entity_type value="1" />
+			<state value="0" />
+			<flip value="0" />
+			<collider enabled="true" />
+		</entity>
+		<entity>
+			<position x="6971" y="574" />
+			<entity_type value="1" />
+			<state value="0" />
+			<flip value="0" />
+			<collider enabled="true" />
+		</entity>
 	</enitity_manager>
 	<collision />
 	<FadeToBlack>
@@ -44,6 +93,6 @@
 		<current_step value="0" />
 	</FadeToBlack>
 	<renderer>
-		<camera x="0" y="-188" />
+		<camera x="-554" y="-181" />
 	</renderer>
 </game_state>

@@ -15,9 +15,7 @@
 
 
 Player::Player(SDL_Rect& rect) : Entity(EntityType::PLAYER, rect)
-{
-	name = "Player";
-}
+{}
 
 //Destructor
 Player::~Player()
