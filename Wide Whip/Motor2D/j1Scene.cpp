@@ -12,6 +12,7 @@
 #include "ModuleCollision.h"
 #include "ModuleFadeToBlack.h"
 #include "ModuleEntityManager.h"
+#include "MGui.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -49,6 +50,9 @@ bool j1Scene::Start()
 	}
 
 	debug_tex = App->tex->Load("maps/path2.png");
+	App->gui->CreateUIObject(UIType::IMAGE, iPoint{ 300, 100 }, SDL_Rect{ 485, 829, 328, 103 });
+	App->gui->CreateUIText(iPoint{ 300, 0 }, "Hello World");
+	App->gui->CreateUIButton(iPoint{ 50, 50 }, "Button", SDL_Rect{ 0,113, 229, 69 });
 
 
 	return true;

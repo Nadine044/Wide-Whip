@@ -16,6 +16,8 @@
 #include "ModuleFadeToBlack.h"
 #include "ModuleEntityManager.h"
 #include "j1Pathfinding.h"
+#include "MFonts.h"
+#include "MGui.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -37,19 +39,25 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	fade_to_black = new ModuleFadeToBlack();
 	module_entity_manager = new ModuleEntityManager();
 	pathfinding_module = new j1PathFinding();
+	font = new MFonts();
+	gui = new MGui();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
 	AddModule(win);
 	AddModule(tex);
+	AddModule(font);
 	AddModule(audio);
 	AddModule(map);
+	AddModule(gui);
 	AddModule(scene);
 	AddModule(pathfinding_module);
 	AddModule(module_entity_manager);
 	AddModule(collisions);//After scenes, objects
 	AddModule(fade_to_black);
+
+
 	// render last to swap buffer
 	AddModule(render);
 

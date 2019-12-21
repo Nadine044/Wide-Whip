@@ -19,6 +19,8 @@ class ModuleCollision;
 class ModuleFadeToBlack;
 class ModuleEntityManager;
 class j1PathFinding;
+class MFonts;
+class MGui;
 
 class j1App
 {
@@ -95,6 +97,8 @@ public:
 	ModuleFadeToBlack*	fade_to_black;
 	ModuleEntityManager* module_entity_manager;
 	j1PathFinding*		pathfinding_module;
+	MFonts*				font;
+	MGui*				gui;
 
 private:
 

@@ -21,6 +21,10 @@
     <fullscreen_window value="false"/>
   </window>
 
+  <gui>
+    <atlas file="gui/atlas.png"/>
+  </gui>
+  
   <map>
     <folder>maps/</folder>
   </map>
