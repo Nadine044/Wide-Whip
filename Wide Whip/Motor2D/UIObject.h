@@ -19,12 +19,17 @@ enum class UIType
 class UIObject
 {
 public:
-	UIObject(iPoint pos, SDL_Rect rect_spritesheet);
+	UIObject(iPoint pos, SDL_Rect rect_spritesheet, bool draggable);
 	virtual bool PreUpdate() { return true; }
-	virtual bool Update(float dt) { return true; }
+	virtual bool Update(float dt);
 	virtual bool PostUpdate(SDL_Texture* atlas);
 
+	const bool MouseInRect() const;
+
+
 public:
+	bool dragging = false;
+	bool draggable = false;
 	UIType type = UIType::NONE;
 	iPoint pos;
 	SDL_Rect rect_spritesheet;

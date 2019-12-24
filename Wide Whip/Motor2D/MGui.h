@@ -24,26 +24,29 @@ public:
 	virtual ~MGui();
 
 	// Called when before render is available
-	bool Awake(pugi::xml_node&);
+	bool Awake(pugi::xml_node&) override;
 
 	// Call before first frame
-	bool Start();
+	bool Start() override;
 
 	// Called before all Updates
-	bool PreUpdate();
+	bool PreUpdate() override;
+
+	// Called before all Updates
+	bool Update(float dt) override;
 
 	// Called after all Updates
-	bool PostUpdate();
+	bool PostUpdate() override;
 
 	// Called before quitting
-	bool CleanUp();
+	bool CleanUp() override;
 
 	// TODO 2: Create the factory methods
 	// Gui creation functions
 
-	UIObject* CreateUIObject(UIType type, iPoint pos, SDL_Rect rect_sprisheet);
-	UIText* CreateUIText(iPoint pos, p2String text);
-	UIButton* CreateUIButton(iPoint pos, p2String text, SDL_Rect image_rect, UIButtonType type, j1Module* listener);
+	UIObject* CreateUIObject(UIType type, iPoint pos, SDL_Rect rect_sprisheet, bool draggable = false);
+	UIText* CreateUIText(iPoint pos, p2String text, bool draggable = false);
+	UIButton* CreateUIButton(iPoint pos, p2String text, SDL_Rect image_rect, UIButtonType type, j1Module* listener, bool draggable = false);
 
 	SDL_Texture* GetAtlas() const;
 

@@ -5,7 +5,7 @@
 class UIImage : public UIObject
 {
 public:
-	UIImage(UIType _type, iPoint pos, SDL_Rect rect_spritesheet) : UIObject(pos, rect_spritesheet) { type = _type; }
+	UIImage(UIType _type, iPoint pos, SDL_Rect rect_spritesheet, bool draggable) : UIObject(pos, rect_spritesheet, draggable) { type = _type; }
 
 };
 

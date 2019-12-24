@@ -51,9 +51,9 @@ bool j1Scene::Start()
 	}
 
 	debug_tex = App->tex->Load("maps/path2.png");
-	App->gui->CreateUIObject(UIType::IMAGE, iPoint{ 300, 100 }, SDL_Rect{ 485, 829, 328, 103 });
-	App->gui->CreateUIText(iPoint{ 300, 0 }, "Hello World");
-	App->gui->CreateUIButton(iPoint{ 50, 50 }, "Button", SDL_Rect{ 0,113, 229, 69 }, UIButtonType::TEST, this);
+	App->gui->CreateUIObject(UIType::IMAGE, iPoint{ 300, 100 }, SDL_Rect{ 485, 829, 328, 103 }, true);
+	App->gui->CreateUIText(iPoint{ 300, 0 }, "Hello World", true);
+	App->gui->CreateUIButton(iPoint{ 50, 50 }, "Button", SDL_Rect{ 0,113, 229, 69 }, UIButtonType::TEST, this, true);
 
 
 	return true;

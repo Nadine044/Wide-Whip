@@ -29,13 +29,10 @@ class UIButton : public UIObject
 
 
 public:
-	UIButton(UIType _type, iPoint pos, SDL_Rect rect_spritesheet);
+	UIButton(UIType _type, iPoint pos, SDL_Rect rect_spritesheet, bool draggable);
 
 	bool PreUpdate() override;
 	bool PostUpdate(SDL_Texture* atlas) override;
-
-	const bool MouseInRect() const;
-
 public:
 	j1Module* listener = nullptr;
 	UIButtonType button_type;

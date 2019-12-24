@@ -78,7 +78,8 @@ bool j1Input::PreUpdate()
 		if(mouse_buttons[i] == KEY_UP)
 			mouse_buttons[i] = KEY_IDLE;
 	}
-
+	mouse_motion_x = 0;
+	mouse_motion_y = 0;
 	while(SDL_PollEvent(&event) != 0)
 	{
 		switch(event.type)

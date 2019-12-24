@@ -48,6 +48,14 @@ bool MGui::PreUpdate()
 	return true;
 }
 
+bool MGui::Update(float dt)
+{
+	for (p2List_item<UIObject*>* iter = UI_objects.start; iter; iter = iter->next)
+		iter->data->Update(dt);
+
+	return true;
+}
+
 // Called after all Updates
 bool MGui::PostUpdate()
 {
@@ -71,19 +79,19 @@ SDL_Texture* MGui::GetAtlas() const
 	return atlas;
 }
 
-UIObject* MGui::CreateUIObject(UIType type, iPoint pos, SDL_Rect rect_spritesheet)
+UIObject* MGui::CreateUIObject(UIType type, iPoint pos, SDL_Rect rect_spritesheet, bool draggable)
 {
 	UIObject* ret = nullptr;
 	switch (type)
 	{
 	case UIType::IMAGE:
-		ret = new UIImage(type, pos, rect_spritesheet);
+		ret = new UIImage(type, pos, rect_spritesheet, draggable);
 		break;
 	case UIType::TEXT:
-		ret = new UIText(type, pos, rect_spritesheet);
+		ret = new UIText(type, pos, rect_spritesheet, draggable);
 		break;
 	case UIType::BUTTON:
-		ret = new UIButton(type, pos, rect_spritesheet);
+		ret = new UIButton(type, pos, rect_spritesheet, draggable);
 		break;
 	default:
 		break;
@@ -99,7 +107,7 @@ UIObject* MGui::CreateUIObject(UIType type, iPoint pos, SDL_Rect rect_spriteshee
 	return ret;
 }
 
-UIText* MGui::CreateUIText(iPoint pos, p2String text)
+UIText* MGui::CreateUIText(iPoint pos, p2String text, bool draggable)
 {
 	SDL_Texture* texture_text = App->font->Print(text.GetString());
 
@@ -108,16 +116,16 @@ UIText* MGui::CreateUIText(iPoint pos, p2String text)
 	texture_rect.y = 0;
 	SDL_QueryTexture(texture_text, NULL, NULL, &texture_rect.w, &texture_rect.h);
 
-	UIText* ret = (UIText*)CreateUIObject(UIType::TEXT, pos, texture_rect);
+	UIText* ret = (UIText*)CreateUIObject(UIType::TEXT, pos, texture_rect, draggable);
 
 	ret->texture_text = texture_text;
 
 	return ret;
 }
 
-UIButton* MGui::CreateUIButton(iPoint pos, p2String text, SDL_Rect image_rect, UIButtonType type, j1Module* listener)
+UIButton* MGui::CreateUIButton(iPoint pos, p2String text, SDL_Rect image_rect, UIButtonType type, j1Module* listener, bool draggable)
 {
-	UIButton* ret = (UIButton*)CreateUIObject(UIType::BUTTON, pos, image_rect);
+	UIButton* ret = (UIButton*)CreateUIObject(UIType::BUTTON, pos, image_rect, draggable);
 
 	SDL_Texture* texture_text = App->font->Print(text.GetString());
 
@@ -126,11 +134,11 @@ UIButton* MGui::CreateUIButton(iPoint pos, p2String text, SDL_Rect image_rect, U
 	texture_rect.y = 0;
 	SDL_QueryTexture(texture_text, NULL, NULL, &texture_rect.w, &texture_rect.h);
 
-	ret->text = new UIText(UIType::TEXT, pos, texture_rect);
+	ret->text = new UIText(UIType::TEXT, pos, texture_rect, draggable);
 	ret->text->texture_text = texture_text;
-	ret->background = new UIImage(UIType::BUTTON, pos, image_rect);
-	ret->hover = new UIImage(UIType::BUTTON, pos, SDL_Rect{ 411,169,229,69 });
-	ret->clicked = new UIImage(UIType::BUTTON, pos, SDL_Rect{ 642,169,229,69 });
+	ret->background = new UIImage(UIType::BUTTON, pos, image_rect, draggable);
+	ret->hover = new UIImage(UIType::BUTTON, pos, SDL_Rect{ 411,169,229,69 }, draggable);
+	ret->clicked = new UIImage(UIType::BUTTON, pos, SDL_Rect{ 642,169,229,69 }, draggable);
 	ret->current_image = ret->background;
 	ret->button_type = type;
 	ret->listener = listener;

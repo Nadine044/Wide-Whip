@@ -5,7 +5,7 @@
 #include "j1Input.h"
 #include "j1Render.h"
 
-UIButton::UIButton(UIType _type, iPoint pos, SDL_Rect rect_spritesheet) : UIObject(pos, rect_spritesheet)
+UIButton::UIButton(UIType _type, iPoint pos, SDL_Rect rect_spritesheet, bool draggable) : UIObject(pos, rect_spritesheet, draggable)
 {
 	type = _type;
 }
@@ -69,10 +69,3 @@ bool UIButton::PostUpdate(SDL_Texture* atlas)
 	return true;
 }
 
-const bool UIButton::MouseInRect() const
-{
-	iPoint mouse_pos;
-	App->input->GetMousePosition(mouse_pos.x, mouse_pos.y);
-
-	return !(mouse_pos.x >= (rect_world.x + rect_world.w) || mouse_pos.x <= rect_world.x || mouse_pos.y >= (rect_world.y + rect_world.h) || mouse_pos.y <= rect_world.y);
-}
