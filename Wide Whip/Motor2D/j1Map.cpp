@@ -119,7 +119,7 @@ void j1Map::Draw()
 
 bool j1Map::PostUpdate()
 {
-	Draw();
+	//Draw();
 
 	return true;
 }

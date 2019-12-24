@@ -44,7 +44,7 @@ bool j1Scene::Awake(pugi::xml_node& config)
 bool j1Scene::Start()
 {
 
-	if (App->map->Load(level1.GetString()) == true)
+	/*if (App->map->Load(level1.GetString()) == true)
 	{
 		map_name_loaded = level1;
 		App->audio->PlayMusic(music.GetString());
@@ -55,7 +55,7 @@ bool j1Scene::Start()
 	App->gui->CreateUIText(iPoint{ 300, 0 }, "Hello World", true);
 	App->gui->CreateUIButton(iPoint{ 50, 50 }, "Button", SDL_Rect{ 0,113, 229, 69 }, UIButtonType::TEST, this, true);
 
-
+	*/
 	return true;
 }
 
@@ -85,21 +85,6 @@ bool j1Scene::ButtonEvent(const UIButtonType type)
 	{
 	case UIButtonType::TEST:
 		LOG("Button pressed! Do something here!");
-		break;
-	case UIButtonType::NEW_GAME:
-		LOG("Button NEW GAME pressed.");
-		break;
-	case UIButtonType::CONTINUE:
-		LOG("CONTINUE game");
-		break;
-	case UIButtonType::SETTINGS:
-		LOG("Go into SETTINGS");
-		break;
-	case UIButtonType::CREDITS:
-		LOG("Our precious CREDITS");
-		break;
-	case UIButtonType::EXIT:
-		LOG("Bye :)");
 		break;
 	default:
 		break;

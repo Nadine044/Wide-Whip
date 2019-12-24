@@ -22,7 +22,7 @@ bool j1PathFinding::Start()
 bool j1PathFinding::PreUpdate()
 {
 
-	static iPoint origin;
+	/*static iPoint origin;
 	static bool origin_selected = false;
 
 	int x, y;
@@ -42,7 +42,7 @@ bool j1PathFinding::PreUpdate()
 			origin = p;
 			origin_selected = true;
 		}
-	}
+	}*/
 
 	return true;
 }

@@ -15,6 +15,8 @@ public:
 	bool Update(float dt) override;
 	bool PostUpdate() override;
 	bool CleanUp() override;
+
+	bool ButtonEvent(const UIButtonType type) override;
 };
 
 
