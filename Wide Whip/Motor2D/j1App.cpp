@@ -18,6 +18,7 @@
 #include "j1Pathfinding.h"
 #include "MFonts.h"
 #include "MGui.h"
+#include "j1UIMenu.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -41,6 +42,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	pathfinding_module = new j1PathFinding();
 	font = new MFonts();
 	gui = new MGui();
+	menu = new UIMenu();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -50,6 +52,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(font);
 	AddModule(audio);
 	AddModule(map);
+	AddModule(menu);
 	AddModule(gui);
 	AddModule(scene);
 	AddModule(pathfinding_module);

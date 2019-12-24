@@ -6,6 +6,13 @@
 struct SDL_Texture;
 enum class UIButtonType;
 
+enum class Screens
+{
+	MENU,
+	LEVEL1,
+	LEVEL2
+};
+
 class j1Scene : public j1Module
 {
 public:

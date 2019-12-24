@@ -21,6 +21,7 @@ class ModuleEntityManager;
 class j1PathFinding;
 class MFonts;
 class MGui;
+class UIMenu;
 
 class j1App
 {
@@ -99,6 +100,7 @@ public:
 	j1PathFinding*		pathfinding_module;
 	MFonts*				font;
 	MGui*				gui;
+	UIMenu*				menu;
 
 private:
 

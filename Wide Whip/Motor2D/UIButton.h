@@ -7,7 +7,11 @@
 enum class UIButtonType
 {
 	TEST,
-	SETTINGS
+	NEW_GAME,
+	CONTINUE,
+	SETTINGS,
+	CREDITS,
+	EXIT
 };
 
 class UIButton : public UIObject

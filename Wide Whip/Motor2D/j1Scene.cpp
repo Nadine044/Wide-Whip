@@ -86,6 +86,21 @@ bool j1Scene::ButtonEvent(const UIButtonType type)
 	case UIButtonType::TEST:
 		LOG("Button pressed! Do something here!");
 		break;
+	case UIButtonType::NEW_GAME:
+		LOG("Button NEW GAME pressed.");
+		break;
+	case UIButtonType::CONTINUE:
+		LOG("CONTINUE game");
+		break;
+	case UIButtonType::SETTINGS:
+		LOG("Go into SETTINGS");
+		break;
+	case UIButtonType::CREDITS:
+		LOG("Our precious CREDITS");
+		break;
+	case UIButtonType::EXIT:
+		LOG("Bye :)");
+		break;
 	default:
 		break;
 	}
