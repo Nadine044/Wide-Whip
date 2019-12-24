@@ -37,6 +37,12 @@ bool UIObject::Update(float dt)
 		if (!dragging && MouseInRect() && App->input->GetMouseButtonDown(1) == KEY_DOWN)
 		{
 			dragging = true;
+			UIObject* current = this;
+			while(current->parent)
+			{
+				current = current->parent;
+				current->dragging = false;
+			}
 		}
 
 		if (dragging)
@@ -45,8 +51,7 @@ bool UIObject::Update(float dt)
 			App->input->GetMouseMotion(mouse_move.x, mouse_move.y);
 			SetAllPos(mouse_move);
 			
-			rect_world.x += mouse_move.x;
-			rect_world.y += mouse_move.y;
+
 
 			if (App->input->GetMouseButtonDown(1) == KEY_UP)
 			{
@@ -86,6 +91,8 @@ void UIObject::SetPos(iPoint & mouse_move)
 {
 	local_pos += mouse_move;
 	world_pos += mouse_move;
+	rect_world.x += mouse_move.x;
+	rect_world.y += mouse_move.y;
 }
 
 const bool UIObject::MouseInRect() const
