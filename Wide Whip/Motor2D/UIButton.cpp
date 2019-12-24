@@ -5,7 +5,7 @@
 #include "j1Input.h"
 #include "j1Render.h"
 
-UIButton::UIButton(UIType _type, iPoint local_pos, SDL_Rect rect_spritesheet, bool draggable, UIObject* parent) : UIObject(local_pos, rect_spritesheet, draggable, parent)
+UIButton::UIButton(UIType _type, iPoint local_pos, SDL_Rect rect_spritesheet_original, bool draggable, UIObject* parent) : UIObject(local_pos, rect_spritesheet_original, draggable, parent)
 {
 	type = _type;
 }

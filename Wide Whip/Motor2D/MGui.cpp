@@ -79,19 +79,19 @@ SDL_Texture* MGui::GetAtlas() const
 	return atlas;
 }
 
-UIObject* MGui::CreateUIObject(UIType type, iPoint local_pos, SDL_Rect rect_spritesheet, bool draggable, UIObject* parent)
+UIObject* MGui::CreateUIObject(UIType type, iPoint local_pos, SDL_Rect rect_spritesheet_original, bool draggable, UIObject* parent)
 {
 	UIObject* ret = nullptr;
 	switch (type)
 	{
 	case UIType::IMAGE:
-		ret = new UIImage(type, local_pos, rect_spritesheet, draggable, parent);
+		ret = new UIImage(type, local_pos, rect_spritesheet_original, draggable, parent);
 		break;
 	case UIType::TEXT:
-		ret = new UIText(type, local_pos, rect_spritesheet, draggable, parent);
+		ret = new UIText(type, local_pos, rect_spritesheet_original, draggable, parent);
 		break;
 	case UIType::BUTTON:
-		ret = new UIButton(type, local_pos, rect_spritesheet, draggable, parent);
+		ret = new UIButton(type, local_pos, rect_spritesheet_original, draggable, parent);
 		break;
 	default:
 		break;
@@ -107,9 +107,9 @@ UIObject* MGui::CreateUIObject(UIType type, iPoint local_pos, SDL_Rect rect_spri
 	return ret;
 }
 
-UIImage* MGui::CreateUIImage(iPoint local_pos, SDL_Rect rect_spritesheet, bool draggable, UIObject* parent)
+UIImage* MGui::CreateUIImage(iPoint local_pos, SDL_Rect rect_spritesheet_original, bool draggable, UIObject* parent)
 {
-	return (UIImage*)CreateUIObject(UIType::IMAGE, local_pos, rect_spritesheet, draggable, parent);
+	return (UIImage*)CreateUIObject(UIType::IMAGE, local_pos, rect_spritesheet_original, draggable, parent);
 }
 
 UIText* MGui::CreateUIText(iPoint local_pos, p2String text, bool draggable, UIObject* parent)

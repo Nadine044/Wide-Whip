@@ -6,7 +6,7 @@
 class UIText : public UIObject
 {
 public:
-	UIText(UIType _type, iPoint local_pos, SDL_Rect rect_spritesheet, bool draggable, UIObject* parent) : UIObject(local_pos, rect_spritesheet, draggable, parent) { type = _type; }
+	UIText(UIType _type, iPoint local_pos, SDL_Rect rect_spritesheet_original, bool draggable, UIObject* parent) : UIObject(local_pos, rect_spritesheet_original, draggable, parent) { type = _type; }
 
 	bool PostUpdate(SDL_Texture* atlas) override;
 

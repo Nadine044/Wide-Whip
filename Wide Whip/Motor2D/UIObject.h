@@ -19,7 +19,7 @@ enum class UIType
 class UIObject
 {
 public:
-	UIObject(iPoint pos, SDL_Rect rect_spritesheet, bool draggable, UIObject* parent);
+	UIObject(iPoint pos, SDL_Rect rect_spritesheet_original, bool draggable, UIObject* parent);
 	virtual bool PreUpdate() { return true; }
 	virtual bool Update(float dt);
 	void SetAllPos(iPoint &mouse_move);
@@ -27,8 +27,6 @@ public:
 	virtual bool PostUpdate(SDL_Texture* atlas);
 
 	const bool MouseInRect() const;
-
-	void SetWorldPos();
 
 
 public:
@@ -38,8 +36,10 @@ public:
 	bool draggable = false;
 	UIType type = UIType::NONE;
 	iPoint local_pos;
-	iPoint world_pos;
-	SDL_Rect rect_spritesheet;
+	iPoint world_pos_original;
+	iPoint world_pos_final;
+	SDL_Rect rect_spritesheet_original;
+	SDL_Rect rect_spritesheet_final;
 	SDL_Rect rect_world;
 
 };

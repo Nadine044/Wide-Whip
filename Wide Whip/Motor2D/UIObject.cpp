@@ -6,26 +6,29 @@
 #include "p2List.h"
 
 
-UIObject::UIObject(iPoint local_pos, SDL_Rect rect_spritesheet, bool draggable, UIObject* parent) : local_pos(local_pos), rect_spritesheet(rect_spritesheet), draggable(draggable), parent(parent)
+UIObject::UIObject(iPoint local_pos, SDL_Rect rect_spritesheet_original, bool draggable, UIObject* parent) : local_pos(local_pos), rect_spritesheet_original(rect_spritesheet_original), rect_spritesheet_final(rect_spritesheet_original), draggable(draggable), parent(parent)
 {
 	if (parent != nullptr)
 	{
-		world_pos = local_pos + parent->local_pos;
+		world_pos_original = local_pos + parent->local_pos;
 		parent->childrens.add(this);
 	}
 
 	else
-		world_pos = local_pos;
+		world_pos_original = local_pos;
 	
-	rect_world.x = world_pos.x;
-	rect_world.y = world_pos.y;
-	rect_world.w = rect_spritesheet.w;
-	rect_world.h = rect_spritesheet.h;
+	world_pos_final = world_pos_original;
+	rect_world.x = world_pos_original.x;
+	rect_world.y = world_pos_original.y;
+	rect_world.w = rect_spritesheet_original.w;
+	rect_world.h = rect_spritesheet_original.h;
+
 }
 
 bool UIObject::PostUpdate(SDL_Texture* atlas)
 {
-	App->render->Blit(atlas, world_pos.x, world_pos.y, &rect_spritesheet, 1.0f, SDL_FLIP_NONE, false);
+	App->render->DrawQuad(rect_world, 255, 0, 0, 255, true, false);
+	App->render->Blit(atlas, world_pos_final.x, world_pos_final.y, &rect_spritesheet_final, 1.0f, SDL_FLIP_NONE, false);
 
 	return true;
 }
@@ -56,6 +59,43 @@ bool UIObject::Update(float dt)
 			if (App->input->GetMouseButtonDown(1) == KEY_UP)
 			{
 				dragging = false;
+			}
+		}
+
+		if (parent)
+		{
+			if (world_pos_original.x < parent->world_pos_original.x)
+			{
+				rect_spritesheet_final.x = rect_spritesheet_original.x + (parent->world_pos_original.x - world_pos_original.x);
+				rect_spritesheet_final.w = rect_spritesheet_original.w - (parent->world_pos_original.x - world_pos_original.x);
+				world_pos_final.x = world_pos_original.x + (parent->world_pos_original.x - world_pos_original.x);
+			}
+			else if (world_pos_original.x + rect_spritesheet_original.w > parent->world_pos_original.x + parent->rect_spritesheet_final.w)
+			{
+				rect_spritesheet_final.w = rect_spritesheet_original.w - (world_pos_original.x + rect_spritesheet_original.w - (parent->world_pos_original.x + parent->rect_spritesheet_final.w));
+			}
+			else
+			{
+				world_pos_final.x = world_pos_original.x;
+				rect_spritesheet_final.x = rect_spritesheet_original.x;
+				rect_spritesheet_final.w = rect_spritesheet_original.w;
+			}
+
+			if (world_pos_original.y < parent->world_pos_original.y)
+			{
+				rect_spritesheet_final.y = rect_spritesheet_original.y + (parent->world_pos_original.y - world_pos_original.y);
+				rect_spritesheet_final.h = rect_spritesheet_original.h - (parent->world_pos_original.y - world_pos_original.y);
+				world_pos_final.y = world_pos_original.y + (parent->world_pos_original.y - world_pos_original.y);
+			}
+			else if (world_pos_original.y + rect_spritesheet_original.h > parent->world_pos_original.y + parent->rect_spritesheet_final.h)
+			{
+				rect_spritesheet_final.h = rect_spritesheet_original.h - (world_pos_original.y + rect_spritesheet_original.h - (parent->world_pos_original.y + parent->rect_spritesheet_final.h));
+			}
+			else
+			{
+				world_pos_final.y = world_pos_original.y;
+				rect_spritesheet_final.y = rect_spritesheet_original.y;
+				rect_spritesheet_final.h = rect_spritesheet_original.h;
 			}
 		}
 	}
@@ -90,9 +130,10 @@ void UIObject::SetAllPos(iPoint &mouse_move)
 void UIObject::SetPos(iPoint & mouse_move)
 {
 	local_pos += mouse_move;
-	world_pos += mouse_move;
+	world_pos_original += mouse_move;
 	rect_world.x += mouse_move.x;
 	rect_world.y += mouse_move.y;
+	world_pos_final += mouse_move;
 }
 
 const bool UIObject::MouseInRect() const
