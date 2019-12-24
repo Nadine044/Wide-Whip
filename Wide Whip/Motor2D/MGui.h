@@ -45,14 +45,14 @@ public:
 	// TODO 2: Create the factory methods
 	// Gui creation functions
 
-	UIImage* CreateUIImage(iPoint pos, SDL_Rect rect_spritesheet,  bool draggable = false);
-	UIText* CreateUIText(iPoint pos, p2String text, bool draggable = false);
-	UIButton* CreateUIButton(iPoint pos, p2String text, SDL_Rect image_rect, UIButtonType type, j1Module* listener, bool draggable = false);
+	UIImage* CreateUIImage(iPoint pos, SDL_Rect rect_spritesheet,  bool draggable = false, UIObject* parent = nullptr);
+	UIText* CreateUIText(iPoint pos, p2String text, bool draggable = false, UIObject* parent = nullptr);
+	UIButton* CreateUIButton(iPoint pos, p2String text, SDL_Rect image_rect, UIButtonType type, j1Module* listener, bool draggable = false, UIObject* parent = nullptr);
 
 	SDL_Texture* GetAtlas() const;
 
 private:
-	UIObject* CreateUIObject(UIType type, iPoint pos, SDL_Rect rect_sprisheet, bool draggable = false);
+	UIObject* CreateUIObject(UIType type, iPoint pos, SDL_Rect rect_sprisheet, bool draggable, UIObject* parent);
 
 private:
 

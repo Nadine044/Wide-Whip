@@ -5,7 +5,7 @@
 #include "j1Input.h"
 #include "j1Render.h"
 
-UIButton::UIButton(UIType _type, iPoint pos, SDL_Rect rect_spritesheet, bool draggable) : UIObject(pos, rect_spritesheet, draggable)
+UIButton::UIButton(UIType _type, iPoint local_pos, SDL_Rect rect_spritesheet, bool draggable, UIObject* parent) : UIObject(local_pos, rect_spritesheet, draggable, parent)
 {
 	type = _type;
 }
@@ -62,7 +62,7 @@ bool UIButton::PreUpdate()
 
 bool UIButton::PostUpdate(SDL_Texture* atlas)
 {
-	App->render->DrawQuad(rect_world, 255, 0, 0);
+	App->render->DrawQuad(rect_world, 255, 0, 0, 255, true, false);
 	current_image->PostUpdate(atlas);// TODO:should be this in a fucnction "Draw"
 	text->PostUpdate(atlas);// TODO:should be this in a fucnction "Draw"
 

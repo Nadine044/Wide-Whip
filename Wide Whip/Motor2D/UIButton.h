@@ -30,7 +30,7 @@ class UIButton : public UIObject
 
 
 public:
-	UIButton(UIType _type, iPoint pos, SDL_Rect rect_spritesheet, bool draggable);
+	UIButton(UIType _type, iPoint local_pos, SDL_Rect rect_spritesheet, bool draggable, UIObject* parent);
 
 	bool PreUpdate() override;
 	bool PostUpdate(SDL_Texture* atlas) override;
