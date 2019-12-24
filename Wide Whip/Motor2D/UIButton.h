@@ -6,7 +6,8 @@
 
 enum class UIButtonType
 {
-	TEST
+	TEST,
+	SETTINGS
 };
 
 class UIButton : public UIObject

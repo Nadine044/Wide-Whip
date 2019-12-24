@@ -107,6 +107,11 @@ UIObject* MGui::CreateUIObject(UIType type, iPoint pos, SDL_Rect rect_spriteshee
 	return ret;
 }
 
+UIImage* MGui::CreateUIImage(iPoint pos, SDL_Rect rect_spritesheet, bool draggable)
+{
+	return (UIImage*)CreateUIObject(UIType::IMAGE, pos, rect_spritesheet, draggable);
+}
+
 UIText* MGui::CreateUIText(iPoint pos, p2String text, bool draggable)
 {
 	SDL_Texture* texture_text = App->font->Print(text.GetString());

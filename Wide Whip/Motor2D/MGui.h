@@ -10,6 +10,7 @@
 #define CURSOR_WIDTH 2
 
 class UIText;
+class UIImage;
 enum class UIButtonType;
 // TODO 1: Create your structure of classes
 
@@ -44,11 +45,14 @@ public:
 	// TODO 2: Create the factory methods
 	// Gui creation functions
 
-	UIObject* CreateUIObject(UIType type, iPoint pos, SDL_Rect rect_sprisheet, bool draggable = false);
+	UIImage* CreateUIImage(iPoint pos, SDL_Rect rect_spritesheet,  bool draggable = false);
 	UIText* CreateUIText(iPoint pos, p2String text, bool draggable = false);
 	UIButton* CreateUIButton(iPoint pos, p2String text, SDL_Rect image_rect, UIButtonType type, j1Module* listener, bool draggable = false);
 
 	SDL_Texture* GetAtlas() const;
+
+private:
+	UIObject* CreateUIObject(UIType type, iPoint pos, SDL_Rect rect_sprisheet, bool draggable = false);
 
 private:
 
