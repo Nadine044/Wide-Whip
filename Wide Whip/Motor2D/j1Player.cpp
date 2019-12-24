@@ -355,7 +355,6 @@ void Player::Gravity(float dt)
 	if (v_y_final < min_speed)
 		v_y_final = min_speed;
 
-	LOG("%i", v_y_final);
 	pos.y -= v_y_final;
 
 }

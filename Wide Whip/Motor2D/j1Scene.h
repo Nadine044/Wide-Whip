@@ -4,6 +4,7 @@
 #include "j1Module.h"
 
 struct SDL_Texture;
+enum class UIButtonType;
 
 class j1Scene : public j1Module
 {
@@ -37,6 +38,8 @@ public:
 	bool Save(pugi::xml_node&) const  override;
 
 	bool Load(pugi::xml_node&) override;
+
+	bool ButtonEvent(const UIButtonType type) override;
 
 
 

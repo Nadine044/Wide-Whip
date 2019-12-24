@@ -10,7 +10,7 @@
 #define CURSOR_WIDTH 2
 
 class UIText;
-
+enum class UIButtonType;
 // TODO 1: Create your structure of classes
 
 // ---------------------------------------------------
@@ -43,7 +43,7 @@ public:
 
 	UIObject* CreateUIObject(UIType type, iPoint pos, SDL_Rect rect_sprisheet);
 	UIText* CreateUIText(iPoint pos, p2String text);
-	UIButton* CreateUIButton(iPoint pos, p2String text, SDL_Rect image_rect);
+	UIButton* CreateUIButton(iPoint pos, p2String text, SDL_Rect image_rect, UIButtonType type, j1Module* listener);
 
 	SDL_Texture* GetAtlas() const;
 

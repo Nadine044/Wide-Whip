@@ -115,7 +115,7 @@ UIText* MGui::CreateUIText(iPoint pos, p2String text)
 	return ret;
 }
 
-UIButton* MGui::CreateUIButton(iPoint pos, p2String text, SDL_Rect image_rect)
+UIButton* MGui::CreateUIButton(iPoint pos, p2String text, SDL_Rect image_rect, UIButtonType type, j1Module* listener)
 {
 	UIButton* ret = (UIButton*)CreateUIObject(UIType::BUTTON, pos, image_rect);
 
@@ -132,6 +132,8 @@ UIButton* MGui::CreateUIButton(iPoint pos, p2String text, SDL_Rect image_rect)
 	ret->hover = new UIImage(UIType::BUTTON, pos, SDL_Rect{ 411,169,229,69 });
 	ret->clicked = new UIImage(UIType::BUTTON, pos, SDL_Rect{ 642,169,229,69 });
 	ret->current_image = ret->background;
+	ret->button_type = type;
+	ret->listener = listener;
 	return ret;
 }
 

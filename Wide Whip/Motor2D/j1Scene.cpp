@@ -13,6 +13,7 @@
 #include "ModuleFadeToBlack.h"
 #include "ModuleEntityManager.h"
 #include "MGui.h"
+#include "UIButton.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -52,7 +53,7 @@ bool j1Scene::Start()
 	debug_tex = App->tex->Load("maps/path2.png");
 	App->gui->CreateUIObject(UIType::IMAGE, iPoint{ 300, 100 }, SDL_Rect{ 485, 829, 328, 103 });
 	App->gui->CreateUIText(iPoint{ 300, 0 }, "Hello World");
-	App->gui->CreateUIButton(iPoint{ 50, 50 }, "Button", SDL_Rect{ 0,113, 229, 69 });
+	App->gui->CreateUIButton(iPoint{ 50, 50 }, "Button", SDL_Rect{ 0,113, 229, 69 }, UIButtonType::TEST, this);
 
 
 	return true;
@@ -74,6 +75,20 @@ bool j1Scene::Update(float dt)
 	CheckSaveLoad();
 
 	
+
+	return true;
+}
+
+bool j1Scene::ButtonEvent(const UIButtonType type)
+{
+	switch (type)
+	{
+	case UIButtonType::TEST:
+		LOG("Button pressed! Do something here!");
+		break;
+	default:
+		break;
+	}
 
 	return true;
 }

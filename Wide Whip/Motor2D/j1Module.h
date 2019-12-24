@@ -10,6 +10,7 @@
 #include "PugiXml\src\pugixml.hpp"
 
 class j1App;
+enum class UIButtonType;
 
 class j1Module
 {
@@ -65,6 +66,11 @@ public:
 	}
 
 	virtual bool Save(pugi::xml_node&) const
+	{
+		return true;
+	}
+
+	virtual bool ButtonEvent(const UIButtonType type)
 	{
 		return true;
 	}

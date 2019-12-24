@@ -4,7 +4,10 @@
 #include "UIImage.h";
 #include "UIText.h"
 
-
+enum class UIButtonType
+{
+	TEST
+};
 
 class UIButton : public UIObject
 {
@@ -15,13 +18,15 @@ class UIButton : public UIObject
 		CLICKED,
 	};
 
-	enum class UIButtonEvents
+	/*enum class UIButtonEvents
 	{
 		MOUSE_ENTER,
 		MOUSE_EXIT,
 		CLICKED,
 		RELEASED
-	};
+	};*/
+
+
 
 public:
 	UIButton(UIType _type, iPoint pos, SDL_Rect rect_spritesheet);
@@ -32,6 +37,8 @@ public:
 	const bool MouseInRect() const;
 
 public:
+	j1Module* listener = nullptr;
+	UIButtonType button_type;
 	UIButtonState state;
 	UIImage* background = nullptr;
 	UIImage* hover = nullptr;

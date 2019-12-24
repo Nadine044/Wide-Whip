@@ -43,6 +43,7 @@ bool UIButton::PreUpdate()
 			{
 				state = UIButtonState::HOVER;
 				current_image = hover;
+				listener->ButtonEvent(button_type);
 			}
 			else
 			{
