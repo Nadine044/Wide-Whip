@@ -36,7 +36,7 @@ bool MGui::Awake(pugi::xml_node& conf)
 bool MGui::Start()
 {
 	atlas = App->tex->Load(atlas_file_name.GetString());
-
+	SDL_StartTextInput();
 	return true;
 }
 
@@ -79,6 +79,19 @@ SDL_Texture* MGui::GetAtlas() const
 {
 	return atlas;
 }
+
+void MGui::InputEvent(char* input)
+{
+	for (p2List_item<UIObject*>* iter = UI_objects.start; iter; iter = iter->next)
+	{
+		if (iter->data->type == UIType::INPUTTEXT)
+		{
+			UIInputText* iter_input_text = (UIInputText*)iter->data;
+			iter_input_text->GetInput(input);
+		}
+	}
+}
+
 
 UIObject* MGui::CreateUIObject(UIType type, iPoint local_pos, SDL_Rect rect_spritesheet_original, bool draggable, UIObject* parent)
 {
@@ -168,8 +181,10 @@ UIInputText* MGui::CreateUIInputText(iPoint local_pos, p2String text, SDL_Rect i
 	ret->text->texture_text = texture_text;
 	ret->input = new UIText(UIType::TEXT, iPoint{ 10,25 }, texture_rect, false, ret);
 
-	ret->cursor.x = local_pos.x + 10;
-	ret->cursor.y = local_pos.y + 25;
+	ret->cursor_original_pos.x = local_pos.x + 10;
+	ret->cursor_original_pos.y = local_pos.y + 25;
+	ret->cursor.x = ret->cursor_original_pos.x;
+	ret->cursor.y = ret->cursor_original_pos.y;
 	ret->cursor.w = 2;
 	ret->cursor.h = texture_rect.h;
 

@@ -51,6 +51,8 @@ public:
 	UIButton* CreateUIButton(iPoint pos, p2String text, SDL_Rect image_rect, UIButtonType type, j1Module* listener, bool draggable = false, UIObject* parent = nullptr);
 	UIInputText* CreateUIInputText(iPoint pos, p2String text, SDL_Rect image_rect, bool draggable = false, UIObject* parent = nullptr);
 
+	void InputEvent(char* input);
+
 	SDL_Texture* GetAtlas() const;
 
 private:

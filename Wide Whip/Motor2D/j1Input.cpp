@@ -4,6 +4,8 @@
 #include "j1Input.h"
 #include "j1Window.h"
 #include "SDL/include/SDL.h"
+#include "MGui.h"
+#include <string.h>
 
 #define MAX_KEYS 300
 
@@ -117,7 +119,9 @@ bool j1Input::PreUpdate()
 				mouse_buttons[event.button.button - 1] = KEY_UP;
 				//LOG("Mouse button %d up", event.button.button-1);
 			break;
-
+			case SDL_TEXTINPUT:
+				App->gui->InputEvent(event.edit.text);
+				break;
 			case SDL_MOUSEMOTION:
 				int scale = App->win->GetScale();
 				mouse_motion_x = event.motion.xrel / scale;
@@ -126,6 +130,7 @@ bool j1Input::PreUpdate()
 				mouse_y = event.motion.y / scale;
 				//LOG("Mouse motion x %d y %d", mouse_motion_x, mouse_motion_y);
 			break;
+
 		}
 	}
 
