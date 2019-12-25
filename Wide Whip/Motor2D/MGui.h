@@ -11,6 +11,7 @@
 
 class UIText;
 class UIImage;
+class UIInputText;
 enum class UIButtonType;
 // TODO 1: Create your structure of classes
 
@@ -48,6 +49,7 @@ public:
 	UIImage* CreateUIImage(iPoint pos, SDL_Rect rect_spritesheet_original,  bool draggable = false, UIObject* parent = nullptr);
 	UIText* CreateUIText(iPoint pos, p2String text, bool draggable = false, UIObject* parent = nullptr);
 	UIButton* CreateUIButton(iPoint pos, p2String text, SDL_Rect image_rect, UIButtonType type, j1Module* listener, bool draggable = false, UIObject* parent = nullptr);
+	UIInputText* CreateUIInputText(iPoint pos, p2String text, SDL_Rect image_rect, bool draggable = false, UIObject* parent = nullptr);
 
 	SDL_Texture* GetAtlas() const;
 

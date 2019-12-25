@@ -13,7 +13,8 @@ enum class UIType
 	NONE = -1,
 	IMAGE,
 	TEXT,
-	BUTTON
+	BUTTON,
+	INPUTTEXT
 };
 
 class UIObject
@@ -23,7 +24,7 @@ public:
 	virtual bool PreUpdate() { return true; }
 	virtual bool Update(float dt);
 	void SetAllPos(iPoint &mouse_move);
-	void SetPos(iPoint & mouse_move);
+	virtual void SetPos(iPoint & mouse_move);
 	virtual bool PostUpdate(SDL_Texture* atlas);
 
 	const bool MouseInRect() const;

@@ -9,6 +9,7 @@
 #include "UIImage.h"
 #include "UIText.h"
 #include "p2Point.h"
+#include "UIInputText.h"
 
 
 MGui::MGui() : j1Module()
@@ -93,6 +94,9 @@ UIObject* MGui::CreateUIObject(UIType type, iPoint local_pos, SDL_Rect rect_spri
 	case UIType::BUTTON:
 		ret = new UIButton(type, local_pos, rect_spritesheet_original, draggable, parent);
 		break;
+	case UIType::INPUTTEXT:
+		ret = new UIInputText(type, local_pos, rect_spritesheet_original, draggable, parent);
+		break;
 	default:
 		break;
 	}
@@ -141,12 +145,37 @@ UIButton* MGui::CreateUIButton(iPoint local_pos, p2String text, SDL_Rect image_r
 
 	ret->text = new UIText(UIType::TEXT, iPoint{50,25}, texture_rect, false, ret);
 	ret->text->texture_text = texture_text;
-	ret->background = new UIImage(UIType::BUTTON, iPoint{0,0}, image_rect, false, ret);
-	ret->hover = new UIImage(UIType::BUTTON, iPoint{ 0,0 }, SDL_Rect{ 411,169,229,69 }, false, ret);
-	ret->clicked = new UIImage(UIType::BUTTON, iPoint{ 0,0 }, SDL_Rect{ 642,169,229,69 }, false, ret);
+	ret->background = new UIImage(UIType::IMAGE, iPoint{0,0}, image_rect, false, ret);
+	ret->hover = new UIImage(UIType::IMAGE, iPoint{ 0,0 }, SDL_Rect{ 411,169,229,69 }, false, ret);
+	ret->clicked = new UIImage(UIType::IMAGE, iPoint{ 0,0 }, SDL_Rect{ 642,169,229,69 }, false, ret);
 	ret->current_image = ret->background;
 	ret->button_type = type;
 	ret->listener = listener;
+	return ret;
+}
+
+UIInputText* MGui::CreateUIInputText(iPoint local_pos, p2String text, SDL_Rect image_rect, bool draggable, UIObject* parent)
+{
+	UIInputText* ret = (UIInputText*)CreateUIObject(UIType::INPUTTEXT, local_pos, image_rect, draggable, parent);
+
+	SDL_Texture* texture_text = App->font->Print(text.GetString());
+	SDL_Rect texture_rect;
+	texture_rect.x = 0;
+	texture_rect.y = 0;
+	SDL_QueryTexture(texture_text, NULL, NULL, &texture_rect.w, &texture_rect.h);
+
+	ret->text = new UIText(UIType::TEXT, iPoint{ 10,25 }, texture_rect, false, ret);
+	ret->text->texture_text = texture_text;
+	ret->input = new UIText(UIType::TEXT, iPoint{ 10,25 }, texture_rect, false, ret);
+
+	ret->cursor.x = local_pos.x + 10;
+	ret->cursor.y = local_pos.y + 25;
+	ret->cursor.w = 2;
+	ret->cursor.h = texture_rect.h;
+
+	ret->current_text = ret->input;
+	ret->background = new UIImage(UIType::BUTTON, iPoint{ 0,0 }, image_rect, false, ret);
+
 	return ret;
 }
 

@@ -47,4 +47,4 @@ public:
 
 };
 
-#endif // !__UIIMAGE_H__
+#endif // !__UIBUTTON_H__
