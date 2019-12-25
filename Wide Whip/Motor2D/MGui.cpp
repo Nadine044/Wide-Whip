@@ -87,7 +87,7 @@ void MGui::InputEvent(char* input)
 		if (iter->data->type == UIType::INPUTTEXT)
 		{
 			UIInputText* iter_input_text = (UIInputText*)iter->data;
-			iter_input_text->GetInput(input);
+			iter_input_text->WriteInput(input);
 		}
 	}
 }

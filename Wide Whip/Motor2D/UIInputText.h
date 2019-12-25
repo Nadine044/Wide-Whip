@@ -18,10 +18,23 @@ public:
 	bool PostUpdate(SDL_Texture* atlas) override;
 	bool Update(float dt) override;
 
+	void EndInput();
+
+	void HomeInput();
+
+	void SuppressInput();
+
+	void Suppress();
+
+	void DeleteInput();
+
+	void Delete();
+
 	void SetCursorPos(p2String &string_cuted);
 
 	void SetPos(iPoint & mouse_move)override;
-	void GetInput(char* input);
+	void WriteInput(char* input);
+	void RecalculateStringTexture();
 	void AddCharacter(const char* input);
 public:
 	p2String text_string;

@@ -57,7 +57,96 @@ bool UIInputText::Update(float dt)
 			SetCursorPos(string_cuted);
 		}
 	}
+
+	if (App->input->GetKey(SDL_SCANCODE_BACKSPACE) == KEY_DOWN)
+	{
+		if (cursor_int != 0)
+		{
+			DeleteInput();
+		}
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)
+	{
+		SuppressInput();
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_HOME) == KEY_DOWN)
+	{
+		HomeInput();
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_END) == KEY_DOWN)
+	{
+		EndInput();
+	}
 	return true;
+}
+
+void UIInputText::EndInput()
+{
+	cursor_int = text_string.Length();
+	SetCursorPos(text_string);
+}
+
+void UIInputText::HomeInput()
+{
+	cursor_int = 0;
+	cursor.x = cursor_original_pos.x;
+}
+
+void UIInputText::SuppressInput()
+{
+	Suppress();
+	RecalculateStringTexture();
+}
+
+void UIInputText::Suppress()
+{
+	if (text_string.Length() != cursor_int)
+	{
+		p2String part1 = text_string;
+		part1.Cut(cursor_int);
+		p2String part2 = text_string;
+		if (cursor_int != 0)
+			part2.Cut(0, cursor_int);
+
+		text_string = part1.GetString();
+		part2.Cut(0,1);
+		text_string += part2.GetString();
+
+	}
+
+}
+
+void UIInputText::DeleteInput()
+{
+	Delete();
+	RecalculateStringTexture();
+}
+
+void UIInputText::Delete()
+{
+	if (text_string.Length() != cursor_int)
+	{
+		p2String part1 = text_string;
+		part1.Cut(cursor_int);
+		p2String part2 = text_string;
+		if (cursor_int != 0)
+			part2.Cut(0, cursor_int);
+
+		text_string = part1.GetString();
+		text_string.Cut(--cursor_int);
+		SetCursorPos(text_string);
+
+		text_string += part2.GetString();
+
+	}
+	else
+	{
+		text_string.Cut(--cursor_int);
+		SetCursorPos(text_string);
+	}
 }
 
 void UIInputText::SetCursorPos(p2String &string_cuted)
@@ -79,10 +168,14 @@ void UIInputText::SetPos(iPoint & mouse_move)
 	cursor.y += mouse_move.y;
 }
 
-void UIInputText::GetInput(char* input)
+void UIInputText::WriteInput(char* input)
 {
 	AddCharacter(input);
+	RecalculateStringTexture();
+}
 
+void UIInputText::RecalculateStringTexture()
+{
 	this->input->texture_text = App->font->Print(text_string.GetString());
 	int w, h;
 	App->font->CalcSize(text_string.GetString(), w, h);
@@ -110,9 +203,7 @@ void UIInputText::AddCharacter(const char* input)
 		text_string += input;
 		cursor_int++;
 		SetCursorPos(text_string);
-
 		text_string += part2.GetString();
-
 	}
 	else
 	{
