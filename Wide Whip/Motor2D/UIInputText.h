@@ -15,15 +15,18 @@ public:
 
 	//bool PreUpdate() override;
 	bool PostUpdate(SDL_Texture* atlas) override;
+	bool Update(float dt) override;
 
 	void SetPos(iPoint & mouse_move)override;
 	void GetInput(char* input);
+	void AddCharacter(const char* input);
 public:
 	p2String text_string;
 	UIText* text;
 	UIText* input;
 	UIText* current_text;
 	SDL_Rect cursor;
+	int cursor_int = 0;
 	iPoint cursor_original_pos;
 	UIImage* background = nullptr;
 

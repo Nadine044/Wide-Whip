@@ -185,7 +185,7 @@ UIInputText* MGui::CreateUIInputText(iPoint local_pos, p2String text, SDL_Rect i
 	ret->cursor_original_pos.y = local_pos.y + 25;
 	ret->cursor.x = ret->cursor_original_pos.x;
 	ret->cursor.y = ret->cursor_original_pos.y;
-	ret->cursor.w = 2;
+	ret->cursor.w = 1;
 	ret->cursor.h = texture_rect.h;
 
 	ret->current_text = ret->input;
