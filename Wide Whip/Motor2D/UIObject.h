@@ -30,6 +30,12 @@ public:
 
 	const bool MouseInRect() const;
 
+	const bool GetVisible() const;
+	void SetAllVisible(const bool visible);
+
+private:
+	void SetVisible(const bool visible);
+
 
 public:
 	p2List<UIObject*> childrens;
@@ -44,6 +50,8 @@ public:
 	SDL_Rect rect_spritesheet_final;
 	SDL_Rect rect_world;
 
+private:
+	bool visible = true;
 };
 
 #endif // !__UIENTITY_H__

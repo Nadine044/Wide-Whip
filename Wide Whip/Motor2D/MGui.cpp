@@ -44,7 +44,12 @@ bool MGui::Start()
 bool MGui::PreUpdate()
 {
 	for (p2List_item<UIObject*>* iter = UI_objects.start; iter; iter = iter->next)
-		iter->data->PreUpdate();
+	{
+		if (iter->data->GetVisible())
+		{
+			iter->data->PreUpdate();
+		}
+	}
 
 	return true;
 }
@@ -52,7 +57,12 @@ bool MGui::PreUpdate()
 bool MGui::Update(float dt)
 {
 	for (p2List_item<UIObject*>* iter = UI_objects.start; iter; iter = iter->next)
-		iter->data->Update(dt);
+	{
+		if (iter->data->GetVisible())
+		{
+			iter->data->Update(dt);
+		}
+	}
 
 	return true;
 }
@@ -61,7 +71,12 @@ bool MGui::Update(float dt)
 bool MGui::PostUpdate()
 {
 	for (p2List_item<UIObject*>* iter = UI_objects.start; iter; iter = iter->next)
-		iter->data->PostUpdate(atlas);
+	{
+		if (iter->data->GetVisible())
+		{
+			iter->data->PostUpdate(atlas);
+		}
+	}
 
 	return true;
 }

@@ -171,8 +171,11 @@ void UIInputText::SetPos(iPoint & mouse_move)
 
 void UIInputText::WriteInput(char* input)
 {
-	AddCharacter(input);
-	RecalculateStringTexture();
+	if (GetVisible())
+	{
+		AddCharacter(input);
+		RecalculateStringTexture();
+	}
 }
 
 void UIInputText::RecalculateStringTexture()

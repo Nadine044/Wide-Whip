@@ -4,7 +4,7 @@
 #include "j1Module.h"
 
 struct SDL_Texture;
-
+class UIImage;
 
 class j1Scene : public j1Module
 {
@@ -97,6 +97,7 @@ private:
 	float				time_in_fade;
 
 	SDL_Texture* debug_tex;
+	UIImage* ret;
 
 };
 

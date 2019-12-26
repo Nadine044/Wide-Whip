@@ -143,3 +143,33 @@ const bool UIObject::MouseInRect() const
 
 	return !(mouse_pos.x >= (rect_world.x + rect_world.w) || mouse_pos.x <= rect_world.x || mouse_pos.y >= (rect_world.y + rect_world.h) || mouse_pos.y <= rect_world.y);
 }
+
+const bool UIObject::GetVisible() const
+{
+	return visible;
+}
+
+void UIObject::SetAllVisible(const bool visible)
+{
+
+	p2List<UIObject*> all_childrens;
+	all_childrens.add(this);
+
+	while (all_childrens.count() != 0)
+	{
+		p2List_item<UIObject*>* current_ui_object = all_childrens.start;
+
+		for (p2List_item<UIObject*>* item = current_ui_object->data->childrens.start; item; item = item->next)
+		{
+			all_childrens.add(item->data);
+		}
+
+		current_ui_object->data->SetVisible(visible);
+		all_childrens.del(current_ui_object);
+	}
+}
+
+void UIObject::SetVisible(const bool visible)
+{
+	this->visible = visible;
+}
