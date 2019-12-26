@@ -103,7 +103,9 @@
     <ClCompile Include="j1Window.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
     <ClCompile Include="UIButton.cpp" />
+    <ClCompile Include="UIInputText.cpp" />
     <ClCompile Include="UIObject.cpp" />
+    <ClCompile Include="UIScrollBar.cpp" />
     <ClCompile Include="UIText.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -142,7 +144,9 @@
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
     <ClInclude Include="UIButton.h" />
     <ClInclude Include="UIImage.h" />
+    <ClInclude Include="UIInputText.h" />
     <ClInclude Include="UIObject.h" />
+    <ClInclude Include="UIScrollBar.h" />
     <ClInclude Include="UIText.h" />
   </ItemGroup>
   <ItemGroup>
