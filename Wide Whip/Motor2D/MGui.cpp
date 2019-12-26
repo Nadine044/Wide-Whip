@@ -203,8 +203,12 @@ UIScrollBar* MGui::CreateUIScrollBar(iPoint local_pos, SDL_Rect image_rect, Orie
 
 	ret->orientation = orientation;
 
+
 	ret->background = new UIImage(UIType::IMAGE, iPoint{ 0,0 }, image_rect, false, ret);
-	ret->thumb = new UIImage(UIType::IMAGE, iPoint{ -3,0 }, SDL_Rect{843, 330, 16, 10}, true, ret);
+	if(ret->orientation == Orientation::VERTICAL)
+		ret->thumb = new UIImage(UIType::IMAGE, iPoint{ -3,0 }, SDL_Rect{843, 330, 15, 10}, true, ret);
+	else if (ret->orientation == Orientation::HORIZONTAL)
+		ret->thumb = new UIImage(UIType::IMAGE, iPoint{ 0,-3 }, SDL_Rect{ 803, 518, 10, 15 }, true, ret);
 
 	return ret;
 }

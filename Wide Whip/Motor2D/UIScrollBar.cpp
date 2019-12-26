@@ -60,4 +60,31 @@ void UIScrollBar::SetPosThumb(iPoint& mouse_move)
 			thumb->world_pos_final.y += dif;
 		}
 	}
+	else if (orientation == Orientation::HORIZONTAL)
+	{
+		if (thumb->world_pos_final.x + mouse_move.x < background->rect_world.x + background->rect_world.w - thumb->rect_world.w && thumb->world_pos_final.x + mouse_move.x > background->world_pos_final.x)
+		{
+			thumb->local_pos.x += mouse_move.y;
+			thumb->world_pos_original.x += mouse_move.x;
+			thumb->rect_world.x += mouse_move.x;
+			thumb->world_pos_final.x += mouse_move.x;
+		}
+		else if (thumb->world_pos_final.x + mouse_move.x > background->rect_world.x + background->rect_world.w - thumb->rect_world.w)
+		{
+			uint pos_in_limit_x = background->rect_world.x + background->rect_world.w - thumb->rect_world.w;
+			uint dif = pos_in_limit_x - thumb->world_pos_final.x;
+			thumb->local_pos.x += dif;
+			thumb->world_pos_original.x += dif;
+			thumb->rect_world.x += dif;
+			thumb->world_pos_final.x += dif;
+		}
+		else if (thumb->world_pos_final.x + mouse_move.x < background->world_pos_final.x)
+		{
+			uint dif = background->rect_world.x - thumb->world_pos_final.x;
+			thumb->local_pos.x += dif;
+			thumb->world_pos_original.x += dif;
+			thumb->rect_world.x += dif;
+			thumb->world_pos_final.x += dif;
+		}
+	}
 }
