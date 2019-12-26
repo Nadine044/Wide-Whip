@@ -12,11 +12,11 @@ bool UIMenu::Start()
 	//CASE MENU
 
 	App->gui->CreateUIImage(iPoint{ 0, 0 }, SDL_Rect{ 0, 2673, 1600, 1600 });
-	App->gui->CreateUIButton(iPoint{ 400, 150 }, "NEW GAME", SDL_Rect{ 0,3404,202,38 }, UIButtonType::NEW_GAME, this, true);
-	App->gui->CreateUIButton(iPoint{ 400, 250 }, "CONTINUE", SDL_Rect{ 0,3404,202,38 }, UIButtonType::CONTINUE, this, true);
-	App->gui->CreateUIButton(iPoint{ 400, 350 }, "SETTINGS", SDL_Rect{ 0,3404,202,38 }, UIButtonType::SETTINGS, this, true);
-	App->gui->CreateUIButton(iPoint{ 400, 450 }, "CREDITS", SDL_Rect{ 0,3404,202,38 }, UIButtonType::CREDITS, this, true);
-	App->gui->CreateUIButton(iPoint{ 400, 550 }, "EXIT", SDL_Rect{ 0,3404,202,38 }, UIButtonType::EXIT, this, true);
+	App->gui->CreateUIButton(iPoint{ 400, 150 }, "NEW GAME", SDL_Rect{ 0,3404,200,38 }, UIButtonType::NEW_GAME, this, true);
+	App->gui->CreateUIButton(iPoint{ 400, 250 }, "CONTINUE", SDL_Rect{ 0,3404,200,38 }, UIButtonType::CONTINUE, this, true);
+	App->gui->CreateUIButton(iPoint{ 400, 350 }, "SETTINGS", SDL_Rect{ 0,3404,200,38 }, UIButtonType::SETTINGS, this, true);
+	App->gui->CreateUIButton(iPoint{ 400, 450 }, "CREDITS", SDL_Rect{ 0,3404,200,38 }, UIButtonType::CREDITS, this, true);
+	App->gui->CreateUIButton(iPoint{ 400, 550 }, "EXIT", SDL_Rect{ 0,3404,200,38 }, UIButtonType::EXIT, this, true);
 
 	return true;
 }
