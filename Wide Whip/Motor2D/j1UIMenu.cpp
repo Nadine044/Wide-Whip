@@ -12,11 +12,12 @@ bool UIMenu::Start()
 	//CASE MENU
 
 	App->gui->CreateUIImage(iPoint{ 0, 0 }, SDL_Rect{ 0, 2673, 1600, 1600 });
-	App->gui->CreateUIButton(iPoint{ 400, 150 }, "NEW GAME", SDL_Rect{ 0,3404,200,38 }, UIButtonType::NEW_GAME, this, true);
-	App->gui->CreateUIButton(iPoint{ 400, 250 }, "CONTINUE", SDL_Rect{ 0,3404,200,38 }, UIButtonType::CONTINUE, this, true);
-	App->gui->CreateUIButton(iPoint{ 400, 350 }, "SETTINGS", SDL_Rect{ 0,3404,200,38 }, UIButtonType::SETTINGS, this, true);
-	App->gui->CreateUIButton(iPoint{ 400, 450 }, "CREDITS", SDL_Rect{ 0,3404,200,38 }, UIButtonType::CREDITS, this, true);
-	App->gui->CreateUIButton(iPoint{ 400, 550 }, "EXIT", SDL_Rect{ 0,3404,200,38 }, UIButtonType::EXIT, this, true);
+	App->gui->CreateUIButton(iPoint{ 400, 300 }, "NEW GAME", SDL_Rect{ 0,3404,200,38 }, UIButtonType::NEW_GAME, this, true);
+	App->gui->CreateUIButton(iPoint{ 400, 375 }, "CONTINUE", SDL_Rect{ 0,3404,200,38 }, UIButtonType::CONTINUE, this, true);
+	App->gui->CreateUIButton(iPoint{ 400, 450 }, "SETTINGS", SDL_Rect{ 0,3404,200,38 }, UIButtonType::SETTINGS, this, true);
+	App->gui->CreateUIButton(iPoint{ 400, 525 }, "CREDITS", SDL_Rect{ 0,3404,200,38 }, UIButtonType::CREDITS, this, true);
+	App->gui->CreateUIButton(iPoint{ 400, 600 }, "EXIT", SDL_Rect{ 0,3404,200,38 }, UIButtonType::EXIT, this, true);
+	
 
 	return true;
 }
@@ -33,6 +34,8 @@ bool UIMenu::Update(float dt)
 
 bool UIMenu::PostUpdate()
 {
+	
+
 	return true;
 }
 
@@ -57,6 +60,9 @@ bool UIMenu::ButtonEvent(const UIButtonType type)
 		break;
 	case UIButtonType::CREDITS:
 		LOG("Our precious CREDITS");
+		App->gui->CreateUIText(iPoint{ 700, 660 }, "Copyright:");
+		App->gui->CreateUIText(iPoint{ 700, 680 }, "MIT LICENSE");
+		App->gui->CreateUIText(iPoint{ 700, 700 }, "WIDE WHIP by Jorge Gemas and Nadine Gutiérrez");
 		break;
 	case UIButtonType::EXIT:
 		LOG("EXIT game");
