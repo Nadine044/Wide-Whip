@@ -10,6 +10,11 @@ enum class Orientation
 	VERTICAL
 };
 
+enum class UIScrollBarType
+{
+	TEST,
+};
+
 class UIScrollBar : public UIObject
 {
 public:
@@ -23,10 +28,16 @@ public:
 
 	void SetPosThumb(iPoint& mouse_move);
 
+	void MoveThumbAxisX(uint mouse_move_x);
+
+	void MoveThumbAxisY(uint mouse_move_y);
+
 public:
 	Orientation orientation;
 	UIImage* background;
 	UIImage* thumb;
+	j1Module* listener;
+	UIScrollBarType scrollbar_type;
 };
 
 #endif // !__UISCROLLBAR_H__

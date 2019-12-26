@@ -11,6 +11,8 @@
 
 class j1App;
 enum class UIButtonType;
+enum class UIScrollBarType;
+
 
 class j1Module
 {
@@ -71,6 +73,11 @@ public:
 	}
 
 	virtual bool ButtonEvent(const UIButtonType type)
+	{
+		return true;
+	}
+
+	virtual bool SliderEvent(const UIScrollBarType type, const float ratio)
 	{
 		return true;
 	}

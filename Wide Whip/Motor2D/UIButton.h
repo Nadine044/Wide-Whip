@@ -19,16 +19,6 @@ class UIButton : public UIObject
 		CLICKED,
 	};
 
-	/*enum class UIButtonEvents
-	{
-		MOUSE_ENTER,
-		MOUSE_EXIT,
-		CLICKED,
-		RELEASED
-	};*/
-
-
-
 public:
 	UIButton(UIType _type, iPoint local_pos, SDL_Rect rect_spritesheet_original, bool draggable, UIObject* parent);
 

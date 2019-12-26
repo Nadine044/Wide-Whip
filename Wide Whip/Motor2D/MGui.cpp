@@ -197,7 +197,7 @@ UIInputText* MGui::CreateUIInputText(iPoint local_pos, p2String text, SDL_Rect i
 	return ret;
 }
 
-UIScrollBar* MGui::CreateUIScrollBar(iPoint local_pos, SDL_Rect image_rect, Orientation orientation, UIObject* parent)
+UIScrollBar* MGui::CreateUIScrollBar(iPoint local_pos, SDL_Rect image_rect, Orientation orientation, UIScrollBarType type, j1Module* listener, UIObject* parent)
 {
 	UIScrollBar* ret = (UIScrollBar*)CreateUIObject(UIType::SCROLLBAR, local_pos, image_rect, false, parent);
 
@@ -209,6 +209,9 @@ UIScrollBar* MGui::CreateUIScrollBar(iPoint local_pos, SDL_Rect image_rect, Orie
 		ret->thumb = new UIImage(UIType::IMAGE, iPoint{ -3,0 }, SDL_Rect{843, 330, 15, 10}, true, ret);
 	else if (ret->orientation == Orientation::HORIZONTAL)
 		ret->thumb = new UIImage(UIType::IMAGE, iPoint{ 0,-3 }, SDL_Rect{ 803, 518, 10, 15 }, true, ret);
+
+	ret->scrollbar_type = type;
+	ret->listener = listener;
 
 	return ret;
 }

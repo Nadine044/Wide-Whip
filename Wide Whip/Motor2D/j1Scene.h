@@ -4,7 +4,7 @@
 #include "j1Module.h"
 
 struct SDL_Texture;
-enum class UIButtonType;
+
 
 class j1Scene : public j1Module
 {
@@ -41,7 +41,7 @@ public:
 
 	bool ButtonEvent(const UIButtonType type) override;
 
-
+	bool SliderEvent(const UIScrollBarType type, const float ratio) override;
 
 	// Functions to change across levels
 	void StartThisLevel();

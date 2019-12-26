@@ -55,8 +55,8 @@ bool j1Scene::Start()
 	App->gui->CreateUIText(iPoint{ 300, 0 }, "Hello World", true, ret);
 	App->gui->CreateUIButton(iPoint{ 50, 50 }, "Button", SDL_Rect{ 0,113, 229, 69 }, UIButtonType::TEST, this, true);
 	App->gui->CreateUIInputText(iPoint{ 200, 300 }, "Your Name", SDL_Rect{ 488, 569, 344, 61 }, true);
-	App->gui->CreateUIScrollBar(iPoint{ 50, 300 }, SDL_Rect{ 974, 788, 9, 154 }, Orientation::VERTICAL);
-	App->gui->CreateUIScrollBar(iPoint{ 100, 375 }, SDL_Rect{ 557, 62, 154, 9 }, Orientation::HORIZONTAL);
+	App->gui->CreateUIScrollBar(iPoint{ 50, 300 }, SDL_Rect{ 974, 788, 9, 154 }, Orientation::VERTICAL, UIScrollBarType::TEST, this);
+	App->gui->CreateUIScrollBar(iPoint{ 100, 375 }, SDL_Rect{ 557, 62, 154, 9 }, Orientation::HORIZONTAL, UIScrollBarType::TEST, this);
 
 
 	return true;
@@ -88,6 +88,20 @@ bool j1Scene::ButtonEvent(const UIButtonType type)
 	{
 	case UIButtonType::TEST:
 		LOG("Button pressed! Do something here!");
+		break;
+	default:
+		break;
+	}
+
+	return true;
+}
+
+bool j1Scene::SliderEvent(const UIScrollBarType type, const float ratio)
+{
+	switch (type)
+	{
+	case UIScrollBarType::TEST:
+		LOG("SLIDER EVENT! Ratio: %f", ratio);
 		break;
 	default:
 		break;
