@@ -6,7 +6,8 @@
 
 bool UIText::PostUpdate(SDL_Texture* atlas) //don't use the atlas in text. Override the function and use their own texture.
 {
-	App->render->Blit(texture_text, pos.x, pos.y, &rect_spritesheet, 1.0f, SDL_FLIP_NONE, false);
+	App->render->DrawQuad(rect_world, 255, 0, 0, 50, true, false);
+	App->render->Blit(texture_text, world_pos_final.x, world_pos_final.y, &rect_spritesheet_final, 1.0f, SDL_FLIP_NONE, false);
 
 	return true;
 }

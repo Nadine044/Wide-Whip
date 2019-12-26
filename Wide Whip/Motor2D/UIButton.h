@@ -23,18 +23,8 @@ class UIButton : public UIObject
 		CLICKED,
 	};
 
-	/*enum class UIButtonEvents
-	{
-		MOUSE_ENTER,
-		MOUSE_EXIT,
-		CLICKED,
-		RELEASED
-	};*/
-
-
-
 public:
-	UIButton(UIType _type, iPoint pos, SDL_Rect rect_spritesheet, bool draggable);
+	UIButton(UIType _type, iPoint local_pos, SDL_Rect rect_spritesheet_original, bool draggable, UIObject* parent);
 
 	bool PreUpdate() override;
 	bool PostUpdate(SDL_Texture* atlas) override;
@@ -51,4 +41,4 @@ public:
 
 };
 
-#endif // !__UIIMAGE_H__
+#endif // !__UIBUTTON_H__

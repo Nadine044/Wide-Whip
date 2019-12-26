@@ -5,13 +5,17 @@
 #include "UIObject.h"
 #include "p2Point.h"
 #include "UIButton.h"
+#include "UIScrollBar.h"
 
 
 #define CURSOR_WIDTH 2
 
 class UIText;
 class UIImage;
+class UIInputText;
+class UIScrollBar;
 enum class UIButtonType;
+
 // TODO 1: Create your structure of classes
 
 // ---------------------------------------------------
@@ -45,14 +49,18 @@ public:
 	// TODO 2: Create the factory methods
 	// Gui creation functions
 
-	UIImage* CreateUIImage(iPoint pos, SDL_Rect rect_spritesheet,  bool draggable = false);
-	UIText* CreateUIText(iPoint pos, p2String text, bool draggable = false);
-	UIButton* CreateUIButton(iPoint pos, p2String text, SDL_Rect image_rect, UIButtonType type, j1Module* listener, bool draggable = false);
+	UIImage* CreateUIImage(iPoint pos, SDL_Rect rect_spritesheet_original,  bool draggable = false, UIObject* parent = nullptr);
+	UIText* CreateUIText(iPoint pos, p2String text, bool draggable = false, UIObject* parent = nullptr);
+	UIButton* CreateUIButton(iPoint pos, p2String text, SDL_Rect image_rect, UIButtonType type, j1Module* listener, bool draggable = false, UIObject* parent = nullptr);
+	UIInputText* CreateUIInputText(iPoint pos, p2String text, SDL_Rect image_rect, bool draggable = false, UIObject* parent = nullptr);
+	UIScrollBar* CreateUIScrollBar(iPoint pos, SDL_Rect image_rect, Orientation orientation, UIScrollBarType type, j1Module* listener, UIObject* parent = nullptr);
+
+	void InputEvent(char* input);
 
 	SDL_Texture* GetAtlas() const;
 
 private:
-	UIObject* CreateUIObject(UIType type, iPoint pos, SDL_Rect rect_sprisheet, bool draggable = false);
+	UIObject* CreateUIObject(UIType type, iPoint pos, SDL_Rect rect_sprisheet, bool draggable, UIObject* parent);
 
 private:
 

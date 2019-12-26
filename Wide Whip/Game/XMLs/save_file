@@ -3,41 +3,43 @@
 	<input />
 	<window />
 	<textures />
+	<fonts />
 	<audio />
 	<map />
+	<gui />
 	<scene>
 		<level_loaded value="Level1.tmx" />
 	</scene>
 	<pathfinding />
 	<enitity_manager>
 		<entity>
-			<position x="1038" y="575" />
+			<position x="102" y="607" />
 			<entity_type value="0" />
 			<velocity value="0" />
-			<state value="0" />
+			<state value="1" />
 			<flip value="1" />
 			<collider enabled="true" />
 			<jumped value="false" />
 			<dashed value="false" />
-			<velocity_dash value="-0.200002551" />
-			<velocity_jump_clinged value="-1.59999967" />
+			<velocity_dash value="-3.19999766" />
+			<velocity_jump_clinged value="0" />
 		</entity>
 		<entity>
-			<position x="1304" y="616" />
+			<position x="1415" y="706" />
 			<entity_type value="1" />
+			<state value="0" />
+			<flip value="0" />
+			<collider enabled="true" />
+		</entity>
+		<entity>
+			<position x="335" y="694" />
+			<entity_type value="2" />
 			<state value="1" />
 			<flip value="0" />
 			<collider enabled="true" />
 		</entity>
 		<entity>
-			<position x="461" y="694" />
-			<entity_type value="2" />
-			<state value="0" />
-			<flip value="1" />
-			<collider enabled="true" />
-		</entity>
-		<entity>
-			<position x="2253" y="882065" />
+			<position x="2253" y="573986" />
 			<entity_type value="2" />
 			<state value="0" />
 			<flip value="0" />
@@ -51,7 +53,7 @@
 			<collider enabled="true" />
 		</entity>
 		<entity>
-			<position x="790" y="800" />
+			<position x="664" y="444" />
 			<entity_type value="1" />
 			<state value="0" />
 			<flip value="0" />
@@ -72,7 +74,7 @@
 			<collider enabled="true" />
 		</entity>
 		<entity>
-			<position x="5619" y="462" />
+			<position x="6224" y="260" />
 			<entity_type value="1" />
 			<state value="0" />
 			<flip value="0" />
@@ -93,6 +95,6 @@
 		<current_step value="0" />
 	</FadeToBlack>
 	<renderer>
-		<camera x="-554" y="-181" />
+		<camera x="0" y="-187" />
 	</renderer>
 </game_state>

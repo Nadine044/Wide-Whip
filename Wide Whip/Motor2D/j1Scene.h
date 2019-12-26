@@ -4,7 +4,7 @@
 #include "j1Module.h"
 
 struct SDL_Texture;
-enum class UIButtonType;
+class UIImage;
 
 enum class Screens
 {
@@ -48,7 +48,7 @@ public:
 
 	bool ButtonEvent(const UIButtonType type) override;
 
-
+	bool SliderEvent(const UIScrollBarType type, const float ratio) override;
 
 	// Functions to change across levels
 	void StartThisLevel();
@@ -104,6 +104,7 @@ private:
 	float				time_in_fade;
 
 	SDL_Texture* debug_tex;
+	UIImage* ret;
 
 };
 
