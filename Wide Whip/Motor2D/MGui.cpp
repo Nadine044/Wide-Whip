@@ -110,6 +110,9 @@ UIObject* MGui::CreateUIObject(UIType type, iPoint local_pos, SDL_Rect rect_spri
 	case UIType::INPUTTEXT:
 		ret = new UIInputText(type, local_pos, rect_spritesheet_original, draggable, parent);
 		break;
+	case UIType::SCROLLBAR:
+		ret = new UIScrollBar(type, local_pos, rect_spritesheet_original, draggable, parent);
+		break;
 	default:
 		break;
 	}
@@ -190,6 +193,18 @@ UIInputText* MGui::CreateUIInputText(iPoint local_pos, p2String text, SDL_Rect i
 
 	ret->current_text = ret->input;
 	ret->background = new UIImage(UIType::BUTTON, iPoint{ 0,0 }, image_rect, false, ret);
+
+	return ret;
+}
+
+UIScrollBar* MGui::CreateUIScrollBar(iPoint local_pos, SDL_Rect image_rect, Orientation orientation, UIObject* parent)
+{
+	UIScrollBar* ret = (UIScrollBar*)CreateUIObject(UIType::SCROLLBAR, local_pos, image_rect, false, parent);
+
+	ret->orientation = orientation;
+
+	ret->background = new UIImage(UIType::IMAGE, iPoint{ 0,0 }, image_rect, false, ret);
+	ret->thumb = new UIImage(UIType::IMAGE, iPoint{ -3,0 }, SDL_Rect{843, 330, 16, 10}, true, ret);
 
 	return ret;
 }

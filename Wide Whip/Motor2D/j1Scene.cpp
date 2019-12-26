@@ -55,7 +55,7 @@ bool j1Scene::Start()
 	App->gui->CreateUIText(iPoint{ 300, 0 }, "Hello World", true, ret);
 	App->gui->CreateUIButton(iPoint{ 50, 50 }, "Button", SDL_Rect{ 0,113, 229, 69 }, UIButtonType::TEST, this, true);
 	App->gui->CreateUIInputText(iPoint{ 200, 300 }, "Your Name", SDL_Rect{ 488, 569, 344, 61 }, true);
-
+	App->gui->CreateUIScrollBar(iPoint{ 50, 300 }, SDL_Rect{ 974, 788, 9, 154 }, Orientation::VERTICAL);
 	return true;
 }
 

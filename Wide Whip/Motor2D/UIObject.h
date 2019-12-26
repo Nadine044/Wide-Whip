@@ -14,7 +14,8 @@ enum class UIType
 	IMAGE,
 	TEXT,
 	BUTTON,
-	INPUTTEXT
+	INPUTTEXT,
+	SCROLLBAR
 };
 
 class UIObject

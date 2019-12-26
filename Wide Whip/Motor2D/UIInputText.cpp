@@ -166,6 +166,7 @@ void UIInputText::SetPos(iPoint & mouse_move)
 	world_pos_final += mouse_move;
 	cursor.x += mouse_move.x;
 	cursor.y += mouse_move.y;
+	cursor_original_pos += mouse_move;
 }
 
 void UIInputText::WriteInput(char* input)
