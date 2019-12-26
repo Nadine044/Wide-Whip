@@ -142,8 +142,8 @@ UIButton* MGui::CreateUIButton(iPoint pos, p2String text, SDL_Rect image_rect, U
 	ret->text = new UIText(UIType::TEXT, pos, texture_rect, draggable);
 	ret->text->texture_text = texture_text;
 	ret->background = new UIImage(UIType::BUTTON, pos, image_rect, draggable);
-	ret->hover = new UIImage(UIType::BUTTON, pos, SDL_Rect{ 411,169,229,69 }, draggable);
-	ret->clicked = new UIImage(UIType::BUTTON, pos, SDL_Rect{ 642,169,229,69 }, draggable);
+	ret->hover = new UIImage(UIType::BUTTON, pos, SDL_Rect{ 0,3445,202,38 }, draggable);
+	ret->clicked = new UIImage(UIType::BUTTON, pos, SDL_Rect{ 0,3404,202,38 }, draggable);
 	ret->current_image = ret->background;
 	ret->button_type = type;
 	ret->listener = listener;
