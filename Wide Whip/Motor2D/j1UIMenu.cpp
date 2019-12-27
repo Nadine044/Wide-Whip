@@ -17,11 +17,11 @@ bool UIMenu::Start()
 	App->audio->PlayMusic(App->scene->menu_music.GetString());
 
 	App->gui->CreateUIImage(iPoint{ 0, 0 }, SDL_Rect{ 0, 2673, 1600, 1600 });
-	App->gui->CreateUIButton(iPoint{ 100, 300 }, "NEW GAME", SDL_Rect{ 0,3404,200,38 }, UIButtonType::NEW_GAME, this, true);
-	App->gui->CreateUIButton(iPoint{ 130, 375 }, "CONTINUE", SDL_Rect{ 0,3404,200,38 }, UIButtonType::CONTINUE, this, true);
-	App->gui->CreateUIButton(iPoint{ 100, 450 }, "SETTINGS", SDL_Rect{ 0,3404,200,38 }, UIButtonType::SETTINGS, this, true);
-	App->gui->CreateUIButton(iPoint{ 130, 525 }, "CREDITS", SDL_Rect{ 0,3404,200,38 }, UIButtonType::CREDITS, this, true);
-	App->gui->CreateUIButton(iPoint{ 100, 600 }, "EXIT", SDL_Rect{ 0,3404,200,38 }, UIButtonType::EXIT, this, true);
+	App->gui->CreateUIButton(iPoint{ 100, 300 }, "NEW GAME", SDL_Rect{ 0,3447,200,38 }, UIButtonType::NEW_GAME, this, true);
+	App->gui->CreateUIButton(iPoint{ 130, 375 }, "CONTINUE", SDL_Rect{ 0,3447,200,38 }, UIButtonType::CONTINUE, this, true);
+	App->gui->CreateUIButton(iPoint{ 100, 450 }, "SETTINGS", SDL_Rect{ 0,3447,200,38 }, UIButtonType::SETTINGS, this, true);
+	App->gui->CreateUIButton(iPoint{ 130, 525 }, "CREDITS", SDL_Rect{ 0,3447,200,38 }, UIButtonType::CREDITS, this, true);
+	App->gui->CreateUIButton(iPoint{ 100, 600 }, "EXIT", SDL_Rect{ 0,3447,200,38 }, UIButtonType::EXIT, this, true);
 	
 
 	return true;
@@ -55,16 +55,20 @@ bool UIMenu::ButtonEvent(const UIButtonType type)
 	{
 	case UIButtonType::NEW_GAME:
 		LOG("Button NEW GAME pressed.");
+		App->gui->CreateUIImage(iPoint{ 360, 280 }, SDL_Rect{ 761, 0, 122, 130 }, true);
+		App->gui->CreateUIInputText(iPoint{ 500, 300 }, "Name: ", SDL_Rect{ 967, 25, 463, 69 });
 		break;
 	case UIButtonType::CONTINUE:
 		LOG("CONTINUE game");
 		break;
 	case UIButtonType::SETTINGS:
 		LOG("Go into SETTINGS");
-		settingsParent = App->gui->CreateUIImage(iPoint{ 400, 300 }, SDL_Rect{ 29, 1140, 1292, 1013 }, true);
-		App->gui->CreateUIText(iPoint{ 200, 20 }, "SETTINGS", true, settingsParent);
-		App->gui->CreateUIText(iPoint{ 20, 100 }, "Music Volume", true, settingsParent);
-		App->gui->CreateUIText(iPoint{ 20, 150 }, "SFX Volume", true, settingsParent);
+		settingsParent = App->gui->CreateUIImage(iPoint{ 400, 300 }, SDL_Rect{ 33, 1140, 487, 384 }, true);
+		App->gui->CreateUIText(iPoint{ 210, 20 }, "SETTINGS", false, settingsParent);
+		App->gui->CreateUIText(iPoint{ 25, 105 }, "Music Volume", false, settingsParent);
+		App->gui->CreateUIScrollBar(iPoint{ 120, 105 }, SDL_Rect{ 383, 574, 451, 41 }, Orientation::HORIZONTAL, UIScrollBarType::MUSIC, this, settingsParent);
+		App->gui->CreateUIText(iPoint{ 25, 175 }, "SFX Volume", false, settingsParent);
+		App->gui->CreateUIScrollBar(iPoint{ 120, 175 }, SDL_Rect{ 383, 574, 451, 41 }, Orientation::HORIZONTAL, UIScrollBarType::SFX, this, settingsParent);
 		break;
 	case UIButtonType::CREDITS:
 		LOG("Our precious CREDITS");

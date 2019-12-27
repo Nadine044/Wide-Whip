@@ -67,7 +67,7 @@ bool UIButton::PreUpdate()
 
 bool UIButton::PostUpdate(SDL_Texture* atlas)
 {
-	App->render->DrawQuad(rect_world, 255, 0, 0, 50, true, false);
+	//App->render->DrawQuad(rect_world, 255, 0, 0, 50, true, false);
 	current_image->PostUpdate(atlas);// TODO:should be this in a fucnction "Draw"
 	text->PostUpdate(atlas);// TODO:should be this in a fucnction "Draw"
 

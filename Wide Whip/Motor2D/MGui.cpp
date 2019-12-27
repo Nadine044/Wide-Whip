@@ -239,8 +239,8 @@ UIButton* MGui::CreateUIButton(iPoint local_pos, p2String text, SDL_Rect image_r
 	ret->text = new UIText(UIType::TEXT, iPoint{50,25}, texture_rect, false, ret);
 	ret->text->texture_text = texture_text;
 	ret->background = new UIImage(UIType::IMAGE, iPoint{ 0,0 }, image_rect, false, ret);
-	ret->hover = new UIImage(UIType::IMAGE, iPoint{ 0,0 }, SDL_Rect{ 0,3445,200,38 }, false, ret);
-	ret->clicked = new UIImage(UIType::IMAGE, iPoint{ 0,0 }, SDL_Rect{ 0,3487,200,38 }, false, ret);
+	ret->hover = new UIImage(UIType::IMAGE, iPoint{ 0,0 }, SDL_Rect{ 0,3489,200,38 }, false, ret);
+	ret->clicked = new UIImage(UIType::IMAGE, iPoint{ 0,0 }, SDL_Rect{ 0,3531,200,38 }, false, ret);
 
 
 	ret->current_image = ret->background;
@@ -287,7 +287,7 @@ UIScrollBar* MGui::CreateUIScrollBar(iPoint local_pos, SDL_Rect image_rect, Orie
 	if(ret->orientation == Orientation::VERTICAL)
 		ret->thumb = new UIImage(UIType::IMAGE, iPoint{ -3,0 }, SDL_Rect{843, 330, 15, 10}, true, ret);
 	else if (ret->orientation == Orientation::HORIZONTAL)
-		ret->thumb = new UIImage(UIType::IMAGE, iPoint{ 0,-3 }, SDL_Rect{ 803, 518, 10, 15 }, true, ret);
+		ret->thumb = new UIImage(UIType::IMAGE, iPoint{ 0,-13 }, SDL_Rect{ 861, 564, 23, 52 }, true, ret);
 
 	ret->scrollbar_type = type;
 	ret->listener = listener;

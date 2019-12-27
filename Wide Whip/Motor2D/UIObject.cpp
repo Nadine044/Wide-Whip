@@ -33,7 +33,7 @@ bool UIObject::PreUpdate()
 }
 bool UIObject::PostUpdate(SDL_Texture* atlas)
 {
-	App->render->DrawQuad(rect_world, 255, 0, 0, 200, true, false);
+	//App->render->DrawQuad(rect_world, 255, 0, 0, 200, true, false);
 	App->render->Blit(atlas, world_pos_final.x, world_pos_final.y, &rect_spritesheet_final, 1.0f, SDL_FLIP_NONE, false);
 
 	return true;
