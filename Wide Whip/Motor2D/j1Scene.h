@@ -112,6 +112,7 @@ public:
 	p2String			menu_music;
 	FX					start_game_sfx;
 	FX					button_hover_sfx;
+	FX					button_click_sfx;
 };
 
 #endif // __j1SCENE_H__

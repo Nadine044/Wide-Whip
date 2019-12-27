@@ -180,6 +180,7 @@
     <menu_music>audio/music/AViewFromEarth.ogg</menu_music>
     <start_game_sfx>audio/fx/start.wav</start_game_sfx>
     <button_hover_sfx>audio/fx/button_hover.wav</button_hover_sfx>
+    <button_click_sfx>audio/fx/button_click.wav</button_click_sfx>
   </scene>
 
   <in_level>

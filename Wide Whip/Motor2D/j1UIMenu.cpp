@@ -21,9 +21,6 @@ bool UIMenu::Awake(pugi::xml_node& config)
 
 bool UIMenu::Start()
 {
-	//CASE MENU
-
-	//MYTODO: Audio
 	App->audio->PlayMusic(App->scene->menu_music.GetString());
 
 	App->gui->CreateUIImage(iPoint{ 0, 0 }, SDL_Rect{ 0, 2673, 1600, 1600 });
@@ -93,7 +90,6 @@ bool UIMenu::ButtonEvent(const UIButtonType type)
 		break;
 	case UIButtonType::CONTINUE:
 		LOG("CONTINUE game");
-		newGameParent->SetAllVisible(!newGameParent->GetVisible());
 		break;
 	case UIButtonType::SETTINGS:
 		LOG("Go into SETTINGS");

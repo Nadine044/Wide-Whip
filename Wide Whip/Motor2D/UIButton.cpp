@@ -41,7 +41,7 @@ bool UIButton::PreUpdate()
 		{
 			state = UIButtonState::CLICKED;
 			current_image = clicked;
-
+			App->audio->PlayFx(App->scene->button_click_sfx.id);
 		}
 		break;
 	case UIButton::UIButtonState::CLICKED:
