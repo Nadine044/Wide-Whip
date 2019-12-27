@@ -104,8 +104,10 @@ private:
 	float				time_in_fade;
 
 	SDL_Texture* debug_tex;
-	UIImage* ret;
+	UIImage* ret;	
 
+public:
+	p2String			menu_music;
 };
 
 #endif // __j1SCENE_H__

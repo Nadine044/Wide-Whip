@@ -177,6 +177,7 @@
     </levels>
     <time_in_fade value="2.f"/>
     <music>audio/music/Resilience.ogg</music>
+    <menu_music>audio/music/AViewFromEarth.ogg</menu_music>
   </scene>
 
 </config>

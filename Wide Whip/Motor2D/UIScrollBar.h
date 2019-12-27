@@ -13,6 +13,8 @@ enum class Orientation
 enum class UIScrollBarType
 {
 	TEST,
+	MUSIC,
+	SFX
 };
 
 class UIScrollBar : public UIObject

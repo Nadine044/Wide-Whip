@@ -3,6 +3,8 @@
 #include "j1App.h"
 #include "j1UIMenu.h"
 #include "MGui.h"
+#include "j1Scene.h"
+#include "j1Audio.h"
 
 UIMenu::UIMenu()
 {}
@@ -10,6 +12,9 @@ UIMenu::UIMenu()
 bool UIMenu::Start()
 {
 	//CASE MENU
+
+	//MYTODO: Audio
+	App->audio->PlayMusic(App->scene->menu_music.GetString());
 
 	App->gui->CreateUIImage(iPoint{ 0, 0 }, SDL_Rect{ 0, 2673, 1600, 1600 });
 	App->gui->CreateUIButton(iPoint{ 100, 300 }, "NEW GAME", SDL_Rect{ 0,3404,200,38 }, UIButtonType::NEW_GAME, this, true);
@@ -46,7 +51,6 @@ bool UIMenu::CleanUp()
 
 bool UIMenu::ButtonEvent(const UIButtonType type)
 {
-
 	switch (type)
 	{
 	case UIButtonType::NEW_GAME:
@@ -57,17 +61,39 @@ bool UIMenu::ButtonEvent(const UIButtonType type)
 		break;
 	case UIButtonType::SETTINGS:
 		LOG("Go into SETTINGS");
-		App->gui->CreateUIImage(iPoint{ 400, 300 }, SDL_Rect{ 29, 1140, 1292, 1013 }, true);
-		App->gui->CreateUIText(iPoint{ 610, 350 }, "SETTINGS");
+		settingsParent = App->gui->CreateUIImage(iPoint{ 400, 300 }, SDL_Rect{ 29, 1140, 1292, 1013 }, true);
+		App->gui->CreateUIText(iPoint{ 200, 20 }, "SETTINGS", true, settingsParent);
+		App->gui->CreateUIText(iPoint{ 20, 100 }, "Music Volume", true, settingsParent);
+		App->gui->CreateUIText(iPoint{ 20, 150 }, "SFX Volume", true, settingsParent);
 		break;
 	case UIButtonType::CREDITS:
 		LOG("Our precious CREDITS");
-		App->gui->CreateUIText(iPoint{ 700, 660 }, "Copyright:");
-		App->gui->CreateUIText(iPoint{ 700, 680 }, "MIT LICENSE");
-		App->gui->CreateUIText(iPoint{ 700, 700 }, "WIDE WHIP by Jorge Gemas and Nadine Gutiérrez");
+		App->gui->CreateUIText(iPoint{ 700, 630 }, "Copyright:");
+		App->gui->CreateUIText(iPoint{ 700, 650 }, "MIT LICENSE");
+		App->gui->CreateUIText(iPoint{ 700, 670 }, "WIDE WHIP by Jorge Gemas and Nadine Gutiérrez");
 		break;
 	case UIButtonType::EXIT:
 		LOG("EXIT game");
+		break;
+	default:
+		break;
+	}
+
+	return true;
+}
+
+bool UIMenu::SliderEvent(const UIScrollBarType type, const float ratio)
+{
+	switch (type)
+	{
+	case UIScrollBarType::TEST:
+		LOG("TEST SCROLLBAR");
+		break;
+	case UIScrollBarType::MUSIC:
+		LOG("Music SCROLLBAR");
+		break;
+	case UIScrollBarType::SFX:
+		LOG("SFX SCROLLBAR");
 		break;
 	default:
 		break;
