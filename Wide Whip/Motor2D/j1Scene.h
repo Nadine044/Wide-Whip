@@ -2,6 +2,7 @@
 #define __j1SCENE_H__
 
 #include "j1Module.h"
+#include "j1Audio.h"
 
 struct SDL_Texture;
 class UIImage;
@@ -109,6 +110,8 @@ private:
 
 public:
 	p2String			menu_music;
+	FX					start_game_sfx;
+	FX					button_hover_sfx;
 };
 
 #endif // __j1SCENE_H__

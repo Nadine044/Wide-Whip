@@ -39,6 +39,10 @@ bool j1Scene::Awake(pugi::xml_node& config)
 	menu = "Menu";
 
 	menu_music = config.child_value("menu_music");
+	start_game_sfx.path = config.child_value("start_game_sfx");
+	start_game_sfx.id = App->audio->LoadFx(start_game_sfx.path.GetString());
+	button_hover_sfx.path = config.child_value("button_hover_sfx.wav");
+	button_hover_sfx.id = App->audio->LoadFx(button_hover_sfx.path.GetString());
 
 	time_in_fade = config.child("time_in_fade").attribute("value").as_float();
 	return ret;

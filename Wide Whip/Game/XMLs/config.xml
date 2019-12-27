@@ -178,6 +178,8 @@
     <time_in_fade value="2.f"/>
     
     <menu_music>audio/music/AViewFromEarth.ogg</menu_music>
+    <start_game_sfx>audio/fx/start.wav</start_game_sfx>
+    <button_hover_sfx>audio/fx/button_hover.wav</button_hover_sfx>
   </scene>
 
   <in_level>

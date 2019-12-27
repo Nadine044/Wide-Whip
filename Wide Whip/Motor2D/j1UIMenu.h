@@ -21,6 +21,7 @@ public:
 	bool SliderEvent(const UIScrollBarType type, const float ratio) override;
 
 private:
+	UIImage*			newGameParent = nullptr;
 	UIImage*			settingsParent = nullptr;
 	UIImage*			creditsParent = nullptr;
 

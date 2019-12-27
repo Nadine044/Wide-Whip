@@ -10,7 +10,6 @@
 #include "SDL/include/SDL_timer.h"
 #include "j1Input.h"
 #include "j1Render.h"
-#include "Brofiler/Brofiler.h"
 
 Enemy::Enemy(EntityType type, SDL_Rect& rect) : Entity(type, rect)
 {}
