@@ -12,6 +12,7 @@ UIInputText::UIInputText(UIType _type, iPoint local_pos, SDL_Rect rect_spriteshe
 { 
 	type = _type; 
 	timer_blink.Start(); 
+
 }
 
 
@@ -19,15 +20,20 @@ bool UIInputText::PostUpdate(SDL_Texture* atlas)
 {
 	background->PostUpdate(atlas);// TODO:should be this in a fucnction "Draw"
 	current_text->PostUpdate(atlas);// TODO:should be this in a fucnction "Draw"
-	if (timer_blink.Read() >= time_to_blink * 2)
-	{
-		timer_blink.Start();
-	}
-	else if (timer_blink.Read() <= time_to_blink)
-	{
-		App->render->DrawQuad(cursor, 255, 255, 255, 255, true, false);
-	}
 
+	if (focus)
+	{
+		if (timer_blink.Read() >= time_to_blink * 2)
+		{
+			timer_blink.Start();
+		}
+		else if (timer_blink.Read() <= time_to_blink)
+		{
+			App->render->DrawQuad(cursor, 255, 255, 255, 255, true, false);
+		}
+
+		App->render->DrawQuad(rect_world, 125, 125, 125, 125, true, false);
+	}
 	return true;
 }
 
@@ -35,50 +41,53 @@ bool UIInputText::Update(float dt)
 {
 	UIObject::Update(dt);
 
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+	if (focus)
 	{
-		if (cursor_int != 0)
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 		{
-			--cursor_int;
+			if (cursor_int != 0)
+			{
+				--cursor_int;
 
-			p2String string_cuted = text_string;
-			string_cuted.Cut(cursor_int);
-			SetCursorPos(string_cuted);
+				p2String string_cuted = text_string;
+				string_cuted.Cut(cursor_int);
+				SetCursorPos(string_cuted);
+			}
 		}
-	}
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
-	{
-		if (cursor_int != text_string.Length())
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 		{
-			++cursor_int;
+			if (cursor_int != text_string.Length())
+			{
+				++cursor_int;
 
-			p2String string_cuted = text_string;
-			string_cuted.Cut(cursor_int);
-			SetCursorPos(string_cuted);
+				p2String string_cuted = text_string;
+				string_cuted.Cut(cursor_int);
+				SetCursorPos(string_cuted);
+			}
 		}
-	}
 
-	if (App->input->GetKey(SDL_SCANCODE_BACKSPACE) == KEY_DOWN)
-	{
-		if (cursor_int != 0)
+		if (App->input->GetKey(SDL_SCANCODE_BACKSPACE) == KEY_DOWN)
 		{
-			DeleteInput();
+			if (cursor_int != 0)
+			{
+				DeleteInput();
+			}
 		}
-	}
 
-	if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)
-	{
-		SuppressInput();
-	}
+		if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)
+		{
+			SuppressInput();
+		}
 
-	if (App->input->GetKey(SDL_SCANCODE_HOME) == KEY_DOWN)
-	{
-		HomeInput();
-	}
+		if (App->input->GetKey(SDL_SCANCODE_HOME) == KEY_DOWN)
+		{
+			HomeInput();
+		}
 
-	if (App->input->GetKey(SDL_SCANCODE_END) == KEY_DOWN)
-	{
-		EndInput();
+		if (App->input->GetKey(SDL_SCANCODE_END) == KEY_DOWN)
+		{
+			EndInput();
+		}
 	}
 	return true;
 }
@@ -171,7 +180,7 @@ void UIInputText::SetPos(iPoint & mouse_move)
 
 void UIInputText::WriteInput(char* input)
 {
-	if (GetVisible())
+	if (GetVisible() && focus)
 	{
 		AddCharacter(input);
 		RecalculateStringTexture();
@@ -215,4 +224,15 @@ void UIInputText::AddCharacter(const char* input)
 		cursor_int++;
 		SetCursorPos(text_string);
 	}
+}
+
+void UIInputText::SetFocusThis(bool focus_value)
+{
+	focus = focus_value;
+
+	if (!focus && text_string.Length() == 0)
+		current_text = text;
+	
+	else if (focus && current_text == text)
+		current_text = input;
 }

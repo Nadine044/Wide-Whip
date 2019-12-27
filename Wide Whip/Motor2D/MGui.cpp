@@ -43,6 +43,9 @@ bool MGui::Start()
 // Update all guis
 bool MGui::PreUpdate()
 {
+	if (App->input->GetMouseButtonDown(1) == KEY_DOWN)
+		SetFocus(nullptr);
+
 	for (p2List_item<UIObject*>* iter = UI_objects.start; iter; iter = iter->next)
 	{
 		if (iter->data->GetVisible())
@@ -64,7 +67,66 @@ bool MGui::Update(float dt)
 		}
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN)
+	{
+		if (!focus)
+		{
+			focus = UI_objects.start->data;
+		}
+
+		p2List_item<UIObject*>* iter = UI_objects.At(UI_objects.find(focus));
+
+		while (true)
+		{
+			iter = iter->next;
+			if (!iter)
+			{
+				iter = UI_objects.start;
+			}
+			if (iter->data->type == UIType::INPUTTEXT || iter->data->type == UIType::SCROLLBAR || iter->data->type == UIType::BUTTON)
+			{
+				SetFocus(iter->data);
+				break;
+			}
+		}
+		
+	}
+
 	return true;
+}
+
+void MGui::SetDragging(UIObject* object)
+{
+	object->dragging = true;
+
+	for (p2List_item<UIObject*>* iter = UI_objects.start; iter; iter = iter->next)
+	{
+		if (iter->data != object)
+		{
+			if (iter->data->draggable)
+				iter->data->dragging = false;
+			if (iter->data->type == UIType::SCROLLBAR)
+			{
+				UIScrollBar* ret = (UIScrollBar*)iter->data;
+				ret->thumb->dragging = false;
+			}
+		}
+
+
+	}
+}
+
+void MGui::SetFocus(UIObject* new_focus)
+{
+	focus = new_focus;
+	if(focus)
+		focus->SetFocusThis(true);
+
+	for (p2List_item<UIObject*>* iter = UI_objects.start; iter; iter = iter->next)
+	{
+		if (iter->data != focus)
+			iter->data->SetFocusThis(false);
+	}
 }
 
 // Called after all Updates
@@ -199,14 +261,14 @@ UIInputText* MGui::CreateUIInputText(iPoint local_pos, p2String text, SDL_Rect i
 	ret->text->texture_text = texture_text;
 	ret->input = new UIText(UIType::TEXT, iPoint{ 10,25 }, texture_rect, false, ret);
 
-	ret->cursor_original_pos.x = local_pos.x + 10;
-	ret->cursor_original_pos.y = local_pos.y + 25;
+	ret->cursor_original_pos.x = ret->world_pos_final.x + 10;
+	ret->cursor_original_pos.y = ret->world_pos_final.y + 25;
 	ret->cursor.x = ret->cursor_original_pos.x;
 	ret->cursor.y = ret->cursor_original_pos.y;
 	ret->cursor.w = 1;
 	ret->cursor.h = texture_rect.h;
 
-	ret->current_text = ret->input;
+	ret->current_text = ret->text;
 	ret->background = new UIImage(UIType::BUTTON, iPoint{ 0,0 }, image_rect, false, ret);
 
 	return ret;

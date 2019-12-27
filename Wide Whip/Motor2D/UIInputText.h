@@ -32,6 +32,8 @@ public:
 
 	void SetCursorPos(p2String &string_cuted);
 
+	void SetFocusThis(bool focus_value) override;
+
 	void SetPos(iPoint & mouse_move)override;
 	void WriteInput(char* input);
 	void RecalculateStringTexture();
@@ -45,6 +47,8 @@ public:
 	int cursor_int = 0;
 	iPoint cursor_original_pos;
 	UIImage* background = nullptr;
+
+
 
 private:
 	j1Timer timer_blink;

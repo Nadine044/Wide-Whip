@@ -2,11 +2,15 @@
 #include "UIImage.h"
 
 #include "j1App.h"
+#include "MGui.h"
+#include "j1Render.h"
 #include "j1Input.h"
 bool UIScrollBar::PostUpdate(SDL_Texture* atlas)
 {
 	background->PostUpdate(atlas);
 	thumb->PostUpdate(atlas);
+	if (focus)
+		App->render->DrawQuad(rect_world, 125, 125, 125, 125, true, false);
 	return true;
 }
 
@@ -15,6 +19,7 @@ bool UIScrollBar::Update(float dt)
 
 	if (!thumb->dragging && thumb->MouseInRect() && App->input->GetMouseButtonDown(1) == KEY_DOWN)
 	{
+		App->gui->SetDragging(this);
 		thumb->dragging = true;
 	}
 	if (thumb->dragging)

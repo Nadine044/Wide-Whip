@@ -10,7 +10,7 @@ UIObject::UIObject(iPoint local_pos, SDL_Rect rect_spritesheet_original, bool dr
 {
 	if (parent != nullptr)
 	{
-		world_pos_original = local_pos + parent->local_pos;
+		world_pos_original = local_pos + parent->world_pos_final;
 		parent->childrens.add(this);
 	}
 
@@ -24,7 +24,13 @@ UIObject::UIObject(iPoint local_pos, SDL_Rect rect_spritesheet_original, bool dr
 	rect_world.h = rect_spritesheet_original.h;
 
 }
+bool UIObject::PreUpdate()
+{
+	if (MouseInRect() && App->input->GetMouseButtonDown(1) == KEY_DOWN)
+		App->gui->SetFocus(this);
 
+	return true;
+}
 bool UIObject::PostUpdate(SDL_Texture* atlas)
 {
 	App->render->DrawQuad(rect_world, 255, 0, 0, 200, true, false);
@@ -39,13 +45,7 @@ bool UIObject::Update(float dt)
 	{
 		if (!dragging && MouseInRect() && App->input->GetMouseButtonDown(1) == KEY_DOWN)
 		{
-			dragging = true;
-			UIObject* current = this;
-			while(current->parent)
-			{
-				current = current->parent;
-				current->dragging = false;
-			}
+			App->gui->SetDragging(this);
 		}
 
 		if (dragging)
@@ -172,4 +172,9 @@ void UIObject::SetAllVisible(const bool visible)
 void UIObject::SetVisible(const bool visible)
 {
 	this->visible = visible;
+}
+
+void UIObject::SetFocusThis(bool focus_value)
+{
+	focus = focus_value;
 }

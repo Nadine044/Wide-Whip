@@ -3,6 +3,7 @@
 
 #include "j1App.h"
 #include "j1Input.h"
+#include "MGui.h"
 #include "j1Render.h"
 
 UIButton::UIButton(UIType _type, iPoint local_pos, SDL_Rect rect_spritesheet_original, bool draggable, UIObject* parent) : UIObject(local_pos, rect_spritesheet_original, draggable, parent)
@@ -12,6 +13,10 @@ UIButton::UIButton(UIType _type, iPoint local_pos, SDL_Rect rect_spritesheet_ori
 
 bool UIButton::PreUpdate()
 {
+	if (MouseInRect() && App->input->GetMouseButtonDown(1) == KEY_DOWN)
+		App->gui->SetFocus(this);
+
+
 	switch (state)
 	{
 	case UIButton::UIButtonState::NONE:

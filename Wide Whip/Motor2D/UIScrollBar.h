@@ -38,6 +38,8 @@ public:
 	UIImage* thumb;
 	j1Module* listener;
 	UIScrollBarType scrollbar_type;
+
+	
 };
 
 #endif // !__UISCROLLBAR_H__

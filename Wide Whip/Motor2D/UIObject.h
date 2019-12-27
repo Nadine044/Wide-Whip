@@ -22,7 +22,7 @@ class UIObject
 {
 public:
 	UIObject(iPoint pos, SDL_Rect rect_spritesheet_original, bool draggable, UIObject* parent);
-	virtual bool PreUpdate() { return true; }
+	virtual bool PreUpdate();
 	virtual bool Update(float dt);
 	void SetAllPos(iPoint &mouse_move);
 	virtual void SetPos(iPoint & mouse_move);
@@ -32,6 +32,7 @@ public:
 
 	const bool GetVisible() const;
 	void SetAllVisible(const bool visible);
+	virtual void SetFocusThis(bool focus_value);
 
 private:
 	void SetVisible(const bool visible);
@@ -50,7 +51,8 @@ public:
 	SDL_Rect rect_spritesheet_final;
 	SDL_Rect rect_world;
 
-private:
+protected:
+	bool focus = false;
 	bool visible = true;
 };
 

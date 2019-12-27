@@ -58,7 +58,8 @@ public:
 	void InputEvent(char* input);
 
 	SDL_Texture* GetAtlas() const;
-
+	void SetFocus(UIObject* new_focus);
+	void SetDragging(UIObject* object);
 private:
 	UIObject* CreateUIObject(UIType type, iPoint pos, SDL_Rect rect_sprisheet, bool draggable, UIObject* parent);
 
@@ -67,6 +68,7 @@ private:
 	p2List<UIObject*> UI_objects;
 	SDL_Texture* atlas;
 	p2String atlas_file_name;
+	UIObject* focus = nullptr;
 };
 
 #endif // __MGUI_H__
