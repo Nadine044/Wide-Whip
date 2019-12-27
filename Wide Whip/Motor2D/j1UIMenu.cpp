@@ -97,6 +97,7 @@ bool UIMenu::ButtonEvent(const UIButtonType type)
 		break;
 	case UIButtonType::EXIT:
 		LOG("EXIT game");
+		return false;
 		break;
 	default:
 		break;
