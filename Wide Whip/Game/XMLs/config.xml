@@ -22,7 +22,7 @@
   </window>
 
   <gui>
-    <atlas file="gui/atlas.png"/>
+    <atlas file="gui/atlas1.png"/>
   </gui>
 
   <map>

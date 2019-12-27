@@ -47,11 +47,10 @@ bool j1Scene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool j1Scene::Start()
 {
-	map_name_loaded = "Menu";
+	map_name_loaded = level1;
+	App->in_level->Start();
 	debug_tex = App->tex->Load("maps/path2.png");
-	App->menu->Start();
 
-	
 	return true;
 }
 
@@ -64,13 +63,10 @@ bool j1Scene::PreUpdate()
 
 // Called each loop iteration
 bool j1Scene::Update(float dt)
-{   	  
-
+{   	
 	CheckLevelChange();
 
 	CheckSaveLoad();
-
-	
 
 	return true;
 }

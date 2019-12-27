@@ -40,6 +40,9 @@ public:
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0);
 
+	void SetAllChunkVolume(uint volume);
+
+
 private:
 
 	_Mix_Music*			music;
