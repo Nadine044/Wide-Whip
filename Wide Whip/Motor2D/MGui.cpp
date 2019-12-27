@@ -236,7 +236,7 @@ UIButton* MGui::CreateUIButton(iPoint local_pos, p2String text, SDL_Rect image_r
 	texture_rect.y = 0;
 	SDL_QueryTexture(texture_text, NULL, NULL, &texture_rect.w, &texture_rect.h);
 
-	ret->text = new UIText(UIType::TEXT, iPoint{50,25}, texture_rect, false, ret);
+	ret->text = new UIText(UIType::TEXT, iPoint{65, 10}, texture_rect, false, ret);
 	ret->text->texture_text = texture_text;
 	ret->background = new UIImage(UIType::IMAGE, iPoint{ 0,0 }, image_rect, false, ret);
 	ret->hover = new UIImage(UIType::IMAGE, iPoint{ 0,0 }, SDL_Rect{ 0,3489,200,38 }, false, ret);
