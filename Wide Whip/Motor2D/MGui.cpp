@@ -43,18 +43,19 @@ bool MGui::Start()
 // Update all guis
 bool MGui::PreUpdate()
 {
+	bool ret = true;
 	if (App->input->GetMouseButtonDown(1) == KEY_DOWN)
 		SetFocus(nullptr);
 
-	for (p2List_item<UIObject*>* iter = UI_objects.start; iter; iter = iter->next)
+	for (p2List_item<UIObject*>* iter = UI_objects.start; iter && ret; iter = iter->next)
 	{
 		if (iter->data->GetVisible())
 		{
-			iter->data->PreUpdate();
+			ret = iter->data->PreUpdate();
 		}
 	}
 
-	return true;
+	return ret;
 }
 
 bool MGui::Update(float dt)

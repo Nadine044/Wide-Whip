@@ -201,10 +201,15 @@ void UIInputText::WriteInput(char* input)
 		AddCharacter(input);
 		RecalculateStringTexture();
 	}
+
 }
 
 void UIInputText::RecalculateStringTexture()
 {
+	if (this->input->local_pos.x + this->input->rect_world.w < background->rect_world.w - 15/*margin right*/)
+	{
+
+	}
 	this->input->texture_text = App->font->Print(text_string.GetString());
 	int w, h;
 	App->font->CalcSize(text_string.GetString(), w, h);

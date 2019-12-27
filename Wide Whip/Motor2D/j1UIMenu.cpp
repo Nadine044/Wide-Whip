@@ -91,6 +91,7 @@ bool UIMenu::ButtonEvent(const UIButtonType type)
 		break;
 	case UIButtonType::CONTINUE:
 		LOG("CONTINUE game");
+		App->LoadGame();
 		break;
 	case UIButtonType::SETTINGS:
 		LOG("Go into SETTINGS");
@@ -102,6 +103,7 @@ bool UIMenu::ButtonEvent(const UIButtonType type)
 		break;
 	case UIButtonType::EXIT:
 		LOG("EXIT game");
+		return false;
 		break;
 	default:
 		break;

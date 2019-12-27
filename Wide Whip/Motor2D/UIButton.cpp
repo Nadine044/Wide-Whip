@@ -15,6 +15,7 @@ UIButton::UIButton(UIType _type, iPoint local_pos, SDL_Rect rect_spritesheet_ori
 
 bool UIButton::PreUpdate()
 {
+	bool ret = true;
 	if (MouseInRect() && App->input->GetMouseButtonDown(1) == KEY_DOWN)
 		App->gui->SetFocus(this);
 
@@ -51,7 +52,7 @@ bool UIButton::PreUpdate()
 			{
 				state = UIButtonState::HOVER;
 				current_image = hover;
-				listener->ButtonEvent(button_type);
+				ret = listener->ButtonEvent(button_type);
 			}
 			else
 			{
@@ -65,7 +66,7 @@ bool UIButton::PreUpdate()
 		break;
 	}
 
-	return true;
+	return ret;
 }
 
 bool UIButton::PostUpdate(SDL_Texture* atlas)
