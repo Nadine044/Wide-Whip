@@ -44,7 +44,7 @@ bool j1Scene::Awake(pugi::xml_node& config)
 bool j1Scene::Start()
 {
 
-	if (App->map->Load(level1.GetString()) == true)
+	/*if (App->map->Load(level1.GetString()) == true)
 	{
 		map_name_loaded = level1;
 		App->audio->PlayMusic(music.GetString());
@@ -58,7 +58,7 @@ bool j1Scene::Start()
 	App->gui->CreateUIScrollBar(iPoint{ 50, 300 }, SDL_Rect{ 974, 788, 9, 154 }, Orientation::VERTICAL, UIScrollBarType::TEST, this);
 	App->gui->CreateUIScrollBar(iPoint{ 100, 375 }, SDL_Rect{ 557, 62, 154, 9 }, Orientation::HORIZONTAL, UIScrollBarType::TEST, this);
 
-
+	*/
 	return true;
 }
 
