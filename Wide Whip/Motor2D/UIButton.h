@@ -28,6 +28,7 @@ public:
 
 	bool PreUpdate() override;
 	bool PostUpdate(SDL_Texture* atlas) override;
+	bool CleanUp() override;
 public:
 	j1Module* listener = nullptr;
 	UIButtonType button_type;

@@ -24,6 +24,7 @@ public:
 	UIObject(iPoint pos, SDL_Rect rect_spritesheet_original, bool draggable, UIObject* parent);
 	virtual bool PreUpdate();
 	virtual bool Update(float dt);
+	virtual bool CleanUp();
 	void SetAllPos(iPoint &mouse_move);
 	virtual void SetPos(iPoint & mouse_move);
 	virtual bool PostUpdate(SDL_Texture* atlas);

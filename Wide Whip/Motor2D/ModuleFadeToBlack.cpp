@@ -46,8 +46,6 @@ bool ModuleFadeToBlack::Update(float dt)
 		{
 			if(now >= total_time)
 			{
-				//total_time += total_time;
-				start_time = SDL_GetTicks();
 				current_step = fade_step::changing_mode;
 				*to_active = true;
 			}
@@ -57,11 +55,11 @@ bool ModuleFadeToBlack::Update(float dt)
 		{
 			*to_active = false;
 			current_step = fade_step::fade_from_black;
+			start_time = SDL_GetTicks();
+			now = 0;
 		}
 		case fade_step::fade_from_black:
 		{
-
-
 			normalized = 1.0f - normalized;
 
 			if (now >= total_time)

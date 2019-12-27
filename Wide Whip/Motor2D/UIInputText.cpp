@@ -91,6 +91,22 @@ bool UIInputText::Update(float dt)
 	}
 	return true;
 }
+bool UIInputText::CleanUp()
+{
+	UIObject::CleanUp();
+
+	text->CleanUp();
+	RELEASE(text);
+	input->CleanUp();
+	RELEASE(input);
+
+	current_text = nullptr;
+
+	background->CleanUp();
+	RELEASE(background);
+
+	return true;
+}
 
 void UIInputText::EndInput()
 {

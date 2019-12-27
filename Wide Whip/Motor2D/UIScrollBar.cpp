@@ -36,6 +36,20 @@ bool UIScrollBar::Update(float dt)
 	return true;
 }
 
+bool UIScrollBar::CleanUp()
+{
+	UIObject::CleanUp();
+
+	background->CleanUp();
+	RELEASE(background);
+	thumb->CleanUp();
+	RELEASE(thumb);
+
+	listener = nullptr;
+
+	return true;
+}
+
 void UIScrollBar::SetPosThumb(iPoint& mouse_move)
 {
 	if (orientation == Orientation::VERTICAL && mouse_move.y != 0)

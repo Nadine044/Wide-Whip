@@ -61,6 +61,8 @@ public:
 
 	void ChangeLevelTo(const p2String level);
 
+	bool IsMenuLoaded() const;
+
 	p2String GetMapNameLoaded() const;
 
 	void ChangeToLevel1Fade();
@@ -96,6 +98,7 @@ private:
 
 	p2String			level1;
 	p2String			level2;
+	p2String			menu;
 
 	p2String			music;
 

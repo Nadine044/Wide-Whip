@@ -15,6 +15,7 @@
 #include "MGui.h"
 #include "UIButton.h"
 #include "UIImage.h"
+#include "j1UIMenu.h"
 j1Scene::j1Scene() : j1Module()
 {
 	name.create("scene");
@@ -33,6 +34,8 @@ bool j1Scene::Awake(pugi::xml_node& config)
 
 	level1 = levels.child_value("level1");
 	level2 = levels.child_value("level2");
+	//TODO UPDATE: 
+	menu = "Menu";
 
 	music = config.child_value("music");
 	menu_music = config.child_value("menu_music");
@@ -44,7 +47,7 @@ bool j1Scene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool j1Scene::Start()
 {
-
+	map_name_loaded = "Menu";
 	/*if (App->map->Load(level1.GetString()) == true)
 	{
 		map_name_loaded = level1;
@@ -201,30 +204,56 @@ void j1Scene::StartThisLevel()
 	{
 		ChangeLevelTo(level1);
 	}
+
+	else if (IsMenuLoaded())
+	{
+		ChangeLevelTo(menu);
+	}
 }
 
 void j1Scene::ChangeBetweenLevel()
 {
 	if (IsLevel2Loaded())
 	{
-		ChangeLevelTo(level1);
+		ChangeLevelTo(menu);
 	}
-	else
+	else if(IsLevel1Loaded())
 	{
 		ChangeLevelTo(level2);
 	}
+	else if (IsMenuLoaded())
+	{
+		ChangeLevelTo(level1);
+	}
+
 }
 
 void j1Scene::ChangeLevelTo(const p2String level)
 {
-	//Unload
-	App->map->CleanUp();
-	App->collisions->CleanUp();
-	App->module_entity_manager->CleanUp();
+	if (IsMenuLoaded())
+		App->menu->CleanUp();
+	else
+	{
+		//Unload
+		App->map->CleanUp();
+		App->collisions->CleanUp();
+		App->module_entity_manager->CleanUp();
+	}
 
-	//Load
-	App->map->Load(level.GetString());
+	if (level == menu)
+		App->menu->Start();
+	else
+	{
+		//Load
+		App->map->Load(level.GetString());
+	}
+
 	map_name_loaded = level;
+}
+
+bool j1Scene::IsMenuLoaded() const
+{
+	return GetMapNameLoaded() == menu;
 }
 
 bool j1Scene::IsLevel1Loaded() const
@@ -241,6 +270,8 @@ bool j1Scene::IsLevel2Loaded() const
 bool j1Scene::PostUpdate()
 {
 	bool ret = true;
+	if(!IsMenuLoaded())
+		App->map->Draw();
 
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;

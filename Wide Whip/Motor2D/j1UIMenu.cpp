@@ -46,6 +46,7 @@ bool UIMenu::PostUpdate()
 
 bool UIMenu::CleanUp()
 {
+	App->gui->CleanUp();
 	return true;
 }
 
@@ -55,8 +56,10 @@ bool UIMenu::ButtonEvent(const UIButtonType type)
 	{
 	case UIButtonType::NEW_GAME:
 		LOG("Button NEW GAME pressed.");
-		App->gui->CreateUIImage(iPoint{ 360, 280 }, SDL_Rect{ 761, 0, 122, 130 }, true);
+		/*App->gui->CreateUIImage(iPoint{ 360, 280 }, SDL_Rect{ 761, 0, 122, 130 }, true);
 		App->gui->CreateUIInputText(iPoint{ 500, 300 }, "Name: ", SDL_Rect{ 967, 25, 463, 69 });
+		*/
+		App->scene->ChangeToLevel1Fade();
 		break;
 	case UIButtonType::CONTINUE:
 		LOG("CONTINUE game");

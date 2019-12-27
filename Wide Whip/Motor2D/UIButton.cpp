@@ -74,3 +74,22 @@ bool UIButton::PostUpdate(SDL_Texture* atlas)
 	return true;
 }
 
+bool UIButton::CleanUp()
+{
+	UIObject::CleanUp();
+	listener = nullptr;
+
+	text->CleanUp();
+	RELEASE(text);
+
+	background->CleanUp();
+	RELEASE(background);
+	hover->CleanUp();
+	RELEASE(hover);
+	clicked->CleanUp();
+	RELEASE(clicked);
+
+	current_image = nullptr;
+
+	return true;
+}

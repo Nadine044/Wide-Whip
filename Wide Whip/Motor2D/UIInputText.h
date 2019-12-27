@@ -17,6 +17,7 @@ public:
 	//bool PreUpdate() override;
 	bool PostUpdate(SDL_Texture* atlas) override;
 	bool Update(float dt) override;
+	bool CleanUp() override;
 
 	void EndInput();
 

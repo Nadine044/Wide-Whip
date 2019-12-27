@@ -39,6 +39,13 @@ bool UIObject::PostUpdate(SDL_Texture* atlas)
 	return true;
 }
 
+bool UIObject::CleanUp()
+{
+	//childrens.clear();
+	parent = nullptr;
+	return true;
+}
+
 bool UIObject::Update(float dt)
 {
 	if (draggable)

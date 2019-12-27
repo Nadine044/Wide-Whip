@@ -27,6 +27,7 @@ public:
 
 	bool Update(float dt) override;
 	bool PostUpdate(SDL_Texture* atlas) override;
+	bool CleanUp() override;
 
 	void SetPosThumb(iPoint& mouse_move);
 
@@ -39,9 +40,7 @@ public:
 	UIImage* background;
 	UIImage* thumb;
 	j1Module* listener;
-	UIScrollBarType scrollbar_type;
-
-	
+	UIScrollBarType scrollbar_type;	
 };
 
 #endif // !__UISCROLLBAR_H__

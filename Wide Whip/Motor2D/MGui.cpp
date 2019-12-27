@@ -147,7 +147,12 @@ bool MGui::PostUpdate()
 bool MGui::CleanUp()
 {
 	LOG("Freeing GUI");
-
+	for (p2List_item<UIObject*>* iter = UI_objects.start; iter; iter = iter->next)
+	{
+		iter->data->CleanUp();
+		RELEASE(iter->data);
+	}
+	UI_objects.clear();
 	return true;
 }
 
