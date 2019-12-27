@@ -33,6 +33,19 @@ bool UIMenu::Start()
 	App->gui->CreateUIButton(iPoint{ 130, 525 }, "  CREDITS", SDL_Rect{ 0,3447,200,38 }, UIButtonType::CREDITS, this, true);
 	App->gui->CreateUIButton(iPoint{ 100, 600 }, "     EXIT", SDL_Rect{ 0,3447,200,38 }, UIButtonType::EXIT, this, true);
 	
+	settingsParent = App->gui->CreateUIImage(iPoint{ 400, 300 }, SDL_Rect{ 33, 1140, 487, 384 }, true);
+	App->gui->CreateUIText(iPoint{ 210, 20 }, "SETTINGS", false, settingsParent);
+	App->gui->CreateUIText(iPoint{ 25, 105 }, "Music Volume", false, settingsParent);
+	App->gui->CreateUIScrollBar(iPoint{ 120, 105 }, SDL_Rect{ 383, 574, 451, 41 }, Orientation::HORIZONTAL, UIScrollBarType::MUSIC, this, settingsParent);
+	App->gui->CreateUIText(iPoint{ 25, 175 }, "SFX Volume", false, settingsParent);
+	App->gui->CreateUIScrollBar(iPoint{ 120, 175 }, SDL_Rect{ 383, 574, 451, 41 }, Orientation::HORIZONTAL, UIScrollBarType::SFX, this, settingsParent);
+	settingsParent->SetAllVisible(false);
+
+	creditsParent = App->gui->CreateUIImage(iPoint{ 0, 0 }, SDL_Rect{ 0, 0, 0, 0 });
+	App->gui->CreateUIText(iPoint{ 700, 630 }, "Copyright:", false, creditsParent);
+	App->gui->CreateUIText(iPoint{ 700, 650 }, "MIT LICENSE", false, creditsParent);
+	App->gui->CreateUIText(iPoint{ 700, 670 }, "WIDE WHIP by Jorge Gemas and Nadine Gutiérrez", false, creditsParent);
+	creditsParent->SetAllVisible(false);
 
 	return true;
 }
@@ -66,9 +79,9 @@ bool UIMenu::ButtonEvent(const UIButtonType type)
 	{
 	case UIButtonType::NEW_GAME:
 		LOG("Button NEW GAME pressed.");
-		/*App->gui->CreateUIImage(iPoint{ 360, 280 }, SDL_Rect{ 761, 0, 122, 130 }, true);
-		App->gui->CreateUIInputText(iPoint{ 500, 300 }, "Name: ", SDL_Rect{ 967, 25, 463, 69 });
-		*/
+		//App->gui->CreateUIImage(iPoint{ 360, 280 }, SDL_Rect{ 761, 0, 122, 130 }, true);
+		//App->gui->CreateUIInputText(iPoint{ 500, 300 }, "Name: ", SDL_Rect{ 967, 25, 463, 69 });
+		
 		App->scene->ChangeToLevel1Fade();
 		break;
 	case UIButtonType::CONTINUE:
@@ -76,18 +89,11 @@ bool UIMenu::ButtonEvent(const UIButtonType type)
 		break;
 	case UIButtonType::SETTINGS:
 		LOG("Go into SETTINGS");
-		settingsParent = App->gui->CreateUIImage(iPoint{ 400, 300 }, SDL_Rect{ 33, 1140, 487, 384 }, true);
-		App->gui->CreateUIText(iPoint{ 210, 20 }, "SETTINGS", false, settingsParent);
-		App->gui->CreateUIText(iPoint{ 25, 105 }, "Music Volume", false, settingsParent);
-		App->gui->CreateUIScrollBar(iPoint{ 120, 105 }, SDL_Rect{ 383, 574, 451, 41 }, Orientation::HORIZONTAL, UIScrollBarType::MUSIC, this, settingsParent);
-		App->gui->CreateUIText(iPoint{ 25, 175 }, "SFX Volume", false, settingsParent);
-		App->gui->CreateUIScrollBar(iPoint{ 120, 175 }, SDL_Rect{ 383, 574, 451, 41 }, Orientation::HORIZONTAL, UIScrollBarType::SFX, this, settingsParent);
+		settingsParent->SetAllVisible(!settingsParent->GetVisible());
 		break;
 	case UIButtonType::CREDITS:
 		LOG("Our precious CREDITS");
-		App->gui->CreateUIText(iPoint{ 700, 630 }, "Copyright:");
-		App->gui->CreateUIText(iPoint{ 700, 650 }, "MIT LICENSE");
-		App->gui->CreateUIText(iPoint{ 700, 670 }, "WIDE WHIP by Jorge Gemas and Nadine Gutiérrez");
+		creditsParent->SetAllVisible(!creditsParent->GetVisible());
 		break;
 	case UIButtonType::EXIT:
 		LOG("EXIT game");

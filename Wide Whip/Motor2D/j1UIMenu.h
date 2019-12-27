@@ -22,7 +22,7 @@ public:
 
 private:
 	UIImage*			settingsParent = nullptr;
-	const bool			creditsVisible = true;
+	UIImage*			creditsParent = nullptr;
 
 };
 #endif // !__UIMENU_H__
