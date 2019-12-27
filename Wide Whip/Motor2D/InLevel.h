@@ -1,14 +1,12 @@
-#ifndef __UIMENU_H__
-#define __UIMENU_H__
+#ifndef __INLEVEL_H__
+#define __INLEVEL_H__
 
 #include "j1Module.h"
-
 class UIImage;
-
-class UIMenu : public j1Module
+class InLevel : public j1Module
 {
 public:
-	UIMenu();
+	InLevel();
 
 	bool Awake(pugi::xml_node& config) override;
 	bool Start() override;
@@ -21,8 +19,8 @@ public:
 	bool SliderEvent(const UIScrollBarType type, const float ratio) override;
 
 private:
-	UIImage*			settingsParent = nullptr;
-	const bool			creditsVisible = true;
+	p2String			music;
+	UIImage* ret;
 
 };
-#endif // !__UIMENU_H__
+#endif // !__INLEVEL_H__

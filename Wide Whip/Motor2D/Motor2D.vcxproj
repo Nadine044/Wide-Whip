@@ -81,6 +81,7 @@
     <ClCompile Include="EnemyFly.cpp" />
     <ClCompile Include="EnemyWalk.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="InLevel.cpp" />
     <ClCompile Include="j1Main.cpp" />
     <ClCompile Include="j1App.cpp" />
     <ClCompile Include="j1Audio.cpp" />
@@ -115,6 +116,7 @@
     <ClInclude Include="EnemyFly.h" />
     <ClInclude Include="EnemyWalk.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="InLevel.h" />
     <ClInclude Include="j1Map.h" />
     <ClInclude Include="j1Pathfinding.h" />
     <ClInclude Include="j1PerfTimer.h" />

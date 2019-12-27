@@ -16,6 +16,7 @@
 #include "UIButton.h"
 #include "UIImage.h"
 #include "j1UIMenu.h"
+#include "InLevel.h"
 j1Scene::j1Scene() : j1Module()
 {
 	name.create("scene");
@@ -37,7 +38,6 @@ bool j1Scene::Awake(pugi::xml_node& config)
 	//TODO UPDATE: 
 	menu = "Menu";
 
-	music = config.child_value("music");
 	menu_music = config.child_value("menu_music");
 
 	time_in_fade = config.child("time_in_fade").attribute("value").as_float();
@@ -48,21 +48,10 @@ bool j1Scene::Awake(pugi::xml_node& config)
 bool j1Scene::Start()
 {
 	map_name_loaded = "Menu";
-	/*if (App->map->Load(level1.GetString()) == true)
-	{
-		map_name_loaded = level1;
-		App->audio->PlayMusic(music.GetString());
-	}
-
 	debug_tex = App->tex->Load("maps/path2.png");
-	ret = App->gui->CreateUIImage(iPoint{ 300, 100 }, SDL_Rect{ 485, 829, 328, 103 }, true);
-	App->gui->CreateUIText(iPoint{ 300, 0 }, "Hello World", true, ret);
-	App->gui->CreateUIButton(iPoint{ 50, 50 }, "Button", SDL_Rect{ 0,113, 229, 69 }, UIButtonType::TEST, this, true);
-	App->gui->CreateUIInputText(iPoint{ 200, 300 }, "Your Name", SDL_Rect{ 488, 569, 344, 61 }, true, ret);
-	App->gui->CreateUIScrollBar(iPoint{ 50, 300 }, SDL_Rect{ 974, 788, 9, 154 }, Orientation::VERTICAL, UIScrollBarType::TEST, this);
-	App->gui->CreateUIScrollBar(iPoint{ 100, 375 }, SDL_Rect{ 557, 62, 154, 9 }, Orientation::HORIZONTAL, UIScrollBarType::TEST, this);
+	App->menu->Start();
 
-	*/
+	
 	return true;
 }
 
@@ -245,6 +234,9 @@ void j1Scene::ChangeLevelTo(const p2String level)
 	else
 	{
 		//Load
+		if (IsMenuLoaded())
+			App->in_level->Start();
+
 		App->map->Load(level.GetString());
 	}
 

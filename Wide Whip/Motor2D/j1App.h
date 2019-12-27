@@ -22,6 +22,7 @@ class j1PathFinding;
 class MFonts;
 class MGui;
 class UIMenu;
+class InLevel;
 
 class j1App
 {
@@ -101,6 +102,7 @@ public:
 	MFonts*				font;
 	MGui*				gui;
 	UIMenu*				menu;
+	InLevel*			in_level;
 
 private:
 

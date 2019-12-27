@@ -100,8 +100,6 @@ private:
 	p2String			level2;
 	p2String			menu;
 
-	p2String			music;
-
 	p2String			map_name_loaded;
 
 	float				time_in_fade;

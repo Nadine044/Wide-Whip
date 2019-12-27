@@ -8,7 +8,7 @@
     <framerate_cap value="30"/>
     <dt_multiplied value="25"/>
   </app>
-	
+
   <renderer>
     <vsync value="false"/>
   </renderer>
@@ -24,7 +24,7 @@
   <gui>
     <atlas file="gui/atlas.png"/>
   </gui>
-  
+
   <map>
     <folder>maps/</folder>
   </map>
@@ -120,7 +120,7 @@
       </animations>
 
     </player>
-    
+
     <enemy>
 
       <texture_walker>enemies/walker/Slime.png</texture_walker>
@@ -129,7 +129,7 @@
       <gravity value="2.5f"/>
 
       <animations>
-        
+
         <idle speed="0.2f" loop="true">
           <frame x="0"   y="18" w ="94" h ="42"/>
           <frame x="96"   y="18" w ="94" h ="42"/>
@@ -159,16 +159,16 @@
           <frame x="192"   y="96" w ="64" h ="44"/>
           <frame x="256"   y="96" w ="64" h ="44"/>
         </walk_flyer>
-        
+
       </animations>
 
       <audios>
         <slime_death>audio/fx/slime_death.wav</slime_death>
       </audios>
-      
+
     </enemy>
   </entity>
- 
+
 
   <scene>
     <levels>
@@ -176,8 +176,14 @@
       <level2>Level2.tmx</level2>
     </levels>
     <time_in_fade value="2.f"/>
-    <music>audio/music/Resilience.ogg</music>
+    
     <menu_music>audio/music/AViewFromEarth.ogg</menu_music>
   </scene>
+
+  <in_level>
+    <music>audio/music/Resilience.ogg</music>
+  </in_level>
+  
+
 
 </config>

@@ -7,7 +7,17 @@
 #include "j1Audio.h"
 
 UIMenu::UIMenu()
-{}
+{
+	name.create("ui_menu");
+}
+
+bool UIMenu::Awake(pugi::xml_node& config)
+{
+	bool ret = true;
+
+	active = false;
+	return ret;
+}
 
 bool UIMenu::Start()
 {

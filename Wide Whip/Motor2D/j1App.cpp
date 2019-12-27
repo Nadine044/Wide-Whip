@@ -19,6 +19,7 @@
 #include "MFonts.h"
 #include "MGui.h"
 #include "j1UIMenu.h"
+#include "InLevel.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -43,6 +44,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	font = new MFonts();
 	gui = new MGui();
 	menu = new UIMenu();
+	in_level = new InLevel();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -52,9 +54,10 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(font);
 	AddModule(audio);
 	AddModule(map);
-	AddModule(menu);
 	AddModule(gui);
 	AddModule(scene);
+	AddModule(menu);
+	AddModule(in_level);
 	AddModule(pathfinding_module);
 	AddModule(module_entity_manager);
 	AddModule(collisions);//After scenes, objects
@@ -143,7 +146,8 @@ bool j1App::Start()
 
 	while(item != NULL && ret == true)
 	{
-		ret = item->data->Start();
+		if(item->data->active)
+			ret = item->data->Start();
 		item = item->next;
 	}
 
