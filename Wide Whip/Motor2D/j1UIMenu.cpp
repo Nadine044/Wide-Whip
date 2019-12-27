@@ -5,6 +5,7 @@
 #include "MGui.h"
 #include "j1Scene.h"
 #include "j1Audio.h"
+#include "SDL_mixer/include/SDL_mixer.h"
 
 UIMenu::UIMenu()
 {
@@ -35,7 +36,7 @@ bool UIMenu::Start()
 	App->gui->CreateUIButton(iPoint{ 300, 200 }, "START", SDL_Rect{ 0, 3447, 200, 38 }, UIButtonType::START, this, false, newGameParent);
 	newGameParent->SetAllVisible(false);
 
-	settingsParent = App->gui->CreateUIImage(iPoint{ 400, 300 }, SDL_Rect{ 33, 1140, 487, 384 }, true);
+	settingsParent = App->gui->CreateUIImage(iPoint{ 400, 300 }, SDL_Rect{ 33, 1140, 487, 384 }, false);
 	App->gui->CreateUIText(iPoint{ 210, 20 }, "SETTINGS", false, settingsParent);
 	App->gui->CreateUIText(iPoint{ 25, 105 }, "Music Volume", false, settingsParent);
 	App->gui->CreateUIScrollBar(iPoint{ 120, 105 }, SDL_Rect{ 383, 574, 322, 36 }, Orientation::HORIZONTAL, UIScrollBarType::MUSIC, this, settingsParent);
@@ -118,6 +119,7 @@ bool UIMenu::SliderEvent(const UIScrollBarType type, const float ratio)
 		break;
 	case UIScrollBarType::MUSIC:
 		LOG("Music SCROLLBAR");
+		Mix_VolumeMusic(ratio);
 		break;
 	case UIScrollBarType::SFX:
 		LOG("SFX SCROLLBAR");

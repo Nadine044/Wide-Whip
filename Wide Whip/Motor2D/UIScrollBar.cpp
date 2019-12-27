@@ -5,6 +5,8 @@
 #include "MGui.h"
 #include "j1Render.h"
 #include "j1Input.h"
+#include "p2Log.h"
+#include "SDL_mixer/include/SDL_mixer.h"
 bool UIScrollBar::PostUpdate(SDL_Texture* atlas)
 {
 	background->PostUpdate(atlas);

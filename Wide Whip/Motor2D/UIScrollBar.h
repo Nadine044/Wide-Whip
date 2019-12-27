@@ -21,8 +21,6 @@ class UIScrollBar : public UIObject
 {
 public:
 
-
-
 	UIScrollBar(UIType _type, iPoint local_pos, SDL_Rect rect_spritesheet_original, bool draggable, UIObject* parent) : UIObject(local_pos, rect_spritesheet_original, draggable, parent) { type = _type; }
 
 	bool Update(float dt) override;
@@ -41,6 +39,8 @@ public:
 	UIImage* thumb;
 	j1Module* listener;
 	UIScrollBarType scrollbar_type;	
+
+	int musicScrollValue = 0;
 };
 
 #endif // !__UISCROLLBAR_H__

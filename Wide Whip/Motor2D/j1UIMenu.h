@@ -25,5 +25,8 @@ private:
 	UIImage*			settingsParent = nullptr;
 	UIImage*			creditsParent = nullptr;
 
+	int					musicScrollValue = 0;
+	int					sfxScrollValue = 0;
+
 };
 #endif // !__UIMENU_H__
