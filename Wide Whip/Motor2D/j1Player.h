@@ -151,7 +151,7 @@ private:
 	float				min_speed						= 0.0f;
 	float				dt_multiplied					= 0.0f;
 
-	int					coins_count						= 0;
+	float				coins_count						= 0;
 };
 
 

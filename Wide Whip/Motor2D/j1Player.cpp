@@ -458,7 +458,7 @@ void Player::OnTrigger(Collider* col2)
 	if (col2->tag == TAG::COIN)
 	{
 		LOG("Picking Coin");
-		coins_count++;
+		coins_count = coins_count + 0.5;
 		LOG("CoinsCount: %i", coins_count);
 		App->audio->PlayFx(picked_coin_sfx.id);
 		Coin* actualCoin = (Coin*)(col2->object);
