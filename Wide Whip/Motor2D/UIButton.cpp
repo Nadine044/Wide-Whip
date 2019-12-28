@@ -5,6 +5,8 @@
 #include "j1Input.h"
 #include "MGui.h"
 #include "j1Render.h"
+#include "j1Audio.h"
+#include "j1Scene.h"
 
 UIButton::UIButton(UIType _type, iPoint local_pos, SDL_Rect rect_spritesheet_original, bool draggable, UIObject* parent) : UIObject(local_pos, rect_spritesheet_original, draggable, parent)
 {
@@ -26,6 +28,7 @@ bool UIButton::PreUpdate()
 			state = UIButtonState::HOVER;
 			current_image = hover;
 			LOG("Mouse Enter!");
+			App->audio->PlayFx(App->scene->button_hover_sfx.id);
 		}
 		break;
 	case UIButton::UIButtonState::HOVER:
@@ -39,7 +42,7 @@ bool UIButton::PreUpdate()
 		{
 			state = UIButtonState::CLICKED;
 			current_image = clicked;
-
+			App->audio->PlayFx(App->scene->button_click_sfx.id);
 		}
 		break;
 	case UIButton::UIButtonState::CLICKED:

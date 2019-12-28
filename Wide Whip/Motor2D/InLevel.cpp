@@ -6,6 +6,9 @@
 #include "j1Scene.h"
 #include "j1Audio.h"
 #include "UIImage.h"
+#include "j1Player.h"
+#include "ModuleEntityManager.h"
+
 InLevel::InLevel()
 {
 	name.create("in_level");
@@ -16,7 +19,6 @@ bool InLevel::Awake(pugi::xml_node& config)
 	bool ret = true;
 
 	music = config.child_value("music");
-
 	active = false;
 	return ret;
 }
@@ -26,13 +28,14 @@ bool InLevel::Start()
 	App->audio->PlayMusic(music.GetString());
 
 	/*UI Elements in game*/
-	ret = App->gui->CreateUIImage(iPoint{ 300, 100 }, SDL_Rect{ 485, 829, 328, 103 }, true);
-	App->gui->CreateUIText(iPoint{ 300, 0 }, "Hello World", true, ret);
-	App->gui->CreateUIButton(iPoint{ 50, 50 }, "Button", SDL_Rect{ 0,113, 229, 69 }, UIButtonType::TEST, this, true);
-	App->gui->CreateUIInputText(iPoint{ 200, 300 }, "Your Name", SDL_Rect{ 488, 569, 344, 61 }, true, ret);
-	App->gui->CreateUIScrollBar(iPoint{ 50, 300 }, SDL_Rect{ 974, 788, 9, 154 }, Orientation::VERTICAL, UIScrollBarType::TEST, this);
-	App->gui->CreateUIScrollBar(iPoint{ 100, 375 }, SDL_Rect{ 557, 62, 154, 9 }, Orientation::HORIZONTAL, UIScrollBarType::TEST, this);
+	
+	App->gui->CreateUIImage(iPoint{ 10, 10 }, SDL_Rect{ 761, 0, 122, 130 });
+	first_life = App->gui->CreateUIImage(iPoint{ 137, 20 }, SDL_Rect{ 888, 27, 69, 72 });
+	second_life = App->gui->CreateUIImage(iPoint{ 210, 20 }, SDL_Rect{ 888, 27, 69, 72 });
+	third_life = App->gui->CreateUIImage(iPoint{ 283, 20 }, SDL_Rect{ 888, 27, 69, 72 });
 
+	App->gui->CreateUIImage(iPoint{ 820, 10 }, SDL_Rect{ 760, 283, 67, 77 });
+	App->gui->CreateUIText(iPoint{ 850, 10 }, coins_count);
 
 	return true;
 }

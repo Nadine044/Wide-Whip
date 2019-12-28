@@ -24,7 +24,6 @@ Entity::Entity(EntityType type, SDL_Rect& rect) : type(type)
 	switch (type)
 	{
 	case EntityType::NO_TYPE:
-
 		break;
 	case EntityType::PLAYER:
 		color = Green;
@@ -37,6 +36,10 @@ Entity::Entity(EntityType type, SDL_Rect& rect) : type(type)
 	case EntityType::WALKENEMY:
 		color = Red;
 		tag = TAG::ENEMY;
+		break;
+	case EntityType::COIN:
+		color = Blue;
+		tag = TAG::COIN;
 		break;
 	default:
 		LOG("EntityType not valid");

@@ -21,8 +21,12 @@ public:
 	bool SliderEvent(const UIScrollBarType type, const float ratio) override;
 
 private:
+	UIImage*			newGameParent = nullptr;
 	UIImage*			settingsParent = nullptr;
 	UIImage*			creditsParent = nullptr;
+
+	int					musicScrollValue = 0;
+	int					sfxScrollValue = 0;
 
 };
 #endif // !__UIMENU_H__

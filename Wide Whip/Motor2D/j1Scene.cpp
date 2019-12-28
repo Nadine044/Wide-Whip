@@ -35,10 +35,16 @@ bool j1Scene::Awake(pugi::xml_node& config)
 
 	level1 = levels.child_value("level1");
 	level2 = levels.child_value("level2");
-	//TODO UPDATE: 
+	 
 	menu = "Menu";
 
 	menu_music = config.child_value("menu_music");
+	start_game_sfx.path = config.child_value("start_game_sfx");
+	start_game_sfx.id = App->audio->LoadFx(start_game_sfx.path.GetString());
+	button_hover_sfx.path = config.child_value("button_hover_sfx");
+	button_hover_sfx.id = App->audio->LoadFx(button_hover_sfx.path.GetString());
+	button_click_sfx.path = config.child_value("button_click_sfx");
+	button_click_sfx.id = App->audio->LoadFx(button_click_sfx.path.GetString());
 
 	time_in_fade = config.child("time_in_fade").attribute("value").as_float();
 	return ret;
@@ -47,8 +53,8 @@ bool j1Scene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool j1Scene::Start()
 {
-	map_name_loaded = level1;
-	App->in_level->Start();
+	map_name_loaded = menu;
+	App->menu->Start();
 	debug_tex = App->tex->Load("maps/path2.png");
 
 	return true;
@@ -57,7 +63,6 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
-
 	return true;
 }
 

@@ -22,7 +22,7 @@
   </window>
 
   <gui>
-    <atlas file="gui/atlas1.png"/>
+    <atlas file="gui/atlas.png"/>
   </gui>
 
   <map>
@@ -167,6 +167,25 @@
       </audios>
 
     </enemy>
+
+    <coin>
+      <texture>gui/Coins.png</texture>
+
+      <animations>
+        <rotating speed="0.2f" loop="true">
+          <frame x="0" y="0" w ="32" h ="32"/>
+          <frame x="32" y="0" w ="32" h ="32"/>
+          <frame x="64" y="0" w ="32" h ="32"/>
+            <frame x="96" y="0" w ="32" h ="32"/>
+          <frame x="128" y="0" w ="32" h ="32"/>
+        </rotating>
+      </animations>
+
+      <audios>
+        <coin_picked>audio/fx/coin.wav</coin_picked>
+      </audios>
+      
+    </coin>
   </entity>
 
 
@@ -178,6 +197,9 @@
     <time_in_fade value="2.f"/>
     
     <menu_music>audio/music/AViewFromEarth.ogg</menu_music>
+    <start_game_sfx>audio/fx/start.wav</start_game_sfx>
+    <button_hover_sfx>audio/fx/button_hover.wav</button_hover_sfx>
+    <button_click_sfx>audio/fx/button_click.wav</button_click_sfx>
   </scene>
 
   <in_level>

@@ -20,6 +20,7 @@ enum class TAG : uint
 	PLAYER,
 	CHANGE_LEVEL,
 	ENEMY,
+	COIN,
 	MAX
 
 };
@@ -115,6 +116,7 @@ public:
 
 	Collider* player = nullptr; //temporally to move a collider;
 	Collider* enemyWalkable = nullptr;
+	Collider* coins = nullptr;
 
 private:
 

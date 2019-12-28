@@ -68,16 +68,6 @@ public:
 
 	bool* GetReviveBoolAdress() { return &revive; }
 
-public:
-
-	//Animations
-
-	//New player
-
-	
-
-	
-
 private:
 
 	void CheckDebugKeys();
@@ -96,6 +86,8 @@ private:
 
 	void Death();
 
+	void LoseLife();
+
 private:
 
 	Animation		jump;
@@ -113,6 +105,8 @@ private:
 	FX dash_fx;
 	FX death_init_fx;
 	FX death_finish_fx;
+
+	FX picked_coin_sfx;
 
 	//SDL_Texture*		text							= nullptr;
 	p2String			text_path;
@@ -158,7 +152,6 @@ private:
 	float				max_speed						= 0.0f;
 	float				min_speed						= 0.0f;
 	float				dt_multiplied					= 0.0f;
-
 };
 
 

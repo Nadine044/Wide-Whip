@@ -18,9 +18,14 @@ public:
 	bool ButtonEvent(const UIButtonType type) override;
 	bool SliderEvent(const UIScrollBarType type, const float ratio) override;
 
+	float				coins_count = 0;
+	int					lifes = 3;
+
 private:
 	p2String			music;
-	UIImage* ret;
+	UIImage*			first_life = nullptr;
+	UIImage*			second_life = nullptr;
+	UIImage*			third_life = nullptr;
 
 };
 #endif // !__INLEVEL_H__

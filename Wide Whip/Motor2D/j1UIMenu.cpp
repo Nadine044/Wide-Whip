@@ -5,6 +5,8 @@
 #include "MGui.h"
 #include "j1Scene.h"
 #include "j1Audio.h"
+#include "ModuleFadeToBlack.h"
+#include "SDL_mixer/include/SDL_mixer.h"
 
 UIMenu::UIMenu()
 {
@@ -21,30 +23,32 @@ bool UIMenu::Awake(pugi::xml_node& config)
 
 bool UIMenu::Start()
 {
-	//CASE MENU
-
-	//MYTODO: Audio
 	App->audio->PlayMusic(App->scene->menu_music.GetString());
 
 	App->gui->CreateUIImage(iPoint{ 0, 0 }, SDL_Rect{ 0, 2673, 1600, 1600 });
-	App->gui->CreateUIButton(iPoint{ 100, 300 }, "NEW GAME", SDL_Rect{ 0,3447,200,38 }, UIButtonType::NEW_GAME, this, true);
-	App->gui->CreateUIButton(iPoint{ 130, 375 }, "CONTINUE", SDL_Rect{ 0,3447,200,38 }, UIButtonType::CONTINUE, this, true);
-	App->gui->CreateUIButton(iPoint{ 100, 450 }, " SETTINGS", SDL_Rect{ 0,3447,200,38 }, UIButtonType::SETTINGS, this, true);
-	App->gui->CreateUIButton(iPoint{ 130, 525 }, "  CREDITS", SDL_Rect{ 0,3447,200,38 }, UIButtonType::CREDITS, this, true);
-	App->gui->CreateUIButton(iPoint{ 100, 600 }, "     EXIT", SDL_Rect{ 0,3447,200,38 }, UIButtonType::EXIT, this, true);
+	App->gui->CreateUIButton(iPoint{ 100, 300 }, "NEW GAME", SDL_Rect{ 0,3447,200,38 }, UIButtonType::NEW_GAME, this);
+	App->gui->CreateUIButton(iPoint{ 130, 375 }, "CONTINUE", SDL_Rect{ 0,3447,200,38 }, UIButtonType::CONTINUE, this);
+	App->gui->CreateUIButton(iPoint{ 100, 450 }, " SETTINGS", SDL_Rect{ 0,3447,200,38 }, UIButtonType::SETTINGS, this);
+	App->gui->CreateUIButton(iPoint{ 130, 525 }, "  CREDITS", SDL_Rect{ 0,3447,200,38 }, UIButtonType::CREDITS, this);
+	App->gui->CreateUIButton(iPoint{ 100, 600 }, "     EXIT", SDL_Rect{ 0,3447,200,38 }, UIButtonType::EXIT, this);
 	
-	settingsParent = App->gui->CreateUIImage(iPoint{ 400, 300 }, SDL_Rect{ 33, 1140, 487, 384 }, true);
+	newGameParent = App->gui->CreateUIImage(iPoint{ 360, 280 }, SDL_Rect{ 761, 0, 122, 130 }, true);
+	App->gui->CreateUIInputText(iPoint{ 140, 20 }, "Name: ", SDL_Rect{ 967, 25, 463, 69 }, false, newGameParent);
+	App->gui->CreateUIButton(iPoint{ 400, 320 }, "START", SDL_Rect{ 0, 3447, 200, 38 }, UIButtonType::START, this, false, newGameParent);
+	newGameParent->SetAllVisible(false);
+
+	settingsParent = App->gui->CreateUIImage(iPoint{ 400, 300 }, SDL_Rect{ 33, 1140, 487, 384 }, false);
 	App->gui->CreateUIText(iPoint{ 210, 20 }, "SETTINGS", false, settingsParent);
 	App->gui->CreateUIText(iPoint{ 25, 105 }, "Music Volume", false, settingsParent);
-	App->gui->CreateUIScrollBar(iPoint{ 120, 105 }, SDL_Rect{ 383, 574, 451, 41 }, Orientation::HORIZONTAL, UIScrollBarType::MUSIC, this, settingsParent);
+	App->gui->CreateUIScrollBar(iPoint{ 120, 105 }, SDL_Rect{ 383, 574, 322, 36 }, Orientation::HORIZONTAL, UIScrollBarType::MUSIC, this, settingsParent);
 	App->gui->CreateUIText(iPoint{ 25, 175 }, "SFX Volume", false, settingsParent);
-	App->gui->CreateUIScrollBar(iPoint{ 120, 175 }, SDL_Rect{ 383, 574, 451, 41 }, Orientation::HORIZONTAL, UIScrollBarType::SFX, this, settingsParent);
+	App->gui->CreateUIScrollBar(iPoint{ 120, 175 }, SDL_Rect{ 383, 574, 322, 36 }, Orientation::HORIZONTAL, UIScrollBarType::SFX, this, settingsParent);
 	settingsParent->SetAllVisible(false);
 
 	creditsParent = App->gui->CreateUIImage(iPoint{ 0, 0 }, SDL_Rect{ 0, 0, 0, 0 });
-	App->gui->CreateUIText(iPoint{ 700, 630 }, "Copyright:", false, creditsParent);
+	App->gui->CreateUIText(iPoint{ 700, 630 }, "WIDE WHIP", false, creditsParent);
 	App->gui->CreateUIText(iPoint{ 700, 650 }, "MIT LICENSE", false, creditsParent);
-	App->gui->CreateUIText(iPoint{ 700, 670 }, "WIDE WHIP by Jorge Gemas and Nadine Gutiérrez", false, creditsParent);
+	App->gui->CreateUIText(iPoint{ 700, 670 }, "Copyright (c) [2019] [Nadine Gutiérrez & Jorge Gemas]", false, creditsParent);
 	creditsParent->SetAllVisible(false);
 
 	return true;
@@ -79,9 +83,11 @@ bool UIMenu::ButtonEvent(const UIButtonType type)
 	{
 	case UIButtonType::NEW_GAME:
 		LOG("Button NEW GAME pressed.");
-		//App->gui->CreateUIImage(iPoint{ 360, 280 }, SDL_Rect{ 761, 0, 122, 130 }, true);
-		//App->gui->CreateUIInputText(iPoint{ 500, 300 }, "Name: ", SDL_Rect{ 967, 25, 463, 69 });
-		
+		newGameParent->SetAllVisible(!newGameParent->GetVisible());		
+		break;
+	case UIButtonType::START:
+		LOG("START into the game");
+		App->audio->PlayFx(App->scene->start_game_sfx.id);
 		App->scene->ChangeToLevel1Fade();
 		break;
 	case UIButtonType::CONTINUE:
@@ -116,9 +122,11 @@ bool UIMenu::SliderEvent(const UIScrollBarType type, const float ratio)
 		break;
 	case UIScrollBarType::MUSIC:
 		LOG("Music SCROLLBAR");
+		Mix_VolumeMusic(MAX_VOLUME*ratio);
 		break;
 	case UIScrollBarType::SFX:
 		LOG("SFX SCROLLBAR");
+		App->audio->SetAllChunkVolume(MAX_VOLUME*ratio);
 		break;
 	default:
 		break;

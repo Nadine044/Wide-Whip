@@ -8,6 +8,7 @@ enum class UIButtonType
 {
 	TEST,
 	NEW_GAME,
+	START,
 	CONTINUE,
 	SETTINGS,
 	CREDITS,

@@ -15,7 +15,7 @@
 	<pathfinding />
 	<enitity_manager>
 		<entity>
-			<position x="231" y="607" />
+			<position x="131" y="607" />
 			<entity_type value="0" />
 			<velocity value="0" />
 			<state value="0" />
@@ -41,7 +41,7 @@
 			<collider enabled="true" />
 		</entity>
 		<entity>
-			<position x="2253" y="2540" />
+			<position x="2253" y="46902" />
 			<entity_type value="2" />
 			<state value="0" />
 			<flip value="0" />
@@ -93,7 +93,7 @@
 	<collision />
 	<FadeToBlack>
 		<total_time value="1000" />
-		<now value="1002" />
+		<now value="0" />
 		<current_step value="0" />
 	</FadeToBlack>
 	<renderer>
