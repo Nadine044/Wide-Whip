@@ -24,7 +24,6 @@ Entity::Entity(EntityType type, SDL_Rect& rect) : type(type)
 	switch (type)
 	{
 	case EntityType::NO_TYPE:
-
 		break;
 	case EntityType::PLAYER:
 		color = Green;

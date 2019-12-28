@@ -10,6 +10,7 @@
 #include "ModuleFadeToBlack.h"
 #include "j1Scene.h"
 #include "Entity.h"
+#include "Coin.h"
 #include "ModuleEntityManager.h"
 #include "Brofiler/Brofiler.h"
 
@@ -28,6 +29,7 @@ bool Player::Awake(const pugi::xml_node& config)
 	bool ret = true;
 
 	pugi::xml_node player_node = config.child("player");
+	pugi::xml_node coin_node = config.child("coin");
 
 	pugi::xml_node time_in_fade_node	= player_node.child("time_fade");
 	time_to_do_fade_to_black			= (Uint32)(time_in_fade_node.attribute("time_to_do_fade_to_black").as_float() * 1000.0f);
@@ -91,6 +93,9 @@ bool Player::Awake(const pugi::xml_node& config)
 	death_init_fx.id = App->audio->LoadFx(death_init_fx.path.GetString());
 	death_finish_fx.path = audio_node.child_value("death_finish");
 	death_finish_fx.id = App->audio->LoadFx(death_finish_fx.path.GetString());
+
+	picked_coin_sfx.path = coin_node.child("audios").child_value("coin_picked");
+	picked_coin_sfx.id = App->audio->LoadFx(picked_coin_sfx.path.GetString());
 
 	offset_value = player_node.child("offset_value").attribute("value").as_int();
 
@@ -182,8 +187,6 @@ bool Player::Update(float dt)
 		JumpHorizontal(dt);
 
 		UpdateCameraPos();
-
-		
 
 		break;
 	case PLAYER_STATE::DASHING:
@@ -450,6 +453,16 @@ void Player::OnTrigger(Collider* col2)
 	if (col2->tag == TAG::WATER)
 	{
 		Death();
+	}
+
+	if (col2->tag == TAG::COIN)
+	{
+		LOG("Picking Coin");
+		coins_count++;
+		LOG("CoinsCount: %i", coins_count);
+		App->audio->PlayFx(picked_coin_sfx.id);
+		Coin* actualCoin = (Coin*)(col2->object);
+		App->module_entity_manager->DeleteEntity(col2->object);
 	}
 
 	if (col2->tag == TAG::ENEMY && state == PLAYER_STATE::DASHING)

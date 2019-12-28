@@ -102,7 +102,7 @@ bool ModuleCollision::Start()
 	}
 
 	//TRIGGER MATRIX to OnTrigger.
-		//The collider dynamic first in the matrxi. If the two colliders are dynamic, it's necessary to set the matrix true with the 2 cases: [dynamic1][dynamic2] = true and [dynamic2][dynamic1] = true. With dynamic vs static only on time with the dynamic first.
+		//The collider dynamic first in the matrix. If the two colliders are dynamic, it's necessary to set the matrix true with the 2 cases: [dynamic1][dynamic2] = true and [dynamic2][dynamic1] = true. With dynamic vs static only on time with the dynamic first.
 	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::WALL] = true;
 	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::PLATFORM] = true;
 	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::WATER] = true;

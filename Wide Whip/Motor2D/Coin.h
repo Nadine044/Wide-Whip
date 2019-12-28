@@ -31,8 +31,6 @@ public:
 	bool Save(pugi::xml_node&) const override;
 	bool Load(pugi::xml_node&) override;
 
-	void OnTrigger(Collider* col2) override;
-
 protected:
 	Animation			rotating;
 
@@ -40,7 +38,7 @@ protected:
 
 	COIN_STATE			state;
 
-	//FX here
+	FX					picked_coin_sfx;
 	
 };
 

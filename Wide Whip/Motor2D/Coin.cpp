@@ -5,7 +5,7 @@
 #include "p2Log.h"
 #include "ModuleCollision.h"
 
-Coin::Coin(SDL_Rect& rect) : Entity(type, rect)
+Coin::Coin(SDL_Rect& rect) : Entity(EntityType::COIN, rect)
 {}
 
 Coin::~Coin()
@@ -18,6 +18,7 @@ bool Coin::Awake(const pugi::xml_node& config)
 
 	pugi::xml_node coin_node = config.child("coin");
 	pugi::xml_node animations_node = coin_node.child("animations");
+	pugi::xml_node audio_node = coin_node.child("audios");
 
 	text_path = coin_node.child_value("texture");
 	
@@ -56,7 +57,7 @@ bool Coin::Update(float dt)
 		current_animation = &rotating;
 		break;
 	case COIN_STATE::PICKED:
-		//case: the coin has desapeared because the player collide it
+		LOG("YEEEY MAN COIN PICKEEED!!!!");
 		break;
 	default:
 		break;
@@ -78,10 +79,5 @@ bool Coin::Save(pugi::xml_node& save) const
 bool Coin::Load(pugi::xml_node& load)
 {
 	return true;
-}
-
-void Coin::OnTrigger(Collider* col2)
-{
-
 }
 

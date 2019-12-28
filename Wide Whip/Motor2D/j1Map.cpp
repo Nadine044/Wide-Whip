@@ -540,7 +540,11 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 		{
 			Coin* coin_numer_one = nullptr;
 			coin_numer_one = (Coin*)App->module_entity_manager->CreateEntity(EntityType::COIN, rect_object);
-			Collider* ret = App->collisions->AddCollider(pos, w, h, TAG::COIN, White);
+			App->collisions->coins = coin_numer_one->col;
+			//Collider* ret = App->collisions->AddCollider(pos, w, h, TAG::COIN, White);
+			Coin* coin_numer_two = nullptr;
+			coin_numer_two = (Coin*)App->module_entity_manager->CreateEntity(EntityType::COIN, rect_object);
+			App->collisions->coins = coin_numer_two->col;
 		}
 	}
 

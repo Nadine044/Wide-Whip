@@ -180,6 +180,10 @@
           <frame x="128" y="0" w ="32" h ="32"/>
         </rotating>
       </animations>
+
+      <audios>
+        <coin_picked>audio/fx/coin.wav</coin_picked>
+      </audios>
       
     </coin>
   </entity>

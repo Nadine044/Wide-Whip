@@ -104,6 +104,8 @@ private:
 	FX death_init_fx;
 	FX death_finish_fx;
 
+	FX picked_coin_sfx;
+
 	//SDL_Texture*		text							= nullptr;
 	p2String			text_path;
 
@@ -149,6 +151,7 @@ private:
 	float				min_speed						= 0.0f;
 	float				dt_multiplied					= 0.0f;
 
+	int					coins_count						= 0;
 };
 
 
