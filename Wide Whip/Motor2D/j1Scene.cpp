@@ -185,6 +185,7 @@ void j1Scene::ChangeToLevel2Fade()
 
 void j1Scene::ChangeToMenuFade()
 {
+	App->in_level->lifes = 3;
 	App->fade_to_black->FadeToBlack(change_to_menu, time_in_fade);
 }
 

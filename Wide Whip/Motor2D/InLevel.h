@@ -21,7 +21,7 @@ public:
 	float				coins_count = 0;
 	int					lifes = 3;
 
-private:
+public:
 	p2String			music;
 	UIImage*			first_life = nullptr;
 	UIImage*			second_life = nullptr;
