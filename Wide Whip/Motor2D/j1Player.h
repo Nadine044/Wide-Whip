@@ -86,6 +86,8 @@ private:
 
 	void Death();
 
+	void LoseLife();
+
 private:
 
 	Animation		jump;

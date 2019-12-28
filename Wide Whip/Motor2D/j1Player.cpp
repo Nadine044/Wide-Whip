@@ -539,6 +539,19 @@ void Player::Death()
 	state = PLAYER_STATE::DEAD;	
 	start_time = SDL_GetTicks();
 	dead_jumping = false;
+
+	App->in_level->lifes--;
+	if (App->in_level->lifes == 1)
+		LOG("Lifes: %i", App->in_level->lifes);
+
+	if (App->in_level->lifes == 0)
+	{
+		LOG("Go Menu");
+		//Go menu App->Scene
+	}
+		
+		
+
 }
 
 

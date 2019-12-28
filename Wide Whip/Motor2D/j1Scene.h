@@ -87,8 +87,6 @@ public:
 private:
 	void CheckLevelChange();
 
-
-
 private:
 
 
