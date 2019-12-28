@@ -12,6 +12,7 @@
 #include "Entity.h"
 #include "Coin.h"
 #include "ModuleEntityManager.h"
+#include "InLevel.h"
 #include "Brofiler/Brofiler.h"
 
 
@@ -458,8 +459,8 @@ void Player::OnTrigger(Collider* col2)
 	if (col2->tag == TAG::COIN)
 	{
 		LOG("Picking Coin");
-		coins_count = coins_count + 0.5;
-		LOG("CoinsCount: %i", coins_count);
+		App->in_level->coins_count = App->in_level->coins_count + 0.5;
+		LOG("CoinsCount: %i", App->in_level->coins_count);
 		App->audio->PlayFx(picked_coin_sfx.id);
 		Coin* actualCoin = (Coin*)(col2->object);
 		App->module_entity_manager->DeleteEntity(col2->object);

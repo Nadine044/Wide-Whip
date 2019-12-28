@@ -150,8 +150,6 @@ private:
 	float				max_speed						= 0.0f;
 	float				min_speed						= 0.0f;
 	float				dt_multiplied					= 0.0f;
-
-	float				coins_count						= 0;
 };
 
 
