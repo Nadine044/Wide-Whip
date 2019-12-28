@@ -20,6 +20,7 @@ enum class TAG : uint
 	PLAYER,
 	CHANGE_LEVEL,
 	ENEMY,
+	COIN,
 	MAX
 
 };

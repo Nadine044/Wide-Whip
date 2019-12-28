@@ -38,6 +38,10 @@ Entity::Entity(EntityType type, SDL_Rect& rect) : type(type)
 		color = Red;
 		tag = TAG::ENEMY;
 		break;
+	case EntityType::COIN:
+		color = Blue;
+		tag = TAG::COIN;
+		break;
 	default:
 		LOG("EntityType not valid");
 		break;

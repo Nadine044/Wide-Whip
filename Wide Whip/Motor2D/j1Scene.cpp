@@ -53,8 +53,8 @@ bool j1Scene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool j1Scene::Start()
 {
-	map_name_loaded = level1;
-	App->in_level->Start();
+	map_name_loaded = menu;
+	App->menu->Start();
 	debug_tex = App->tex->Load("maps/path2.png");
 
 	return true;

@@ -18,6 +18,7 @@ enum class EntityType
 	PLAYER,
 	FLYENEMY,
 	WALKENEMY,
+	COIN,
 
 	MAX	
 };

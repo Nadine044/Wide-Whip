@@ -6,6 +6,7 @@
 #include "j1Player.h"
 #include "EnemyFly.h"
 #include "EnemyWalk.h"
+#include "Coin.h"
 
 ModuleEntityManager::ModuleEntityManager() : j1Module()
 {
@@ -84,6 +85,8 @@ Entity* ModuleEntityManager::CreateEntity(EntityType type, SDL_Rect& rect)
 	case EntityType::WALKENEMY:
 		ret = new EnemyWalk(rect);
 		break;
+	case EntityType::COIN:
+		ret = new Coin(rect);
 		break;
 	case EntityType::NO_TYPE:
 		break;

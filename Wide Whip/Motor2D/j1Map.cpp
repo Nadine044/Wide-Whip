@@ -8,6 +8,7 @@
 #include "ModuleCollision.h"
 #include "j1Player.h"
 #include "Enemy.h"
+#include "Coin.h"
 #include "Colors.h"
 #include "ModuleEntityManager.h"
 #include "j1Input.h"
@@ -502,16 +503,16 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 		else if (type == "FLYENEMY")
 		{
 			Enemy* flyer_enemy1 = nullptr;
-			flyer_enemy1 = (Enemy*)App->module_entity_manager->CreateEntity(EntityType::FLYENEMY, rect_object);
-			App->collisions->enemyWalkable = flyer_enemy1->col;
+			//flyer_enemy1 = (Enemy*)App->module_entity_manager->CreateEntity(EntityType::FLYENEMY, rect_object);
+			//App->collisions->enemyWalkable = flyer_enemy1->col;
 			//Collider* ret = App->collisions->AddCollider(pos, w, h, TAG::ENEMY, Red);
 		}
 
 		else if (type == "WALKENEMY")
 		{
 			Enemy* walker_enemy1 = nullptr;
-			walker_enemy1 = (Enemy*)App->module_entity_manager->CreateEntity(EntityType::WALKENEMY, rect_object);
-			App->collisions->enemyWalkable = walker_enemy1->col;
+			//walker_enemy1 = (Enemy*)App->module_entity_manager->CreateEntity(EntityType::WALKENEMY, rect_object);
+			//App->collisions->enemyWalkable = walker_enemy1->col;
 			//Collider* ret = App->collisions->AddCollider(pos, w, h, TAG::ENEMY, Red);
 		}
 
@@ -533,6 +534,17 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 		else if (type == "CHANGE_LEVEL")
 		{
 			Collider* ret = App->collisions->AddCollider(pos, w, h, TAG::CHANGE_LEVEL, Pink);
+		}
+
+		else if (type == "COIN")
+		{
+			/*Enemy* walker_enemy1 = nullptr;
+			//walker_enemy1 = (Enemy*)App->module_entity_manager->CreateEntity(EntityType::WALKENEMY, rect_object);
+			//App->collisions->enemyWalkable = walker_enemy1->col;*/
+
+			Coin* coin_numer_one = nullptr;
+			coin_numer_one = (Coin*)App->module_entity_manager->CreateEntity(EntityType::COIN, rect_object);
+			Collider* ret = App->collisions->AddCollider(pos, w, h, TAG::COIN, White);
 		}
 	}
 

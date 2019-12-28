@@ -68,16 +68,6 @@ public:
 
 	bool* GetReviveBoolAdress() { return &revive; }
 
-public:
-
-	//Animations
-
-	//New player
-
-	
-
-	
-
 private:
 
 	void CheckDebugKeys();

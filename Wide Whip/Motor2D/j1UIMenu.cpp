@@ -5,6 +5,7 @@
 #include "MGui.h"
 #include "j1Scene.h"
 #include "j1Audio.h"
+#include "ModuleFadeToBlack.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
 UIMenu::UIMenu()
@@ -45,9 +46,9 @@ bool UIMenu::Start()
 	settingsParent->SetAllVisible(false);
 
 	creditsParent = App->gui->CreateUIImage(iPoint{ 0, 0 }, SDL_Rect{ 0, 0, 0, 0 });
-	App->gui->CreateUIText(iPoint{ 700, 630 }, "Copyright:", false, creditsParent);
+	App->gui->CreateUIText(iPoint{ 700, 630 }, "WIDE WHIP", false, creditsParent);
 	App->gui->CreateUIText(iPoint{ 700, 650 }, "MIT LICENSE", false, creditsParent);
-	App->gui->CreateUIText(iPoint{ 700, 670 }, "WIDE WHIP by Jorge Gemas and Nadine Gutiérrez", false, creditsParent);
+	App->gui->CreateUIText(iPoint{ 700, 670 }, "Copyright (c) [2019] [Nadine Gutiérrez & Jorge Gemas]", false, creditsParent);
 	creditsParent->SetAllVisible(false);
 
 	return true;
@@ -121,7 +122,7 @@ bool UIMenu::SliderEvent(const UIScrollBarType type, const float ratio)
 		break;
 	case UIScrollBarType::MUSIC:
 		LOG("Music SCROLLBAR");
-		Mix_VolumeMusic(ratio);
+		Mix_VolumeMusic(MAX_VOLUME*ratio);
 		break;
 	case UIScrollBarType::SFX:
 		LOG("SFX SCROLLBAR");
