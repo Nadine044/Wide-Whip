@@ -35,7 +35,7 @@ bool j1Scene::Awake(pugi::xml_node& config)
 
 	level1 = levels.child_value("level1");
 	level2 = levels.child_value("level2");
-	//TODO UPDATE: 
+	 
 	menu = "Menu";
 
 	menu_music = config.child_value("menu_music");
@@ -63,7 +63,6 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
-
 	return true;
 }
 

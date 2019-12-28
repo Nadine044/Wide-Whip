@@ -538,10 +538,6 @@ bool j1Map::LoadObjectGroups(pugi::xml_node& node)
 
 		else if (type == "COIN")
 		{
-			/*Enemy* walker_enemy1 = nullptr;
-			//walker_enemy1 = (Enemy*)App->module_entity_manager->CreateEntity(EntityType::WALKENEMY, rect_object);
-			//App->collisions->enemyWalkable = walker_enemy1->col;*/
-
 			Coin* coin_numer_one = nullptr;
 			coin_numer_one = (Coin*)App->module_entity_manager->CreateEntity(EntityType::COIN, rect_object);
 			Collider* ret = App->collisions->AddCollider(pos, w, h, TAG::COIN, White);

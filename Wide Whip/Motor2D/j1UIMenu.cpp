@@ -34,7 +34,7 @@ bool UIMenu::Start()
 	
 	newGameParent = App->gui->CreateUIImage(iPoint{ 360, 280 }, SDL_Rect{ 761, 0, 122, 130 }, true);
 	App->gui->CreateUIInputText(iPoint{ 140, 20 }, "Name: ", SDL_Rect{ 967, 25, 463, 69 }, false, newGameParent);
-	App->gui->CreateUIButton(iPoint{ 300, 200 }, "START", SDL_Rect{ 0, 3447, 200, 38 }, UIButtonType::START, this, false, newGameParent);
+	App->gui->CreateUIButton(iPoint{ 400, 320 }, "START", SDL_Rect{ 0, 3447, 200, 38 }, UIButtonType::START, this, false, newGameParent);
 	newGameParent->SetAllVisible(false);
 
 	settingsParent = App->gui->CreateUIImage(iPoint{ 400, 300 }, SDL_Rect{ 33, 1140, 487, 384 }, false);
@@ -126,6 +126,7 @@ bool UIMenu::SliderEvent(const UIScrollBarType type, const float ratio)
 		break;
 	case UIScrollBarType::SFX:
 		LOG("SFX SCROLLBAR");
+		App->audio->SetAllChunkVolume(MAX_VOLUME*ratio);
 		break;
 	default:
 		break;

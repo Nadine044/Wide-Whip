@@ -56,6 +56,7 @@ bool Coin::Update(float dt)
 		current_animation = &rotating;
 		break;
 	case COIN_STATE::PICKED:
+		//case: the coin has desapeared because the player collide it
 		break;
 	default:
 		break;

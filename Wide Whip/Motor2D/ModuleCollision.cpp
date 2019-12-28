@@ -108,13 +108,16 @@ bool ModuleCollision::Start()
 	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::WATER] = true;
 	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::CHANGE_LEVEL] = true;
 	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::ENEMY] = true;
+	trigger_matrix[(uint)TAG::PLAYER][(uint)TAG::COIN] = true;
 
 	//ENEMY TAG
 	trigger_matrix[(uint)TAG::ENEMY][(uint)TAG::WALL] = true;
 	trigger_matrix[(uint)TAG::ENEMY][(uint)TAG::PLATFORM] = true;
 	trigger_matrix[(uint)TAG::ENEMY][(uint)TAG::WATER] = true;
 	trigger_matrix[(uint)TAG::ENEMY][(uint)TAG::PLAYER] = true;
-	
+
+	//COIN TAG
+	trigger_matrix[(uint)TAG::COIN][(uint)TAG::PLAYER] = true;
 
 	//PHYSICS MATRIX to overlap.
 		// Functions OnTrigger will be called only in the first collider. If want to call the function OnTrigger in the two colliders, set the marix bool with the invers too([TAG1][TAG2] = true and [TAG2][TAG1] = true).
@@ -122,11 +125,16 @@ bool ModuleCollision::Start()
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::PLATFORM] = true;
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::CHANGE_LEVEL] = true;
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::ENEMY] = true;
+	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::COIN] = true;
 
 	//PHYSICS MATRIX to overlap WALKABLE ENEMY
 	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::WALL] = true;
 	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::PLATFORM] = true;
 	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::PLAYER] = true;
+	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::COIN] = false;
+
+	//PHYSICS MATRIX to overlap COIN
+	physics_matrix[(uint)TAG::COIN][(uint)TAG::PLAYER] = true;
 
 	return true;
 }
