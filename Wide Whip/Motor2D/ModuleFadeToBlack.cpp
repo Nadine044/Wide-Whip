@@ -118,6 +118,11 @@ bool ModuleFadeToBlack::Save(pugi::xml_node &save_file) const
 		save_file.append_child("test").append_attribute("value") = "change_between_levels";
 	}
 
+	else if (App->scene->GetChangeToMenuBoolAdress() == to_active)
+	{
+		save_file.append_child("test").append_attribute("value") = "change_to_menu";
+	}
+
 
 
 	return true;
@@ -152,6 +157,11 @@ bool ModuleFadeToBlack::Load(pugi::xml_node &save_file)
 	else if (name == "change_between_levels")
 	{
 		to_active = App->scene->GetChangeBetweenLevelsBoolAdress();
+	}
+
+	else if (name == "change_to_menu")
+	{
+		to_active = App->scene->GetChangeToMenuBoolAdress();
 	}
 	return true;
 }

@@ -70,15 +70,18 @@ public:
 
 	void ChangeToLevel2Fade();
 
+	void ChangeToMenuFade();
+
 	void StartThisLevelFade();
 
 	void ChangeBetweenLevelFade();
 
 
-
 	bool* GetChangeToLevel1BoolAdress() { return &change_to_level_1; }
 
 	bool* GetChangeToLevel2BoolAdress() { return &change_to_level_2; }
+
+	bool* GetChangeToMenuBoolAdress() { return &change_to_menu; }
 
 	bool* GetStartThisLevelBoolAdress() { return &start_this_level; }
 
@@ -92,6 +95,7 @@ private:
 
 	bool				change_to_level_1		= false;
 	bool				change_to_level_2		= false;
+	bool				change_to_menu			= false;
 	bool				change_between_levels	= false;
 	bool				start_this_level		= false;
 

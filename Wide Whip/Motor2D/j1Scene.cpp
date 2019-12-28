@@ -139,6 +139,11 @@ void j1Scene::CheckLevelChange()
 		{
 			ChangeBetweenLevelFade();
 		}
+
+		if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
+		{
+			ChangeToMenuFade();
+		}
 	}
 
 	// Change level if is set to change.
@@ -150,6 +155,11 @@ void j1Scene::CheckLevelChange()
 	if (change_to_level_2)
 	{
 		ChangeLevelTo(level2);
+	}
+
+	if (change_to_menu)
+	{
+		ChangeLevelTo(menu);
 	}
 
 	if (start_this_level)
@@ -171,6 +181,11 @@ void j1Scene::ChangeToLevel1Fade()
 void j1Scene::ChangeToLevel2Fade()
 {
 	App->fade_to_black->FadeToBlack(change_to_level_2, time_in_fade);
+}
+
+void j1Scene::ChangeToMenuFade()
+{
+	App->fade_to_black->FadeToBlack(change_to_menu, time_in_fade);
 }
 
 void j1Scene::StartThisLevelFade()
