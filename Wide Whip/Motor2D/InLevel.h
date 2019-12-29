@@ -22,7 +22,7 @@ public:
 	bool ButtonEvent(const UIButtonType type) override;
 	bool SliderEvent(const UIScrollBarType type, const float ratio) override;
 
-	float				coins_count = 0;
+	int				coins_count = 0;
 	int					lifes = 3;
 
 	bool				esc_menu = false;

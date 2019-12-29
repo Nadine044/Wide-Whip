@@ -42,10 +42,12 @@ bool InLevel::Start()
 	third_life = App->gui->CreateUIImage(iPoint{ 283, 20 }, SDL_Rect{ 888, 27, 69, 72 });
 
 	App->gui->CreateUIImage(iPoint{ 820, 10 }, SDL_Rect{ 760, 283, 67, 77 });
-	App->gui->CreateUIText(iPoint{ 890, 35 }, "NUMBER OF COINS");
+	App->gui->CreateUIImage(iPoint{ 890, 15 }, SDL_Rect{ 760, 1139, 174, 59 }, true);
+	App->gui->CreateUIText(iPoint{ 916, 37 }, p2String(std::to_string(coins_count).c_str()));
 
-	App->gui->CreateUIText(iPoint{137, 100}, "SCORE: ");
-	App->gui->CreateUIText(iPoint{ 400, 60 }, "TIMER: ");
+	//App->gui->CreateUIImage(iPoint{ 4, 690 }, SDL_Rect{ 581, 1140, 164, 70 });
+	//App->gui->CreateUIImage(iPoint{ 200, 700 }, SDL_Rect{ 760, 1139, 174, 59 });
+	App->gui->CreateUIText(iPoint{ 890, 350 }, "TIMER: ", true);
 
 	pause = App->gui->CreateUIImage(iPoint{ 250, 200 }, SDL_Rect{ 947, 417, 519, 414 });
 	App->gui->CreateUIButton(iPoint{ 170, 70 }, "  RESUME", SDL_Rect{ 0, 3447, 200, 38 }, UIButtonType::RESUME, this, false, pause);
@@ -97,6 +99,7 @@ bool InLevel::ButtonEvent(const UIButtonType type)
 	case UIButtonType::RESUME:
 		LOG("RESUME game");
 		pause->SetAllVisible(false);
+		App->PauseResumeGame();
 		break;
 	case UIButtonType::SAVE:
 		LOG("SAVE the current game");
