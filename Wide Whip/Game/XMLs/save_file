@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<game_state>
+	<input />
+	<window />
+	<textures />
+	<fonts />
+	<audio />
+	<map />
+	<scene>
+		<level_loaded value="Level1.tmx" />
+	</scene>
+	<pathfinding />
+	<enitity_manager>
+		<entity>
+			<position x="476" y="671" />
+			<entity_type value="0" />
+			<velocity value="0" />
+			<state value="0" />
+			<flip value="0" />
+			<collider enabled="true" />
+			<jumped value="false" />
+			<dashed value="false" />
+			<velocity_dash value="0" />
+			<velocity_jump_clinged value="0" />
+		</entity>
+	</enitity_manager>
+	<ui_menu />
+	<in_level />
+	<gui />
+	<collision />
+	<FadeToBlack>
+		<total_time value="1000" />
+		<now value="1010" />
+		<current_step value="0" />
+	</FadeToBlack>
+	<renderer>
+		<camera x="0" y="-187" />
+	</renderer>
+</game_state>

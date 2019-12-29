@@ -123,6 +123,11 @@ bool ModuleFadeToBlack::Save(pugi::xml_node &save_file) const
 		save_file.append_child("test").append_attribute("value") = "change_to_menu";
 	}
 
+	else if (App->scene->GetChangeToSaveGameStateBoolAdress() == to_active)
+	{
+		save_file.append_child("test").append_attribute("value") = "change_to_save_game_state";
+	}
+
 
 
 	return true;
@@ -162,6 +167,11 @@ bool ModuleFadeToBlack::Load(pugi::xml_node &save_file)
 	else if (name == "change_to_menu")
 	{
 		to_active = App->scene->GetChangeToMenuBoolAdress();
+	}
+
+	else if (name == "change_to_save_game_state")
+	{
+		to_active = App->scene->GetChangeToSaveGameStateBoolAdress();
 	}
 	return true;
 }

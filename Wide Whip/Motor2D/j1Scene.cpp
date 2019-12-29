@@ -108,7 +108,7 @@ bool j1Scene::SliderEvent(const UIScrollBarType type, const float ratio)
 void j1Scene::CheckSaveLoad()
 {
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
-		App->LoadGame();
+		ChangeToSaveGameStateFade();
 
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->SaveGame();
@@ -171,6 +171,11 @@ void j1Scene::CheckLevelChange()
 	{
 		ChangeBetweenLevel();
 	}
+
+	if (change_to_save_game_state)
+	{
+		App->LoadGame();
+	}
 }
 
 void j1Scene::ChangeToLevel1Fade()
@@ -197,6 +202,12 @@ void j1Scene::StartThisLevelFade()
 void j1Scene::ChangeBetweenLevelFade()
 {
 	App->fade_to_black->FadeToBlack(change_between_levels, time_in_fade);
+}
+
+void j1Scene::ChangeToSaveGameStateFade()
+{
+	App->fade_to_black->FadeToBlack(change_to_save_game_state, time_in_fade);
+
 }
 
 void j1Scene::StartThisLevel()

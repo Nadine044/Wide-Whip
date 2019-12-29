@@ -76,6 +76,8 @@ public:
 
 	void ChangeBetweenLevelFade();
 
+	void ChangeToSaveGameStateFade();
+
 
 	bool* GetChangeToLevel1BoolAdress() { return &change_to_level_1; }
 
@@ -87,17 +89,20 @@ public:
 
 	bool* GetChangeBetweenLevelsBoolAdress() { return &change_between_levels; }
 
+	bool* GetChangeToSaveGameStateBoolAdress() { return &change_to_save_game_state; }
+
 private:
 	void CheckLevelChange();
 
 private:
 
 
-	bool				change_to_level_1		= false;
-	bool				change_to_level_2		= false;
-	bool				change_to_menu			= false;
-	bool				change_between_levels	= false;
-	bool				start_this_level		= false;
+	bool				change_to_level_1			= false;
+	bool				change_to_level_2			= false;
+	bool				change_to_menu				= false;
+	bool				change_between_levels		= false;
+	bool				start_this_level			= false;
+	bool				change_to_save_game_state	= false;
 
 	p2String			level1;
 	p2String			level2;
