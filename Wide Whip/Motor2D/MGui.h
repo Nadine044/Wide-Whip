@@ -50,7 +50,7 @@ public:
 	// Gui creation functions
 
 	UIImage* CreateUIImage(iPoint pos, SDL_Rect rect_spritesheet_original,  bool draggable = false, UIObject* parent = nullptr);
-	UIText* CreateUIText(iPoint pos, p2String text, bool draggable = false, UIObject* parent = nullptr);
+	UIText* CreateUIText(iPoint pos, p2String text, SDL_Color color = {0, 0, 0, 0}, bool draggable = false, UIObject* parent = nullptr);
 	UIButton* CreateUIButton(iPoint pos, p2String text, SDL_Rect image_rect, UIButtonType type, j1Module* listener, bool draggable = false, UIObject* parent = nullptr);
 	UIInputText* CreateUIInputText(iPoint pos, p2String text, SDL_Rect image_rect, bool draggable = false, UIObject* parent = nullptr);
 	UIScrollBar* CreateUIScrollBar(iPoint pos, SDL_Rect image_rect, Orientation orientation, UIScrollBarType type, j1Module* listener, UIObject* parent = nullptr);

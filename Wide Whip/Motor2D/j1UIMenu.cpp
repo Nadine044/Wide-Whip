@@ -41,17 +41,17 @@ bool UIMenu::Start()
 	newGameParent->SetAllVisible(false);
 
 	settingsParent = App->gui->CreateUIImage(iPoint{ 400, 300 }, SDL_Rect{ 33, 1140, 487, 384 }, false);
-	App->gui->CreateUIText(iPoint{ 210, 20 }, "SETTINGS", false, settingsParent);
-	App->gui->CreateUIText(iPoint{ 25, 105 }, "Music Volume", false, settingsParent);
+	App->gui->CreateUIText(iPoint{ 210, 20 }, "SETTINGS", SDL_Color{0, 0, 0, 0}, false, settingsParent);
+	App->gui->CreateUIText(iPoint{ 25, 105 }, "Music Volume", SDL_Color{ 0, 0, 0, 0 }, false, settingsParent);
 	App->gui->CreateUIScrollBar(iPoint{ 120, 105 }, SDL_Rect{ 383, 574, 322, 36 }, Orientation::HORIZONTAL, UIScrollBarType::MUSIC, this, settingsParent);
-	App->gui->CreateUIText(iPoint{ 25, 175 }, "SFX Volume", false, settingsParent);
+	App->gui->CreateUIText(iPoint{ 25, 175 }, "SFX Volume", SDL_Color{ 0, 0, 0, 0 }, false, settingsParent);
 	App->gui->CreateUIScrollBar(iPoint{ 120, 175 }, SDL_Rect{ 383, 574, 322, 36 }, Orientation::HORIZONTAL, UIScrollBarType::SFX, this, settingsParent);
 	settingsParent->SetAllVisible(false);
 
 	creditsParent = App->gui->CreateUIImage(iPoint{ 0, 0 }, SDL_Rect{ 0, 0, 0, 0 });
-	App->gui->CreateUIText(iPoint{ 700, 630 }, "WIDE WHIP", false, creditsParent);
-	App->gui->CreateUIText(iPoint{ 700, 650 }, "MIT LICENSE", false, creditsParent);
-	App->gui->CreateUIText(iPoint{ 700, 670 }, "Copyright (c) [2019] [Nadine Gutiérrez & Jorge Gemas]", false, creditsParent);
+	App->gui->CreateUIText(iPoint{ 700, 630 }, "WIDE WHIP", SDL_Color{ 0, 0, 0, 0 }, false, creditsParent);
+	App->gui->CreateUIText(iPoint{ 700, 650 }, "MIT LICENSE", SDL_Color{ 0, 0, 0, 0 }, false, creditsParent);
+	App->gui->CreateUIText(iPoint{ 700, 670 }, "Copyright (c) [2019] [Nadine Gutiérrez & Jorge Gemas]", SDL_Color{ 0, 0, 0, 0 }, false, creditsParent);
 	creditsParent->SetAllVisible(false);
 
 	return true;

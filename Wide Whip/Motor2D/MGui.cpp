@@ -79,7 +79,8 @@ bool MGui::Update(float dt)
 
 		while (true)
 		{
-			iter = iter->next;
+			if(iter)
+				iter = iter->next;
 			if (!iter)
 			{
 				iter = UI_objects.start;
@@ -125,8 +126,6 @@ void MGui::SetDragging(UIObject* object)
 				ret->thumb->dragging = false;
 			}
 		}
-
-
 	}
 }
 
@@ -228,9 +227,9 @@ UIImage* MGui::CreateUIImage(iPoint local_pos, SDL_Rect rect_spritesheet_origina
 	return (UIImage*)CreateUIObject(UIType::IMAGE, local_pos, rect_spritesheet_original, draggable, parent);
 }
 
-UIText* MGui::CreateUIText(iPoint local_pos, p2String text, bool draggable, UIObject* parent)
+UIText* MGui::CreateUIText(iPoint local_pos, p2String text, SDL_Color color, bool draggable, UIObject* parent)
 {
-	SDL_Texture* texture_text = App->font->Print(text.GetString());
+	SDL_Texture* texture_text = App->font->Print(text.GetString(), color);
 
 	SDL_Rect texture_rect;
 	texture_rect.x = 0;
@@ -240,6 +239,7 @@ UIText* MGui::CreateUIText(iPoint local_pos, p2String text, bool draggable, UIOb
 	UIText* ret = (UIText*)CreateUIObject(UIType::TEXT, local_pos, texture_rect, draggable, parent);
 
 	ret->texture_text = texture_text;
+	ret->color = color; 
 
 	return ret;
 }
@@ -272,17 +272,17 @@ UIInputText* MGui::CreateUIInputText(iPoint local_pos, p2String text, SDL_Rect i
 {
 	UIInputText* ret = (UIInputText*)CreateUIObject(UIType::INPUTTEXT, local_pos, image_rect, draggable, parent);
 
-	SDL_Texture* texture_text = App->font->Print(text.GetString());
+	SDL_Texture* texture_text = App->font->Print(text.GetString(), SDL_Color{ 255, 255, 255, 255 });
 	SDL_Rect texture_rect;
 	texture_rect.x = 0;
 	texture_rect.y = 0;
 	SDL_QueryTexture(texture_text, NULL, NULL, &texture_rect.w, &texture_rect.h);
 
-	ret->text = new UIText(UIType::TEXT, iPoint{ 10,25 }, texture_rect, false, ret);
+	ret->text = new UIText(UIType::TEXT, iPoint{ 25,25 }, texture_rect, false, ret);
 	ret->text->texture_text = texture_text;
-	ret->input = new UIText(UIType::TEXT, iPoint{ 10,25 }, texture_rect, false, ret);
+	ret->input = new UIText(UIType::TEXT, iPoint{ 25,25 }, texture_rect, false, ret);
 
-	ret->cursor_original_pos.x = ret->world_pos_final.x + 10;
+	ret->cursor_original_pos.x = ret->world_pos_final.x + 25;
 	ret->cursor_original_pos.y = ret->world_pos_final.y + 25;
 	ret->cursor.x = ret->cursor_original_pos.x;
 	ret->cursor.y = ret->cursor_original_pos.y;

@@ -10,6 +10,7 @@
 #include "j1Player.h"
 #include "ModuleEntityManager.h"
 #include "j1Render.h"
+#include "j1Timer.h"
 
 InLevel::InLevel()
 {
@@ -45,7 +46,10 @@ bool InLevel::Start()
 	App->gui->CreateUIImage(iPoint{ 820, 10 }, SDL_Rect{ 760, 283, 67, 77 });
 	App->gui->CreateUIImage(iPoint{ 890, 15 }, SDL_Rect{ 760, 1139, 174, 59 });
 	coins_text = App->gui->CreateUIText(iPoint{ 916, 37 }, p2String(std::to_string(coins_count).c_str()));
-
+	counter_text = App->gui->CreateUIText(iPoint{ 916, 100 }, p2String(std::to_string(counter_secs).c_str()) += " Seconds", SDL_Color{ 255, 255, 255, 255 });
+	App->gui->CreateUIText(iPoint{ 875, 100 }, "Timer:", SDL_Color{255, 255, 255, 255});
+	counter_secs = 0;
+	timer_counter.Start();
 	//App->gui->CreateUIImage(iPoint{ 4, 690 }, SDL_Rect{ 581, 1140, 164, 70 });
 	App->gui->CreateUIImage(iPoint{ 200, 700 }, SDL_Rect{ 760, 1139, 174, 59 }, true);
 
@@ -68,6 +72,15 @@ bool InLevel::PreUpdate()
 
 bool InLevel::Update(float dt)
 {
+	if (timer_counter.ReadSec() >= 1)
+	{
+		if (!App->IsPaused())
+		{
+			timer_counter.Start();
+			++counter_secs;
+			counter_text->ChangeText(p2String(p2String(std::to_string(counter_secs).c_str()) += " Seconds"));
+		}
+	}
 	return true;
 }
 

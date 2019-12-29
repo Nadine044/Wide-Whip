@@ -24,7 +24,7 @@ bool UIText::CleanUp()
 
 void UIText::ChangeText(p2String & new_string)
 {
-	texture_text = App->font->Print(new_string.GetString());
+	texture_text = App->font->Print(new_string.GetString(), color);
 
 	SDL_Rect texture_rect;
 	texture_rect.x = 0;

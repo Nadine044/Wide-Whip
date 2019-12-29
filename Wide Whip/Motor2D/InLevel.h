@@ -6,6 +6,7 @@
 
 class UIImage;
 class UIText;
+class j1Timer;
 
 class InLevel : public j1Module
 {
@@ -24,10 +25,6 @@ public:
 	bool ButtonEvent(const UIButtonType type) override;
 	bool SliderEvent(const UIScrollBarType type, const float ratio) override;
 
-	int					coins_count = 0;
-	int					lifes = 3;
-
-	bool				esc_menu = false;
 
 public:
 	p2String			music;
@@ -39,7 +36,13 @@ public:
 	UIImage*			third_life = nullptr;
 	UIImage*			pause = nullptr;
 	UIText*				coins_text = nullptr;
-	UIText*				coins_current_text = nullptr;
+	UIText*				counter_text = nullptr;
 
+	j1Timer timer_counter;
+	int					coins_count = 0;
+	int					counter_secs = 0;
+	int					lifes = 3;
+
+	bool				esc_menu = false;
 };
 #endif // !__INLEVEL_H__

@@ -14,6 +14,7 @@ public:
 	void ChangeText(p2String & new_string);
 public:
 	SDL_Texture* texture_text = nullptr;
+	SDL_Color color;
 };
 
 #endif // !__UITEXT_H__

@@ -210,7 +210,7 @@ void UIInputText::RecalculateStringTexture()
 	{
 
 	}
-	this->input->texture_text = App->font->Print(text_string.GetString());
+	this->input->texture_text = App->font->Print(text_string.GetString(), SDL_Color{ 255, 255, 255, 255 });
 	int w, h;
 	App->font->CalcSize(text_string.GetString(), w, h);
 

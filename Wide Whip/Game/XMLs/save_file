@@ -42,10 +42,10 @@
 	<collision />
 	<FadeToBlack>
 		<total_time value="500" />
-		<now value="521" />
+		<now value="523" />
 		<current_step value="0" />
 	</FadeToBlack>
 	<renderer>
-		<camera x="-24" y="-189" />
+		<camera x="-24" y="-187" />
 	</renderer>
 </game_state>
