@@ -78,6 +78,9 @@ bool Coin::Save(pugi::xml_node& save) const
 	pos_node.append_attribute("y") = pos.y;
 
 	save.append_child("entity_type").append_attribute("value") = (int)type;
+	save.append_child("rect_w").append_attribute("value") = col->rect.w;
+	save.append_child("rect_h").append_attribute("value") = col->rect.h;
+
 	save.append_child("state").append_attribute("value") = (int)state;
 	save.append_child("collider").append_attribute("enabled") = col->IsEnabled();
 		

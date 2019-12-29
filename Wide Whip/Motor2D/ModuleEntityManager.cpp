@@ -63,8 +63,7 @@ bool ModuleEntityManager::CleanUp()
 {
 	for (p2List_item<Entity*>* iter = entities.start; iter; iter = iter->next)
 	{
-		iter->data->CleanUp();
-		RELEASE(iter->data);
+		DeleteEntity(iter->data);
 	}
 	entities.clear();
 	return true;
@@ -172,23 +171,28 @@ bool ModuleEntityManager::Load(pugi::xml_node& load_file)
 	bool ret = false;
 
 	LOG("Loading all entities");
+	CleanUp();
 
-	p2List_item<Entity*>* item = entities.start;
-
+	//p2List_item<Entity*>* item = entities.start;
+	
 	pugi::xml_node entity_node = load_file.child("entity");
 
 	while (entity_node != NULL)
 	{
-		ret = item->data->Load(entity_node);
-		item = item->next;
+		SDL_Rect rect;
+		rect.x = entity_node.child("position").attribute("x").as_int();
+		rect.y = entity_node.child("position").attribute("y").as_int();
+		rect.w = entity_node.child("rect_w").attribute("value").as_int();
+		rect.h = entity_node.child("rect_h").attribute("value").as_int();
+
+		Entity* ret_entity = CreateEntity((EntityType)entity_node.child("entity_type").attribute("value").as_int(), rect);
+		ret = ret_entity->Load(entity_node);
 
 		entity_node = entity_node.next_sibling("entity");
 	}
 
 	if (ret == true)
 		LOG("... finished loading");
-	else
-		LOG("Load process halted from an error in entity %s", (item != NULL) ? item->data->name.GetString() : "unknown");
-	
+
 	return ret;
 }

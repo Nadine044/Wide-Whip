@@ -12,26 +12,24 @@
 	<pathfinding />
 	<enitity_manager>
 		<entity>
-			<position x="224" y="607" />
+			<position x="622" y="671" />
 			<entity_type value="0" />
+			<rect_w value="47" />
+			<rect_h value="65" />
 			<velocity value="0" />
 			<state value="0" />
 			<flip value="0" />
 			<collider enabled="true" />
 			<jumped value="false" />
 			<dashed value="false" />
-			<velocity_dash value="0" />
+			<velocity_dash value="-0.0499999523" />
 			<velocity_jump_clinged value="0" />
 		</entity>
 		<entity>
 			<position x="384" y="672" />
 			<entity_type value="3" />
-			<state value="0" />
-			<collider enabled="true" />
-		</entity>
-		<entity>
-			<position x="480" y="672" />
-			<entity_type value="3" />
+			<rect_w value="32" />
+			<rect_h value="32" />
 			<state value="0" />
 			<collider enabled="true" />
 		</entity>
@@ -41,11 +39,11 @@
 	<gui />
 	<collision />
 	<FadeToBlack>
-		<total_time value="500" />
-		<now value="523" />
+		<total_time value="1000" />
+		<now value="1031" />
 		<current_step value="0" />
 	</FadeToBlack>
 	<renderer>
-		<camera x="-24" y="-187" />
+		<camera x="-24" y="-188" />
 	</renderer>
 </game_state>

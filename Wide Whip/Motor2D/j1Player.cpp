@@ -585,6 +585,8 @@ bool Player::Save(pugi::xml_node& save_file) const
 	pos_node.append_attribute("y") = pos.y;
 
 	save_file.append_child("entity_type").append_attribute("value") = (int)type;
+	save_file.append_child("rect_w").append_attribute("value") = col->rect.w;
+	save_file.append_child("rect_h").append_attribute("value") = col->rect.h;
 
 	save_file.append_child("velocity").append_attribute("value") = GetVelocity();
 	save_file.append_child("state").append_attribute("value") = (int)state;
