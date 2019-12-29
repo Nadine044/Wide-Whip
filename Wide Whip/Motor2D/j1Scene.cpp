@@ -236,21 +236,25 @@ void j1Scene::ChangeBetweenLevel()
 
 void j1Scene::ChangeLevelTo(const p2String level)
 {
+	//Unload
 	if (IsMenuLoaded())
 		App->menu->CleanUp();
 	else
 	{
-		//Unload
+		if (level == menu)
+			App->in_level->CleanUp();
+	
 		App->map->CleanUp();
 		App->collisions->CleanUp();
 		App->module_entity_manager->CleanUp();
 	}
 
+	//Load
 	if (level == menu)
 		App->menu->Start();
 	else
 	{
-		//Load
+
 		if (IsMenuLoaded())
 			App->in_level->Start();
 
