@@ -12,7 +12,7 @@
 	<pathfinding />
 	<enitity_manager>
 		<entity>
-			<position x="476" y="671" />
+			<position x="224" y="607" />
 			<entity_type value="0" />
 			<velocity value="0" />
 			<state value="0" />
@@ -23,6 +23,10 @@
 			<velocity_dash value="0" />
 			<velocity_jump_clinged value="0" />
 		</entity>
+		<entity />
+		<entity />
+		<entity />
+		<entity />
 	</enitity_manager>
 	<ui_menu />
 	<in_level />
@@ -30,10 +34,10 @@
 	<collision />
 	<FadeToBlack>
 		<total_time value="1000" />
-		<now value="1010" />
+		<now value="1017" />
 		<current_step value="0" />
 	</FadeToBlack>
 	<renderer>
-		<camera x="0" y="-187" />
+		<camera x="0" y="-147" />
 	</renderer>
 </game_state>

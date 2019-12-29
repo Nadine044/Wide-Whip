@@ -103,3 +103,10 @@ bool InLevel::SliderEvent(const UIScrollBarType type, const float ratio)
 {
 	return true;
 }
+
+bool InLevel::Load(pugi::xml_node& config)
+{
+	if (pause)
+		pause->SetAllVisible(false);
+	return true;
+}

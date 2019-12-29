@@ -206,6 +206,7 @@ void j1Scene::ChangeBetweenLevelFade()
 
 void j1Scene::ChangeToSaveGameStateFade()
 {
+	if(App->SaveGameFileExist())
 	App->fade_to_black->FadeToBlack(change_to_save_game_state, time_in_fade);
 
 }
@@ -308,9 +309,6 @@ bool j1Scene::PostUpdate()
 	if(!IsMenuLoaded())
 		App->map->Draw();
 
-	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && App->in_level->esc_menu == false)
-		ret = false;
-
 	return ret;
 }
 
@@ -343,5 +341,7 @@ bool j1Scene::Load(pugi::xml_node& save_file)
 	{
 		ChangeLevelTo(level_saved);
 	}
+	if (App->IsPaused())
+		App->PauseResumeGame();
 	return true;
 }
