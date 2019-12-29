@@ -40,6 +40,7 @@ public:
 	UIImage*			third_life = nullptr;
 	UIImage*			pause = nullptr;
 	UIText*				coins_text = nullptr;
+	UIText*				coins_current_text = nullptr;
 
 };
 #endif // !__INLEVEL_H__
