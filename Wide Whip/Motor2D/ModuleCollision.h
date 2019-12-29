@@ -114,9 +114,7 @@ public:
 
 public:
 
-	Collider* player = nullptr; //temporally to move a collider;
-	Collider* enemyWalkable = nullptr;
-	Collider* coins = nullptr;
+	//Collider* player = nullptr; //temporally to move a collider;
 
 private:
 

@@ -12,21 +12,21 @@
 	<pathfinding />
 	<enitity_manager>
 		<entity>
-			<position x="622" y="671" />
+			<position x="704" y="564" />
 			<entity_type value="0" />
 			<rect_w value="47" />
 			<rect_h value="65" />
-			<velocity value="0" />
-			<state value="0" />
+			<velocity value="-2.0625" />
+			<state value="1" />
 			<flip value="0" />
 			<collider enabled="true" />
-			<jumped value="false" />
-			<dashed value="false" />
-			<velocity_dash value="-0.0499999523" />
-			<velocity_jump_clinged value="0" />
+			<jumped value="true" />
+			<dashed value="true" />
+			<velocity_dash value="8.19999981" />
+			<velocity_jump_clinged value="0.199999809" />
 		</entity>
 		<entity>
-			<position x="384" y="672" />
+			<position x="480" y="672" />
 			<entity_type value="3" />
 			<rect_w value="32" />
 			<rect_h value="32" />
@@ -35,15 +35,20 @@
 		</entity>
 	</enitity_manager>
 	<ui_menu />
-	<in_level />
+	<in_level>
+		<coins_count value="1" />
+		<counter_secs value="7" />
+		<lifes value="3" />
+		<player_name value="Jorge The BEst" />
+	</in_level>
 	<gui />
 	<collision />
 	<FadeToBlack>
 		<total_time value="1000" />
-		<now value="1031" />
+		<now value="1001" />
 		<current_step value="0" />
 	</FadeToBlack>
 	<renderer>
-		<camera x="-24" y="-188" />
+		<camera x="-153" y="-187" />
 	</renderer>
 </game_state>

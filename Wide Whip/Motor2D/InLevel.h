@@ -20,7 +20,9 @@ public:
 	bool PostUpdate() override;
 	bool CleanUp() override;
 
-	bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&) const  override;
+
+	bool Load(pugi::xml_node&) override;
 
 	bool ButtonEvent(const UIButtonType type) override;
 	bool SliderEvent(const UIScrollBarType type, const float ratio) override;
@@ -37,6 +39,8 @@ public:
 	UIImage*			pause = nullptr;
 	UIText*				coins_text = nullptr;
 	UIText*				counter_text = nullptr;
+	UIText*				player_name_text = nullptr;
+
 
 	j1Timer timer_counter;
 	int					coins_count = 0;

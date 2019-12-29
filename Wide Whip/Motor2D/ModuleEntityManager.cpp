@@ -168,7 +168,7 @@ bool ModuleEntityManager::Save(pugi::xml_node& save_file) const
 
 bool ModuleEntityManager::Load(pugi::xml_node& load_file)
 {
-	bool ret = false;
+	bool ret = true;
 
 	LOG("Loading all entities");
 	CleanUp();

@@ -4,6 +4,7 @@
 #include "j1Input.h" //temporally
 #include "j1Player.h" // wil be replace by object
 #include "Enemy.h"
+#include "ModuleEntityManager.h"
 //#include "p2Log.h"
 //--------------------COLLIDER---------------------------
 
@@ -61,6 +62,7 @@ void Collider::Enable()
 void Collider::Disable()
 {
 	enable = false;
+	object = nullptr;
 }
 //--------------------MODULE COLLISION---------------------------
 
@@ -362,14 +364,9 @@ DISTANCE_DIR ModuleCollision::OverlapDS(Collider* c_dynamic, Collider* c_static)
 	}
 
 	c_dynamic->UpdatePos(c_dynamic->object->pos);
-	if (player->object != nullptr)
-	{
-		if (player->object->type == EntityType::PLAYER)
-		{
-			Player* _player = (Player*)player->object;
-			_player->UpdateCameraPos();
-		}
-	}
+	App->module_entity_manager->GetPlayer()->UpdateCameraPos();
+		
+	
 
 	return (DISTANCE_DIR)overlap_dir;
 }
@@ -403,9 +400,9 @@ DISTANCE_DIR ModuleCollision::OverlapPlatform(Collider* c_dynamic, Collider* c_s
 		overlap_dir = (int)c_static->last_colision_direction;
 	}
 
-	if ((DISTANCE_DIR)overlap_dir == DISTANCE_DIR::UP && player->object->GetVelocity() <= 0.0f)
+	if ((DISTANCE_DIR)overlap_dir == DISTANCE_DIR::UP && App->module_entity_manager->GetPlayer()->GetVelocity() <= 0.0f)
 	{
-		float l = player->object->GetVelocity();
+		float l = App->module_entity_manager->GetPlayer()->GetVelocity();
 
 		switch ((DISTANCE_DIR)overlap_dir)
 		{
@@ -424,12 +421,8 @@ DISTANCE_DIR ModuleCollision::OverlapPlatform(Collider* c_dynamic, Collider* c_s
 		}
 
 		c_dynamic->UpdatePos(c_dynamic->object->pos);
-
-		if (player->object->type == EntityType::PLAYER)
-		{
-			Player* _player = (Player*)player->object;
-			_player->UpdateCameraPos();
-		}
+		App->module_entity_manager->GetPlayer()->UpdateCameraPos();
+		
 		
 	}
 	return (DISTANCE_DIR)overlap_dir;
