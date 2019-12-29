@@ -3,6 +3,10 @@ Wide-Whip is a challenging platform game where the player must overcome a series
 This game is created by two students of the CITM (UPC) on the Game Development subject of the degree, in the second year.
 We programmed the game from scratch in C++ and we used free artwork.
 
+# Team
+
+![alt text](https://github.com/Nadine044/Wide-Whip/blob/master/WideWhip%20Team.png)
+
 ## Instructions to execute:
 
 - Download the latest release: https://github.com/Nadine044/Wide-Whip/releases.
