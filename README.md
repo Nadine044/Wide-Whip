@@ -58,6 +58,8 @@ Nadine Gutiérrez: https://github.com/Nadine044
 
 Github repository: https://github.com/Nadine044/Wide-Whip
 
+Game Web: https://nadine044.github.io/Wide-Whip/
+
 Art work:
 
 https://itch.io
