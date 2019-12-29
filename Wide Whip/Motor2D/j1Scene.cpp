@@ -185,6 +185,7 @@ void j1Scene::ChangeToLevel2Fade()
 
 void j1Scene::ChangeToMenuFade()
 {
+	App->in_level->lifes = 3;
 	App->fade_to_black->FadeToBlack(change_to_menu, time_in_fade);
 }
 
@@ -281,9 +282,12 @@ bool j1Scene::PostUpdate()
 	if(!IsMenuLoaded())
 		App->map->Draw();
 
-	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && App->in_level->esc_menu == false)
 		ret = false;
-
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && App->in_level->esc_menu == true)
+	{
+		App->in_level->pause->SetAllVisible(!App->in_level->pause->GetVisible());
+	}
 	return ret;
 }
 

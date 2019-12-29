@@ -21,11 +21,14 @@ public:
 	float				coins_count = 0;
 	int					lifes = 3;
 
-private:
+	bool				esc_menu = false;
+
+public:
 	p2String			music;
 	UIImage*			first_life = nullptr;
 	UIImage*			second_life = nullptr;
 	UIImage*			third_life = nullptr;
+	UIImage*			pause = nullptr;
 
 };
 #endif // !__INLEVEL_H__

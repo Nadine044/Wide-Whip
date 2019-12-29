@@ -13,6 +13,7 @@
 #include "Coin.h"
 #include "ModuleEntityManager.h"
 #include "InLevel.h"
+#include "UIImage.h"
 #include "Brofiler/Brofiler.h"
 
 
@@ -541,13 +542,22 @@ void Player::Death()
 	dead_jumping = false;
 
 	App->in_level->lifes--;
+	if (App->in_level->lifes == 2)
+		App->in_level->third_life->SetAllVisible(false);
+
 	if (App->in_level->lifes == 1)
-		LOG("Lifes: %i", App->in_level->lifes);
+	{
+		App->in_level->third_life->SetAllVisible(false);
+		App->in_level->second_life->SetAllVisible(false);
+	}
 
 	if (App->in_level->lifes == 0)
 	{
+		App->in_level->third_life->SetAllVisible(false);
+		App->in_level->second_life->SetAllVisible(false);
+		App->in_level->first_life->SetAllVisible(false);
 		LOG("Go Menu");
-		//Go menu App->Scene
+		App->scene->ChangeToMenuFade();
 	}
 		
 		

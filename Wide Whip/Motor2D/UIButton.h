@@ -10,8 +10,11 @@ enum class UIButtonType
 	NEW_GAME,
 	START,
 	CONTINUE,
+	RESUME,
+	SAVE,
 	SETTINGS,
 	CREDITS,
+	IN_GAME_EXIT,
 	EXIT
 };
 
