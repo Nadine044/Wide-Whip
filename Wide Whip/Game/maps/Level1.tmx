@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-up" width="237" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="14" nextobjectid="166">
+<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-up" width="237" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="14" nextobjectid="220">
  <tileset firstgid="1" name="Forest4" tilewidth="32" tileheight="32" tilecount="1296" columns="48">
   <image source="Forest4.png" trans="0011ff" width="1536" height="864"/>
  </tileset>
@@ -7264,16 +7264,50 @@
   <object id="142" type="WALL" x="288" y="736" width="384" height="32"/>
   <object id="143" type="WALL" x="288" y="672" width="32" height="64"/>
   <object id="144" type="WALL" x="0" y="672" width="288" height="32"/>
-  <object id="145" type="FLYENEMY" x="1415.45" y="706.545" width="64" height="44"/>
-  <object id="149" type="WALKENEMY" x="569.333" y="691" width="94" height="42"/>
-  <object id="150" type="WALKENEMY" x="2253.91" y="685.909" width="94" height="42"/>
-  <object id="153" type="WALKENEMY" x="4016.64" y="430.515" width="94" height="42"/>
-  <object id="156" type="FLYENEMY" x="664.97" y="444.667" width="64" height="44"/>
-  <object id="157" type="FLYENEMY" x="2722.55" y="590.121" width="64" height="44"/>
-  <object id="158" type="FLYENEMY" x="3383.15" y="511.333" width="64" height="44"/>
-  <object id="160" type="FLYENEMY" x="6224.85" y="260.181" width="64" height="44"/>
-  <object id="162" type="FLYENEMY" x="6971.03" y="574.97" width="64" height="44"/>
   <object id="164" type="COIN" x="384" y="672" width="32" height="32"/>
   <object id="165" type="COIN" x="480" y="672" width="32" height="32"/>
+  <object id="169" type="COIN" x="576" y="672" width="32" height="32"/>
+  <object id="171" type="COIN" x="896" y="800" width="32" height="32"/>
+  <object id="172" type="COIN" x="896" y="672" width="32" height="32"/>
+  <object id="173" type="COIN" x="896" y="544" width="32" height="32"/>
+  <object id="175" type="COIN" x="896" y="416" width="32" height="32"/>
+  <object id="176" type="COIN" x="1344" y="672" width="32" height="32"/>
+  <object id="177" type="COIN" x="1600" y="672" width="32" height="32"/>
+  <object id="178" type="COIN" x="1472" y="672" width="32" height="32"/>
+  <object id="179" type="COIN" x="2624" y="320" width="32" height="32"/>
+  <object id="180" type="COIN" x="544" y="352" width="32" height="32"/>
+  <object id="181" type="COIN" x="672" y="352" width="32" height="32"/>
+  <object id="182" type="COIN" x="608" y="352" width="32" height="32"/>
+  <object id="183" type="COIN" x="480" y="352" width="32" height="32"/>
+  <object id="184" type="COIN" x="416" y="352" width="32" height="32"/>
+  <object id="185" type="COIN" x="2944" y="736" width="32" height="32"/>
+  <object id="186" type="COIN" x="3104" y="736" width="32" height="32"/>
+  <object id="187" type="COIN" x="3264" y="736" width="32" height="32"/>
+  <object id="188" type="COIN" x="3488" y="672" width="32" height="32"/>
+  <object id="189" type="COIN" x="3584" y="672" width="32" height="32"/>
+  <object id="190" type="COIN" x="3648" y="544" width="32" height="32"/>
+  <object id="191" type="COIN" x="3731" y="775" width="32" height="32"/>
+  <object id="198" type="COIN" x="3730" y="883" width="32" height="32"/>
+  <object id="199" type="COIN" x="3730" y="669" width="32" height="32"/>
+  <object id="200" type="COIN" x="3808" y="288" width="32" height="32"/>
+  <object id="201" type="COIN" x="3458" y="165" width="32" height="32"/>
+  <object id="202" type="COIN" x="3457" y="222" width="32" height="32"/>
+  <object id="203" type="COIN" x="3456" y="284" width="32" height="32"/>
+  <object id="204" type="COIN" x="3904" y="672" width="32" height="32"/>
+  <object id="205" type="COIN" x="3904" y="774" width="32" height="32"/>
+  <object id="206" type="COIN" x="3901" y="884" width="32" height="32"/>
+  <object id="207" type="COIN" x="5184" y="544" width="32" height="32"/>
+  <object id="208" type="COIN" x="5056" y="544" width="32" height="32"/>
+  <object id="209" type="COIN" x="5376" y="736" width="32" height="32"/>
+  <object id="210" type="COIN" x="5536" y="736" width="32" height="32"/>
+  <object id="211" type="COIN" x="5696" y="736" width="32" height="32"/>
+  <object id="212" type="COIN" x="6048" y="640" width="32" height="32"/>
+  <object id="213" type="COIN" x="5760" y="608" width="32" height="32"/>
+  <object id="214" type="COIN" x="5826" y="445" width="32" height="32"/>
+  <object id="215" type="COIN" x="6016" y="448" width="32" height="32"/>
+  <object id="216" type="COIN" x="6208" y="416" width="32" height="32"/>
+  <object id="217" type="COIN" x="6400" y="416" width="32" height="32"/>
+  <object id="218" type="COIN" x="6768" y="577" width="32" height="32"/>
+  <object id="219" type="COIN" x="6944" y="672" width="32" height="32"/>
  </objectgroup>
 </map>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-up" width="237" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="16" nextobjectid="222">
+<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-up" width="237" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="16" nextobjectid="267">
  <tileset firstgid="1" name="Forest4" tilewidth="32" tileheight="32" tilecount="1296" columns="48">
   <image source="Forest4.png" trans="0011ff" width="1536" height="864"/>
  </tileset>
@@ -7202,9 +7202,50 @@
   <object id="208" type="WALL" x="1728" y="0" width="32" height="160"/>
   <object id="209" type="WALL" x="2272" y="256" width="160" height="32"/>
   <object id="212" type="WALL" x="2400" y="288" width="32" height="672"/>
-  <object id="213" type="WALKENEMY" x="605" y="751" width="94" height="42"/>
-  <object id="214" type="WALKENEMY" x="1635" y="559" width="94" height="42"/>
-  <object id="219" type="FLYENEMY" x="1184" y="480" width="64" height="44"/>
-  <object id="220" type="FLYENEMY" x="1850" y="140" width="64" height="44"/>
+  <object id="222" type="COIN" x="352" y="416" width="32" height="32"/>
+  <object id="223" type="COIN" x="352" y="320" width="32" height="32"/>
+  <object id="224" type="COIN" x="352" y="512" width="32" height="32"/>
+  <object id="225" type="COIN" x="352" y="608" width="32" height="32"/>
+  <object id="226" type="COIN" x="448" y="608" width="32" height="32"/>
+  <object id="227" type="COIN" x="448" y="736" width="32" height="32"/>
+  <object id="228" type="COIN" x="544" y="736" width="32" height="32"/>
+  <object id="229" type="COIN" x="640" y="736" width="32" height="32"/>
+  <object id="230" type="COIN" x="544" y="608" width="32" height="32"/>
+  <object id="231" type="COIN" x="544" y="640" width="32" height="32"/>
+  <object id="232" type="COIN" x="640" y="512" width="32" height="32"/>
+  <object id="233" type="COIN" x="1056" y="608" width="32" height="32"/>
+  <object id="234" type="COIN" x="960" y="608" width="32" height="32"/>
+  <object id="235" type="COIN" x="864" y="608" width="32" height="32"/>
+  <object id="236" type="COIN" x="864" y="384" width="32" height="32"/>
+  <object id="237" type="COIN" x="992" y="384" width="32" height="32"/>
+  <object id="238" type="COIN" x="928" y="384" width="32" height="32"/>
+  <object id="239" type="COIN" x="480" y="320" width="32" height="32"/>
+  <object id="240" type="COIN" x="544" y="320" width="32" height="32"/>
+  <object id="241" type="COIN" x="480" y="256" width="32" height="32"/>
+  <object id="242" type="COIN" x="544" y="256" width="32" height="32"/>
+  <object id="243" type="COIN" x="512" y="320" width="32" height="32"/>
+  <object id="244" type="COIN" x="480" y="288" width="32" height="32"/>
+  <object id="245" type="COIN" x="544" y="288" width="32" height="32"/>
+  <object id="246" type="COIN" x="512" y="288" width="32" height="32"/>
+  <object id="247" type="COIN" x="512" y="256" width="32" height="32"/>
+  <object id="248" type="COIN" x="1440" y="768" width="32" height="32"/>
+  <object id="249" type="COIN" x="1600" y="704" width="32" height="32"/>
+  <object id="250" type="COIN" x="1760" y="704" width="32" height="32"/>
+  <object id="251" type="COIN" x="1904" y="609" width="32" height="32"/>
+  <object id="252" type="COIN" x="1792" y="544" width="32" height="32"/>
+  <object id="253" type="COIN" x="1664" y="544" width="32" height="32"/>
+  <object id="254" type="COIN" x="1600" y="448" width="32" height="32"/>
+  <object id="255" type="COIN" x="1728" y="416" width="32" height="32"/>
+  <object id="256" type="COIN" x="1824" y="416" width="32" height="32"/>
+  <object id="257" type="COIN" x="1888" y="320" width="32" height="32"/>
+  <object id="258" type="COIN" x="1888" y="224" width="32" height="32"/>
+  <object id="259" type="COIN" x="2016" y="160" width="32" height="32"/>
+  <object id="260" type="COIN" x="1120" y="448" width="32" height="32"/>
+  <object id="261" type="COIN" x="1152" y="448" width="32" height="32"/>
+  <object id="262" type="COIN" x="1184" y="448" width="32" height="32"/>
+  <object id="263" type="COIN" x="1216" y="448" width="32" height="32"/>
+  <object id="264" type="COIN" x="1248" y="448" width="32" height="32"/>
+  <object id="265" type="COIN" x="512" y="448" width="32" height="32"/>
+  <object id="266" type="COIN" x="480" y="448" width="32" height="32"/>
  </objectgroup>
 </map>
