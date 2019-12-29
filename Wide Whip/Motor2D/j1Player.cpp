@@ -15,6 +15,7 @@
 #include "InLevel.h"
 #include "UIImage.h"
 #include "Brofiler/Brofiler.h"
+#include "UIText.h"
 
 
 Player::Player(SDL_Rect& rect) : Entity(EntityType::PLAYER, rect)
@@ -461,11 +462,9 @@ void Player::OnTrigger(Collider* col2)
 	{
 		LOG("Picking Coin");
 		App->in_level->coins_count++;
-		App->in_level->delete_coin_text = true;
-		//App->in_level->coins_count = App->in_level->coins_count + 0.5;
+		App->in_level->coins_text->ChangeText(p2String(std::to_string(App->in_level->coins_count).c_str()));
 		LOG("CoinsCount: %i", App->in_level->coins_count);
 		App->audio->PlayFx(picked_coin_sfx.id);
-		Coin* actualCoin = (Coin*)(col2->object);
 		App->module_entity_manager->DeleteEntity(col2->object);
 	}
 

@@ -67,14 +67,6 @@ bool InLevel::PreUpdate()
 
 bool InLevel::Update(float dt)
 {
-	if (delete_coin_text)
-	{
-		coins_text->SetAllVisible(false);
-		coins_current_text = App->gui->CreateUIText(iPoint{ 916, 37 }, p2String(std::to_string(coins_count).c_str()));
-		coins_text = coins_current_text;
-	}
-
-	delete_coin_text = false;
 	return true;
 }
 

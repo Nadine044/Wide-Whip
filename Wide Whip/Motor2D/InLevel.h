@@ -26,7 +26,6 @@ public:
 
 	int					coins_count = 0;
 	int					lifes = 3;
-	bool				delete_coin_text = false;
 
 	bool				esc_menu = false;
 
