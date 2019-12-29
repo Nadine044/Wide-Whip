@@ -192,7 +192,6 @@ bool Enemy::Save(pugi::xml_node& save_file) const
 
 	save_file.append_child("entity_type").append_attribute("value") = (int)type;
 
-	//TODO: save_file.append_child("velocity").append_attribute("value") = GetVelocity();
 	save_file.append_child("state").append_attribute("value") = (int)state;
 
 	save_file.append_child("flip").append_attribute("value") = flip;
