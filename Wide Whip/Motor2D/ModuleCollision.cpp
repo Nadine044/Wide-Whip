@@ -62,7 +62,6 @@ void Collider::Enable()
 void Collider::Disable()
 {
 	enable = false;
-	object = nullptr;
 }
 //--------------------MODULE COLLISION---------------------------
 
