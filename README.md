@@ -16,15 +16,17 @@ We programmed the game from scratch in C++ and we used free artwork.
 ## Controls
 ### General controls:
 
-- ESC (quit).
+- ESC pause in game and open in-game menu.
 
 - WASD Movement free.
 
 - Space jump.
 
-- Left Shift dash (Attack).
+- Left Shift dash.
 
 - Keeping A or D to grab the wall.
+
+- Tab change foucs of UI.
 
 ### Debug keys
 
@@ -38,7 +40,9 @@ We programmed the game from scratch in C++ and we used free artwork.
 
 - F5 Save state.
 
-- F6 Load state.
+- F6 Load state with fade.
+
+- F7 Load Menu.
 
 - F9 View colliders.
 
@@ -68,9 +72,9 @@ https://patrickdearteaga.com
 
 ## Who made what:
 
-- Jorge Gemas: three mainly mechanics (jump, dash and bouncing on walls), Collisions, Save and Load and the system to change (load/unload) levels. Audio of the game. Actual parallax effect. Enemies pathfinding. Entity Manager.
+- Jorge Gemas: all the functionality and structure of ui, system of create, parent-child, visibility, dragging, input order, buttons events, input text functionalities... The change of scene with fade and the level loading with the save and load of the coins, counters, timers, UI...
 
-- Nadine Gutiérrez: All related with the art of the game, textures, animations, and the desing of the levels and make sure the game is fun. Camera movement implementations, old parallax effect. Entity Manager. Brofiler integrations.
+- Nadine Gutiérrez: All related with the art and audio of the ui and coins. Creation of UI UML and Website. Place all elements in menu and in game of the ui and their actions.
 
 ## MIT License
 
