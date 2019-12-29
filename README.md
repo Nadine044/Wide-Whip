@@ -5,7 +5,7 @@ We programmed the game from scratch in C++ and we used free artwork.
 
 # Team
 
-![alt text](https://github.com/Nadine044/Wide-Whip/blob/master/WideWhip%20Team.png)
+<img src="https://github.com/Nadine044/Wide-Whip/blob/master/WideWhip%20Team.png?raw=true" width="400"/>
 
 ## Instructions to execute:
 
