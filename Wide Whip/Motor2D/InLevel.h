@@ -2,7 +2,11 @@
 #define __INLEVEL_H__
 
 #include "j1Module.h"
+#include "j1Audio.h"
+
 class UIImage;
+class UIText;
+
 class InLevel : public j1Module
 {
 public:
@@ -20,17 +24,23 @@ public:
 	bool ButtonEvent(const UIButtonType type) override;
 	bool SliderEvent(const UIScrollBarType type, const float ratio) override;
 
-	float				coins_count = 0;
+	int					coins_count = 0;
 	int					lifes = 3;
+	bool				delete_coin_text = false;
 
 	bool				esc_menu = false;
 
 public:
 	p2String			music;
+	FX					pause_open_sfx;
+	FX					pause_close_sfx;
+
 	UIImage*			first_life = nullptr;
 	UIImage*			second_life = nullptr;
 	UIImage*			third_life = nullptr;
 	UIImage*			pause = nullptr;
+	UIText*				coins_text = nullptr;
+	UIText*				coins_current_text = nullptr;
 
 };
 #endif // !__INLEVEL_H__

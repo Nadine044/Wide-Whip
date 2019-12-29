@@ -204,6 +204,8 @@
 
   <in_level>
     <music>audio/music/Resilience.ogg</music>
+    <pause_open>audio/fx/pause_open.wav</pause_open>
+    <pause_close>audio/fx/pause_close.wav</pause_close>
   </in_level>
   
 

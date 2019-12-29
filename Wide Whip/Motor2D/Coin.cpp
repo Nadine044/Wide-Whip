@@ -73,11 +73,26 @@ bool Coin::CleanUp()
 
 bool Coin::Save(pugi::xml_node& save) const
 {
+	pugi::xml_node pos_node = save.append_child("position");
+	pos_node.append_attribute("x") = pos.x;
+	pos_node.append_attribute("y") = pos.y;
+
+	save.append_child("entity_type").append_attribute("value") = (int)type;
+	save.append_child("state").append_attribute("value") = (int)state;
+	save.append_child("collider").append_attribute("enabled") = col->IsEnabled();
+		
 	return true;
 }
 
 bool Coin::Load(pugi::xml_node& load)
 {
+	pos.x = load.child("position").attribute("x").as_int();
+	pos.y = load.child("position").attribute("y").as_int();
+
+	type = EntityType(load.child("entity_type").attribute("value").as_int());
+	state = COIN_STATE(load.child("state").attribute("value").as_int());
+	load.child("collider").attribute("enabled").as_bool() ? col->Enable() : col->Disable();
+
 	return true;
 }
 

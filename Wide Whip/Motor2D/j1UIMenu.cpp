@@ -6,6 +6,7 @@
 #include "j1Scene.h"
 #include "j1Audio.h"
 #include "ModuleFadeToBlack.h"
+#include "InLevel.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
 UIMenu::UIMenu()
@@ -89,6 +90,7 @@ bool UIMenu::ButtonEvent(const UIButtonType type)
 		break;
 	case UIButtonType::START:
 		LOG("START into the game");
+		App->in_level->coins_count = 0;
 		App->audio->PlayFx(App->scene->start_game_sfx.id);
 		App->scene->ChangeToLevel1Fade();
 		break;
