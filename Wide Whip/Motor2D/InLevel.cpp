@@ -33,7 +33,8 @@ bool InLevel::Awake(pugi::xml_node& config)
 bool InLevel::Start()
 {
 	App->audio->PlayMusic(music.GetString());
-
+	if (App->IsPaused())
+		App->PauseResumeGame();
 	/*UI Elements in game*/
 	
 	App->gui->CreateUIImage(iPoint{ 10, 10 }, SDL_Rect{ 761, 0, 122, 130 });
