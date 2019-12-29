@@ -10,6 +10,8 @@ public:
 
 	bool PostUpdate(SDL_Texture* atlas) override;
 	bool CleanUp() override;
+
+	void ChangeText(p2String & new_string);
 public:
 	SDL_Texture* texture_text = nullptr;
 };
