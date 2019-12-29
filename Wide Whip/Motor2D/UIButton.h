@@ -37,7 +37,7 @@ public:
 public:
 	j1Module* listener = nullptr;
 	UIButtonType button_type;
-	UIButtonState state;
+	UIButtonState state = UIButtonState::NONE;
 	UIImage* background = nullptr;
 	UIImage* hover = nullptr;
 	UIImage* clicked = nullptr;
