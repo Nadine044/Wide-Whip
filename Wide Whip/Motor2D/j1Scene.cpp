@@ -282,9 +282,12 @@ bool j1Scene::PostUpdate()
 	if(!IsMenuLoaded())
 		App->map->Draw();
 
-	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && App->in_level->esc_menu == false)
 		ret = false;
-
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && App->in_level->esc_menu == true)
+	{
+		App->in_level->pause->SetAllVisible(!App->in_level->pause->GetVisible());
+	}
 	return ret;
 }
 

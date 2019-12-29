@@ -30,7 +30,7 @@ bool UIMenu::Start()
 	App->gui->CreateUIButton(iPoint{ 130, 375 }, "CONTINUE", SDL_Rect{ 0,3447,200,38 }, UIButtonType::CONTINUE, this);
 	App->gui->CreateUIButton(iPoint{ 100, 450 }, " SETTINGS", SDL_Rect{ 0,3447,200,38 }, UIButtonType::SETTINGS, this);
 	App->gui->CreateUIButton(iPoint{ 130, 525 }, "  CREDITS", SDL_Rect{ 0,3447,200,38 }, UIButtonType::CREDITS, this);
-	App->gui->CreateUIButton(iPoint{ 100, 600 }, "     EXIT", SDL_Rect{ 0,3447,200,38 }, UIButtonType::EXIT, this);
+	App->gui->CreateUIButton(iPoint{ 100, 600 }, "      EXIT", SDL_Rect{ 0,3447,200,38 }, UIButtonType::EXIT, this);
 	
 	newGameParent = App->gui->CreateUIImage(iPoint{ 360, 280 }, SDL_Rect{ 761, 0, 122, 130 }, true);
 	App->gui->CreateUIInputText(iPoint{ 140, 20 }, "Name: ", SDL_Rect{ 967, 25, 463, 69 }, false, newGameParent);

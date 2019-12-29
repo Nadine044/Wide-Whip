@@ -37,6 +37,15 @@ bool InLevel::Start()
 	App->gui->CreateUIImage(iPoint{ 820, 10 }, SDL_Rect{ 760, 283, 67, 77 });
 	App->gui->CreateUIText(iPoint{ 850, 10 }, coins_count);
 
+	pause = App->gui->CreateUIImage(iPoint{ 250, 200 }, SDL_Rect{ 947, 417, 519, 414 });
+	App->gui->CreateUIButton(iPoint{ 170, 70 }, "  RESUME", SDL_Rect{ 0, 3447, 200, 38 }, UIButtonType::RESUME, this, false, pause);
+	App->gui->CreateUIButton(iPoint{ 170, 140 }, "     SAVE", SDL_Rect{ 0, 3447, 200, 38 }, UIButtonType::SAVE, this, false, pause);
+	App->gui->CreateUIButton(iPoint{ 170, 210 }, " SETTINGS", SDL_Rect{ 0, 3447, 200, 38 }, UIButtonType::SETTINGS, this, false, pause);
+	App->gui->CreateUIButton(iPoint{ 170, 280 }, "      EXIT", SDL_Rect{ 0, 3447, 200, 38 }, UIButtonType::IN_GAME_EXIT, this, false, pause);
+	pause->SetAllVisible(false);
+
+	esc_menu = true;
+
 	return true;
 }
 
@@ -63,6 +72,23 @@ bool InLevel::CleanUp()
 
 bool InLevel::ButtonEvent(const UIButtonType type)
 {
+	switch (type)
+	{
+	case UIButtonType::RESUME:
+		LOG("RESUME game");
+		pause->SetAllVisible(false);
+		break;
+	case UIButtonType::SAVE:
+		LOG("SAVE the current game");
+		App->SaveGame();
+		break;
+	case UIButtonType::IN_GAME_EXIT:
+		LOG("EXIT to menu WITHOUT SAVE THE GAME");
+		App->scene->ChangeToMenuFade();
+	default:
+		break;
+	}
+
 	return true;
 }
 
