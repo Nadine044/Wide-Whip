@@ -55,11 +55,11 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(map);
 	AddModule(scene);
+	AddModule(pathfinding_module);
+	AddModule(module_entity_manager);
 	AddModule(menu);
 	AddModule(in_level);
 	AddModule(gui);
-	AddModule(pathfinding_module);
-	AddModule(module_entity_manager);
 	AddModule(collisions);//After scenes, objects
 	AddModule(fade_to_black);
 
@@ -198,11 +198,9 @@ void j1App::PrepareUpdate()
 {
 	frame_count++;
 	last_sec_frame_count++;
-	if (!is_paused)
-		dt = frame_time.ReadSec();
 
-	else
-		dt = 0.0f;
+	dt = frame_time.ReadSec();
+
 
 	frame_time.Start();
 	ptimer.Start();
@@ -400,6 +398,16 @@ void j1App::SaveGame() const
 void j1App::GetSaveGames(p2List<p2String>& list_to_fill) const
 {
 	// need to add functionality to file_system module for this to work
+}
+
+void j1App::PauseResumeGame()
+{
+	paused = !paused;
+}
+
+const bool j1App::IsPaused() const
+{
+	return paused;
 }
 
 bool j1App::LoadGameNow()

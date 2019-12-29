@@ -1,6 +1,7 @@
 #include "p2Defs.h"
 #include "p2Log.h"
 #include "j1App.h"
+#include "j1Input.h"
 #include "InLevel.h"
 #include "MGui.h"
 #include "j1Scene.h"
@@ -8,6 +9,7 @@
 #include "UIImage.h"
 #include "j1Player.h"
 #include "ModuleEntityManager.h"
+#include "j1Render.h"
 
 InLevel::InLevel()
 {
@@ -61,6 +63,11 @@ bool InLevel::Update(float dt)
 
 bool InLevel::PostUpdate()
 {
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	{
+		pause->SetAllVisible(!pause->GetVisible());
+		App->PauseResumeGame();
+	}
 	return true;
 }
 

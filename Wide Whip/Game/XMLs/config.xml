@@ -61,21 +61,21 @@
 
       <animations>
 
-        <idle speed="0.2f" loop="true">
+        <idle speed="10.f" loop="true">
           <frame x="0"   y="0" w ="47" h ="65"/>
           <frame x="47"  y="0" w ="47" h ="65"/>
           <frame x="94"  y="0" w ="47" h ="65"/>
           <frame x="141" y="0" w ="47" h ="65"/>
         </idle>
 
-        <jump speed="0.1f" loop="false">
+        <jump speed="5.0f" loop="false">
           <frame x="141" y="67" w ="47" h ="65"/>
           <frame x="188" y="67" w ="47" h ="65"/>
           <frame x="235" y="67" w ="47" h ="65"/>
           <frame x="282" y="67" w ="47" h ="65"/>
         </jump>
 
-        <walk speed="0.2f" loop="true">
+        <walk speed="10.0f" loop="true">
           <frame x="0"   y="130" w ="47" h ="65"/>
           <frame x="47"  y="130" w ="47" h ="65"/>
           <frame x="94"  y="130" w ="47" h ="65"/>
@@ -84,21 +84,21 @@
           <frame x="235" y="130" w ="47" h ="65"/>
         </walk>
 
-        <attack speed="0.2f" loop="false">
+        <attack speed="10.0f" loop="false">
           <frame x="0"   y="0" w ="47" h ="65"/>
           <frame x="12"   y="0" w ="47" h ="65"/>
           <frame x="24"   y="0" w ="47" h ="65"/>
           <frame x="36"   y="0" w ="47" h ="65"/>
         </attack>
 
-        <death speed="0.5f" loop="true">
+        <death speed="25.0f" loop="true">
           <frame x="0"   y="195" w ="47" h ="65"/>
           <frame x="47"  y="195" w ="47" h ="65"/>
           <frame x="97"  y="195" w ="47" h ="65"/>
           <frame x="141" y="195" w ="47" h ="65"/>
         </death>
 
-        <dash speed="0.8f" loop="true">
+        <dash speed="40.0f" loop="true">
           <frame x="0"   y="260" w ="47" h ="65"/>
           <frame x="47"  y="260" w ="47" h ="65"/>
           <frame x="94"  y="260" w ="47" h ="65"/>
@@ -107,11 +107,11 @@
           <frame x="235" y="260" w ="47" h ="65"/>
         </dash>
 
-        <climb speed="0.1f" loop="false">
+        <climb speed="5.0f" loop="false">
           <frame x="0"   y="325" w ="47" h ="65"/>
         </climb>
 
-        <fall speed="0.2f" loop="false">
+        <fall speed="10.0f" loop="false">
           <frame x="188"  y="67" w ="47" h ="65"/>
           <frame x="235"  y="67" w ="47" h ="65"/>
           <frame x="282"  y="67" w ="47" h ="65"/>
@@ -130,21 +130,21 @@
 
       <animations>
 
-        <idle speed="0.2f" loop="true">
+        <idle speed="10.0f" loop="true">
           <frame x="0"   y="18" w ="94" h ="42"/>
           <frame x="96"   y="18" w ="94" h ="42"/>
           <frame x="192"   y="18" w ="94" h ="42"/>
           <frame x="288"   y="18" w ="94" h ="42"/>
         </idle>
 
-        <walk speed="0.2f" loop="true">
+        <walk speed="10.0f" loop="true">
           <frame x="384"   y="18" w ="94" h ="42"/>
           <frame x="480"   y="18" w ="94" h ="42"/>
           <frame x="576"   y="18" w ="94" h ="42"/>
           <frame x="672"   y="18" w ="94" h ="42"/>
         </walk>
 
-        <idle_flyer speed="0.2f" loop="true">
+        <idle_flyer speed="10.0f" loop="true">
           <frame x="0"   y="96" w ="64" h ="44"/>
           <frame x="64"   y="96" w ="64" h ="44"/>
           <frame x="128"   y="96" w ="64" h ="44"/>
@@ -152,7 +152,7 @@
           <frame x="256"   y="96" w ="64" h ="44"/>
         </idle_flyer>
 
-        <walk_flyer speed="0.2f" loop="true">
+        <walk_flyer speed="10.0f" loop="true">
           <frame x="0"   y="96" w ="64" h ="44"/>
           <frame x="64"   y="96" w ="64" h ="44"/>
           <frame x="128"   y="96" w ="64" h ="44"/>
@@ -172,7 +172,7 @@
       <texture>gui/Coins.png</texture>
 
       <animations>
-        <rotating speed="0.2f" loop="true">
+        <rotating speed="10.0" loop="true">
           <frame x="0" y="0" w ="32" h ="32"/>
           <frame x="32" y="0" w ="32" h ="32"/>
           <frame x="64" y="0" w ="32" h ="32"/>

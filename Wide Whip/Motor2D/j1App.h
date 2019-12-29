@@ -60,6 +60,8 @@ public:
 	void LoadGame();
 	void SaveGame() const;
 	void GetSaveGames(p2List<p2String>& list_to_fill) const;
+	void PauseResumeGame();
+	const bool IsPaused() const;
 
 private:
 
@@ -138,6 +140,8 @@ private:
 	float				dt = 0.f;
 
 	bool cap = true;
+
+	bool paused = false;
 };
 
 extern j1App* App; // No student is asking me about that ... odd :-S

@@ -238,12 +238,18 @@ void j1Scene::ChangeLevelTo(const p2String level)
 {
 	//Unload
 	if (IsMenuLoaded())
+	{
 		App->menu->CleanUp();
+		App->menu->active = false;
+
+	}
 	else
 	{
 		if (level == menu)
+		{
 			App->in_level->CleanUp();
-	
+		}
+		App->in_level->active = false;
 		App->map->CleanUp();
 		App->collisions->CleanUp();
 		App->module_entity_manager->CleanUp();
@@ -251,13 +257,18 @@ void j1Scene::ChangeLevelTo(const p2String level)
 
 	//Load
 	if (level == menu)
+	{
 		App->menu->Start();
+		App->menu->active = true;
+	}
 	else
 	{
 
 		if (IsMenuLoaded())
+		{
 			App->in_level->Start();
-
+		}
+		App->in_level->active = true;
 		App->map->Load(level.GetString());
 	}
 
@@ -288,10 +299,7 @@ bool j1Scene::PostUpdate()
 
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && App->in_level->esc_menu == false)
 		ret = false;
-	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && App->in_level->esc_menu == true)
-	{
-		App->in_level->pause->SetAllVisible(!App->in_level->pause->GetVisible());
-	}
+
 	return ret;
 }
 

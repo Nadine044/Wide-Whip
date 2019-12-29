@@ -17,10 +17,12 @@ ModuleEntityManager::ModuleEntityManager() : j1Module()
 bool ModuleEntityManager::PreUpdate()
 {
 	bool ret = true;
-
-	for (p2List_item<Entity*>* iter = entities.start; iter && ret; iter = iter->next)
+	if (!App->IsPaused())
 	{
-		ret = iter->data->PreUpdate();
+		for (p2List_item<Entity*>* iter = entities.start; iter && ret; iter = iter->next)
+		{
+			ret = iter->data->PreUpdate();
+		}
 	}
 	return ret;
 }
@@ -28,15 +30,18 @@ bool ModuleEntityManager::PreUpdate()
 bool ModuleEntityManager::Update(float dt)
 {
 	bool ret = true;
-	for (p2List_item<Entity*>* iter = entities.start; iter && ret; iter = iter->next)
+	if (!App->IsPaused())
 	{
-		if (iter->data != nullptr)
+		for (p2List_item<Entity*>* iter = entities.start; iter && ret; iter = iter->next)
 		{
-			ret = iter->data->Update(dt);
-			if(ret)
-				iter->data->col->UpdatePos(iter->data->pos);
-		}
+			if (iter->data != nullptr)
+			{
+				ret = iter->data->Update(dt);
+				if (ret)
+					iter->data->col->UpdatePos(iter->data->pos);
+			}
 
+		}
 	}
 
 	return true;
