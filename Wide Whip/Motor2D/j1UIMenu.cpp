@@ -27,7 +27,9 @@ bool UIMenu::Start()
 
 	App->gui->CreateUIImage(iPoint{ 0, 0 }, SDL_Rect{ 0, 2673, 1600, 1600 });
 	App->gui->CreateUIButton(iPoint{ 100, 300 }, "NEW GAME", SDL_Rect{ 0,3447,200,38 }, UIButtonType::NEW_GAME, this);
-	App->gui->CreateUIButton(iPoint{ 130, 375 }, "CONTINUE", SDL_Rect{ 0,3447,200,38 }, UIButtonType::CONTINUE, this);
+	UIButton* continue_but = App->gui->CreateUIButton(iPoint{ 130, 375 }, "CONTINUE", SDL_Rect{ 0,3447,200,38 }, UIButtonType::CONTINUE, this);
+	if (!App->SaveGameFileExist())
+		continue_but->enabled = false;
 	App->gui->CreateUIButton(iPoint{ 100, 450 }, " SETTINGS", SDL_Rect{ 0,3447,200,38 }, UIButtonType::SETTINGS, this);
 	App->gui->CreateUIButton(iPoint{ 130, 525 }, "  CREDITS", SDL_Rect{ 0,3447,200,38 }, UIButtonType::CREDITS, this);
 	App->gui->CreateUIButton(iPoint{ 100, 600 }, "      EXIT", SDL_Rect{ 0,3447,200,38 }, UIButtonType::EXIT, this);

@@ -16,54 +16,54 @@ UIButton::UIButton(UIType _type, iPoint local_pos, SDL_Rect rect_spritesheet_ori
 bool UIButton::PreUpdate()
 {
 	bool ret = true;
-	if (MouseInRect() && App->input->GetMouseButtonDown(1) == KEY_DOWN)
-		App->gui->SetFocus(this);
 
-
-	switch (state)
+	if (enabled)
 	{
-	case UIButton::UIButtonState::NONE:
-		if (MouseInRect())
+		switch (state)
 		{
-			state = UIButtonState::HOVER;
-			current_image = hover;
-			LOG("Mouse Enter!");
-			App->audio->PlayFx(App->scene->button_hover_sfx.id);
-		}
-		break;
-	case UIButton::UIButtonState::HOVER:
-		if (!MouseInRect())
-		{
-			state = UIButtonState::NONE;
-			current_image = background;
-			LOG("Mouse Exit!");
-		}
-		else if (App->input->GetMouseButtonDown(1) == KEY_DOWN)
-		{
-			state = UIButtonState::CLICKED;
-			current_image = clicked;
-			App->audio->PlayFx(App->scene->button_click_sfx.id);
-		}
-		break;
-	case UIButton::UIButtonState::CLICKED:
-		if (App->input->GetMouseButtonDown(1) == KEY_UP)
-		{
+		case UIButton::UIButtonState::NONE:
 			if (MouseInRect())
 			{
 				state = UIButtonState::HOVER;
 				current_image = hover;
-				ret = listener->ButtonEvent(button_type);
+				LOG("Mouse Enter!");
+				App->audio->PlayFx(App->scene->button_hover_sfx.id);
 			}
-			else
+			break;
+		case UIButton::UIButtonState::HOVER:
+			if (!MouseInRect())
 			{
 				state = UIButtonState::NONE;
 				current_image = background;
+				LOG("Mouse Exit!");
 			}
-		}
+			else if (App->input->GetMouseButtonDown(1) == KEY_DOWN)
+			{
+				state = UIButtonState::CLICKED;
+				current_image = clicked;
+				App->audio->PlayFx(App->scene->button_click_sfx.id);
+			}
+			break;
+		case UIButton::UIButtonState::CLICKED:
+			if (App->input->GetMouseButtonDown(1) == KEY_UP)
+			{
+				if (MouseInRect())
+				{
+					state = UIButtonState::HOVER;
+					current_image = hover;
+					ret = listener->ButtonEvent(button_type);
+				}
+				else
+				{
+					state = UIButtonState::NONE;
+					current_image = background;
+				}
+			}
 
-		break;
-	default:
-		break;
+			break;
+		default:
+			break;
+		}
 	}
 
 	return ret;
@@ -71,7 +71,7 @@ bool UIButton::PreUpdate()
 
 bool UIButton::Update(float dt)
 {
-	if (focus && (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_KP_ENTER) == KEY_DOWN))
+	if (focus && (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_KP_ENTER) == KEY_DOWN) && enabled)
 		listener->ButtonEvent(button_type);
 	return false;
 }
@@ -81,8 +81,12 @@ bool UIButton::PostUpdate(SDL_Texture* atlas)
 	//App->render->DrawQuad(rect_world, 255, 0, 0, 50, true, false);
 	current_image->PostUpdate(atlas);// TODO:should be this in a fucnction "Draw"
 	text->PostUpdate(atlas);// TODO:should be this in a fucnction "Draw"
-	if(focus)
-		App->render->DrawQuad(rect_world, 125, 125, 125, 125, true, false);
+	if(!enabled)
+		App->render->DrawQuad(rect_world, 0, 0, 0, 150, true, false);
+
+	else if(focus)
+		App->render->DrawQuad(rect_world, 0, 0, 0, 50, true, false);
+
 
 	return true;
 }

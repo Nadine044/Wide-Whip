@@ -410,6 +410,14 @@ const bool j1App::IsPaused() const
 	return paused;
 }
 
+const bool j1App::SaveGameFileExist() const
+{
+	pugi::xml_document data;
+	pugi::xml_parse_result result = data.load_file(save_game_root.GetString());
+
+	return result.status == pugi::xml_parse_status::status_ok;
+}
+
 bool j1App::LoadGameNow()
 {
 	bool ret = false;
@@ -418,7 +426,6 @@ bool j1App::LoadGameNow()
 	pugi::xml_node root;
 
 	pugi::xml_parse_result result = data.load_file(save_game_root.GetString());
-
 	if(result != NULL)
 	{
 		LOG("Loading new Game State from %s...", save_game_root.GetString());

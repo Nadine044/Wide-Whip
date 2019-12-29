@@ -86,8 +86,21 @@ bool MGui::Update(float dt)
 			}
 			if (iter->data->type == UIType::INPUTTEXT || iter->data->type == UIType::SCROLLBAR || iter->data->type == UIType::BUTTON)
 			{
-				SetFocus(iter->data);
-				break;
+				if (iter->data->type == UIType::BUTTON)
+				{
+					UIButton* button = (UIButton*)iter->data;
+					if (button->enabled)
+					{
+						SetFocus(iter->data);
+						break;
+					}
+
+				}
+				else
+				{
+					SetFocus(iter->data);
+					break;
+				}
 			}
 		}
 		

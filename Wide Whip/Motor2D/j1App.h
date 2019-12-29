@@ -62,6 +62,7 @@ public:
 	void GetSaveGames(p2List<p2String>& list_to_fill) const;
 	void PauseResumeGame();
 	const bool IsPaused() const;
+	const bool SaveGameFileExist() const;
 
 private:
 

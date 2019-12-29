@@ -45,6 +45,8 @@ public:
 
 	UIImage* current_image = nullptr;
 
+	bool enabled = true;
+
 };
 
 #endif // !__UIBUTTON_H__
