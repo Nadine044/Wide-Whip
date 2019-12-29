@@ -74,7 +74,7 @@ https://patrickdearteaga.com
 
 - Jorge Gemas: all the functionality and structure of ui, system of create, parent-child, visibility, dragging, input order, buttons events, input text functionalities... The change of scene with fade and the level loading with the save and load of the coins, counters, timers, UI...
 
-- Nadine Gutiérrez: All related with the art and audio of the ui and coins. Creation of UI UML and Website. Place all elements in menu and in game of the ui and their actions.
+- Nadine Gutiérrez: All related with the art and audio of the ui. Coin entity and player lifes with their functionalities. Creation of UI UML and Website. Place all elements in menu and in game of the ui and their actions.
 
 ## MIT License
 
