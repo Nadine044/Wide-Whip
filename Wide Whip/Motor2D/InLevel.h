@@ -2,6 +2,8 @@
 #define __INLEVEL_H__
 
 #include "j1Module.h"
+#include "j1Audio.h"
+
 class UIImage;
 class InLevel : public j1Module
 {
@@ -27,6 +29,9 @@ public:
 
 public:
 	p2String			music;
+	FX					pause_open_sfx;
+	FX					pause_close_sfx;
+
 	UIImage*			first_life = nullptr;
 	UIImage*			second_life = nullptr;
 	UIImage*			third_life = nullptr;

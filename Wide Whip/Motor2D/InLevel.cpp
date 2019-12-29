@@ -21,6 +21,11 @@ bool InLevel::Awake(pugi::xml_node& config)
 	bool ret = true;
 
 	music = config.child_value("music");
+	pause_open_sfx.path = config.child_value("pause_open");
+	pause_open_sfx.id = App->audio->LoadFx(pause_open_sfx.path.GetString());
+	pause_close_sfx.path = config.child_value("pause_close");
+	pause_close_sfx.id = App->audio->LoadFx(pause_close_sfx.path.GetString());
+
 	active = false;
 	return ret;
 }
@@ -68,6 +73,11 @@ bool InLevel::PostUpdate()
 {
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 	{
+		if (pause->GetVisible() == true)
+			App->audio->PlayFx(pause_close_sfx.id);
+		else
+			App->audio->PlayFx(pause_open_sfx.id);
+
 		pause->SetAllVisible(!pause->GetVisible());
 		App->PauseResumeGame();
 	}
