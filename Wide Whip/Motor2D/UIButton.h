@@ -28,6 +28,7 @@ public:
 	UIButton(UIType _type, iPoint local_pos, SDL_Rect rect_spritesheet_original, bool draggable, UIObject* parent);
 
 	bool PreUpdate() override;
+	bool Update(float dt) override;
 	bool PostUpdate(SDL_Texture* atlas) override;
 	bool CleanUp() override;
 public:

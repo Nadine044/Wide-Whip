@@ -69,11 +69,20 @@ bool UIButton::PreUpdate()
 	return ret;
 }
 
+bool UIButton::Update(float dt)
+{
+	if (focus && (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_KP_ENTER) == KEY_DOWN))
+		listener->ButtonEvent(button_type);
+	return false;
+}
+
 bool UIButton::PostUpdate(SDL_Texture* atlas)
 {
 	//App->render->DrawQuad(rect_world, 255, 0, 0, 50, true, false);
 	current_image->PostUpdate(atlas);// TODO:should be this in a fucnction "Draw"
 	text->PostUpdate(atlas);// TODO:should be this in a fucnction "Draw"
+	if(focus)
+		App->render->DrawQuad(rect_world, 125, 125, 125, 125, true, false);
 
 	return true;
 }
