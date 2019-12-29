@@ -15,6 +15,8 @@ public:
 	bool PostUpdate() override;
 	bool CleanUp() override;
 
+	bool Load(pugi::xml_node&);
+
 	bool ButtonEvent(const UIButtonType type) override;
 	bool SliderEvent(const UIScrollBarType type, const float ratio) override;
 
