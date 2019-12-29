@@ -87,6 +87,8 @@ bool UIMenu::ButtonEvent(const UIButtonType type)
 	case UIButtonType::NEW_GAME:
 		LOG("Button NEW GAME pressed.");
 		newGameParent->SetAllVisible(!newGameParent->GetVisible());		
+		if (settingsParent->GetVisible())
+			settingsParent->SetAllVisible(false);
 		break;
 	case UIButtonType::START:
 		LOG("START into the game");
@@ -101,6 +103,8 @@ bool UIMenu::ButtonEvent(const UIButtonType type)
 	case UIButtonType::SETTINGS:
 		LOG("Go into SETTINGS");
 		settingsParent->SetAllVisible(!settingsParent->GetVisible());
+		if (newGameParent->GetVisible())
+			newGameParent->SetAllVisible(false);
 		break;
 	case UIButtonType::CREDITS:
 		LOG("Our precious CREDITS");
