@@ -122,16 +122,11 @@ bool ModuleCollision::Start()
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::PLATFORM] = true;
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::CHANGE_LEVEL] = true;
 	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::ENEMY] = true;
-	physics_matrix[(uint)TAG::PLAYER][(uint)TAG::COIN] = true;
 
 	//PHYSICS MATRIX to overlap WALKABLE ENEMY
 	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::WALL] = true;
 	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::PLATFORM] = true;
 	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::PLAYER] = true;
-	physics_matrix[(uint)TAG::ENEMY][(uint)TAG::COIN] = false;
-
-	//PHYSICS MATRIX to overlap COIN
-	physics_matrix[(uint)TAG::COIN][(uint)TAG::PLAYER] = true;
 
 	return true;
 }

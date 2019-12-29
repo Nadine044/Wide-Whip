@@ -5,6 +5,8 @@
 #include "j1Audio.h"
 
 class UIImage;
+class UIText;
+
 class InLevel : public j1Module
 {
 public:
@@ -22,8 +24,9 @@ public:
 	bool ButtonEvent(const UIButtonType type) override;
 	bool SliderEvent(const UIScrollBarType type, const float ratio) override;
 
-	int				coins_count = 0;
+	int					coins_count = 0;
 	int					lifes = 3;
+	bool				delete_coin_text = false;
 
 	bool				esc_menu = false;
 
@@ -36,6 +39,7 @@ public:
 	UIImage*			second_life = nullptr;
 	UIImage*			third_life = nullptr;
 	UIImage*			pause = nullptr;
+	UIText*				coins_text = nullptr;
 
 };
 #endif // !__INLEVEL_H__

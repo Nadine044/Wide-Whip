@@ -43,7 +43,7 @@ bool InLevel::Start()
 
 	App->gui->CreateUIImage(iPoint{ 820, 10 }, SDL_Rect{ 760, 283, 67, 77 });
 	App->gui->CreateUIImage(iPoint{ 890, 15 }, SDL_Rect{ 760, 1139, 174, 59 }, true);
-	App->gui->CreateUIText(iPoint{ 916, 37 }, p2String(std::to_string(coins_count).c_str()));
+	coins_text = App->gui->CreateUIText(iPoint{ 916, 37 }, p2String(std::to_string(coins_count).c_str()));
 
 	//App->gui->CreateUIImage(iPoint{ 4, 690 }, SDL_Rect{ 581, 1140, 164, 70 });
 	//App->gui->CreateUIImage(iPoint{ 200, 700 }, SDL_Rect{ 760, 1139, 174, 59 });
@@ -68,6 +68,10 @@ bool InLevel::PreUpdate()
 
 bool InLevel::Update(float dt)
 {
+	if(delete_coin_text)
+		coins_text = App->gui->CreateUIText(iPoint{ 916, 37 }, p2String(std::to_string(coins_count).c_str()));
+
+	delete_coin_text = false;
 	return true;
 }
 
