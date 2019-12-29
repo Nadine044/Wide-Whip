@@ -4,7 +4,7 @@
 #include "j1Module.h"
 
 class UIImage;
-
+class UIInputText;
 class UIMenu : public j1Module
 {
 public:
@@ -24,6 +24,8 @@ private:
 	UIImage*			newGameParent = nullptr;
 	UIImage*			settingsParent = nullptr;
 	UIImage*			creditsParent = nullptr;
+
+	UIInputText*		name_input_text = nullptr;
 
 	int					musicScrollValue = 0;
 	int					sfxScrollValue = 0;

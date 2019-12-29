@@ -206,14 +206,14 @@ void UIInputText::WriteInput(char* input)
 
 void UIInputText::RecalculateStringTexture()
 {
-	if (this->input->local_pos.x + this->input->rect_world.w < background->rect_world.w - 15/*margin right*/)
-	{
-
-	}
 	this->input->texture_text = App->font->Print(text_string.GetString(), SDL_Color{ 255, 255, 255, 255 });
 	int w, h;
 	App->font->CalcSize(text_string.GetString(), w, h);
-
+	if (w > background->rect_world.w - 50/*margin*/)
+	{
+		w = background->rect_world.w - 50;
+		Delete();
+	}
 	this->input->rect_spritesheet_original.w = w;
 	this->input->rect_spritesheet_original.h = h;
 

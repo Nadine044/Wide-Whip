@@ -42,7 +42,7 @@ public:
 	int					coins_count = 0;
 	int					counter_secs = 0;
 	int					lifes = 3;
-
+	p2String player_name;
 	bool				esc_menu = false;
 };
 #endif // !__INLEVEL_H__

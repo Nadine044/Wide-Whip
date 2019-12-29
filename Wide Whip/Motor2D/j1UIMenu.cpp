@@ -8,6 +8,7 @@
 #include "ModuleFadeToBlack.h"
 #include "InLevel.h"
 #include "SDL_mixer/include/SDL_mixer.h"
+#include "UIInputText.h"
 
 UIMenu::UIMenu()
 {
@@ -36,7 +37,7 @@ bool UIMenu::Start()
 	App->gui->CreateUIButton(iPoint{ 100, 600 }, "      EXIT", SDL_Rect{ 0,3447,200,38 }, UIButtonType::EXIT, this);
 	
 	newGameParent = App->gui->CreateUIImage(iPoint{ 360, 280 }, SDL_Rect{ 761, 0, 122, 130 }, true);
-	App->gui->CreateUIInputText(iPoint{ 140, 20 }, "Name: ", SDL_Rect{ 967, 25, 463, 69 }, false, newGameParent);
+	name_input_text = App->gui->CreateUIInputText(iPoint{ 140, 20 }, "Name: ", SDL_Rect{ 967, 25, 463, 69 }, false, newGameParent);
 	App->gui->CreateUIButton(iPoint{ 400, 320 }, "     START", SDL_Rect{ 0, 3447, 200, 38 }, UIButtonType::START, this, false, newGameParent);
 	newGameParent->SetAllVisible(false);
 
@@ -95,6 +96,8 @@ bool UIMenu::ButtonEvent(const UIButtonType type)
 		App->in_level->coins_count = 0;
 		App->audio->PlayFx(App->scene->start_game_sfx.id);
 		App->scene->ChangeToLevel1Fade();
+
+		App->in_level->player_name = name_input_text->text_string;
 		break;
 	case UIButtonType::CONTINUE:
 		LOG("CONTINUE game");
