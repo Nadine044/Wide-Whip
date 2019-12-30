@@ -9,7 +9,7 @@ We programmed the game from scratch in C++ and we used free artwork.
 
 ## Instructions to execute:
 
-- Download the latest release: https://github.com/Nadine044/Wide-Whip/releases.
+- Download the latest release: https://github.com/Nadine044/Wide-Whip/releases
 
 - Unzip the file.
 
